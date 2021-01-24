@@ -1,5 +1,65 @@
-﻿<h3>Register</h3>
+﻿@*@page "/auth/login"
+
+@layout AuthLayout
+
+@inject NavigationManager navigationManager
+@inject IClientService clientService
+
+<div class="card" style=" margin: auto; width: 550px; margin-top: 50px;">
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        <h2>Register to app</h2>
+                    </div>
+                    <hr />
+                    <EditForm Model="@model" OnValidSubmit="@LoginUser">
+
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label for="name">Email</label>
+                            <InputText type="email" class="form-control" @bind-Value="model.Email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Password</label>
+                            <InputText type="password" class="form-control" @bind-Value="model.Password" />
+                        </div>
+                        <hr />
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Login
+                        </button>
+                        <button type="button" class="btn btn-primary btn-block" @onclick="GoToRegister">
+                            Register
+                        </button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
 
-}
+    RegisterUserModel model = new RegisterUserModel();
+
+    bool isBusy = false;
+
+    async void LoginUser()
+    {
+        isBusy = true;
+
+        // await httpClient.PostAsJsonAsync($"https://localhost:44358/api/Auth/Login", model);
+        await clientService.LoginAsync(model);
+
+        isBusy = false;
+    }
+
+    void GoToRegister()
+    {
+
+    }
+
+}*@

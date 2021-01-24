@@ -21,31 +21,18 @@ namespace SSEA.Api.Controllers
 
         // api/auth/register
         [HttpPost("Register")]
-        public async Task<IActionResult> RegisterAsync([FromBody]RegisterUserModel model)
+        public async Task<AuthResponseModel> RegisterAsync([FromBody]RegisterUserModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Some properties are not valid!");    // Status code: 400
-
             var result = await authService.RegisterUserAsync(model);
-
-            // Send verification email ?
-            if (result.IsSuccess)
-                return Ok(result);      // Status code: 200
-
-            return BadRequest(result);      
+            return result;
         }
 
         // api/auth/login
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginAsync([FromBody]LoginUserModel model)
+        public async Task<AuthResponseModel> LoginAsync([FromBody]LoginUserModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Some properties are not valid!");    // Status code 400
-
             var result = await authService.LoginUserAsync(model);
-            if (result.IsSuccess)
-                return Ok(result);      // Status code: 200
-            return BadRequest(result);
+            return result;;
         }
     }
 }

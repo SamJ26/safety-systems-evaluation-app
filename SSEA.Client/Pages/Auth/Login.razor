@@ -3,7 +3,7 @@
 @layout AuthLayout
 
 @inject NavigationManager navigationManager
-@*@inject ClientService clientService*@
+@inject IClientService clientService
 
 <div class="card" style=" margin: auto; width: 550px; margin-top: 50px;">
     <div class="card-body">
@@ -14,18 +14,18 @@
                         <h2>Login to your account</h2>
                     </div>
                     <hr />
-                    <EditForm Model="model" OnInvalidSubmit="LoginUser">
+                    <EditForm Model="@model" OnValidSubmit="@LoginUser">
 
                         <DataAnnotationsValidator />
                         <ValidationSummary />
 
                         <div class="form-group">
                             <label for="name">Email</label>
-                            <InputText type="email" class="form-control" id="shortname" @bind-Value="model.Email" />
+                            <InputText type="email" class="form-control" @bind-Value="model.Email" />
                         </div>
                         <div class="form-group">
                             <label for="name">Password</label>
-                            <InputText type="password" class="form-control" id="shortname" @bind-Value="model.Password" />
+                            <InputText type="password" class="form-control" @bind-Value="model.Password" />
                         </div>
                         <hr />
                         <button type="submit" class="btn btn-primary btn-block">
@@ -50,7 +50,7 @@
     async void LoginUser()
     {
         isBusy = true;
-        //await clientService.LoginAsync(model);
+        await clientService.LoginAsync(model);
         isBusy = false;
     }
 

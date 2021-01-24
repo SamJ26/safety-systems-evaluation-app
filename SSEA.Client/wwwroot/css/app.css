@@ -48,12 +48,3 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
-
-.middle-box {
-    margin: 0 25%;
-    margin-top: 50px;
-    width: 450px;
-    padding: 30px;
-    box-shadow: 5px 10px 18px #888888;
-    border-radius: 20px;
-}
