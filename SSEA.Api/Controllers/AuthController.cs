@@ -9,7 +9,7 @@ using SSEA.BL.Services.Interfaces;
 namespace SSEA.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : Controller
     {
         private IAuthService authService;
@@ -20,7 +20,7 @@ namespace SSEA.Api.Controllers
         }
 
         // api/auth/register
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<AuthResponseModel> RegisterAsync([FromBody]RegisterUserModel model)
         {
             var result = await authService.RegisterUserAsync(model);
@@ -28,7 +28,7 @@ namespace SSEA.Api.Controllers
         }
 
         // api/auth/login
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<AuthResponseModel> LoginAsync([FromBody]LoginUserModel model)
         {
             var result = await authService.LoginUserAsync(model);

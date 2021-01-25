@@ -1,4 +1,4 @@
-﻿@*@page "/auth/login"
+﻿@page "/auth/register"
 
 @layout AuthLayout
 
@@ -20,6 +20,14 @@
                         <ValidationSummary />
 
                         <div class="form-group">
+                            <label for="name">First name</label>
+                            <InputText class="form-control" @bind-Value="model.FirstName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Last name</label>
+                            <InputText class="form-control" @bind-Value="model.LastName" />
+                        </div>
+                        <div class="form-group">
                             <label for="name">Email</label>
                             <InputText type="email" class="form-control" @bind-Value="model.Email" />
                         </div>
@@ -27,12 +35,16 @@
                             <label for="name">Password</label>
                             <InputText type="password" class="form-control" @bind-Value="model.Password" />
                         </div>
+                        <div class="form-group">
+                            <label for="name">Confirm password</label>
+                            <InputText type="password" class="form-control" @bind-Value="model.ConfirmPassword" />
+                        </div>
                         <hr />
                         <button type="submit" class="btn btn-primary btn-block">
-                            Login
-                        </button>
-                        <button type="button" class="btn btn-primary btn-block" @onclick="GoToRegister">
                             Register
+                        </button>
+                        <button type="button" class="btn btn-primary btn-block" @onclick="GoToLogin">
+                            Login
                         </button>
                     </EditForm>
                 </div>
@@ -50,16 +62,13 @@
     async void LoginUser()
     {
         isBusy = true;
-
-        // await httpClient.PostAsJsonAsync($"https://localhost:44358/api/Auth/Login", model);
-        await clientService.LoginAsync(model);
-
+        AuthResponseModel response = await clientService.RegisterAsync(model);
         isBusy = false;
     }
 
-    void GoToRegister()
+    void GoToLogin()
     {
-
+        navigationManager.NavigateTo("/auth/login");
     }
 
-}*@
+}
