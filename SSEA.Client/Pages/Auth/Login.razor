@@ -28,10 +28,10 @@
                             <InputText type="password" class="form-control" @bind-Value="model.Password" />
                         </div>
                         <hr />
-                        <button type="submit" class="btn btn-primary btn-block">
+                        <button type="submit" class="btn btn-primary btn-block" disabled="@isBusy">
                             Login
                         </button>
-                        <button type="button" class="btn btn-primary btn-block" @onclick="GoToRegister">
+                        <button type="button" class="btn btn-primary btn-block" @onclick="GoToRegister" disabled="@isBusy">
                             Register
                         </button>
                     </EditForm>

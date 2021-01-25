@@ -32,7 +32,7 @@ namespace SSEA.Api.Controllers
         public async Task<AuthResponseModel> LoginAsync([FromBody]LoginUserModel model)
         {
             var result = await authService.LoginUserAsync(model);
-            return result;;
+            return result;
         }
     }
 }
