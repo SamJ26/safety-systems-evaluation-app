@@ -20,25 +20,24 @@ namespace SSEA.DAL.Repositories
             return dbContext.Set<TEntity>();
         }
 
-        public TEntity GetById(Guid id)
+        public TEntity GetById(int id)
         {
             return dbContext.Set<TEntity>().SingleOrDefault(entity => entity.ID == id);
         }
 
-        public Guid Insert(TEntity entity)
+        public int Insert(TEntity entity)
         {
-            entity.ID = Guid.NewGuid();
             dbContext.Add(entity);
             return entity.ID;
         }
 
-        public Guid Update(TEntity entity)
+        public int Update(TEntity entity)
         {
             dbContext.Update(entity);
             return entity.ID;
         }
 
-        public void Remove(Guid id)
+        public void Remove(int id)
         {
             var entity = GetById(id);
             dbContext.Set<TEntity>().Remove(entity);

@@ -1,7 +1,13 @@
-﻿using SSEA.BL.Models.Auth;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using SSEA.BL.Models.Auth;
 using SSEA.BL.Services.Interfaces;
+using SSEA.DAL.Entities.Auth;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,18 +15,70 @@ namespace SSEA.BL.Services.Implementations
 {
     public class AuthService : IAuthService
     {
-        public async Task<AuthResponseModel> LoginUserAsync(LoginUserModel model)
+        private UserManager<User> userManager;
+        private IConfiguration configuration;
+
+        public AuthService(UserManager<User> userManager, IConfiguration configuration)
         {
-            // TODO
-            var result = new AuthResponseModel();
-            return result;
+            this.userManager = userManager;
+            this.configuration = configuration;
         }
 
         public async Task<AuthResponseModel> RegisterUserAsync(RegisterUserModel model)
         {
             // TODO
+
             var result = new AuthResponseModel();
             return result;
+        }
+
+        public async Task<AuthResponseModel> LoginUserAsync(LoginUserModel model)
+        {
+            if (model == null)
+                throw new NullReferenceException("Login model is null!");
+
+            User user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return new AuthResponseModel()
+                {
+                    Message = "There is no user with that email address",
+                    IsSuccess = false,
+                };
+            }
+
+            bool validPassword = await userManager.CheckPasswordAsync(user, model.Password);
+            if (!validPassword)
+            {
+                return new AuthResponseModel()
+                {
+                    Message = "Invalid password",
+                    IsSuccess = false,
+                };
+            }
+
+            var claims = new Claim[]
+            {
+                new Claim("Email", model.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthSettings:Key"]));
+
+            var token = new JwtSecurityToken(issuer: configuration["AuthSettings:Issuer"],
+                                             audience: configuration["AuthSettings:Audience"],
+                                             claims: claims,
+                                             expires: DateTime.Now.AddHours(1),
+                                             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+
+            string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
+            
+            return new AuthResponseModel()
+            {
+                Message = tokenAsString,
+                IsSuccess = true,
+                ExpireDate = token.ValidTo,
+            };
         }
     }
 }

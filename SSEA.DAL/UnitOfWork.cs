@@ -1,4 +1,5 @@
-﻿using SSEA.DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities;
 using SSEA.DAL.Factories;
 using SSEA.DAL.Repositories;
 using System;
