@@ -6,6 +6,6 @@ namespace SSEA.DAL.Entities
 {
     public abstract class EntityBase
     {
-        public Guid ID { get; set; }
+        public int ID { get; set; }
     }
 }

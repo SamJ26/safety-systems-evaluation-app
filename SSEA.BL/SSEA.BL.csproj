@@ -8,4 +8,8 @@
   	<ProjectReference Include="..\SSEA.DAL\SSEA.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Facades\" />
+  </ItemGroup>
+
 </Project>
