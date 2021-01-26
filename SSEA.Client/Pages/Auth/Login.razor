@@ -4,6 +4,7 @@
 
 @inject NavigationManager navigationManager
 @inject IClientService clientService
+@inject ILocalStorageService storageService
 
 <div class="card" style=" margin: auto; width: 550px; margin-top: 50px;">
     <div class="card-body">
@@ -27,6 +28,15 @@
                             <label for="name">Password</label>
                             <InputText type="password" class="form-control" @bind-Value="model.Password" />
                         </div>
+                        
+                        @if(showMessage)
+                        {
+                            <hr />
+                            <div class="text-center">
+                                <h5>@message</h5>
+                            </div>
+                        }
+
                         <hr />
                         <button type="submit" class="btn btn-primary btn-block" disabled="@isBusy">
                             Login
@@ -46,11 +56,31 @@
     LoginUserModel model = new LoginUserModel();
 
     bool isBusy = false;
+    bool showMessage = false;
+    string message = string.Empty;
 
     async void LoginUser()
     {
         isBusy = true;
         AuthResponseModel response = await clientService.LoginAsync(model);
+        if (response.IsSuccess)
+        {
+            LocalUserInfo userInfo = new LocalUserInfo()
+            {
+                AccessToken = response.Message,
+                // FirstName
+                // LastName
+                // Email
+                // IS
+            };
+            await storageService.SetItemAsync("UserInfo", userInfo);
+            navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            message = response.Message;
+            showMessage = true;
+        }
         isBusy = false;
     }
 

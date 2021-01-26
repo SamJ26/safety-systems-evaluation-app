@@ -4,6 +4,7 @@
 
 @inject NavigationManager navigationManager
 @inject IClientService clientService
+@inject ILocalStorageService storageService
 
 <div class="card" style=" margin: auto; width: 550px; margin-top: 50px;">
     <div class="card-body">
@@ -63,6 +64,10 @@
     {
         isBusy = true;
         AuthResponseModel response = await clientService.RegisterAsync(model);
+        if (response.IsSuccess)
+        {
+
+        }
         isBusy = false;
     }
 
