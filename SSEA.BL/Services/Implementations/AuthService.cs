@@ -7,6 +7,7 @@ using SSEA.DAL.Entities.Auth;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,10 +27,42 @@ namespace SSEA.BL.Services.Implementations
 
         public async Task<AuthResponseModel> RegisterUserAsync(RegisterUserModel model)
         {
-            // TODO
+            if (model == null)
+                throw new NullReferenceException("Register model is null!");
 
-            var result = new AuthResponseModel();
-            return result;
+            if (model.Password != model.ConfirmPassword)
+            {
+                return new AuthResponseModel()
+                {
+                    Message = "Confirm password doesn't match the password",
+                    IsSuccess = false,
+                };
+            }
+
+            var newUser = new User()
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                UserName = model.FirstName + " " + model.LastName,
+            };
+
+            var result = await userManager.CreateAsync(newUser, model.Password);
+            if (result.Succeeded)
+            {
+                return new AuthResponseModel()
+                {
+                    Message = "User created susuccessfully!",
+                    IsSuccess = true,
+                };
+            }
+
+            return new AuthResponseModel()
+            {
+                Message = "User did not create",
+                IsSuccess = false,
+                Errors = result.Errors.Select(error => error.Description),
+            };
         }
 
         public async Task<AuthResponseModel> LoginUserAsync(LoginUserModel model)
