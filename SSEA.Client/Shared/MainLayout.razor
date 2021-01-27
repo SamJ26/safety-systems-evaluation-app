@@ -1,5 +1,8 @@
 ﻿@inherits LayoutComponentBase
 
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject NavigationManager navigationManager
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -7,11 +10,23 @@
 
     <div class="main">
         <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+            <button class="btn" @onclick="Logout">
+                <span class="oi oi-account-logout" aria-hidden="true"></span> Logout
+            </button>
         </div>
-
         <div class="content px-4">
             @Body
         </div>
     </div>
 </div>
+
+@code {
+
+    private async Task Logout()
+    {
+        var authStateProviderService = (AuthStateProviderService)authenticationStateProvider;
+        await authStateProviderService.LogoutAsync();
+        navigationManager.NavigateTo("/auth/login");
+    }
+
+}

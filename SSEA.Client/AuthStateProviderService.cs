@@ -44,5 +44,14 @@ namespace SSEA.Client
             // There is not LocalUserInfo object in local storage of browser
             return new AuthenticationState(new ClaimsPrincipal());
         }
+
+        public async Task LogoutAsync()
+        {
+            // Removing LocalUserInfo object from local storage of browser
+            await storageService.RemoveItemAsync("UserInfo");
+
+            // Notifying components with authorization, that authentication state changed
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal())));
+        }
     }
 }
