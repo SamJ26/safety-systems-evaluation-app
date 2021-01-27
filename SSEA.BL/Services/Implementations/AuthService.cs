@@ -44,7 +44,7 @@ namespace SSEA.BL.Services.Implementations
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                UserName = model.FirstName + " " + model.LastName,
+                UserName = model.Email,
             };
 
             var result = await userManager.CreateAsync(newUser, model.Password);

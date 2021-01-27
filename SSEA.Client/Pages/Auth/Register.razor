@@ -18,28 +18,39 @@
                     <EditForm Model="@model" OnValidSubmit="@LoginUser">
 
                         <DataAnnotationsValidator />
-                        <ValidationSummary />
 
                         <div class="form-group">
-                            <label for="name">First name</label>
-                            <InputText class="form-control" @bind-Value="model.FirstName" />
+                            <label for="firstname">First name</label>
+                            <InputText Id="firstname" class="form-control" @bind-Value="model.FirstName" />
+                            <ValidationMessage For="@(() => model.FirstName)"></ValidationMessage>
                         </div>
                         <div class="form-group">
-                            <label for="name">Last name</label>
-                            <InputText class="form-control" @bind-Value="model.LastName" />
+                            <label for="lastname">Last name</label>
+                            <InputText Id="lastname" class="form-control" @bind-Value="model.LastName" />
+                            <ValidationMessage For="@(() => model.LastName)"></ValidationMessage>
                         </div>
                         <div class="form-group">
-                            <label for="name">Email</label>
-                            <InputText type="email" class="form-control" @bind-Value="model.Email" />
+                            <label for="email">Email</label>
+                            <InputText Id="email" type="email" class="form-control" @bind-Value="model.Email" />
+                            <ValidationMessage For="@(() => model.Email)"></ValidationMessage>
                         </div>
                         <div class="form-group">
-                            <label for="name">Password</label>
-                            <InputText type="password" class="form-control" @bind-Value="model.Password" />
+                            <label for="password">Password</label>
+                            <InputText Id="password" type="password" class="form-control" @bind-Value="model.Password" />
+                            <ValidationMessage For="@(() => model.Password)"></ValidationMessage>
                         </div>
                         <div class="form-group">
-                            <label for="name">Confirm password</label>
-                            <InputText type="password" class="form-control" @bind-Value="model.ConfirmPassword" />
+                            <label for="confirmpassword">Confirm password</label>
+                            <InputText Id="confirmpassword" type="password" class="form-control" @bind-Value="model.ConfirmPassword" />
+                            <ValidationMessage For="@(() => model.ConfirmPassword)"></ValidationMessage>
                         </div>
+
+                        @if (showMessage)
+                        {
+                            <hr />
+                            <div class="text-center alert @messageClass">@message</div>
+                        }
+
                         <hr />
                         <button type="submit" class="btn btn-primary btn-block" disabled="@isBusy">
                             Register
@@ -56,9 +67,12 @@
 
 @code {
 
-    RegisterUserModel model = new RegisterUserModel();
+    private RegisterUserModel model = new RegisterUserModel();
 
-    bool isBusy = false;
+    private bool isBusy = false;
+    private bool showMessage = false;
+    private string message = string.Empty;
+    private string messageClass = string.Empty;
 
     async void LoginUser()
     {
@@ -66,9 +80,19 @@
         AuthResponseModel response = await clientService.RegisterAsync(model);
         if (response.IsSuccess)
         {
-
+            messageClass = "alert-info";
+            message = response.Message;
         }
+        else
+        {
+            messageClass = "alert-danger";
+            message = response.Errors != null ? response.Errors.FirstOrDefault() : response.Message;
+        }
+        showMessage = true;
         isBusy = false;
+
+        Console.WriteLine("Breakpoint!");
+        StateHasChanged();
     }
 
     void GoToLogin()
