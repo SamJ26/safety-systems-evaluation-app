@@ -382,6 +382,9 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("expireDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset? ExpireDate { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("userInfo", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.IDictionary<string, string> UserInfo { get; set; }
+
 
     }
 
@@ -439,6 +442,6 @@ namespace SSEA.Client.BL.Services
 
 #pragma warning restore 1591
 #pragma warning restore 1573
-#pragma warning restore  472
-#pragma warning restore  114
-#pragma warning restore  108
+#pragma warning restore 472
+#pragma warning restore 114
+#pragma warning restore 108

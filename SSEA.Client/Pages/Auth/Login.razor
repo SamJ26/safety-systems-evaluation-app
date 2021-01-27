@@ -64,13 +64,15 @@
         AuthResponseModel response = await clientService.LoginAsync(model);
         if (response.IsSuccess)
         {
+            // This object will be stored in local storage
             LocalUserInfo userInfo = new LocalUserInfo()
             {
+                ID = Int32.Parse(response.UserInfo[System.Security.Claims.ClaimTypes.NameIdentifier]),
+                FirstName = response.UserInfo["FirstName"],
+                LastName = response.UserInfo["LastName"],
+                Email = response.UserInfo["Email"],
                 AccessToken = response.Message,
-                // FirstName
-                // LastName
-                // Email
-                // IS
+                
             };
             await storageService.SetItemAsync("UserInfo", userInfo);
             navigationManager.NavigateTo("/");

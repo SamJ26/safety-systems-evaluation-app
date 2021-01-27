@@ -113,6 +113,7 @@ namespace SSEA.BL.Services.Implementations
                 Message = tokenAsString,
                 IsSuccess = true,
                 ExpireDate = token.ValidTo,
+                UserInfo = claims.ToDictionary(c => c.Type, c => c.Value),
             };
         }
     }
