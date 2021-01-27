@@ -5,6 +5,7 @@
 @inject NavigationManager navigationManager
 @inject IClientService clientService
 @inject ILocalStorageService storageService
+@inject AuthenticationStateProvider authStateProviderService
 
 <div class="card" style=" margin: auto; width: 550px; margin-top: 50px;">
     <div class="card-body">
@@ -75,6 +76,10 @@
                 
             };
             await storageService.SetItemAsync("UserInfo", userInfo);
+
+            // Notifying authorized pages, that authentication state changes
+            await authStateProviderService.GetAuthenticationStateAsync();
+
             navigationManager.NavigateTo("/");
         }
         else
