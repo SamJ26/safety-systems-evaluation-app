@@ -1,0 +1,101 @@
+﻿@page "/auth/login"
+
+@layout AuthLayout
+
+@inject NavigationManager navigationManager
+@inject IClientService clientService
+@inject ILocalStorageService storageService
+@inject AuthenticationStateProvider authStateProviderService
+
+<div class="card" style=" margin: auto; width: 550px; margin-top: 50px;">
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        <h2>Login to your account</h2>
+                    </div>
+                    <hr />
+                    <EditForm Model="@model" OnValidSubmit="@LoginUser">
+
+                        <DataAnnotationsValidator />
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <InputText Id="email" type="email" class="form-control" @bind-Value="model.Email" />
+                            <ValidationMessage For="@(() => model.Email)"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <InputText Id="password" type="password" class="form-control" @bind-Value="model.Password" />
+                            <ValidationMessage For="@(() => model.Password)"></ValidationMessage>
+                        </div>
+                        
+                        @if(showMessage)
+                        {
+                            <hr />
+                            <div class="text-center alert alert-danger">@message</div>
+                        }
+
+                        <hr />
+                        <button type="submit" class="btn btn-primary btn-block" disabled="@isBusy">
+                            Login
+                        </button>
+                        <button type="button" class="btn btn-primary btn-block" @onclick="GoToRegister" disabled="@isBusy">
+                            Register
+                        </button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private LoginUserModel model = new LoginUserModel();
+
+    private bool isBusy = false;
+    private bool showMessage = false;
+    private string message = string.Empty;
+
+    async void LoginUser()
+    {
+        isBusy = true;
+        AuthResponseModel response = await clientService.LoginAsync(model);
+        if (response.IsSuccess)
+        {
+            // This object will be stored in local storage
+            LocalUserInfo userInfo = new LocalUserInfo()
+            {
+                ID = Int32.Parse(response.UserInfo[System.Security.Claims.ClaimTypes.NameIdentifier]),
+                FirstName = response.UserInfo["FirstName"],
+                LastName = response.UserInfo["LastName"],
+                Email = response.UserInfo["Email"],
+                AccessToken = response.Message,
+                
+            };
+            await storageService.SetItemAsync("UserInfo", userInfo);
+
+            // Notifying authorized pages, that authentication state changes
+            await authStateProviderService.GetAuthenticationStateAsync();
+
+            navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            message = response.Message;
+            showMessage = true;
+        }
+        isBusy = false;
+
+        Console.WriteLine("Breakpoint!");
+        StateHasChanged();
+    }
+
+    void GoToRegister()
+    {
+        navigationManager.NavigateTo("/auth/register");
+    }
+
+}

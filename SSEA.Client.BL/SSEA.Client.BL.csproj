@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-  	<ProjectReference Include="..\SSEA.DAL\SSEA.DAL.csproj" />
+    <Folder Include="Facades\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Facades\" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 </Project>
