@@ -6,7 +6,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
 {
     /// <summary>
-    /// This class represents frequncy and/or exposure to hazard parameter
+    /// This class represents frequency and/or exposure to hazard parameter
     /// </summary>
     public class F : EntityBase
     {

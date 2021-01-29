@@ -22,19 +22,19 @@ namespace SSEA.DAL.Repositories
 
         public TEntity GetById(int id)
         {
-            return dbContext.Set<TEntity>().SingleOrDefault(entity => entity.ID == id);
+            return dbContext.Set<TEntity>().SingleOrDefault(entity => entity.Id == id);
         }
 
         public int Insert(TEntity entity)
         {
             dbContext.Add(entity);
-            return entity.ID;
+            return entity.Id;
         }
 
         public int Update(TEntity entity)
         {
             dbContext.Update(entity);
-            return entity.ID;
+            return entity.Id;
         }
 
         public void Remove(int id)

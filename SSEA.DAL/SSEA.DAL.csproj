@@ -18,5 +18,10 @@
   	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
   	</PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\SafetyEvaluation\JoinEntities\" />
+    <Folder Include="Entities\SafetyEvaluation\MainEntities\SIL_methodics\" />
+  </ItemGroup>
 	
 </Project>
