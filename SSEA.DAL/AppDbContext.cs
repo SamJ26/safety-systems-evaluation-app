@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SSEA.DAL.Entities.Auth;
+using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 
 namespace SSEA.DAL
 {
@@ -15,11 +17,29 @@ namespace SSEA.DAL
 
         }
         
-        // TODO: add all tables
+        public DbSet<Producer> Producers { get; set; }
+        public DbSet<Machine> Machines { get; set; }
+        public DbSet<AccessPoint> AccessPoints { get; set; }
+        public DbSet<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
+        public DbSet<SafetyFunction> SafetyFunctions { get; set; }
+        public DbSet<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
+        public DbSet<Subsystem> Subsystems { get; set; }
+        public DbSet<Element> Elements { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.LogTo(Console.WriteLine);
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // User can have many UserClaims
+            // User can have many UserLogins
+            // User can have many UserTokens
+            // Role can have many RoleClaims
+            // User can have many Roles, one Role can be associated with many Users (UserRole = join table)
 
             builder.Entity<User>().ToTable("User");
             builder.Entity<Role>().ToTable("Role");
@@ -28,13 +48,35 @@ namespace SSEA.DAL
             builder.Entity<UserLogin>().ToTable("UserLogin");
             builder.Entity<RoleClaim>().ToTable("RoleClaim");
             builder.Entity<UserToken>().ToTable("UserToken");
+
+            builder.Entity<Machine>().HasOne(m => m.Producer)
+                                     .WithMany(p => p.Machines);
+
+            builder.Entity<Machine>().HasMany(m => m.AccessPoints)
+                                     .WithOne(a => a.Machine);
+
+            builder.Entity<AccessPointSafetyFunction>().HasKey(apsf => new { apsf.AccessPointId, apsf.SafetyFunctionId });
+
+            builder.Entity<AccessPointSafetyFunction>().HasOne(apsf => apsf.SafetyFunction)
+                                                       .WithMany(sf => sf.AccessPointSafetyFunctions)
+                                                       .HasForeignKey(apsf => apsf.SafetyFunctionId);
+
+            builder.Entity<AccessPointSafetyFunction>().HasOne(apsf => apsf.AccessPoint)
+                                                       .WithMany(ap => ap.AccessPointSafetyFunctions)
+                                                       .HasForeignKey(apsf => apsf.AccessPointId);
+
+            builder.Entity<SafetyFunctionSubsystem>().HasKey(sfs => new { sfs.SafetyFunctionId, sfs.SubsystemId });
+
+            builder.Entity<SafetyFunctionSubsystem>().HasOne(sfs => sfs.Subsystem)
+                                                     .WithMany(s => s.SafetyFunctionSubsystems)
+                                                     .HasForeignKey(sfs => sfs.SubsystemId);
+
+            builder.Entity<SafetyFunctionSubsystem>().HasOne(sfs => sfs.SafetyFunction)
+                                                     .WithMany(sf => sf.SafetyFunctionSubsystems)
+                                                     .HasForeignKey(sfs => sfs.SafetyFunctionId);
+
+            builder.Entity<Subsystem>().HasMany(s => s.Elements)
+                                       .WithOne(e => e.Subsystem);
         }
-
-        // User can have many UserClaims
-        // User can have many UserLogins
-        // User can have many UserTokens
-        // Role can have many RoleClaims
-        // User can have many Roles, one Role can be associated with many Users (UserRole = join table)
-
     }
 }

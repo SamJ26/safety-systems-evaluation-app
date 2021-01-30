@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -10,5 +11,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         [Required]
         [StringLength(20)]
         public string Name { get; set; }
+
+        public ICollection<Subsystem> Subsystems { get; set; }
     }
 }

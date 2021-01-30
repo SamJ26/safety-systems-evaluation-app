@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -15,5 +16,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public string Description { get; set; }
 
         public Machine Machine { get; set; }
+        public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
     }
 }

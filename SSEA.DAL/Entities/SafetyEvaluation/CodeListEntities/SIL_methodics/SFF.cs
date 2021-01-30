@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -17,5 +18,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics
 
         [Required]
         public uint Value { get; set; }
+
+        public ICollection<ElementSFF> ElementSFFs { get; set; }
+        public ICollection<Architecture> Architectures { get; set; }
     }
 }

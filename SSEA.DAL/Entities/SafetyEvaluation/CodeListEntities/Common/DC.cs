@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -16,5 +18,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         [Required]
         public uint Max { get; set; }
+
+        public ICollection<Subsystem> Subsystems { get; set; }
+        public ICollection<Element> Elements { get; set; }
+        public ICollection<Category> Categories { get; set; }
     }
 }

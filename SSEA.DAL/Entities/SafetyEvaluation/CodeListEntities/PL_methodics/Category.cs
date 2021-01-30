@@ -1,4 +1,5 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -41,5 +42,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
 
         [Required]
         public DC DC_max { get; set; }
+
+        public ICollection<Subsystem> Subsystems { get; set; }
+        public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
     }
 }

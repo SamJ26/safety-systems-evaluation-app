@@ -14,16 +14,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         [StringLength(50)]
         public string Name { get; set; }
 
-        [Required]
         public uint SI { get; set; }
-
-        [Required]
         public uint SO { get; set; }
-
-        public uint AccessPoints_MaxCount { get; set; }
-        public uint EthernetAdresses_MaxCount { get; set; }
-
-        [Required]
+        public uint? AccessPoints_MaxCount { get; set; }
+        public uint? EthernetAdresses_MaxCount { get; set; }
         public bool Communication { get; set; }
 
         public PL PL_max { get; set; }
