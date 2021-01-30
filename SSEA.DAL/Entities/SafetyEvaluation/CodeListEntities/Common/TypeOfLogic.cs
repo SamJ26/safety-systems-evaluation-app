@@ -1,5 +1,6 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -29,5 +30,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         public Category Category_max { get; set; }
         public PFHd SIL_max { get; set; }
         public Architecture Architecture_max { get; set; }
+
+        public ICollection<Machine> Machines { get; set; }
     }
 }

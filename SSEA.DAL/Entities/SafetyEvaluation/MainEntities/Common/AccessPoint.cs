@@ -14,6 +14,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Common
         [StringLength(200)]
         public string Description { get; set; }
 
-        // public virtual Machine Machine { get; set; }
+        public Machine Machine { get; set; }
     }
 }

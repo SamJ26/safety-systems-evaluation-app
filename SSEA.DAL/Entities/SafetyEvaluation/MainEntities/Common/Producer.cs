@@ -15,6 +15,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Common
         [StringLength(50)]
         public string CountryOfOrigin { get; set; }
 
-        // public virtual Machine Machine { get; set; }
+        public ICollection<Machine> Machines { get; set; }
     }
 }

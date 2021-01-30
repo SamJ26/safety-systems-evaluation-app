@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -14,5 +15,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         [Required]
         [StringLength(3)]
         public string Shortcut { get; set; }
+
+        public ICollection<Machine> Machines { get; set; }
     }
 }
