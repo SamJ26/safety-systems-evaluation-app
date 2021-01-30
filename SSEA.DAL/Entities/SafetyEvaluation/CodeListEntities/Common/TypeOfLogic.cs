@@ -1,6 +1,6 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
-using SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Common;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

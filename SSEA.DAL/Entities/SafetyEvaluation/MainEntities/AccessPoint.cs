@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Common
+namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 {
     public class AccessPoint : ExtendedEntityBase
     {
