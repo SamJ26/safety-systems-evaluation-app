@@ -77,6 +77,55 @@ namespace SSEA.DAL
 
             builder.Entity<Subsystem>().HasMany(s => s.Elements)
                                        .WithOne(e => e.Subsystem);
+
+            builder.Entity<Machine>().HasOne(m => m.EvaluationMethod)
+                                     .WithMany(em => em.Machines);
+
+            builder.Entity<Machine>().HasOne(m => m.MachineType)
+                                     .WithMany(mt => mt.Machines);
+
+            builder.Entity<Machine>().HasOne(m => m.TypeOfLogic)
+                                     .WithMany(t => t.Machines);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.TypeOfFunction)
+                                            .WithMany(tof => tof.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.EvaluationMethod)
+                                            .WithMany(em => em.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.PLr)
+                                            .WithMany(pl => pl.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.PL_result)
+                                            .WithMany(pl => pl.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.S)
+                                            .WithMany(s => s.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.F)
+                                            .WithMany(f => f.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.P)
+                                            .WithMany(p => p.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.SILCL)
+                                            .WithMany(p => p.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.SIL_result)
+                                            .WithMany(p => p.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.Se)
+                                            .WithMany(s => s.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.Fr)
+                                            .WithMany(f => f.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.Pr)
+                                            .WithMany(p => p.SafetyFunctions);
+
+            builder.Entity<SafetyFunction>().HasOne(sf => sf.Av)
+                                            .WithMany(a => a.SafetyFunctions);
+
         }
     }
 }

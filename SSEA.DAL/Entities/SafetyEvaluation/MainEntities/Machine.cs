@@ -27,6 +27,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public EvaluationMethod EvaluationMethod { get; set; }
         public MachineType MachineType { get; set; }
         public TypeOfLogic TypeOfLogic { get; set; }
+
         public ICollection<AccessPoint> AccessPoints { get; set; }
     }
 }

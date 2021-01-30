@@ -16,6 +16,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public string Description { get; set; }
 
         public Machine Machine { get; set; }
+
         public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
     }
 }

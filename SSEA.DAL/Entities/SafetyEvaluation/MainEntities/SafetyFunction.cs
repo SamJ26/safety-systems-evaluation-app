@@ -19,6 +19,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         public TypeOfFunction TypeOfFunction { get; set; }
         public EvaluationMethod EvaluationMethod { get; set; }
+
         public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
 
