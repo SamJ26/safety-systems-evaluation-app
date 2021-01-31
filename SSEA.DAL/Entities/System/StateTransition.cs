@@ -12,10 +12,10 @@ namespace SSEA.DAL.Entities.System
         [StringLength(200)]
         public string Note { get; set; }
 
-        [Column("CurrentState_Id")]
+        [ForeignKey("CurrentState_Id")]
         public State CurrentState { get; set; }
 
-        [Column("NextState_Id")]
+        [ForeignKey("NextState_Id")]
         public State NextState { get; set; }
     }
 }

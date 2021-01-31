@@ -22,16 +22,16 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         public int? AccessPoints_MaxCount { get; set; }
         public uint? EthernetAdresses_MaxCount { get; set; }
 
-        [Column("PL_max_Id")]
+        [ForeignKey("PL_max_Id")]
         public PL PL_max { get; set; }
 
-        [Column("Category_max_Id")]
+        [ForeignKey("Category_max_Id")]
         public Category Category_max { get; set; }
 
-        [Column("SIL_max_Id")]
+        [ForeignKey("SIL_max_Id")]
         public PFHd SIL_max { get; set; }
 
-        [Column("Architecture_max_Id")]
+        [ForeignKey("Architecture_max_Id")]
         public Architecture Architecture_max { get; set; }
 
         public ICollection<Machine> Machines { get; set; }

@@ -13,10 +13,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
         public int SubsystemId { get; set; }
         public int CCF_Id { get; set; }
 
-        [Column("Subsystem_Id")]
+        [ForeignKey("Subsystem_Id")]
         public Subsystem Subsystem { get; set; }
 
-        [Column("CCF_Id")]
+        [ForeignKey("CCF_Id")]
         public CCF CCF { get; set; }
     }
 }

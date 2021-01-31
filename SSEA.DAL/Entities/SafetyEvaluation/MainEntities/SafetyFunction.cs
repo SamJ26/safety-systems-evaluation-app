@@ -20,10 +20,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [StringLength(250)]
         public string Description { get; set; }
 
-        [Column("TypeOfFunction_Id")]
+        [ForeignKey("TypeOfFunction_Id")]
         public TypeOfFunction TypeOfFunction { get; set; }
 
-        [Column("EvaluationMethod_Id")]
+        [ForeignKey("EvaluationMethod_Id")]
         public EvaluationMethod EvaluationMethod { get; set; }
 
         public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
@@ -31,39 +31,39 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         // Properties for PL methodics:
 
-        [Column("PLr_Id")]
+        [ForeignKey("PLr_Id")]
         public PL PLr { get; set; }
 
-        [Column("PL_result_Id")]
+        [ForeignKey("PL_result_Id")]
         public PL PL_result { get; set; }
 
-        [Column("S_Id")]
+        [ForeignKey("S_Id")]
         public S S { get; set; }
 
-        [Column("F_Id")]
+        [ForeignKey("F_Id")]
         public F F { get; set; }
 
-        [Column("P_Id")]
+        [ForeignKey("P_Id")]
         public P P { get; set; }
 
         // Properties for SIL methodics:
 
-        [Column("SILCL_Id")]
+        [ForeignKey("SILCL_Id")]
         public PFHd SILCL { get; set; }
 
-        [Column("SIL_result_Id")]
+        [ForeignKey("SIL_result_Id")]
         public PFHd SIL_result { get; set; }
 
-        [Column("Se_Id")]
+        [ForeignKey("Se_Id")]
         public Se Se { get; set; }
 
-        [Column("Fr_Id")]
+        [ForeignKey("Fr_Id")]
         public Fr Fr { get; set; }
 
-        [Column("Pr_Id")]
+        [ForeignKey("Pr_Id")]
         public Pr Pr { get; set; }
 
-        [Column("Av_Id")]
+        [ForeignKey("Av_Id")]
         public Av Av { get; set; }
     }
 }

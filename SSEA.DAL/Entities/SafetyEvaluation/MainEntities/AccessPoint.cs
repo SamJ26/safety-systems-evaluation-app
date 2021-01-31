@@ -17,7 +17,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [StringLength(200)]
         public string Description { get; set; }
 
-        [Column("Machine_Id")]
+        [ForeignKey("Machine_Id")]
         public Machine Machine { get; set; }
 
         public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }

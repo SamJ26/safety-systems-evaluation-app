@@ -13,10 +13,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
         public int ElementId { get; set; }
         public int SFF_Id { get; set; }
 
-        [Column("Element_Id")]
+        [ForeignKey("Element_Id")]
         public Element Element { get; set; }
 
-        [Column("SFF_Id")]
+        [ForeignKey("SFF_Id")]
         public SFF SFF { get; set; }
     }
 }

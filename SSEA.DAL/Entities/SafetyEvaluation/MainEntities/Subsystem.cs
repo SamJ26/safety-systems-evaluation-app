@@ -16,7 +16,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [StringLength(50)]
         public string CatalogNumber { get; set; }
 
-        [Column("TypeOfSubsystem_Id")]
+        [ForeignKey("TypeOfSubsystem_Id")]
         public TypeOfSubsystem TypeOfSubsystem { get; set; } 
 
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
@@ -26,16 +26,16 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         // Properties for PL methodics:
         public bool CCF_valid { get; set; }
 
-        [Column("Category_Id")]
+        [ForeignKey("Category_Id")]
         public Category Category { get; set; }
 
-        [Column("MTTFd_result_Id")]
+        [ForeignKey("MTTFd_result_Id")]
         public MTTFd MTTFd_result { get; set; }
 
-        [Column("DC_result_Id")]
+        [ForeignKey("DC_result_Id")]
         public DC DC_result { get; set; }
 
-        [Column("PL_result_Id")]
+        [ForeignKey("PL_result_Id")]
         public PL PL_result { get; set; }
 
 
@@ -44,16 +44,16 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public double? T2 { get; set; }
         public double? SFF_result { get; set; }
 
-        [Column("Architecture_Id")]
+        [ForeignKey("Architecture_Id")]
         public Architecture Architecture { get; set; }
 
-        [Column("HFT_Id")]
+        [ForeignKey("HFT_Id")]
         public HFT HFT { get; set; }
 
-        [Column("PFHd_result_Id")]
+        [ForeignKey("PFHd_result_Id")]
         public PFHd PFHd_result { get; set; }
 
-        [Column("CFF_Id")]
+        [ForeignKey("CFF_Id")]
         public CFF CFF { get; set; }
     }
 }

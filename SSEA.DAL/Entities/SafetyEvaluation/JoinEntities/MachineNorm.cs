@@ -13,10 +13,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
         public int MachineId { get; set; }
         public int NormId { get; set; }
 
-        [Column("Machine_Id")]
+        [ForeignKey("Machine_Id")]
         public Machine Machine { get; set; }
 
-        [Column("Norm_Id")]
+        [ForeignKey("Norm_Id")]
         public Norm Norm { get; set; }
     }
 }

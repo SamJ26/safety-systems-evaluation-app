@@ -12,10 +12,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
         public int SafetyFunctionId { get; set; }
         public int SubsystemId { get; set; }
 
-        [Column("SafetyFunction_Id")]
+        [ForeignKey("SafetyFunction_Id")]
         public SafetyFunction SafetyFunction { get; set; }
 
-        [Column("Subsystem_Id")]
+        [ForeignKey("Subsystem_Id")]
         public Subsystem Subsystem { get; set; }
     }
 }
