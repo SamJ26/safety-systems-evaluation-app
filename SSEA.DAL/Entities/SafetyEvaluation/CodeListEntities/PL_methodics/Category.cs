@@ -28,9 +28,16 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
         public short Channels { get; set; }
         public bool CCF_relevant { get; set; }
 
+        [Column("MTTFd_min_Id")]
         public MTTFd MTTFd_min { get; set; }
+
+        [Column("MTTFd_max_Id")]
         public MTTFd MTTFd_max { get; set; }
+
+        [Column("DC_min_Id")]
         public DC DC_min { get; set; }
+
+        [Column("DC_max_Id")]
         public DC DC_max { get; set; }
 
         public ICollection<Subsystem> Subsystems { get; set; }

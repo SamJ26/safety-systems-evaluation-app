@@ -11,8 +11,12 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     public class MachineNorm : EntityBase
     {
         public int MachineId { get; set; }
-        public Machine Machine { get; set; }
         public int NormId { get; set; }
+
+        [Column("Machine_Id")]
+        public Machine Machine { get; set; }
+
+        [Column("Norm_Id")]
         public Norm Norm { get; set; }
     }
 }

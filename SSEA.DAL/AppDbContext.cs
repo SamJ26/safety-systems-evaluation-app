@@ -78,13 +78,13 @@ namespace SSEA.DAL
             // Role can have many RoleClaims
             // User can have many Roles, one Role can be associated with many Users (UserRole = join table)
 
-            builder.Entity<User>().ToTable("User");
-            builder.Entity<Role>().ToTable("Role");
-            builder.Entity<UserClaim>().ToTable("UserClaim");
-            builder.Entity<UserRole>().ToTable("UserRole");
-            builder.Entity<UserLogin>().ToTable("UserLogin");
-            builder.Entity<RoleClaim>().ToTable("RoleClaim");
-            builder.Entity<UserToken>().ToTable("UserToken");
+            builder.Entity<User>().ToTable("SY_User");
+            builder.Entity<Role>().ToTable("SY_Role");
+            builder.Entity<UserClaim>().ToTable("SY_UserClaim");
+            builder.Entity<UserRole>().ToTable("SY_UserRole");
+            builder.Entity<UserLogin>().ToTable("SY_UserLogin");
+            builder.Entity<RoleClaim>().ToTable("SY_RoleClaim");
+            builder.Entity<UserToken>().ToTable("SY_UserToken");
 
             builder.Entity<Machine>().HasOne(m => m.Producer)
                                      .WithMany(p => p.Machines);

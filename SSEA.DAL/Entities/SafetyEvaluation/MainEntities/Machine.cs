@@ -26,9 +26,16 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public bool? SecurityOfSafetyParts { get; set; }
         public bool? SafetyMasterInPlace { get; set; }
 
+        [Column("Producer_Id")]
         public Producer Producer { get; set; }
+
+        [Column("EvaluationMethod_Id")]
         public EvaluationMethod EvaluationMethod { get; set; }
+
+        [Column("MachineType_Id")]
         public MachineType MachineType { get; set; }
+
+        [Column("TypeOfLogic_Id")]
         public TypeOfLogic TypeOfLogic { get; set; }
 
         public ICollection<AccessPoint> AccessPoints { get; set; }

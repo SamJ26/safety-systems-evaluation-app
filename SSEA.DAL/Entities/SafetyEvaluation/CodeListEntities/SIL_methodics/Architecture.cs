@@ -24,7 +24,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics
         public double SFF_min { get; set; }
         public double SFF_max { get; set; }
 
+        [Column("HFT_Id")]
         public HFT HFT { get; set; }
+
+        [Column("PFHd_max_Id")]
         public PFHd PFHd_max { get; set; }
 
         public ICollection<Subsystem> Subsystems { get; set; }

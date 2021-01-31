@@ -14,8 +14,13 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public short Order { get; set; }
         public double? B10d { get; set; }
 
+        [Column("Producer_Id")]
         public Producer Producer { get; set; }
+
+        [Column("Subsystem_Id")]
         public Subsystem Subsystem { get; set; }
+
+        [Column("DC_Id")]
         public DC DC { get; set; }
 
         // Properties for PL methodics:
@@ -25,6 +30,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public double? t_cycles { get; set; }
         public double? MTTFd_counted { get; set; }
 
+        [Column("MTTFd_result_Id")]
         public MTTFd MTTFd_result { get; set; }
 
         // Properties for SIL methodics:

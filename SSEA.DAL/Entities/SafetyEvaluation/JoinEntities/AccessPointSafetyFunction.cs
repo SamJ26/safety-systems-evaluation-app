@@ -10,8 +10,12 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     public class AccessPointSafetyFunction : EntityBase
     {
         public int AccessPointId { get; set; }
-        public AccessPoint AccessPoint { get; set; }
         public int SafetyFunctionId { get; set; }
+
+        [Column("AccessPoint_Id")]
+        public AccessPoint AccessPoint { get; set; }
+
+        [Column("SafetyFunction_Id")]
         public SafetyFunction SafetyFunction { get; set; }
     }
 }
