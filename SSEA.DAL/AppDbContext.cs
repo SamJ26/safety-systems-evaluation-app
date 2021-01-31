@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SSEA.DAL.Entities.Auth;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 
@@ -28,7 +31,9 @@ namespace SSEA.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.LogTo(Console.WriteLine);
+            optionsBuilder.LogTo(Console.WriteLine)
+                          .EnableSensitiveDataLogging()
+                          .EnableDetailedErrors();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -126,6 +131,100 @@ namespace SSEA.DAL
             builder.Entity<SafetyFunction>().HasOne(sf => sf.Av)
                                             .WithMany(a => a.SafetyFunctions);
 
+            builder.Entity<Subsystem>().HasOne(s => s.TypeOfSubsystem)
+                                       .WithMany(t => t.Subsystems);
+
+            builder.Entity<SubsystemCCF>().HasKey(sc => new { sc.SubsystemId, sc.CCF_Id });
+
+            builder.Entity<SubsystemCCF>().HasOne(sc => sc.CCF)
+                                          .WithMany(c => c.SubsystemCCFs)
+                                          .HasForeignKey(sc => sc.CCF_Id);
+
+            builder.Entity<SubsystemCCF>().HasOne(sc => sc.Subsystem)
+                                          .WithMany(s => s.SubsystemCCFs)
+                                          .HasForeignKey(sc => sc.SubsystemId);
+
+            builder.Entity<Subsystem>().HasOne(s => s.Category)
+                                       .WithMany(c => c.Subsystems);
+
+            builder.Entity<Subsystem>().HasOne(s => s.MTTFd_result)
+                                       .WithMany(m => m.Subsystems);
+
+            builder.Entity<Subsystem>().HasOne(s => s.DC_result)
+                                       .WithMany(d => d.Subsystems);
+
+            builder.Entity<Subsystem>().HasOne(s => s.PL_result)
+                                       .WithMany(p => p.Subsystems);
+
+            builder.Entity<Subsystem>().HasOne(s => s.Architecture)
+                                       .WithMany(a => a.Subsystems);
+
+            builder.Entity<Subsystem>().HasOne(s => s.HFT)
+                                       .WithMany(h => h.Subsystems);
+
+            builder.Entity<Subsystem>().HasOne(s => s.PFHd_result)
+                                       .WithMany(p => p.Subsystems);
+
+            builder.Entity<Subsystem>().HasOne(s => s.CFF)
+                                       .WithMany(c => c.Subsystems);
+
+            builder.Entity<Element>().HasOne(e => e.Producer)
+                                     .WithMany(p => p.Elements);
+
+            builder.Entity<Element>().HasOne(e => e.Subsystem)
+                                     .WithMany(s => s.Elements);
+
+            builder.Entity<Element>().HasOne(e => e.DC)
+                                     .WithMany(d => d.Elements);
+
+            builder.Entity<Element>().HasOne(e => e.MTTFd_result)
+                                     .WithMany(m => m.Elements);
+
+            builder.Entity<ElementSFF>().HasKey(es => new { es.ElementId, es.SFF_Id });
+
+            builder.Entity<ElementSFF>().HasOne(es => es.SFF)
+                                        .WithMany(s => s.ElementSFFs)
+                                        .HasForeignKey(es => es.SFF_Id);
+
+            builder.Entity<ElementSFF>().HasOne(es => es.Element)
+                                        .WithMany(e => e.ElementSFFs)
+                                        .HasForeignKey(es => es.ElementId);
+
+            builder.Entity<Architecture>().HasOne(a => a.SFF_min)
+                                          .WithMany(s => s.Architectures);
+
+            builder.Entity<Architecture>().HasOne(a => a.SFF_max)
+                                          .WithMany(s => s.Architectures);
+
+            builder.Entity<Architecture>().HasOne(a => a.HFT)
+                                          .WithMany(h => h.Architectures);
+
+            builder.Entity<Architecture>().HasOne(a => a.PFHd_max)
+                                          .WithMany(p => p.Architectures);
+
+            builder.Entity<Category>().HasOne(c => c.MTTFd_max)
+                                      .WithMany(m => m.Categories);
+
+            builder.Entity<Category>().HasOne(c => c.MTTFd_min)
+                                      .WithMany(m => m.Categories);
+
+            builder.Entity<Category>().HasOne(c => c.DC_min)
+                                      .WithMany(dc => dc.Categories);
+
+            builder.Entity<Category>().HasOne(c => c.DC_max)
+                                      .WithMany(dc => dc.Categories);
+
+            builder.Entity<TypeOfLogic>().HasOne(tol => tol.PL_max)
+                                         .WithMany(p => p.TypeOfLogics);
+
+            builder.Entity<TypeOfLogic>().HasOne(tol => tol.Category_max)
+                                         .WithMany(c => c.TypeOfLogics);
+
+            builder.Entity<TypeOfLogic>().HasOne(tol => tol.SIL_max)
+                                         .WithMany(s => s.TypeOfLogics);
+
+            builder.Entity<TypeOfLogic>().HasOne(tol => tol.Architecture_max)
+                                         .WithMany(a => a.TypeOfLogics);
         }
     }
 }

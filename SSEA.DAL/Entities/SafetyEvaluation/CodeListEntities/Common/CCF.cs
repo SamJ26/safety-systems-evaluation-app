@@ -16,10 +16,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         [StringLength(50)]
         public string Type { get; set; }
 
-        [Required]
         public uint Points { get; set; }
-
-        [Required]
         public bool ForPL { get; set; }
 
         public ICollection<SubsystemCCF> SubsystemCCFs { get; set; }

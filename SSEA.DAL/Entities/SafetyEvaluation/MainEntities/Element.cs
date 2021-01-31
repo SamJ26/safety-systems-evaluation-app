@@ -10,7 +10,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
     public class Element : ExtendedEntityBase
     {
         public short Order { get; set; }
-        public double B10d { get; set; }
+        public double? B10d { get; set; }
 
         public Producer Producer { get; set; }
         public Subsystem Subsystem { get; set; }

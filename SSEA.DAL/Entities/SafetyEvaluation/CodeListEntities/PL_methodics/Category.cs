@@ -13,23 +13,18 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
         [StringLength(1)]
         public char Label { get; set; }
 
-        [Required]
-        public bool Logic { get; set; }
-
-        [Required]
-        public uint Channels { get; set; }
-
         [StringLength(250)]
         public string Description { get; set; }
-
-        [Required]
-        public bool CCF_relevant { get; set; }
 
         [StringLength(250)]
         public string Requirements { get; set; }
 
         [StringLength(250)]
         public string FailureBehavior { get; set; }
+
+        public bool Logic { get; set; }
+        public uint Channels { get; set; }
+        public bool CCF_relevant { get; set; }
 
         [Required]
         public MTTFd MTTFd_min { get; set; }
