@@ -19,7 +19,9 @@ namespace SSEA.DAL
         {
 
         }
-        
+
+        #region DbSets
+
         public DbSet<Producer> Producers { get; set; }
         public DbSet<Machine> Machines { get; set; }
         public DbSet<AccessPoint> AccessPoints { get; set; }
@@ -28,6 +30,36 @@ namespace SSEA.DAL
         public DbSet<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
         public DbSet<Subsystem> Subsystems { get; set; }
         public DbSet<Element> Elements { get; set; }
+
+        public DbSet<ElementSFF> ElementSFFs { get; set; }
+        public DbSet<MachineNorm> MachineNorms { get; set; }
+        public DbSet<SubsystemCCF> SubsystemCCFs { get; set; }
+
+        public DbSet<CCF> CCFs { get; set; }
+        public DbSet<DC> DCs { get; set; }
+        public DbSet<EvaluationMethod> EvaluationMethods { get; set; }
+        public DbSet<MachineType> MachineTypes { get; set; }
+        public DbSet<Norm> Norms { get; set; }
+        public DbSet<TypeOfFunction> TypeOfFunctions { get; set; }
+        public DbSet<TypeOfLogic> TypeOfLogics { get; set; }
+        public DbSet<TypeOfSubsystem> TypeOfSubsystems { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<F> Fs { get; set; }
+        public DbSet<P> Ps { get; set; }
+        public DbSet<S> Ss { get; set; }
+        public DbSet<MTTFd> MTTFds { get; set; }
+        public DbSet<PL> PLs { get; set; }
+        public DbSet<Architecture> Architectures { get; set; }
+        public DbSet<Av> Avs { get; set; }
+        public DbSet<CFF> CFFs { get; set; }
+        public DbSet<Fr> Frs { get; set; }
+        public DbSet<HFT> HFTs { get; set; }
+        public DbSet<PFHd> PFHds { get; set; }
+        public DbSet<Pr> Prs { get; set; }
+        public DbSet<Se> Ses { get; set; }
+        public DbSet<SFF> SFFs { get; set; }
+
+        #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
