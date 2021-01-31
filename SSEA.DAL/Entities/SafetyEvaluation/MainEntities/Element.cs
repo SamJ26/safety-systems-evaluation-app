@@ -3,10 +3,12 @@ using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 {
+    [Table("Element")]
     public class Element : ExtendedEntityBase
     {
         public short Order { get; set; }
@@ -22,6 +24,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public double? d_op { get; set; }
         public double? t_cycles { get; set; }
         public double? MTTFd_counted { get; set; }
+
         public MTTFd MTTFd_result { get; set; }
 
         // Properties for SIL methodics:

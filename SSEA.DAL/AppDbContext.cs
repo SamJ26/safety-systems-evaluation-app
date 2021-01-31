@@ -99,10 +99,10 @@ namespace SSEA.DAL
                                             .WithMany(em => em.SafetyFunctions);
 
             builder.Entity<SafetyFunction>().HasOne(sf => sf.PLr)
-                                            .WithMany(pl => pl.SafetyFunctions);
+                                            .WithMany(pl => pl.SafetyFunctions_PLr);
 
             builder.Entity<SafetyFunction>().HasOne(sf => sf.PL_result)
-                                            .WithMany(pl => pl.SafetyFunctions);
+                                            .WithMany(pl => pl.SafetyFunctions_PL_result);
 
             builder.Entity<SafetyFunction>().HasOne(sf => sf.S)
                                             .WithMany(s => s.SafetyFunctions);
@@ -114,10 +114,10 @@ namespace SSEA.DAL
                                             .WithMany(p => p.SafetyFunctions);
 
             builder.Entity<SafetyFunction>().HasOne(sf => sf.SILCL)
-                                            .WithMany(p => p.SafetyFunctions);
+                                            .WithMany(p => p.SafetyFunctions_SILCL);
 
             builder.Entity<SafetyFunction>().HasOne(sf => sf.SIL_result)
-                                            .WithMany(p => p.SafetyFunctions);
+                                            .WithMany(p => p.SafetyFunctions_SIL_result);
 
             builder.Entity<SafetyFunction>().HasOne(sf => sf.Se)
                                             .WithMany(s => s.SafetyFunctions);
@@ -190,12 +190,6 @@ namespace SSEA.DAL
                                         .WithMany(e => e.ElementSFFs)
                                         .HasForeignKey(es => es.ElementId);
 
-            builder.Entity<Architecture>().HasOne(a => a.SFF_min)
-                                          .WithMany(s => s.Architectures);
-
-            builder.Entity<Architecture>().HasOne(a => a.SFF_max)
-                                          .WithMany(s => s.Architectures);
-
             builder.Entity<Architecture>().HasOne(a => a.HFT)
                                           .WithMany(h => h.Architectures);
 
@@ -203,16 +197,20 @@ namespace SSEA.DAL
                                           .WithMany(p => p.Architectures);
 
             builder.Entity<Category>().HasOne(c => c.MTTFd_max)
-                                      .WithMany(m => m.Categories);
+                                      .WithMany(m => m.Categories_MTTFd_max)
+                                      .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Category>().HasOne(c => c.MTTFd_min)
-                                      .WithMany(m => m.Categories);
+                                      .WithMany(m => m.Categories_MTTFd_min)
+                                      .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Category>().HasOne(c => c.DC_min)
-                                      .WithMany(dc => dc.Categories);
+                                      .WithMany(dc => dc.Categories_DC_min)
+                                      .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Category>().HasOne(c => c.DC_max)
-                                      .WithMany(dc => dc.Categories);
+                                      .WithMany(dc => dc.Categories_DC_max)
+                                      .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<TypeOfLogic>().HasOne(tol => tol.PL_max)
                                          .WithMany(p => p.TypeOfLogics);
@@ -225,6 +223,18 @@ namespace SSEA.DAL
 
             builder.Entity<TypeOfLogic>().HasOne(tol => tol.Architecture_max)
                                          .WithMany(a => a.TypeOfLogics);
+
+            builder.Entity<MachineNorm>().HasKey(mn => new { mn.MachineId, mn.NormId });
+
+            builder.Entity<MachineNorm>().HasOne(mn => mn.Norm)
+                                         .WithMany(n => n.MachineNorms)
+                                         .HasForeignKey(mn => mn.NormId)
+                                         .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<MachineNorm>().HasOne(mn => mn.Machine)
+                                         .WithMany(m => m.MachineNorms)
+                                         .HasForeignKey(mn => mn.MachineId)
+                                         .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

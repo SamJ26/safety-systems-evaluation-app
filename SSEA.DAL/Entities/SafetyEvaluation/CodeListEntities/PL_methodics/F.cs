@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
@@ -9,6 +10,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
     /// <summary>
     /// This class represents frequency and/or exposure to hazard parameter
     /// </summary>
+    [Table("F")]
     public class F : EntityBase
     {
         [StringLength(2)]

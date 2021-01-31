@@ -3,15 +3,17 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
 {
+    [Table("Category")]
     public class Category : EntityBase
     {
         [Required]
-        [StringLength(1)]
-        public char Label { get; set; }
+        [StringLength(2)]
+        public string Label { get; set; }
 
         [StringLength(250)]
         public string Description { get; set; }
@@ -23,19 +25,12 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
         public string FailureBehavior { get; set; }
 
         public bool Logic { get; set; }
-        public uint Channels { get; set; }
+        public short Channels { get; set; }
         public bool CCF_relevant { get; set; }
 
-        [Required]
         public MTTFd MTTFd_min { get; set; }
-
-        [Required]
         public MTTFd MTTFd_max { get; set; }
-
-        [Required]
         public DC DC_min { get; set; }
-
-        [Required]
         public DC DC_max { get; set; }
 
         public ICollection<Subsystem> Subsystems { get; set; }

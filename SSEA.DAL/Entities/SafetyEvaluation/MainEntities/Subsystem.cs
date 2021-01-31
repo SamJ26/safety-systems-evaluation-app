@@ -5,16 +5,19 @@ using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 {
+    [Table("Subsystem")]
     public class Subsystem : ExtendedEntityBase
     {
         [StringLength(50)]
         public string CatalogNumber { get; set; }
 
         public TypeOfSubsystem TypeOfSubsystem { get; set; } 
+
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
         public ICollection<Element> Elements { get; set; }
         public ICollection<SubsystemCCF> SubsystemCCFs { get; set; }

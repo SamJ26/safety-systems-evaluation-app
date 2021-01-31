@@ -1,11 +1,14 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
+using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 {
+    [Table("Machine")]
     public class Machine : ExtendedEntityBase
     {
         [Required]
@@ -29,5 +32,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public TypeOfLogic TypeOfLogic { get; set; }
 
         public ICollection<AccessPoint> AccessPoints { get; set; }
+        public ICollection<MachineNorm> MachineNorms { get; set; }
     }
 }

@@ -3,38 +3,28 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics
 {
+    [Table("Architecture")]
     public class Architecture : EntityBase
     {
         [Required]
-        [StringLength(1)]
-        public char Label { get; set; }
-
-        [Required]
-        public bool Logic { get; set; }
-
-        [Required]
-        public bool Diagnostic { get; set; }
-
-        [Required]
-        public uint Channels { get; set; }
+        [StringLength(2)]
+        public string Label { get; set; }
 
         [StringLength(250)]
         public string Description { get; set; }
 
-        [Required]
-        public SFF SFF_min { get; set; }
+        public bool Logic { get; set; }
+        public bool Diagnostic { get; set; }
+        public short Channels { get; set; }
+        public double SFF_min { get; set; }
+        public double SFF_max { get; set; }
 
-        [Required]
-        public SFF SFF_max { get; set; }
-
-        [Required]
         public HFT HFT { get; set; }
-
-        [Required]
         public PFHd PFHd_max { get; set; }
 
         public ICollection<Subsystem> Subsystems { get; set; }

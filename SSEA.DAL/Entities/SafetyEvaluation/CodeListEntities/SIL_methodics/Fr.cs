@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics
 {
+    [Table("Fr")]
     public class Fr : EntityBase
     {
         [StringLength(50)]

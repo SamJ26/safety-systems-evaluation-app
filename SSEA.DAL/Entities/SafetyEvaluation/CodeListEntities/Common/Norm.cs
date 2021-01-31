@@ -1,10 +1,13 @@
-﻿using System;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
+    [Table("Norm")]
     public class Norm : EntityBase
     {
         [Required]
@@ -24,6 +27,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         public string CatalogNumber { get; set; }
 
         [Required]
-        public char NormCategory { get; set; }
+        [StringLength(2)]
+        public string NormCategory { get; set; }
+
+        public ICollection<MachineNorm> MachineNorms { get; set; }
     }
 }

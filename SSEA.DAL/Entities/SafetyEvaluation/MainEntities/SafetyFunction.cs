@@ -5,12 +5,15 @@ using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 {
+    [Table("SafetyFunction")]
     public class SafetyFunction : ExtendedEntityBase
     {
+        [Required]
         [StringLength(50)]
         public string Name { get; set; }
 

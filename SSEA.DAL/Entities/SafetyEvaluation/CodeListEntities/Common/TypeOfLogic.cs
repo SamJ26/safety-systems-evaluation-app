@@ -4,10 +4,12 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
+    [Table("TypeOfLogic")]
     public class TypeOfLogic : EntityBase
     {
         [Required]
@@ -16,9 +18,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         public uint SI { get; set; }
         public uint SO { get; set; }
+        public bool Communication { get; set; }
         public uint? AccessPoints_MaxCount { get; set; }
         public uint? EthernetAdresses_MaxCount { get; set; }
-        public bool Communication { get; set; }
 
         public PL PL_max { get; set; }
         public Category Category_max { get; set; }
