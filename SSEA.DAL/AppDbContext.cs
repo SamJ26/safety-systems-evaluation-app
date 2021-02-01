@@ -10,6 +10,7 @@ using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+using SSEA.DAL.Entities.System;
 
 namespace SSEA.DAL
 {
@@ -25,12 +26,12 @@ namespace SSEA.DAL
         public DbSet<Producer> Producers { get; set; }
         public DbSet<Machine> Machines { get; set; }
         public DbSet<AccessPoint> AccessPoints { get; set; }
-        public DbSet<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
         public DbSet<SafetyFunction> SafetyFunctions { get; set; }
-        public DbSet<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
         public DbSet<Subsystem> Subsystems { get; set; }
         public DbSet<Element> Elements { get; set; }
 
+        public DbSet<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
+        public DbSet<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
         public DbSet<ElementSFF> ElementSFFs { get; set; }
         public DbSet<MachineNorm> MachineNorms { get; set; }
         public DbSet<SubsystemCCF> SubsystemCCFs { get; set; }
@@ -86,187 +87,241 @@ namespace SSEA.DAL
             builder.Entity<RoleClaim>().ToTable("SY_RoleClaim");
             builder.Entity<UserToken>().ToTable("SY_UserToken");
 
-            builder.Entity<Machine>().HasOne(m => m.Producer)
-                                     .WithMany(p => p.Machines);
+            builder.Entity<AccessPointSafetyFunction>(apsf =>
+            {
+                apsf.HasKey(apsf => new { apsf.AccessPointId, apsf.SafetyFunctionId });
 
-            builder.Entity<Machine>().HasMany(m => m.AccessPoints)
-                                     .WithOne(a => a.Machine);
+                apsf.HasOne(apsf => apsf.SafetyFunction)
+                    .WithMany(sf => sf.AccessPointSafetyFunctions)
+                    .HasForeignKey(apsf => apsf.SafetyFunctionId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<AccessPointSafetyFunction>().HasKey(apsf => new { apsf.AccessPointId, apsf.SafetyFunctionId });
+                apsf.HasOne(apsf => apsf.AccessPoint)
+                    .WithMany(ap => ap.AccessPointSafetyFunctions)
+                    .HasForeignKey(apsf => apsf.AccessPointId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
-            builder.Entity<AccessPointSafetyFunction>().HasOne(apsf => apsf.SafetyFunction)
-                                                       .WithMany(sf => sf.AccessPointSafetyFunctions)
-                                                       .HasForeignKey(apsf => apsf.SafetyFunctionId);
+            builder.Entity<SafetyFunctionSubsystem>(sfs =>
+            {
+                sfs.HasKey(sfs => new { sfs.SafetyFunctionId, sfs.SubsystemId });
 
-            builder.Entity<AccessPointSafetyFunction>().HasOne(apsf => apsf.AccessPoint)
-                                                       .WithMany(ap => ap.AccessPointSafetyFunctions)
-                                                       .HasForeignKey(apsf => apsf.AccessPointId);
+                sfs.HasOne(sfs => sfs.Subsystem)
+                   .WithMany(s => s.SafetyFunctionSubsystems)
+                   .HasForeignKey(sfs => sfs.SubsystemId);
 
-            builder.Entity<SafetyFunctionSubsystem>().HasKey(sfs => new { sfs.SafetyFunctionId, sfs.SubsystemId });
+                sfs.HasOne(sfs => sfs.SafetyFunction)
+                   .WithMany(sf => sf.SafetyFunctionSubsystems)
+                   .HasForeignKey(sfs => sfs.SafetyFunctionId);
+            });
 
-            builder.Entity<SafetyFunctionSubsystem>().HasOne(sfs => sfs.Subsystem)
-                                                     .WithMany(s => s.SafetyFunctionSubsystems)
-                                                     .HasForeignKey(sfs => sfs.SubsystemId);
+            builder.Entity<Machine>(m =>
+            {
+                m.HasOne(m => m.Producer)
+                 .WithMany(p => p.Machines);
 
-            builder.Entity<SafetyFunctionSubsystem>().HasOne(sfs => sfs.SafetyFunction)
-                                                     .WithMany(sf => sf.SafetyFunctionSubsystems)
-                                                     .HasForeignKey(sfs => sfs.SafetyFunctionId);
+                m.HasMany(m => m.AccessPoints)
+                 .WithOne(a => a.Machine);
 
-            builder.Entity<Subsystem>().HasMany(s => s.Elements)
-                                       .WithOne(e => e.Subsystem);
+                m.HasOne(m => m.EvaluationMethod)
+                 .WithMany(em => em.Machines);
 
-            builder.Entity<Machine>().HasOne(m => m.EvaluationMethod)
-                                     .WithMany(em => em.Machines);
+                m.HasOne(m => m.MachineType)
+                 .WithMany(mt => mt.Machines);
 
-            builder.Entity<Machine>().HasOne(m => m.MachineType)
-                                     .WithMany(mt => mt.Machines);
+                m.HasOne(m => m.TypeOfLogic)
+                 .WithMany(t => t.Machines);
+            });
 
-            builder.Entity<Machine>().HasOne(m => m.TypeOfLogic)
-                                     .WithMany(t => t.Machines);
+            builder.Entity<SafetyFunction>(sf =>
+            {
+                sf.HasOne(sf => sf.TypeOfFunction)
+                  .WithMany(tof => tof.SafetyFunctions);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.TypeOfFunction)
-                                            .WithMany(tof => tof.SafetyFunctions);
+                sf.HasOne(sf => sf.EvaluationMethod)
+                  .WithMany(em => em.SafetyFunctions);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.EvaluationMethod)
-                                            .WithMany(em => em.SafetyFunctions);
+                sf.HasOne(sf => sf.PLr)
+                  .WithMany(pl => pl.SafetyFunctions_PLr);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.PLr)
-                                            .WithMany(pl => pl.SafetyFunctions_PLr);
+                sf.HasOne(sf => sf.PL_result)
+                  .WithMany(pl => pl.SafetyFunctions_PL_result);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.PL_result)
-                                            .WithMany(pl => pl.SafetyFunctions_PL_result);
+                sf.HasOne(sf => sf.S)
+                  .WithMany(s => s.SafetyFunctions);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.S)
-                                            .WithMany(s => s.SafetyFunctions);
+                sf.HasOne(sf => sf.F)
+                  .WithMany(f => f.SafetyFunctions);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.F)
-                                            .WithMany(f => f.SafetyFunctions);
+                sf.HasOne(sf => sf.P)
+                  .WithMany(p => p.SafetyFunctions);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.P)
-                                            .WithMany(p => p.SafetyFunctions);
+                sf.HasOne(sf => sf.SILCL)
+                  .WithMany(p => p.SafetyFunctions_SILCL);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.SILCL)
-                                            .WithMany(p => p.SafetyFunctions_SILCL);
+                sf.HasOne(sf => sf.SIL_result)
+                  .WithMany(p => p.SafetyFunctions_SIL_result);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.SIL_result)
-                                            .WithMany(p => p.SafetyFunctions_SIL_result);
+                sf.HasOne(sf => sf.Se)
+                  .WithMany(s => s.SafetyFunctions);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.Se)
-                                            .WithMany(s => s.SafetyFunctions);
+                sf.HasOne(sf => sf.Fr)
+                  .WithMany(f => f.SafetyFunctions);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.Fr)
-                                            .WithMany(f => f.SafetyFunctions);
+                sf.HasOne(sf => sf.Pr)
+                  .WithMany(p => p.SafetyFunctions);
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.Pr)
-                                            .WithMany(p => p.SafetyFunctions);
+                sf.HasOne(sf => sf.Av)
+                  .WithMany(a => a.SafetyFunctions);
+            });
 
-            builder.Entity<SafetyFunction>().HasOne(sf => sf.Av)
-                                            .WithMany(a => a.SafetyFunctions);
+            builder.Entity<Subsystem>(s =>
+            {
+                s.HasMany(s => s.Elements)
+                 .WithOne(e => e.Subsystem);
 
-            builder.Entity<Subsystem>().HasOne(s => s.TypeOfSubsystem)
-                                       .WithMany(t => t.Subsystems);
+                s.HasOne(s => s.TypeOfSubsystem)
+                 .WithMany(t => t.Subsystems);
 
-            builder.Entity<SubsystemCCF>().HasKey(sc => new { sc.SubsystemId, sc.CCF_Id });
+                s.HasOne(s => s.MTTFd_result)
+                 .WithMany(m => m.Subsystems);
 
-            builder.Entity<SubsystemCCF>().HasOne(sc => sc.CCF)
-                                          .WithMany(c => c.SubsystemCCFs)
-                                          .HasForeignKey(sc => sc.CCF_Id);
+                s.HasOne(s => s.DC_result)
+                 .WithMany(d => d.Subsystems);
 
-            builder.Entity<SubsystemCCF>().HasOne(sc => sc.Subsystem)
-                                          .WithMany(s => s.SubsystemCCFs)
-                                          .HasForeignKey(sc => sc.SubsystemId);
+                s.HasOne(s => s.PL_result)
+                 .WithMany(p => p.Subsystems);
 
-            builder.Entity<Subsystem>().HasOne(s => s.Category)
-                                       .WithMany(c => c.Subsystems);
+                s.HasOne(s => s.Architecture)
+                 .WithMany(a => a.Subsystems);
 
-            builder.Entity<Subsystem>().HasOne(s => s.MTTFd_result)
-                                       .WithMany(m => m.Subsystems);
+                s.HasOne(s => s.HFT)
+                 .WithMany(h => h.Subsystems);
 
-            builder.Entity<Subsystem>().HasOne(s => s.DC_result)
-                                       .WithMany(d => d.Subsystems);
+                s.HasOne(s => s.PFHd_result)
+                 .WithMany(p => p.Subsystems);
 
-            builder.Entity<Subsystem>().HasOne(s => s.PL_result)
-                                       .WithMany(p => p.Subsystems);
+                s.HasOne(s => s.CFF)
+                 .WithMany(c => c.Subsystems);
 
-            builder.Entity<Subsystem>().HasOne(s => s.Architecture)
-                                       .WithMany(a => a.Subsystems);
+                s.HasOne(s => s.Category)
+                 .WithMany(c => c.Subsystems);
+            });
 
-            builder.Entity<Subsystem>().HasOne(s => s.HFT)
-                                       .WithMany(h => h.Subsystems);
+            builder.Entity<Element>(e =>
+            {
+                e.HasOne(e => e.Producer)
+                 .WithMany(p => p.Elements);
 
-            builder.Entity<Subsystem>().HasOne(s => s.PFHd_result)
-                                       .WithMany(p => p.Subsystems);
+                e.HasOne(e => e.Subsystem)
+                 .WithMany(s => s.Elements);
 
-            builder.Entity<Subsystem>().HasOne(s => s.CFF)
-                                       .WithMany(c => c.Subsystems);
+                e.HasOne(e => e.DC)
+                 .WithMany(d => d.Elements);
 
-            builder.Entity<Element>().HasOne(e => e.Producer)
-                                     .WithMany(p => p.Elements);
+                e.HasOne(e => e.MTTFd_result)
+                 .WithMany(m => m.Elements);
+            });
 
-            builder.Entity<Element>().HasOne(e => e.Subsystem)
-                                     .WithMany(s => s.Elements);
+            builder.Entity<SubsystemCCF>(sc =>
+            {
+                sc.HasKey(sc => new { sc.SubsystemId, sc.CCF_Id });
 
-            builder.Entity<Element>().HasOne(e => e.DC)
-                                     .WithMany(d => d.Elements);
+                sc.HasOne(sc => sc.CCF)
+                  .WithMany(c => c.SubsystemCCFs)
+                  .HasForeignKey(sc => sc.CCF_Id);
 
-            builder.Entity<Element>().HasOne(e => e.MTTFd_result)
-                                     .WithMany(m => m.Elements);
+                sc.HasOne(sc => sc.Subsystem)
+                  .WithMany(s => s.SubsystemCCFs)
+                  .HasForeignKey(sc => sc.SubsystemId);
+            });
 
-            builder.Entity<ElementSFF>().HasKey(es => new { es.ElementId, es.SFF_Id });
+            builder.Entity<ElementSFF>(es =>
+            {
+                es.HasKey(es => new { es.ElementId, es.SFF_Id });
 
-            builder.Entity<ElementSFF>().HasOne(es => es.SFF)
-                                        .WithMany(s => s.ElementSFFs)
-                                        .HasForeignKey(es => es.SFF_Id);
+                es.HasOne(es => es.SFF)
+                  .WithMany(s => s.ElementSFFs)
+                  .HasForeignKey(es => es.SFF_Id);
 
-            builder.Entity<ElementSFF>().HasOne(es => es.Element)
-                                        .WithMany(e => e.ElementSFFs)
-                                        .HasForeignKey(es => es.ElementId);
+                es.HasOne(es => es.Element)
+                  .WithMany(e => e.ElementSFFs)
+                  .HasForeignKey(es => es.ElementId);
+            });
 
-            builder.Entity<Architecture>().HasOne(a => a.HFT)
-                                          .WithMany(h => h.Architectures);
+            builder.Entity<Architecture>(a =>
+            {
+                a.HasOne(a => a.HFT)
+                 .WithMany(h => h.Architectures);
 
-            builder.Entity<Architecture>().HasOne(a => a.PFHd_max)
-                                          .WithMany(p => p.Architectures);
+                a.HasOne(a => a.PFHd_max)
+                 .WithMany(p => p.Architectures);
+            });
 
-            builder.Entity<Category>().HasOne(c => c.MTTFd_max)
-                                      .WithMany(m => m.Categories_MTTFd_max)
-                                      .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Category>(c =>
+            {
+                c.HasOne(c => c.MTTFd_max)
+                 .WithMany(m => m.Categories_MTTFd_max)
+                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Category>().HasOne(c => c.MTTFd_min)
-                                      .WithMany(m => m.Categories_MTTFd_min)
-                                      .OnDelete(DeleteBehavior.Restrict);
+                c.HasOne(c => c.MTTFd_min)
+                 .WithMany(m => m.Categories_MTTFd_min)
+                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Category>().HasOne(c => c.DC_min)
-                                      .WithMany(dc => dc.Categories_DC_min)
-                                      .OnDelete(DeleteBehavior.Restrict);
+                c.HasOne(c => c.DC_min)
+                 .WithMany(dc => dc.Categories_DC_min)
+                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Category>().HasOne(c => c.DC_max)
-                                      .WithMany(dc => dc.Categories_DC_max)
-                                      .OnDelete(DeleteBehavior.Restrict);
+                c.HasOne(c => c.DC_max)
+                 .WithMany(dc => dc.Categories_DC_max)
+                 .OnDelete(DeleteBehavior.Restrict);
+            });
 
-            builder.Entity<TypeOfLogic>().HasOne(tol => tol.PL_max)
-                                         .WithMany(p => p.TypeOfLogics);
+            builder.Entity<TypeOfLogic>(tol =>
+            {
+                tol.HasOne(tol => tol.PL_max)
+                   .WithMany(p => p.TypeOfLogics);
 
-            builder.Entity<TypeOfLogic>().HasOne(tol => tol.Category_max)
-                                         .WithMany(c => c.TypeOfLogics);
+                tol.HasOne(tol => tol.Category_max)
+                   .WithMany(c => c.TypeOfLogics);
 
-            builder.Entity<TypeOfLogic>().HasOne(tol => tol.SIL_max)
-                                         .WithMany(s => s.TypeOfLogics);
+                tol.HasOne(tol => tol.SIL_max)
+                   .WithMany(s => s.TypeOfLogics);
 
-            builder.Entity<TypeOfLogic>().HasOne(tol => tol.Architecture_max)
-                                         .WithMany(a => a.TypeOfLogics);
+                tol.HasOne(tol => tol.Architecture_max)
+                   .WithMany(a => a.TypeOfLogics);
+            });
 
-            builder.Entity<MachineNorm>().HasKey(mn => new { mn.MachineId, mn.NormId });
+            builder.Entity<MachineNorm>(mn =>
+            {
+               mn.HasKey(mn => new { mn.MachineId, mn.NormId });
 
-            builder.Entity<MachineNorm>().HasOne(mn => mn.Norm)
-                                         .WithMany(n => n.MachineNorms)
-                                         .HasForeignKey(mn => mn.NormId)
-                                         .OnDelete(DeleteBehavior.Cascade);
+               mn.HasOne(mn => mn.Norm)
+                 .WithMany(n => n.MachineNorms)
+                 .HasForeignKey(mn => mn.NormId)
+                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<MachineNorm>().HasOne(mn => mn.Machine)
-                                         .WithMany(m => m.MachineNorms)
-                                         .HasForeignKey(mn => mn.MachineId)
-                                         .OnDelete(DeleteBehavior.Cascade);
+               mn.HasOne(mn => mn.Machine)
+                 .WithMany(m => m.MachineNorms)
+                 .HasForeignKey(mn => mn.MachineId)
+                 .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<Entity>(e =>
+            {
+                e.HasMany(e => e.States)
+                 .WithOne(s => s.Entity);
+            });
+
+            builder.Entity<StateTransition>(st =>
+            {
+                st.HasOne(st => st.CurrentState)
+                  .WithMany(cs => cs.StateTransitions_current);
+
+                st.HasOne(st => st.NextState)
+                  .WithMany(ns => ns.StateTransitions_next);
+            });
+
         }
     }
 }

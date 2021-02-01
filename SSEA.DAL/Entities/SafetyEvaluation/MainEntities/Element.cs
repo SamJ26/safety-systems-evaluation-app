@@ -11,7 +11,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
     [Table("Element")]
     public class Element : ExtendedEntityBase
     {
-        public short Order { get; set; }
+        public short OrderNum { get; set; }
         public double? B10d { get; set; }
 
         [ForeignKey("Producer_Id")]
