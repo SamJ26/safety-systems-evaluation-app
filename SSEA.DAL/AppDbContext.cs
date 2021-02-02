@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities;
 using SSEA.DAL.Entities.Auth;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
@@ -18,7 +20,6 @@ namespace SSEA.DAL
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
-
         }
 
         #region DbSets
@@ -60,7 +61,34 @@ namespace SSEA.DAL
         public DbSet<Se> Ses { get; set; }
         public DbSet<SFF> SFFs { get; set; }
 
+        public DbSet<Entity> Entities { get; set; }
+        public DbSet<State> States { get; set; }
+        public DbSet<StateTransition> StateTransitions { get; set; }
+
         #endregion
+
+        public override int SaveChanges()
+        {
+            var entries = ChangeTracker.Entries()
+                                       .Where(e => e.Entity is IExtendedEntityBase && (e.State == EntityState.Added || e.State == EntityState.Modified))
+                                       .ToList();
+
+            foreach (var entry in entries)
+            {
+                // Existing entity was modified
+                if (entry.State.Equals(EntityState.Modified))
+                {
+                    entry.Property("DT_updated").CurrentValue = DateTime.Now;
+                }
+                // New entity was added
+                else
+                {
+                    entry.Property("DT_created").CurrentValue = DateTime.Now;
+                }
+            }
+
+            return base.SaveChanges();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -321,7 +349,6 @@ namespace SSEA.DAL
                 st.HasOne(st => st.NextState)
                   .WithMany(ns => ns.StateTransitions_next);
             });
-
         }
     }
 }

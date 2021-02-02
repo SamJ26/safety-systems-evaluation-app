@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SSEA.DAL.Entities
 {
-    public abstract class ExtendedEntityBase : EntityBase
+    public abstract class ExtendedEntityBase : EntityBase, IExtendedEntityBase
     {
         public int Id_created { get; set; }
         public DateTime DT_created { get; set; }
