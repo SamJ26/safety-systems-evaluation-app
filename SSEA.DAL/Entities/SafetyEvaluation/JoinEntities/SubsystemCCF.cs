@@ -8,15 +8,12 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
 {
     [Table("SubsystemCCF")]
-    public class SubsystemCCF : EntityBase
+    public class SubsystemCCF : ExtendedEntityBase
     {
         public int SubsystemId { get; set; }
         public int CCF_Id { get; set; }
 
-        [ForeignKey("Subsystem_Id")]
         public Subsystem Subsystem { get; set; }
-
-        [ForeignKey("CCF_Id")]
         public CCF CCF { get; set; }
     }
 }

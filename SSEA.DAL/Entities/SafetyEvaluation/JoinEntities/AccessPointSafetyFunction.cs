@@ -7,15 +7,12 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
 {
     [Table("AccessPointSafetyFunction")]
-    public class AccessPointSafetyFunction : EntityBase
+    public class AccessPointSafetyFunction : ExtendedEntityBase
     {
         public int AccessPointId { get; set; }
         public int SafetyFunctionId { get; set; }
 
-        [ForeignKey("AccessPoint_Id")]
         public AccessPoint AccessPoint { get; set; }
-
-        [ForeignKey("SafetyFunction_Id")]
         public SafetyFunction SafetyFunction { get; set; }
     }
 }

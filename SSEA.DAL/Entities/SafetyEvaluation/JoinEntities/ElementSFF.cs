@@ -8,15 +8,12 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
 {
     [Table("ElementSFF")]
-    public class ElementSFF : EntityBase
+    public class ElementSFF : ExtendedEntityBase
     {
         public int ElementId { get; set; }
         public int SFF_Id { get; set; }
 
-        [ForeignKey("Element_Id")]
         public Element Element { get; set; }
-
-        [ForeignKey("SFF_Id")]
         public SFF SFF { get; set; }
     }
 }

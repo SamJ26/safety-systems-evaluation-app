@@ -8,15 +8,12 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
 {
     [Table("MachineNorm")]
-    public class MachineNorm : EntityBase
+    public class MachineNorm : ExtendedEntityBase
     {
         public int MachineId { get; set; }
         public int NormId { get; set; }
 
-        [ForeignKey("Machine_Id")]
         public Machine Machine { get; set; }
-
-        [ForeignKey("Norm_Id")]
         public Norm Norm { get; set; }
     }
 }
