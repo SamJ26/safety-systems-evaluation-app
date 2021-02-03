@@ -16,6 +16,7 @@ namespace SSEA.DAL.Entities.System
         [StringLength(200)]
         public string Description { get; set; }
 
+        public int StateNumber { get; set; }
         public bool Valid { get; set; }
         public bool InitialState { get; set; }
         public bool FinalState { get; set; }

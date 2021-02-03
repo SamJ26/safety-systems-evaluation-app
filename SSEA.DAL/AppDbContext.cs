@@ -107,13 +107,25 @@ namespace SSEA.DAL
             // Role can have many RoleClaims
             // User can have many Roles, one Role can be associated with many Users (UserRole = join table)
 
-            builder.Entity<User>().ToTable("SY_User");
-            builder.Entity<Role>().ToTable("SY_Role");
             builder.Entity<UserClaim>().ToTable("SY_UserClaim");
             builder.Entity<UserRole>().ToTable("SY_UserRole");
             builder.Entity<UserLogin>().ToTable("SY_UserLogin");
             builder.Entity<RoleClaim>().ToTable("SY_RoleClaim");
             builder.Entity<UserToken>().ToTable("SY_UserToken");
+
+            builder.Entity<Role>(r =>
+            {
+                r.ToTable("SY_Role");
+                r.Property(r => r.Name)
+                 .IsRequired();
+            });
+
+            builder.Entity<User>(u =>
+            {
+                u.ToTable("SY_User");
+                u.Property(u => u.Email)
+                 .IsRequired();
+            });
 
             builder.Entity<AccessPointSafetyFunction>(apsf =>
             {
@@ -128,6 +140,12 @@ namespace SSEA.DAL
                     .WithMany(ap => ap.AccessPointSafetyFunctions)
                     .HasForeignKey(apsf => apsf.AccessPointId)
                     .OnDelete(DeleteBehavior.Cascade);
+
+                apsf.Property(apsf => apsf.SafetyFunctionId)
+                    .HasColumnName("SafetyFunction_Id");
+
+                apsf.Property(apsf => apsf.AccessPointId)
+                    .HasColumnName("AccessPoint_Id");
             });
 
             builder.Entity<SafetyFunctionSubsystem>(sfs =>
@@ -136,119 +154,157 @@ namespace SSEA.DAL
 
                 sfs.HasOne(sfs => sfs.Subsystem)
                    .WithMany(s => s.SafetyFunctionSubsystems)
-                   .HasForeignKey(sfs => sfs.SubsystemId);
+                   .HasForeignKey(sfs => sfs.SubsystemId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
                 sfs.HasOne(sfs => sfs.SafetyFunction)
                    .WithMany(sf => sf.SafetyFunctionSubsystems)
-                   .HasForeignKey(sfs => sfs.SafetyFunctionId);
+                   .HasForeignKey(sfs => sfs.SafetyFunctionId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+                sfs.Property(sfs => sfs.SubsystemId)
+                   .HasColumnName("Subsystem_Id");
+
+                sfs.Property(sfs => sfs.SafetyFunctionId)
+                   .HasColumnName("SafetyFunction_Id");
             });
 
             builder.Entity<Machine>(m =>
             {
                 m.HasOne(m => m.Producer)
-                 .WithMany(p => p.Machines);
+                 .WithMany(p => p.Machines)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasMany(m => m.AccessPoints)
-                 .WithOne(a => a.Machine);
+                 .WithOne(a => a.Machine)
+                 .IsRequired()
+                 .OnDelete(DeleteBehavior.Cascade);
 
                 m.HasOne(m => m.EvaluationMethod)
-                 .WithMany(em => em.Machines);
+                 .WithMany(em => em.Machines)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasOne(m => m.MachineType)
-                 .WithMany(mt => mt.Machines);
+                 .WithMany(mt => mt.Machines)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasOne(m => m.TypeOfLogic)
-                 .WithMany(t => t.Machines);
+                 .WithMany(t => t.Machines)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<SafetyFunction>(sf =>
             {
                 sf.HasOne(sf => sf.TypeOfFunction)
-                  .WithMany(tof => tof.SafetyFunctions);
+                  .WithMany(tof => tof.SafetyFunctions)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.EvaluationMethod)
-                  .WithMany(em => em.SafetyFunctions);
+                  .WithMany(em => em.SafetyFunctions)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.PLr)
-                  .WithMany(pl => pl.SafetyFunctions_PLr);
+                  .WithMany(pl => pl.SafetyFunctions_PLr)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.PL_result)
-                  .WithMany(pl => pl.SafetyFunctions_PL_result);
+                  .WithMany(pl => pl.SafetyFunctions_PL_result)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.S)
-                  .WithMany(s => s.SafetyFunctions);
+                  .WithMany(s => s.SafetyFunctions)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.F)
-                  .WithMany(f => f.SafetyFunctions);
+                  .WithMany(f => f.SafetyFunctions)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.P)
-                  .WithMany(p => p.SafetyFunctions);
+                  .WithMany(p => p.SafetyFunctions)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.SILCL)
-                  .WithMany(p => p.SafetyFunctions_SILCL);
+                  .WithMany(p => p.SafetyFunctions_SILCL)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.SIL_result)
-                  .WithMany(p => p.SafetyFunctions_SIL_result);
+                  .WithMany(p => p.SafetyFunctions_SIL_result)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Se)
-                  .WithMany(s => s.SafetyFunctions);
+                  .WithMany(s => s.SafetyFunctions)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Fr)
-                  .WithMany(f => f.SafetyFunctions);
+                  .WithMany(f => f.SafetyFunctions)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Pr)
-                  .WithMany(p => p.SafetyFunctions);
+                  .WithMany(p => p.SafetyFunctions)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Av)
-                  .WithMany(a => a.SafetyFunctions);
+                  .WithMany(a => a.SafetyFunctions)
+                  .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Subsystem>(s =>
             {
                 s.HasMany(s => s.Elements)
-                 .WithOne(e => e.Subsystem);
+                 .WithOne(e => e.Subsystem)
+                 .IsRequired()
+                 .OnDelete(DeleteBehavior.Cascade);
 
                 s.HasOne(s => s.TypeOfSubsystem)
-                 .WithMany(t => t.Subsystems);
+                 .WithMany(t => t.Subsystems)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.MTTFd_result)
-                 .WithMany(m => m.Subsystems);
+                 .WithMany(m => m.Subsystems)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.DC_result)
-                 .WithMany(d => d.Subsystems);
+                 .WithMany(d => d.Subsystems)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.PL_result)
-                 .WithMany(p => p.Subsystems);
+                 .WithMany(p => p.Subsystems)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.Architecture)
-                 .WithMany(a => a.Subsystems);
+                 .WithMany(a => a.Subsystems)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.HFT)
-                 .WithMany(h => h.Subsystems);
+                 .WithMany(h => h.Subsystems)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.PFHd_result)
-                 .WithMany(p => p.Subsystems);
+                 .WithMany(p => p.Subsystems)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.CFF)
-                 .WithMany(c => c.Subsystems);
+                 .WithMany(c => c.Subsystems)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.Category)
-                 .WithMany(c => c.Subsystems);
+                 .WithMany(c => c.Subsystems)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Element>(e =>
             {
                 e.HasOne(e => e.Producer)
-                 .WithMany(p => p.Elements);
-
-                e.HasOne(e => e.Subsystem)
-                 .WithMany(s => s.Elements);
+                 .WithMany(p => p.Elements)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(e => e.DC)
-                 .WithMany(d => d.Elements);
+                 .WithMany(d => d.Elements)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(e => e.MTTFd_result)
-                 .WithMany(m => m.Elements);
+                 .WithMany(m => m.Elements)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<SubsystemCCF>(sc =>
@@ -257,11 +313,16 @@ namespace SSEA.DAL
 
                 sc.HasOne(sc => sc.CCF)
                   .WithMany(c => c.SubsystemCCFs)
-                  .HasForeignKey(sc => sc.CCF_Id);
+                  .HasForeignKey(sc => sc.CCF_Id)
+                  .OnDelete(DeleteBehavior.Cascade);
 
                 sc.HasOne(sc => sc.Subsystem)
                   .WithMany(s => s.SubsystemCCFs)
-                  .HasForeignKey(sc => sc.SubsystemId);
+                  .HasForeignKey(sc => sc.SubsystemId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+                sc.Property(sc => sc.SubsystemId)
+                  .HasColumnName("Subsystem_Id");
             });
 
             builder.Entity<ElementSFF>(es =>
@@ -270,20 +331,27 @@ namespace SSEA.DAL
 
                 es.HasOne(es => es.SFF)
                   .WithMany(s => s.ElementSFFs)
-                  .HasForeignKey(es => es.SFF_Id);
+                  .HasForeignKey(es => es.SFF_Id)
+                  .OnDelete(DeleteBehavior.Cascade);
 
                 es.HasOne(es => es.Element)
                   .WithMany(e => e.ElementSFFs)
-                  .HasForeignKey(es => es.ElementId);
+                  .HasForeignKey(es => es.ElementId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+                es.Property(es => es.ElementId)
+                  .HasColumnName("Element_Id");
             });
 
             builder.Entity<Architecture>(a =>
             {
                 a.HasOne(a => a.HFT)
-                 .WithMany(h => h.Architectures);
+                 .WithMany(h => h.Architectures)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 a.HasOne(a => a.PFHd_max)
-                 .WithMany(p => p.Architectures);
+                 .WithMany(p => p.Architectures)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Category>(c =>
@@ -308,16 +376,20 @@ namespace SSEA.DAL
             builder.Entity<TypeOfLogic>(tol =>
             {
                 tol.HasOne(tol => tol.PL_max)
-                   .WithMany(p => p.TypeOfLogics);
+                   .WithMany(p => p.TypeOfLogics)
+                   .OnDelete(DeleteBehavior.Restrict);
 
                 tol.HasOne(tol => tol.Category_max)
-                   .WithMany(c => c.TypeOfLogics);
+                   .WithMany(c => c.TypeOfLogics)
+                   .OnDelete(DeleteBehavior.Restrict);
 
                 tol.HasOne(tol => tol.SIL_max)
-                   .WithMany(s => s.TypeOfLogics);
+                   .WithMany(s => s.TypeOfLogics)
+                   .OnDelete(DeleteBehavior.Restrict);
 
                 tol.HasOne(tol => tol.Architecture_max)
-                   .WithMany(a => a.TypeOfLogics);
+                   .WithMany(a => a.TypeOfLogics)
+                   .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<MachineNorm>(mn =>
@@ -333,21 +405,30 @@ namespace SSEA.DAL
                  .WithMany(m => m.MachineNorms)
                  .HasForeignKey(mn => mn.MachineId)
                  .OnDelete(DeleteBehavior.Cascade);
+
+               mn.Property(mn => mn.NormId)
+                 .HasColumnName("Norm_Id");
+
+               mn.Property(mn => mn.MachineId)
+                 .HasColumnName("Machine_Id");
             });
 
             builder.Entity<Entity>(e =>
             {
                 e.HasMany(e => e.States)
-                 .WithOne(s => s.Entity);
+                 .WithOne(s => s.Entity)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<StateTransition>(st =>
             {
                 st.HasOne(st => st.CurrentState)
-                  .WithMany(cs => cs.StateTransitions_current);
+                  .WithMany(cs => cs.StateTransitions_current)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 st.HasOne(st => st.NextState)
-                  .WithMany(ns => ns.StateTransitions_next);
+                  .WithMany(ns => ns.StateTransitions_next)
+                  .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

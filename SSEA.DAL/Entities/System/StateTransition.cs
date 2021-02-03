@@ -12,6 +12,8 @@ namespace SSEA.DAL.Entities.System
         [StringLength(200)]
         public string Note { get; set; }
 
+        public bool Valid { get; set; }
+
         [ForeignKey("CurrentState_Id")]
         public State CurrentState { get; set; }
 
