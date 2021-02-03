@@ -1,6 +1,7 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
+using SSEA.DAL.Entities.System;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +23,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         [ForeignKey("DC_Id")]
         public DC DC { get; set; }
+
+        [ForeignKey("CurrentState_Id")]
+        public State CurrentState { get; set; }
 
         // Properties for PL methodics:
         public double? n_op { get; set; }

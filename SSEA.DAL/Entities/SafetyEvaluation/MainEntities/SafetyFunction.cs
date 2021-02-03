@@ -2,6 +2,7 @@
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
+using SSEA.DAL.Entities.System;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,6 +26,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         [ForeignKey("EvaluationMethod_Id")]
         public EvaluationMethod EvaluationMethod { get; set; }
+
+        [ForeignKey("CurrentState_Id")]
+        public State CurrentState { get; set; }
 
         public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }

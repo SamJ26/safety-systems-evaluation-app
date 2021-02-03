@@ -11,7 +11,5 @@ namespace SSEA.DAL.Entities
         DateTime DT_created { get; set; }
         int? Id_updated { get; set; }
         DateTime? DT_updated { get; set; }
-
-        // CurrentState 
     }
 }

@@ -191,6 +191,17 @@ namespace SSEA.DAL
                 m.HasOne(m => m.TypeOfLogic)
                  .WithMany(t => t.Machines)
                  .OnDelete(DeleteBehavior.Restrict);
+
+                m.HasOne(m => m.CurrentState)
+                 .WithMany()
+                 .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<AccessPoint>(ap =>
+            {
+                ap.HasOne(ap => ap.CurrentState)
+                  .WithMany()
+                  .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<SafetyFunction>(sf =>
@@ -246,6 +257,10 @@ namespace SSEA.DAL
                 sf.HasOne(sf => sf.Av)
                   .WithMany(a => a.SafetyFunctions)
                   .OnDelete(DeleteBehavior.Restrict);
+
+                sf.HasOne(sf => sf.CurrentState)
+                  .WithMany()
+                  .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Subsystem>(s =>
@@ -290,6 +305,10 @@ namespace SSEA.DAL
                 s.HasOne(s => s.Category)
                  .WithMany(c => c.Subsystems)
                  .OnDelete(DeleteBehavior.Restrict);
+
+                s.HasOne(s => s.CurrentState)
+                 .WithMany()
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Element>(e =>
@@ -304,6 +323,10 @@ namespace SSEA.DAL
 
                 e.HasOne(e => e.MTTFd_result)
                  .WithMany(m => m.Elements)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasOne(e => e.CurrentState)
+                 .WithMany()
                  .OnDelete(DeleteBehavior.Restrict);
             });
 

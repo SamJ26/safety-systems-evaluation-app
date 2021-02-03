@@ -2,6 +2,7 @@
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
+using SSEA.DAL.Entities.System;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +18,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public string CatalogNumber { get; set; }
 
         [ForeignKey("TypeOfSubsystem_Id")]
-        public TypeOfSubsystem TypeOfSubsystem { get; set; } 
+        public TypeOfSubsystem TypeOfSubsystem { get; set; }
+
+        [ForeignKey("CurrentState_Id")]
+        public State CurrentState { get; set; }
 
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
         public ICollection<Element> Elements { get; set; }
