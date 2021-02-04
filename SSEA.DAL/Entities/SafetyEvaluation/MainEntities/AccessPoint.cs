@@ -1,0 +1,29 @@
+﻿using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
+using SSEA.DAL.Entities.System;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
+
+namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
+{
+    [Table("AccessPoint")]
+    public class AccessPoint : ExtendedEntityBase
+    {
+        [Required]
+        [StringLength(100)]
+        public string ShortName { get; set; }
+
+        [StringLength(200)]
+        public string Description { get; set; }
+
+        [ForeignKey("Machine_Id")]
+        public Machine Machine { get; set; }
+
+        [ForeignKey("CurrentState_Id")]
+        public State CurrentState { get; set; }
+
+        public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
+    }
+}
