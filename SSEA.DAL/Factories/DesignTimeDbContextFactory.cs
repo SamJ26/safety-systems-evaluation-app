@@ -11,7 +11,7 @@ namespace SSEA.DAL.Factories
         public AppDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<AppDbContext>();
-            builder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = SSEA;MultipleActiveResultSets = True;Integrated Security = True;");
+            builder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = SSEA;MultipleActiveResultSets = True;Integrated Security = True;"); 
             return new AppDbContext(builder.Options);
         }
     }
