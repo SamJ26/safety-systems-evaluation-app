@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SSEA.BL.Facades
 {
-    public class MachineFacade : IFacade<MachineDM, MachineLM, Machine>
+    public class MachineFacade : IFacade<MachineDetailModel, MachineListModel, Machine>
     {
         private readonly AppDbContext dbContext;
         private readonly Repository<Machine> machineRepository;
@@ -22,7 +22,7 @@ namespace SSEA.BL.Facades
             this.machineRepository = machineRepository;
         }
 
-        public int Create(MachineDM newModel)
+        public int Create(MachineDetailModel newModel)
         {
             throw new NotImplementedException();
         }
@@ -32,17 +32,17 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public IEnumerable<MachineLM> GetAll()
+        public IEnumerable<MachineListModel> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public MachineDM GetById()
+        public MachineDetailModel GetById()
         {
             throw new NotImplementedException();
         }
 
-        public int Update(MachineDM updatedModel)
+        public int Update(MachineDetailModel updatedModel)
         {
             throw new NotImplementedException();
         }

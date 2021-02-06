@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
-    public class MachineDM : ExtendedModelBase
+    public class ElementDetailModelSIL : ExtendedModelBase
     {
     }
 }

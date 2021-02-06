@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SSEA.BL.Facades
 {
-    public class PLSafetyFunctionFacade : IFacade<SafetyFunctionPL_DM, SafetyFunctionLM, SafetyFunction>
+    public class PLSafetyFunctionFacade : IFacade<SafetyFunctionDetailModelPL, SafetyFunctionListModel, SafetyFunction>
     {
         private readonly AppDbContext dbContext;
         private readonly Repository<Machine> machineRepository;
@@ -22,7 +22,7 @@ namespace SSEA.BL.Facades
             this.machineRepository = machineRepository;
         }
 
-        public int Create(SafetyFunctionPL_DM newModel)
+        public int Create(SafetyFunctionDetailModelPL newModel)
         {
             throw new NotImplementedException();
         }
@@ -32,17 +32,17 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public IEnumerable<SafetyFunctionLM> GetAll()
+        public IEnumerable<SafetyFunctionListModel> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public SafetyFunctionPL_DM GetById()
+        public SafetyFunctionDetailModelPL GetById()
         {
             throw new NotImplementedException();
         }
 
-        public int Update(SafetyFunctionPL_DM updatedModel)
+        public int Update(SafetyFunctionDetailModelPL updatedModel)
         {
             throw new NotImplementedException();
         }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
 {
-    public class SafetyFunctionLM : ModelBase
+    public class SubsystemListModel : ModelBase
     {
     }
 }
