@@ -1,15 +1,14 @@
-﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
-using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
+namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
 {
-    [Table("DC")]
-    public class DC : EntityBase
+    [Table("MTTFd")]
+    public class MTTFd : EntityBase
     {
         [Required]
         [StringLength(10)]
@@ -20,7 +19,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         public ICollection<Subsystem> Subsystems { get; set; }
         public ICollection<Element> Elements { get; set; }
-        public ICollection<Category> Categories_DC_min { get; set; }
-        public ICollection<Category> Categories_DC_max { get; set; }
+        public ICollection<Category> Categories_MTTFd_min { get; set; }
+        public ICollection<Category> Categories_MTTFd_max { get; set; }
     }
 }

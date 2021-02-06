@@ -1,6 +1,6 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.System;
 using System;
@@ -40,7 +40,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public DC DC_result { get; set; }
 
         [ForeignKey("PL_result_Id")]
-        public PL PL_result { get; set; }
+        public PerformanceLevel PL_result { get; set; }
 
 
         // Properties for SIL methodics:
