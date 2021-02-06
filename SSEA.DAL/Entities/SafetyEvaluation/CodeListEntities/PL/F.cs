@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
+namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
 {
     /// <summary>
     /// This class represents frequency and/or exposure to hazard parameter

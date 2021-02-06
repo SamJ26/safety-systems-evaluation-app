@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics
+namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
     [Table("HFT")]
     public class HFT : EntityBase

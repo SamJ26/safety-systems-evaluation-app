@@ -1,5 +1,5 @@
-﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         public uint? EthernetAdresses_MaxCount { get; set; }
 
         [ForeignKey("PL_max_Id")]
-        public PL PL_max { get; set; }
+        public PerformanceLevel PL_max { get; set; }
 
         [ForeignKey("Category_max_Id")]
         public Category Category_max { get; set; }

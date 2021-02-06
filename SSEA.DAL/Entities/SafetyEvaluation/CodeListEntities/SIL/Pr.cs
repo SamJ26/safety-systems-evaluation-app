@@ -5,10 +5,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics
+namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
-    [Table("Se")]
-    public class Se : EntityBase
+    [Table("Pr")]
+    public class Pr : EntityBase
     {
         [StringLength(50)]
         public string Description { get; set; }

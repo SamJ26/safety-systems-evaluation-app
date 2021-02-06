@@ -1,5 +1,5 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.System;
 using System;
@@ -39,7 +39,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         // Properties for SIL methodics:
         public double? C { get; set; }
-        public double? lambda_c { get; set; }
+        public double? Lambda_c { get; set; }
 
         public ICollection<ElementSFF> ElementSFFs { get; set; }
     }

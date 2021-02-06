@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics
+namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
 {
     [Table("MTTFd")]
     public class MTTFd : EntityBase

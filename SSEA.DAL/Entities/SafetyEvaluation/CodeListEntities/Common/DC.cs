@@ -1,4 +1,4 @@
-﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
