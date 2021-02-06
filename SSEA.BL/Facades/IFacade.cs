@@ -4,12 +4,12 @@ using System.Text;
 
 namespace SSEA.BL.Facades
 {
-    public interface IFacade<TDetailModel, TListModel>
+    public interface IFacade<TDetailModel, TListModel, TEntity>
     {
-        IEnumerable<TListModel> GetAllAsync();
-        TDetailModel GetByIdAsync();
-        int CreateAsync(TDetailModel newModel);
-        int UpdateAsync(TDetailModel updatedModel);
-        void DeleteAsync(int Id);
+        IEnumerable<TListModel> GetAll();
+        TDetailModel GetById();
+        int Create(TDetailModel newModel);
+        int Update(TDetailModel updatedModel);
+        void Delete(int Id);
     }
 }
