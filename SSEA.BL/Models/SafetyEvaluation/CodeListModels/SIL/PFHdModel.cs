@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL_methodics
+namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
     public class PFHdModel : ModelBase
     {
