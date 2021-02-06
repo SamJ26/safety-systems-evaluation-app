@@ -1,4 +1,4 @@
-﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;

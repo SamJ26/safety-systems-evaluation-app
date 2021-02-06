@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using SSEA.DAL.Entities;
 using SSEA.DAL.Entities.Auth;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Entities.System;
@@ -50,7 +50,7 @@ namespace SSEA.DAL
         public DbSet<P> Ps { get; set; }
         public DbSet<S> Ss { get; set; }
         public DbSet<MTTFd> MTTFds { get; set; }
-        public DbSet<PL> PLs { get; set; }
+        public DbSet<PerformanceLevel> PerformanceLevels { get; set; }
         public DbSet<Architecture> Architectures { get; set; }
         public DbSet<Av> Avs { get; set; }
         public DbSet<CFF> CFFs { get; set; }

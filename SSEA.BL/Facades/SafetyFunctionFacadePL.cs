@@ -9,20 +9,20 @@ using System.Text;
 
 namespace SSEA.BL.Facades
 {
-    public class MachineFacade : IFacade<MachineDetailModel, MachineListModel, Machine>
+    public class SafetyFunctionFacadePL : IFacade<SafetyFunctionDetailModelPL, SafetyFunctionListModel, SafetyFunction>
     {
         private readonly AppDbContext dbContext;
         private readonly Repository<Machine> machineRepository;
 
         // TODO: inject IMapper
-        public MachineFacade(AppDbContext dbContext,
-                             Repository<Machine> machineRepository)
+        public SafetyFunctionFacadePL(AppDbContext dbContext,
+                                      Repository<Machine> machineRepository)
         {
             this.dbContext = dbContext;
             this.machineRepository = machineRepository;
         }
 
-        public int Create(MachineDetailModel newModel)
+        public int Create(SafetyFunctionDetailModelPL newModel)
         {
             throw new NotImplementedException();
         }
@@ -32,17 +32,17 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public IEnumerable<MachineListModel> GetAll()
+        public IEnumerable<SafetyFunctionListModel> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public MachineDetailModel GetById()
+        public SafetyFunctionDetailModelPL GetById()
         {
             throw new NotImplementedException();
         }
 
-        public int Update(MachineDetailModel updatedModel)
+        public int Update(SafetyFunctionDetailModelPL updatedModel)
         {
             throw new NotImplementedException();
         }
