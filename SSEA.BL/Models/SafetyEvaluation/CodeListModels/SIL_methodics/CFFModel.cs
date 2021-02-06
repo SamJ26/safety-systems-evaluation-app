@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL_methodics
 {
-    public class CFF_Model : ModelBase
+    public class CFFModel : ModelBase
     {
     }
 }

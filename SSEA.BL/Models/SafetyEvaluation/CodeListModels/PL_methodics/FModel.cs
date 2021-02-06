@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL_methodics
 {
-    public class PL_Model : ModelBase
+    public class FModel : ModelBase
     {
     }
 }

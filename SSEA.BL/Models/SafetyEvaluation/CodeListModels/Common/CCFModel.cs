@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
 {
-    public class DC_Model : ModelBase
+    public class CCFModel : ModelBase
     {
     }
 }

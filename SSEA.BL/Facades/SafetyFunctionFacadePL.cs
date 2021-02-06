@@ -9,13 +9,13 @@ using System.Text;
 
 namespace SSEA.BL.Facades
 {
-    public class PLSafetyFunctionFacade : IFacade<SafetyFunctionDetailModelPL, SafetyFunctionListModel, SafetyFunction>
+    public class SafetyFunctionFacadePL : IFacade<SafetyFunctionDetailModelPL, SafetyFunctionListModel, SafetyFunction>
     {
         private readonly AppDbContext dbContext;
         private readonly Repository<Machine> machineRepository;
 
         // TODO: inject IMapper
-        public PLSafetyFunctionFacade(AppDbContext dbContext,
+        public SafetyFunctionFacadePL(AppDbContext dbContext,
                                       Repository<Machine> machineRepository)
         {
             this.dbContext = dbContext;
