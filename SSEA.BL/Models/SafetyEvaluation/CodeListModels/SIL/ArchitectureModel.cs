@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
-    public class Architecture : ModelBase
+    public class ArchitectureModel : ModelBase
     {
     }
 }
