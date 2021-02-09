@@ -15,10 +15,8 @@ namespace SSEA.BL.Facades
         private readonly Repository<Machine> machineRepository;
 
         // TODO: inject IMapper
-        public SubsystemFacade(AppDbContext dbContext,
-                               Repository<Machine> machineRepository)
+        public SubsystemFacade(Repository<Machine> machineRepository)
         {
-            this.dbContext = dbContext;
             this.machineRepository = machineRepository;
         }
 

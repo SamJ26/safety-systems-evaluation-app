@@ -11,14 +11,11 @@ namespace SSEA.BL.Facades
 {
     public class MachineFacade : IFacade<MachineDetailModel, MachineListModel, Machine>
     {
-        private readonly AppDbContext dbContext;
         private readonly Repository<Machine> machineRepository;
 
         // TODO: inject IMapper
-        public MachineFacade(AppDbContext dbContext,
-                             Repository<Machine> machineRepository)
+        public MachineFacade(Repository<Machine> machineRepository)
         {
-            this.dbContext = dbContext;
             this.machineRepository = machineRepository;
         }
 
