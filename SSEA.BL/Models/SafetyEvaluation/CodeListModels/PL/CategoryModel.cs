@@ -21,13 +21,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
         [StringLength(250)]
         public string FailureBehavior { get; set; }
 
-        [Required]
         public bool Logic { get; set; }
-
-        [Required]
         public short Channels { get; set; }
-
-        [Required]
         public bool CCF_relevant { get; set; }
 
         [Required]

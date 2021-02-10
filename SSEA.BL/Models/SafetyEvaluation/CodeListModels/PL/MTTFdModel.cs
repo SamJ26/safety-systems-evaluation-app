@@ -11,10 +11,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
         [StringLength(10)]
         public string Value { get; set; }
 
-        [Required]
         public short Min { get; set; }
-
-        [Required]
         public short Max { get; set; }
     }
 }
