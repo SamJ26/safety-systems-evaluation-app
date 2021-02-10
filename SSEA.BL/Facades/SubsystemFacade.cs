@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SSEA.BL.Facades
 {
-    public class SubsystemFacade : IExtendedFacade<SubsystemDetailModelPL, SubsystemDetialModelSIL, SubsystemListModel, Subsystem>
+    public class SubsystemFacade : IExtendedFacade<SubsystemDetailModelPL, SubsystemDetailModelSIL, SubsystemListModel, Subsystem>
     {
         private readonly Repository<Machine> machineRepository;
 
@@ -24,7 +24,7 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public int Create(SubsystemDetialModelSIL newModel)
+        public int Create(SubsystemDetailModelSIL newModel)
         {
             throw new NotImplementedException();
         }
@@ -44,7 +44,7 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public SubsystemDetialModelSIL GetById(int temp = 0)
+        public SubsystemDetailModelSIL GetById(int temp = 0)
         {
             throw new NotImplementedException();
         }
@@ -54,7 +54,7 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public int Update(SubsystemDetialModelSIL updatedModel)
+        public int Update(SubsystemDetailModelSIL updatedModel)
         {
             throw new NotImplementedException();
         }

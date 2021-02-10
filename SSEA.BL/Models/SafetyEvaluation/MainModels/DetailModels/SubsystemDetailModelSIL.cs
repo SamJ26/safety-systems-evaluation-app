@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
-    public class SubsystemDetialModelSIL : ExtendedModelBase
+    public class SubsystemDetailModelSIL : ExtendedModelBase
     {
         [StringLength(50)]
         public string CatalogNumber { get; set; }
