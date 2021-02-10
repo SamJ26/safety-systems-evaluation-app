@@ -27,9 +27,13 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public bool SecurityOfSafetyParts { get; set; }
         public bool SafetyMasterInPlace { get; set; }
 
-        public ProducerDetailModel Producer { get; set; }
+        [Required]
         public EvaluationMethodModel EvaluationMethod { get; set; }
+        
+        [Required]
         public MachineTypeModel MachineType { get; set; }
+
+        public ProducerDetailModel Producer { get; set; }
         public TypeOfLogicModel TypeOfLogic { get; set; }
 
         public ICollection<AccessPointListModel> AccessPoints { get; set; }

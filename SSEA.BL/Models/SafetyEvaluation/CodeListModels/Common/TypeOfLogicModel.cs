@@ -19,9 +19,16 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
         public int AccessPoints_MaxCount { get; set; }
         public uint EthernetAdresses_MaxCount { get; set; }
 
+        [Required]
         public PLModel PL_max { get; set; }
+        
+        [Required]
         public CategoryModel Category_max { get; set; }
+
+        [Required]
         public PFHdModel SIL_max { get; set; }
+
+        [Required]
         public ArchitectureModel Architecture_max { get; set; }
     }
 }

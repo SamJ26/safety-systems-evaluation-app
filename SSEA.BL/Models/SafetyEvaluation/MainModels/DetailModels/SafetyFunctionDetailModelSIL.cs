@@ -17,8 +17,12 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [StringLength(250)]
         public string Description { get; set; }
 
+        [Required]
         public TypeOfFunctionModel TypeOfFunction { get; set; }
+
+        [Required]
         public EvaluationMethodModel EvaluationMethod { get; set; }
+
         public PFHd SILCL { get; set; }
         public PFHd SIL_result { get; set; }
         public Se Se { get; set; }

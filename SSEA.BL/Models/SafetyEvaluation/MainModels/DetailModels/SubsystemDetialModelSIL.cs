@@ -17,8 +17,12 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public double T2 { get; set; }
         public double SFF_result { get; set; }
 
+        [Required]
         public TypeOfSubsystemModel TypeOfSubsystem { get; set; }
+
+        [Required]
         public ArchitectureModel Architecture { get; set; }
+
         public HFTModel HFT { get; set; }
         public PFHdModel PFHd_result { get; set; }
         public CFFModel CFF { get; set; }

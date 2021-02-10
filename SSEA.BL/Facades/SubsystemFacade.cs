@@ -11,7 +11,6 @@ namespace SSEA.BL.Facades
 {
     public class SubsystemFacade : IExtendedFacade<SubsystemDetailModelPL, SubsystemDetialModelSIL, SubsystemListModel, Subsystem>
     {
-        private readonly AppDbContext dbContext;
         private readonly Repository<Machine> machineRepository;
 
         // TODO: inject IMapper

@@ -15,8 +15,12 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 
         public bool CCF_valid { get; set; }
 
+        [Required]
         public TypeOfSubsystemModel TypeOfSubsystem { get; set; }
+
+        [Required]
         public CategoryModel Category { get; set; }
+
         public MTTFdModel MTTFd_result { get; set; }
         public DCModel DC_result { get; set; }
         public PLModel PL_result { get; set; }
