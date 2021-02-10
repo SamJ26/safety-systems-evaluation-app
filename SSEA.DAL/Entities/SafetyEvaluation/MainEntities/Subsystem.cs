@@ -14,9 +14,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
     [Table("Subsystem")]
     public class Subsystem : ExtendedEntityBase
     {
-        [StringLength(50)]
-        public string CatalogNumber { get; set; }
-
         [ForeignKey("TypeOfSubsystem_Id")]
         public TypeOfSubsystem TypeOfSubsystem { get; set; }
 
