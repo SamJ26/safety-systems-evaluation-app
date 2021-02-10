@@ -21,6 +21,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using SSEA.BL.Facades;
+using SSEA.DAL.Repositories;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 
 namespace SSEA.Api
 {
@@ -71,6 +74,14 @@ namespace SSEA.Api
             });
 
             services.AddScoped<IAuthService, AuthService>();
+
+            services.AddSingleton<Repository<Machine>>();
+            services.AddSingleton<Repository<SafetyFunction>>();
+            services.AddSingleton<Repository<Subsystem>>();
+
+            services.AddSingleton<MachineFacade>();
+            services.AddSingleton<SafetyFunctionFacade>();
+            services.AddSingleton<SubsystemFacade>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
