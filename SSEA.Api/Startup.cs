@@ -75,13 +75,13 @@ namespace SSEA.Api
 
             services.AddScoped<IAuthService, AuthService>();
 
-            services.AddSingleton<Repository<Machine>>();
-            services.AddSingleton<Repository<SafetyFunction>>();
-            services.AddSingleton<Repository<Subsystem>>();
+            services.AddScoped<Repository<Machine>>();
+            services.AddScoped<Repository<SafetyFunction>>();
+            services.AddScoped<Repository<Subsystem>>();
 
-            services.AddSingleton<MachineFacade>();
-            services.AddSingleton<SafetyFunctionFacade>();
-            services.AddSingleton<SubsystemFacade>();
+            services.AddScoped<MachineFacade>();
+            services.AddScoped<SafetyFunctionFacade>();
+            services.AddScoped<SubsystemFacade>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
