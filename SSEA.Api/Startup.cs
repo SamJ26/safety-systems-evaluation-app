@@ -43,7 +43,9 @@ namespace SSEA.Api
                                                                                  .AllowAnyMethod()
                                                                                  .WithOrigins("https://localhost:44338")));
 
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SSEA.Api", Version = "v1" });
