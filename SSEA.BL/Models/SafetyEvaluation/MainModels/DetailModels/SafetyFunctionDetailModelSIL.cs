@@ -1,6 +1,6 @@
 ﻿using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
 using SSEA.BL.Models.SafetyEvaluation.JoinModels;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,12 +23,12 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [Required]
         public EvaluationMethodModel EvaluationMethod { get; set; }
 
-        public PFHd SILCL { get; set; }
-        public PFHd SIL_result { get; set; }
-        public Se Se { get; set; }
-        public Fr Fr { get; set; }
-        public Pr Pr { get; set; }
-        public Av Av { get; set; }
+        public PFHdModel SILCL { get; set; }
+        public PFHdModel SIL_result { get; set; }
+        public SeModel Se { get; set; }
+        public FrModel Fr { get; set; }
+        public PrModel Pr { get; set; }
+        public AvModel Av { get; set; }
 
         public ICollection<SafetyFunctionSubsystemModel> SafetyFunctionSubsystems { get; set; }
 
