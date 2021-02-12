@@ -21,6 +21,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using SSEA.BL.Facades;
+using SSEA.DAL.Repositories;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 
 namespace SSEA.Api
 {
@@ -40,10 +43,13 @@ namespace SSEA.Api
                                                                                  .AllowAnyMethod()
                                                                                  .WithOrigins("https://localhost:44338")));
 
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SSEA.Api", Version = "v1" });
+                c.DocumentFilter<SwaggerSchemaFilter>();
             });
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
@@ -71,6 +77,14 @@ namespace SSEA.Api
             });
 
             services.AddScoped<IAuthService, AuthService>();
+
+            services.AddScoped<Repository<Machine>>();
+            services.AddScoped<Repository<SafetyFunction>>();
+            services.AddScoped<Repository<Subsystem>>();
+
+            services.AddScoped<MachineFacade>();
+            services.AddScoped<SafetyFunctionFacade>();
+            services.AddScoped<SubsystemFacade>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,16 +9,13 @@ using System.Text;
 
 namespace SSEA.BL.Facades
 {
-    public class SubsystemFacade : IExtendedFacade<SubsystemDetailModelPL, SubsystemDetialModelSIL, SubsystemListModel, Subsystem>
+    public class SubsystemFacade : IExtendedFacade<SubsystemDetailModelPL, SubsystemDetailModelSIL, SubsystemListModel, Subsystem>
     {
-        private readonly AppDbContext dbContext;
         private readonly Repository<Machine> machineRepository;
 
         // TODO: inject IMapper
-        public SubsystemFacade(AppDbContext dbContext,
-                               Repository<Machine> machineRepository)
+        public SubsystemFacade(Repository<Machine> machineRepository)
         {
-            this.dbContext = dbContext;
             this.machineRepository = machineRepository;
         }
 
@@ -27,7 +24,7 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public int Create(SubsystemDetialModelSIL newModel)
+        public int Create(SubsystemDetailModelSIL newModel)
         {
             throw new NotImplementedException();
         }
@@ -47,7 +44,7 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public SubsystemDetialModelSIL GetById(int temp = 0)
+        public SubsystemDetailModelSIL GetById(int temp = 0)
         {
             throw new NotImplementedException();
         }
@@ -57,7 +54,7 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public int Update(SubsystemDetialModelSIL updatedModel)
+        public int Update(SubsystemDetailModelSIL updatedModel)
         {
             throw new NotImplementedException();
         }

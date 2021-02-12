@@ -11,14 +11,11 @@ namespace SSEA.BL.Facades
 {
     public class SafetyFunctionFacade : IExtendedFacade<SafetyFunctionDetailModelPL, SafetyFunctionDetailModelSIL, SafetyFunctionListModel, SafetyFunction>
     {
-        private readonly AppDbContext dbContext;
         private readonly Repository<Machine> machineRepository;
 
         // TODO: inject IMapper
-        public SafetyFunctionFacade(AppDbContext dbContext,
-                                    Repository<Machine> machineRepository)
+        public SafetyFunctionFacade(Repository<Machine> machineRepository)
         {
-            this.dbContext = dbContext;
             this.machineRepository = machineRepository;
         }
 
