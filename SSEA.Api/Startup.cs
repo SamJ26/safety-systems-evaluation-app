@@ -49,6 +49,7 @@ namespace SSEA.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SSEA.Api", Version = "v1" });
+                c.DocumentFilter<SwaggerSchemaFilter>();
             });
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
