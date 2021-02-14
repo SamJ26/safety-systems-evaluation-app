@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SSEA.BL.Facades;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace SSEA.Api.Controllers
 
         // api/machine
         [HttpGet]
+        [SwaggerOperation(OperationId = "MachineGetAll")]
         public ActionResult<IEnumerable<MachineListModel>> GetAll()
         {
             return Ok();
@@ -30,6 +32,7 @@ namespace SSEA.Api.Controllers
 
         // api/machine/{id}
         [HttpGet("{id}")]
+        [SwaggerOperation(OperationId = "MachineGetById")]
         public ActionResult<MachineDetailModel> GetById(int id)
         {
             return Ok();
@@ -37,6 +40,7 @@ namespace SSEA.Api.Controllers
 
         // api/machine
         [HttpPost]
+        [SwaggerOperation(OperationId = "MachineCreate")]
         public ActionResult<int> Create(MachineDetailModel newModel)
         {
             return Ok();
@@ -44,6 +48,7 @@ namespace SSEA.Api.Controllers
 
         // api/machine
         [HttpPut]
+        [SwaggerOperation(OperationId = "MachineUpdate")]
         public ActionResult<int> Update(MachineDetailModel updatedModel)
         {
             return Ok();
@@ -51,6 +56,7 @@ namespace SSEA.Api.Controllers
 
         // api/machine/{id}
         [HttpDelete("{id}")]
+        [SwaggerOperation(OperationId = "MachineDelete")]
         public ActionResult Delete(int id)
         {
             return Ok();
