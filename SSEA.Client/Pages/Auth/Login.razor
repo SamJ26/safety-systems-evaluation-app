@@ -62,7 +62,7 @@
     async void LoginUser()
     {
         isBusy = true;
-        AuthResponseModel response = await clientService.LoginAsync(model);
+        AuthResponseModel response = await clientService.LoginUserAsync(model);
         if (response.IsSuccess)
         {
             // This object will be stored in local storage

@@ -77,7 +77,7 @@
     async void LoginUser()
     {
         isBusy = true;
-        AuthResponseModel response = await clientService.RegisterAsync(model);
+        AuthResponseModel response = await clientService.RegisterUserAsync(model);
         if (response.IsSuccess)
         {
             messageClass = "alert-info";
