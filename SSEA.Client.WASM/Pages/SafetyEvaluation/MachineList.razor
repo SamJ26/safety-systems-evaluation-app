@@ -1,0 +1,74 @@
+﻿@page "/safetyEvaluation/machineList"
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
+    <MudGrid>
+        <MudItem xs="2">
+        </MudItem>
+        <MudItem xs="8">
+            <MudExpansionPanels Elevation="5">
+                <MudExpansionPanel>
+                    <TitleContent>
+                        <div class="d-flex">
+                            <MudIconButton Icon="@Icons.Material.Filled.Search" Size="Size.Small" Style="margin-right: 25px;"></MudIconButton>
+                            <MudText Align="Align.Center">Filter</MudText>
+                        </div>
+                    </TitleContent>
+                    <ChildContent>
+                        <hr />
+                        <MudGrid Style="margin-top: 5px;">
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudTextField @bind-Value="machineName" Label="Machine name" Variant="Variant.Outlined"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudSelect T="string" Label="Machine type" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    <MudSelectItem T="string" Value="@("Sustruh")" />
+                                    <MudSelectItem T="string" Value="@("Bruska")" />
+                                    <MudSelectItem T="string" Value="@("Lis")" />
+                                    <MudSelectItem T="string" Value="@("Freza")" />
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudSelect T="string" Label="Evaluation methodics" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    <MudSelectItem T="string" Value="@("PL")" />
+                                    <MudSelectItem T="string" Value="@("SIL")" />
+                                </MudSelect>
+                            </MudItem>
+                        </MudGrid>
+                    </ChildContent>
+                </MudExpansionPanel>
+            </MudExpansionPanels>
+            <MudTable Items="@machines" Hover="true" Elevation="5" Style="margin-top: 20px;">
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>Communication</MudTh>
+                    <MudTh>Evaluation method</MudTh>
+                    <MudTh>Machine type</MudTh>
+                    <MudTh>Type of logic</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                    <MudTd DataLabel="Communication">@context.Communication</MudTd>
+                    <MudTd DataLabel="Evaluation method">@context.EvaluationMethod</MudTd>
+                    <MudTd DataLabel="Machine type">@context.MachineType</MudTd>
+                    <MudTd DataLabel="Type of logic">@context.TypeOfLogic</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+        <MudItem xs="2">
+            <MudTooltip Text="Create">
+                <MudFab Icon="@Icons.Material.Filled.Add" Color="Color.Secondary" />
+            </MudTooltip>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    private string machineName = string.Empty;
+
+    private List<MachineListModel> machines = new List<MachineListModel>();
+
+}
