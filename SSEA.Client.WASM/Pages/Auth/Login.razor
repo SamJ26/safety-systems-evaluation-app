@@ -1,0 +1,54 @@
+﻿@page "/auth/login"
+
+@layout AuthLayout
+
+@inject NavigationManager navigationManager
+
+<div style=" margin: auto; width: 550px; margin-top: 50px;">
+    <EditForm Model="@loginUserModel" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <MudCard>
+            <MudCardHeader Style="padding-bottom: 0px;">
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h4" Align="Align.Center" Style="margin-bottom: 5px;">Login</MudText>
+                    <hr />
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent Style="padding-top: 0px;">
+                <MudTextField Label="Email" Class="mt-3" @bind-Value="loginUserModel.Email" For="@(() => loginUserModel.Email)" />
+                <MudTextField Label="Password" Class="mt-3" @bind-Value="loginUserModel.Password" For="@(() => loginUserModel.Password)" InputType="InputType.Password" />
+            </MudCardContent>
+            <MudCardActions>
+                <MudGrid>
+                    <MudItem xs="12" Style="margin-left: 7px; margin-right: 7px;">
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Style="width:100%;">Login</MudButton>
+                    </MudItem>
+                    <MudItem xs="12" Style="margin-left: 7px; margin-right: 7px; margin-bottom: 10px; padding-top: 0px;">
+                        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Style="width:100%;" @onclick="GoToRegister">Register</MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+</div>
+
+@code {
+
+    private LoginUserModel loginUserModel = new LoginUserModel();
+
+    private bool isBusy = false;
+
+    private void OnValidSubmit()
+    {
+        isBusy = true;
+
+        isBusy = true;
+        StateHasChanged();
+    }
+
+    private void GoToRegister()
+    {
+        navigationManager.NavigateTo("/auth/register");
+    }
+
+}
