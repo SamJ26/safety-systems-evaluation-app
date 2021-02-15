@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
+using SSEA.Client.BL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
-using SSEA.Client.BL.Models;
 
-namespace SSEA.Client
+namespace SSEA.Client.WASM
 {
     public class AuthStateProviderService : AuthenticationStateProvider
     {
