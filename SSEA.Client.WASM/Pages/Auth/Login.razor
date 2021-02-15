@@ -7,7 +7,7 @@
 <div style=" margin: auto; width: 550px; margin-top: 50px;">
     <EditForm Model="@loginUserModel" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
-        <MudCard>
+        <MudCard Elevation="10">
             <MudCardHeader Style="padding-bottom: 0px;">
                 <CardHeaderContent>
                     <MudText Typo="Typo.h4" Align="Align.Center" Style="margin-bottom: 5px;">Login</MudText>
@@ -42,7 +42,7 @@
     {
         isBusy = true;
 
-        isBusy = true;
+        isBusy = false;
         StateHasChanged();
     }
 
