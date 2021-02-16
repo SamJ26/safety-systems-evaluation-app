@@ -1,0 +1,142 @@
+﻿@page "/safetyEvaluation/machineDetail"
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
+    <MudGrid>
+        <MudItem xs="2">
+        </MudItem>
+        <MudItem xs="8">
+            <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+                <DataAnnotationsValidator />
+                <MudCard Elevation="3">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Machine detail</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Default" />
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <!-- 1. row -->
+                            <MudItem xs="4">
+                                <MudTextField @bind-Value="model.Name" Label="Machine name" Variant="Variant.Outlined"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudSelect T="string" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    <MudSelectItem T="string" Value="@("PL")" />
+                                    <MudSelectItem T="string" Value="@("SIL")" />
+                                </MudSelect>
+                            </MudItem>
+
+                            <!-- TODO -->
+                            <MudItem xs="4">
+                                <MudGrid>
+                                    <MudItem xs="10">
+                                        <MudSelect T="string" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                            <MudSelectItem T="string" Value="@("Siemens")" />
+                                            <MudSelectItem T="string" Value="@("Sipron")" />
+                                        </MudSelect>
+                                    </MudItem>
+                                    <MudItem xs="2">
+                                        <MudTooltip Text="Create new producer">
+                                            <MudFab Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Large" />
+                                        </MudTooltip>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudItem>
+
+                            <!-- 2. row -->
+                            <MudItem xs="4">
+                                <MudSelect T="string" Label="Communication" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    <MudSelectItem T="string" Value="@("Yes")" />
+                                    <MudSelectItem T="string" Value="@("No")" />
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudSelect T="string" Label="Machine type" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    <MudSelectItem T="string" Value="@("Sustruh")" />
+                                    <MudSelectItem T="string" Value="@("Bruska")" />
+                                    <MudSelectItem T="string" Value="@("Lis")" />
+                                    <MudSelectItem T="string" Value="@("Freza")" />
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudSelect T="string" Label="Type of logic" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    <MudSelectItem T="string" Value="@("Normal PLC")" />
+                                    <MudSelectItem T="string" Value="@("Safety PLC")" />
+                                </MudSelect>
+                            </MudItem>
+                            <!-- 3. row -->
+                            <MudItem xs="12">
+                                <MudTextField T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" />
+                            </MudItem>
+                            <!-- 4. row -->
+                            <MudItem xs="12">
+                                <MudExpansionPanels>
+                                    <MudExpansionPanel>
+                                        <TitleContent>
+                                            <div class="d-flex">
+                                                <MudText Align="Align.Center">Other options</MudText>
+                                            </div>
+                                        </TitleContent>
+                                        <ChildContent>
+                                            <hr />
+                                            <MudGrid Style="margin-top: 3px;">
+                                                <MudItem xs="4">
+                                                    <MudPaper Outlined="true">
+                                                        <MudCheckBox @bind-Checked="model.Hmi">HMI</MudCheckBox>
+                                                    </MudPaper>
+                                                </MudItem>
+                                                <MudItem xs="4">
+                                                    <MudPaper Outlined="true">
+                                                        <MudCheckBox @bind-Checked="model.Plc">PLC</MudCheckBox>
+                                                    </MudPaper>
+                                                </MudItem>
+                                                <MudItem xs="4">
+                                                    <MudPaper Outlined="true">
+                                                        <MudCheckBox @bind-Checked="model.MachineHelp">Machine help</MudCheckBox>
+                                                    </MudPaper>
+                                                </MudItem>
+                                                <MudItem xs="4">
+                                                    <MudPaper Outlined="true">
+                                                        <MudCheckBox @bind-Checked="model.CodeProtection">Code protection</MudCheckBox>
+                                                    </MudPaper>
+                                                </MudItem>
+                                                <MudItem xs="4">
+                                                    <MudPaper Outlined="true">
+                                                        <MudCheckBox @bind-Checked="model.SecurityOfSafetyParts">Security of safety parts</MudCheckBox>
+                                                    </MudPaper>
+                                                </MudItem>
+                                                <MudItem xs="4">
+                                                    <MudPaper Outlined="true">
+                                                        <MudCheckBox @bind-Checked="model.SafetyMasterInPlace">Safety master in place</MudCheckBox>
+                                                    </MudPaper>
+                                                </MudItem>
+                                            </MudGrid>
+                                        </ChildContent>
+                                    </MudExpansionPanel>
+                                </MudExpansionPanels>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                    <MudCardActions>
+                    </MudCardActions>
+                </MudCard>           
+            </EditForm>
+        </MudItem>
+        <MudItem xs="2">
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    private MachineDetailModel model = new MachineDetailModel();
+
+    private void OnValidSubmit()
+    {
+
+    }
+
+}

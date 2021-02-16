@@ -9,13 +9,14 @@
                 <MudExpansionPanel>
                     <TitleContent>
                         <div class="d-flex">
-                            <MudIconButton Icon="@Icons.Material.Filled.Search" Size="Size.Small" Style="margin-right: 25px;"></MudIconButton>
-                            <MudText Align="Align.Center">Filter</MudText>
+                            <MudFab Icon="@Icons.Material.Filled.Search" Label="Search" Size="Size.Medium" DisableElevation="true"/>
+                            @*<MudIconButton Icon="@Icons.Material.Filled.Search" Size="Size.Small" Style="margin-right: 25px;"></MudIconButton>*@
+                            @*<MudText Align="Align.Center">Machine filter</MudText>*@
                         </div>
                     </TitleContent>
                     <ChildContent>
                         <hr />
-                        <MudGrid Style="margin-top: 5px;">
+                        <MudGrid Style="margin-top: 3px;">
                             <MudItem xs="12" sm="6" md="4">
                                 <MudTextField @bind-Value="machineName" Label="Machine name" Variant="Variant.Outlined"></MudTextField>
                             </MudItem>
@@ -28,7 +29,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="12" sm="6" md="4">
-                                <MudSelect T="string" Label="Evaluation methodics" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect T="string" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     <MudSelectItem T="string" Value="@("PL")" />
                                     <MudSelectItem T="string" Value="@("SIL")" />
                                 </MudSelect>
