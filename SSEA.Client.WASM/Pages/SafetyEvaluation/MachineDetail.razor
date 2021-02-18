@@ -1,5 +1,11 @@
 ﻿@page "/safetyEvaluation/machineDetail"
 
+@inject IDialogService dialogService
+
+<!-- TODO: change add buttons in tables to buttons, which open dialog -->
+<!-- TODO: remake button for adding options to select box -->
+<!-- TODO: add edit and save button to MudCardActions -->
+
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
     <MudGrid>
         <MudItem xs="2">
@@ -14,11 +20,13 @@
                         </CardHeaderContent>
                         <CardHeaderActions>
                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Default" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Save" Color="Color.Default" />
                         </CardHeaderActions>
                     </MudCardHeader>
                     <MudCardContent>
                         <MudGrid>
-                            <!-- 1. row -->
+
+                            <!-- 1. row - machine name, evaluation method, producer -->
                             <MudItem xs="4">
                                 <MudTextField @bind-Value="model.Name" Label="Machine name" Variant="Variant.Outlined"></MudTextField>
                             </MudItem>
@@ -32,21 +40,23 @@
                             <!-- TODO -->
                             <MudItem xs="4">
                                 <MudGrid>
-                                    <MudItem xs="10">
+                                    <MudItem xs="10" Style="padding-right: 1px;">
                                         <MudSelect T="string" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
                                             <MudSelectItem T="string" Value="@("Siemens")" />
                                             <MudSelectItem T="string" Value="@("Sipron")" />
                                         </MudSelect>
                                     </MudItem>
-                                    <MudItem xs="2">
+                                    <MudItem xs="2" Style="padding-left: 0px; padding-top: 18px;">
                                         <MudTooltip Text="Create new producer">
-                                            <MudFab Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Large" />
+                                            <MudButton @onclick="OpenCreateProducerDialog" Variant="Variant.Filled" Style="height: 56px; min-width: 0px; width: 47px;" DisableElevation="true">
+                                                <MudIcon Icon="@Icons.Material.Filled.Add" />
+                                            </MudButton>
                                         </MudTooltip>
                                     </MudItem>
                                 </MudGrid>
                             </MudItem>
 
-                            <!-- 2. row -->
+                            <!-- 2. row - communication, machine type, type of logic -->
                             <MudItem xs="4">
                                 <MudSelect T="string" Label="Communication" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     <MudSelectItem T="string" Value="@("Yes")" />
@@ -67,17 +77,19 @@
                                     <MudSelectItem T="string" Value="@("Safety PLC")" />
                                 </MudSelect>
                             </MudItem>
-                            <!-- 3. row -->
+
+                            <!-- 3. row - description -->
                             <MudItem xs="12">
                                 <MudTextField T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
-                            <!-- 4. row -->
+
+                            <!-- 4. row - optional parameters -->
                             <MudItem xs="12">
                                 <MudExpansionPanels>
                                     <MudExpansionPanel>
                                         <TitleContent>
                                             <div class="d-flex">
-                                                <MudText Align="Align.Center">Other options</MudText>
+                                                <MudText Align="Align.Center">Optional parameters</MudText>
                                             </div>
                                         </TitleContent>
                                         <ChildContent>
@@ -118,11 +130,73 @@
                                     </MudExpansionPanel>
                                 </MudExpansionPanels>
                             </MudItem>
+
+                            <!-- 5. row - table with access points -->
+                            <MudItem xs="12">
+                                <MudTable Items="@model.AccessPoints" Dense="true" Hover="true" Height="300px" FixedHeader="true">
+                                    <ToolBarContent>
+                                        <MudText Typo="Typo.h6">Access points</MudText>
+                                        <MudToolBarSpacer />
+                                        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Primary" Size="Size.Medium" DisableElevation="true" Style="margin-left: 20px; margin-top: 11px; margin-right: 5px;">Add</MudButton>
+                                    </ToolBarContent>
+                                    <ColGroup>
+                                        <col style="width:40%;" />
+                                        <col style="width:40%;" />
+                                        <col style="width:20%;" />
+                                    </ColGroup>
+                                    <HeaderContent>
+                                        <MudTh>Name</MudTh>
+                                        <MudTh>State</MudTh>
+                                        <MudTh>Actions</MudTh>
+                                    </HeaderContent>
+                                    <RowTemplate Context="tableContext">
+                                        <MudTd DataLabel="Name">@tableContext.Name</MudTd>
+                                        <MudTd DataLabel="Name">State</MudTd>
+                                        <MudTd DataLabel="Name">
+                                            <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
+                                        </MudTd>
+                                    </RowTemplate>
+                                </MudTable>
+                            </MudItem>
+
+                            <!-- 6. row - table with used norms -->
+                            <MudItem xs="12">
+                                <MudTable Items="@model.MachineNorms" Dense="true" Hover="true" Height="300px" FixedHeader="true">
+                                    <ToolBarContent>
+                                        <MudText Typo="Typo.h6">Norms used for this machine</MudText>
+                                        <MudToolBarSpacer />
+                                        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Primary" Size="Size.Medium" DisableElevation="true" Style="margin-left: 20px; margin-top: 11px; margin-right: 5px;">Add</MudButton>
+                                    </ToolBarContent>
+                                    <ColGroup>
+                                        <col style="width:40%;" />
+                                        <col style="width:25%;" />
+                                        <col style="width:25%;" />
+                                        <col style="width:10%;" />
+                                    </ColGroup>
+                                    <HeaderContent>
+                                        <MudTh>Name</MudTh>
+                                        <MudTh>Number</MudTh>
+                                        <MudTh>SomeProp</MudTh>
+                                        <MudTh>Actions</MudTh>
+                                    </HeaderContent>
+                                    <RowTemplate Context="tableContext">
+                                        <MudTd DataLabel="Name">Name</MudTd>
+                                        <MudTd DataLabel="Name">State</MudTd>
+                                        <MudTd DataLabel="Name">Bla</MudTd>
+                                        <MudTd DataLabel="Name">
+                                            <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
+                                        </MudTd>
+                                    </RowTemplate>
+                                </MudTable>
+                            </MudItem>
+
                         </MudGrid>
                     </MudCardContent>
                     <MudCardActions>
                     </MudCardActions>
-                </MudCard>           
+                </MudCard>
             </EditForm>
         </MudItem>
         <MudItem xs="2">
@@ -134,9 +208,16 @@
 
     private MachineDetailModel model = new MachineDetailModel();
 
+    private string searchString = string.Empty;
+
     private void OnValidSubmit()
     {
 
+    }
+
+    private void OpenCreateProducerDialog()
+    {
+        dialogService.Show<CreateProducerDialog>("Hello");
     }
 
 }
