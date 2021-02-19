@@ -1,8 +1,44 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard" Style="margin-top: 2px; height: 60px;">Dashboard</MudNavLink>
-    <MudNavLink Href="/safetyEvaluation/machineList" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Analytics" Style="margin-top: 2px; height: 60px;">Machines</MudNavLink>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Security" Style="margin-top: 2px; height: 60px;">Safety Functions</MudNavLink>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Widgets" Style="margin-top: 2px; height: 60px;">Subsystems</MudNavLink>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Subject" Style="margin-top: 2px; height: 60px;">Code list</MudNavLink>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Settings" Style="margin-top: 2px; height: 60px;">Settings</MudNavLink>
+﻿
+<MudNavMenu>
+    <MudList Clickable="true">
+        <MudListItem Icon="@Icons.Material.Filled.Dashboard" Href="">
+            Dashboard
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.Filled.Analytics" Text="Machines" InitiallyExpanded="true">
+            <NestedList>
+                <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/machineList">
+                    List
+                </MudListItem>
+                <MudListItem Icon="@Icons.Material.Filled.Add" Href="/safetyEvaluation/machineDetail">
+                    Create new
+                </MudListItem>
+            </NestedList>
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.Filled.Security" Text="Safety functions" InitiallyExpanded="true">
+            <NestedList>
+                <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/safetyFunctionList">
+                    List
+                </MudListItem>
+                <MudListItem Icon="@Icons.Material.Filled.Add" Href="/safetyEvaluation/safetyFunctionDetail">
+                    Create new
+                </MudListItem>
+            </NestedList>
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.Filled.Widgets" Text="Subsystems" InitiallyExpanded="true">
+            <NestedList>
+                <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/subsystemList">
+                    List
+                </MudListItem>
+                <MudListItem Icon="@Icons.Material.Filled.Add" Href="/safetyEvaluation/subsystemDetail">
+                    Create new
+                </MudListItem>
+            </NestedList>
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.Filled.Subject" Href="">
+            Code list
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.Filled.Settings" Href="">
+            Settings
+        </MudListItem>
+    </MudList>
 </MudNavMenu>

@@ -4,13 +4,12 @@
 
 <!-- TODO: change add buttons in tables to buttons, which open dialog -->
 <!-- TODO: remake button for adding options to select box -->
-<!-- TODO: add edit and save button to MudCardActions -->
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
     <MudGrid>
         <MudItem xs="2">
         </MudItem>
-        <MudItem xs="8">
+        <MudItem xs="8" Style="padding-bottom: 30px;">
             <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
                 <DataAnnotationsValidator />
                 <MudCard Elevation="3">
@@ -195,6 +194,14 @@
                         </MudGrid>
                     </MudCardContent>
                     <MudCardActions>
+                        <MudGrid>
+                            <MudItem xs="6" Style="padding-left: 21px; padding-bottom: 20px; padding-top: 5px;">
+                                <MudButton Variant="Variant.Filled" Style="width:100%;">Edit</MudButton>
+                            </MudItem>
+                            <MudItem xs="6" Style="padding-right: 21px; padding-bottom: 20px; padding-top: 5px;">
+                                <MudButton Variant="Variant.Filled" Style="width:100%;">Save</MudButton>
+                            </MudItem>
+                        </MudGrid>
                     </MudCardActions>
                 </MudCard>
             </EditForm>
