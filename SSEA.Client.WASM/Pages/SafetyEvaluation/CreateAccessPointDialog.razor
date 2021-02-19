@@ -1,0 +1,30 @@
+﻿
+<MudDialog Style="width: 200px;">
+    <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h5">Create access point</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="accessPoint.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudGrid>
+            <MudItem xs="6">
+                <MudButton OnClick="Cancel" Style="width:100%;">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Color="Color.Primary" OnClick="Submit" Style="width:100%;">Save</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+    AccessPointListModel accessPoint = new AccessPointListModel();
+
+}
