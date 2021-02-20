@@ -9,9 +9,33 @@
         <MudItem xs="2">
         </MudItem>
         <MudItem xs="8" Style="padding-bottom: 30px;">
+            <MudCard Elevation="3">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Safety function detail</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Default" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Default" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Save" Color="Color.Default" />
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
 
-            <!-- TODO: Add components -->
+                    <!-- TODO: Add components -->
 
+                </MudCardContent>
+                <MudCardActions>
+                    <MudGrid>
+                        <MudItem xs="6" Style="padding-left: 21px; padding-bottom: 20px; padding-top: 5px;">
+                            <MudButton Variant="Variant.Filled" Style="width:100%;">Edit</MudButton>
+                        </MudItem>
+                        <MudItem xs="6" Style="padding-right: 21px; padding-bottom: 20px; padding-top: 5px;">
+                            <MudButton Variant="Variant.Filled" Style="width:100%;">Save</MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardActions>
+            </MudCard>
         </MudItem>
         <MudItem xs="2">
         </MudItem>
@@ -26,7 +50,7 @@
     [Parameter]
     public string Methodics { get; set; }
 
-    public SafetyFunctionDetailModelPL modelPL;
+    public SafetyFunctionDetailModelPL modelPL = new SafetyFunctionDetailModelPL();
     public SafetyFunctionDetailModelSIL modelSIL;
 
     /// <summary>
@@ -41,13 +65,8 @@
         }
         else
         {
-            // TODO: Fetch data according to id in route to modelPL
+            // TODO: Fetch data according to id in route to modelSIL
         }
-    }
-
-    private void OnValidSubmit()
-    {
-
     }
 
 }
