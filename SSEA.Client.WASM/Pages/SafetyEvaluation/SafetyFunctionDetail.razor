@@ -1,0 +1,53 @@
+﻿@page "/safetyEvaluation/safetyFunctionDetail/{methodics}/{id:int?}"
+
+@layout MainLayout
+
+@* TODO: 1. from SafetyFunctionDetailModel for PL and SIL replace EvaluationMethod ref with string representation of eval method *@
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
+    <MudGrid>
+        <MudItem xs="2">
+        </MudItem>
+        <MudItem xs="8" Style="padding-bottom: 30px;">
+
+            <!-- TODO: Add components -->
+
+        </MudItem>
+        <MudItem xs="2">
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public string Methodics { get; set; }
+
+    public SafetyFunctionDetailModelPL modelPL;
+    public SafetyFunctionDetailModelSIL modelSIL;
+
+    /// <summary>
+    /// Method fetches data from server according to id in route
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        // TODO: fetch all typeOfFunctions
+        if (Methodics.Equals("PL"))
+        {
+            // TODO: Fetch data according to id in route to modelPL
+        }
+        else
+        {
+            // TODO: Fetch data according to id in route to modelPL
+        }
+    }
+
+    private void OnValidSubmit()
+    {
+
+    }
+
+}
