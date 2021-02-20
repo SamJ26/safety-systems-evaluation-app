@@ -1,0 +1,123 @@
+﻿@page "/safetyEvaluation/accessPointDetail"
+
+@layout MainLayout
+
+@* TODO: 1. Add these classes to geenrated client 
+         2. In MachineListModel remove EvaluationMethod prop and add EvaluationMethod as string (just name)
+         3. Added more props to AccessPointSafetyFunction or replace this prop with list of SafetyFunctionListModel *@
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
+    <MudGrid>
+        <MudItem xs="2">
+        </MudItem>
+        <MudItem xs="8" Style="padding-bottom: 30px;">
+            <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+                <DataAnnotationsValidator />
+                <MudCard Elevation="3">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Access point detail</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Default" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Default" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Save" Color="Color.Default" />
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem xs="4">
+                                <MudTextField @bind-Value="model.Name" Label="Access point name" Variant="Variant.Outlined"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudTextField @bind-Value="model.Machine.Name" Label="Machine name" Variant="Variant.Outlined">Hello</MudTextField>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudTextField @bind-Value="MethodicsName" Label="Evaluation method" Variant="Variant.Outlined">PL</MudTextField>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField @bind-Value="model.Description" T="string" Label="Access point description" Variant="Variant.Outlined" Lines="3" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTable Items="@model.AccessPointSafetyFunctions" Dense="true" Hover="true" Height="300px" FixedHeader="true">
+                                    <ToolBarContent>
+                                        <MudText Typo="Typo.h6">Safety functions</MudText>
+                                        <MudToolBarSpacer />
+                                        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Primary" Size="Size.Medium" DisableElevation="true" Style="margin-left: 20px; margin-top: 11px; margin-right: 5px;">Add</MudButton>
+                                    </ToolBarContent>
+                                    <ColGroup>
+                                        <col style="width:40%;" />
+                                        <col style="width:25%;" />
+                                        <col style="width:25%;" />
+                                        <col style="width:10%;" />
+                                    </ColGroup>
+                                    <HeaderContent>
+                                        <MudTh>Name</MudTh>
+                                        <MudTh>Number</MudTh>
+                                        <MudTh>SomeProp</MudTh>
+                                        <MudTh>Actions</MudTh>
+                                    </HeaderContent>
+                                    <RowTemplate Context="tableContext">
+                                        <MudTd DataLabel="Name">Name</MudTd>
+                                        <MudTd DataLabel="Name">State</MudTd>
+                                        <MudTd DataLabel="Name">Bla</MudTd>
+                                        <MudTd DataLabel="Name">
+                                            <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
+                                        </MudTd>
+                                    </RowTemplate>
+                                </MudTable>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudGrid>
+                            <MudItem xs="6" Style="padding-left: 21px; padding-bottom: 20px; padding-top: 5px;">
+                                <MudButton Variant="Variant.Filled" Style="width:100%;">Edit</MudButton>
+                            </MudItem>
+                            <MudItem xs="6" Style="padding-right: 21px; padding-bottom: 20px; padding-top: 5px;">
+                                <MudButton Variant="Variant.Filled" Style="width:100%;">Save</MudButton>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardActions>
+                </MudCard>
+            </EditForm>
+        </MudItem>
+        <MudItem xs="2">
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    public class AccessPointSafetyFunctionModel
+    {
+        public int AccessPointId { get; set; }
+
+        public int SafetyFunctionId { get; set; }
+    }
+
+    public class AccessPointDetailModel
+    {
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public MachineListModel Machine { get; set; } = new MachineListModel();
+
+        public ICollection<AccessPointSafetyFunctionModel> AccessPointSafetyFunctions { get; set; }
+    }
+
+    public string MethodicsName = string.Empty;
+
+
+    private AccessPointDetailModel model = new AccessPointDetailModel();
+
+    private string searchString = string.Empty;
+
+    private void OnValidSubmit()
+    {
+
+    }
+
+}

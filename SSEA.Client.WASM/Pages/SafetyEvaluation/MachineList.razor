@@ -1,5 +1,7 @@
 ﻿@page "/safetyEvaluation/machineList"
 
+@layout MainLayout
+
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
     <MudGrid>
         <MudItem xs="2">
@@ -9,7 +11,7 @@
                 <MudExpansionPanel>
                     <TitleContent>
                         <div class="d-flex">
-                            <MudFab Icon="@Icons.Material.Filled.Search" Label="Search" Size="Size.Medium" DisableElevation="true"/>
+                            <MudFab Icon="@Icons.Material.Filled.Search" Label="Search" Size="Size.Medium" DisableElevation="true" />
                             @*<MudIconButton Icon="@Icons.Material.Filled.Search" Size="Size.Small" Style="margin-right: 25px;"></MudIconButton>*@
                             @*<MudText Align="Align.Center">Machine filter</MudText>*@
                         </div>
