@@ -21,9 +21,14 @@
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
-
-                    <!-- TODO: Add components -->
-
+                    @if (Methodics.Equals("PL"))
+                    {
+                        <SafetyFunctionPL Model="modelPL" />
+                    }
+                    else
+                    {
+                        <SafetyFunctionSIL Model="modelSIL" />
+                    }
                 </MudCardContent>
                 <MudCardActions>
                     <MudGrid>
@@ -50,7 +55,7 @@
     [Parameter]
     public string Methodics { get; set; }
 
-    public SafetyFunctionDetailModelPL modelPL = new SafetyFunctionDetailModelPL();
+    public SafetyFunctionDetailModelPL modelPL;
     public SafetyFunctionDetailModelSIL modelSIL;
 
     /// <summary>
@@ -61,10 +66,12 @@
         // TODO: fetch all typeOfFunctions
         if (Methodics.Equals("PL"))
         {
+            modelPL = new SafetyFunctionDetailModelPL();
             // TODO: Fetch data according to id in route to modelPL
         }
         else
         {
+            modelSIL = new SafetyFunctionDetailModelSIL();
             // TODO: Fetch data according to id in route to modelSIL
         }
     }
