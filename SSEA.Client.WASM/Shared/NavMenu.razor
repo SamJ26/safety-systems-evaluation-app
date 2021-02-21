@@ -36,8 +36,15 @@
                 <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/subsystemList">
                     List
                 </MudListItem>
-                <MudListItem Icon="@Icons.Material.Filled.Add" Href="/safetyEvaluation/subsystemDetail">
-                    Create new
+                <MudListItem Icon="@Icons.Material.Filled.Add" Text="Create new" InitiallyExpanded="true">
+                    <NestedList>
+                        <MudListItem Href="/safetyEvaluation/subsystemDetail/PL" Style="padding-left: 85px;">
+                            PL methodics
+                        </MudListItem>
+                        <MudListItem Href="/safetyEvaluation/subsystemDetail/SIL" Style="padding-left: 85px;">
+                            SIL methodics
+                        </MudListItem>
+                    </NestedList>
                 </MudListItem>
             </NestedList>
         </MudListItem>
