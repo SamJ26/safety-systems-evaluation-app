@@ -2,7 +2,8 @@
 
 @layout MainLayout
 
-@* TODO: 1. from SafetyFunctionDetailModel for PL and SIL replace EvaluationMethod ref with string representation of eval method *@
+@* TODO: 1. from SafetyFunctionDetailModel for PL and SIL replace EvaluationMethod ref with string representation of eval method
+         2. add Communication prop to SafetyFunctionDetailModel *@
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
     <MudGrid>
@@ -29,6 +30,56 @@
                     {
                         <SafetyFunctionSIL Model="modelSIL" />
                     }
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <hr style="margin-top: 10px; margin-bottom: 10px;"/>
+                        </MudItem>
+                        <MudItem xs="12" Style="padding-top: 5px; padding-bottom: 5px;">
+                            <MudPaper Outlined="true" Style="display: flex;">
+                                <MudButton DisableElevation="true" DisableRipple="true" Variant="Variant.Text">Input subsystem</MudButton>
+                                <MudAppBarSpacer></MudAppBarSpacer>
+                                <MudText Style="padding: 6px; margin: 5px 30px;">@methodShortcut: A</MudText>
+                                <MudText Style="padding: 6px; margin-top: 5px; margin-bottom: 5px;">Completed: </MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.Done" Style="margin: 10px 5px;" />
+                            </MudPaper>
+                        </MudItem>
+                        <MudItem xs="12" Style="padding-top: 5px; padding-bottom: 5px;">
+                            <MudPaper Outlined="true" Style="display: flex;">
+                                <MudButton DisableElevation="true" DisableRipple="true" Variant="Variant.Text">Communication subsystem 1</MudButton>
+                                <MudAppBarSpacer></MudAppBarSpacer>
+                                <MudText Style="padding: 6px; margin: 5px 30px;">@methodShortcut: A</MudText>
+                                <MudText Style="padding: 6px; margin-top: 5px; margin-bottom: 5px;">Completed: </MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.Close" Style="margin: 10px 5px;" />
+                            </MudPaper>
+                        </MudItem>
+                        <MudItem xs="12" Style="padding-top: 5px; padding-bottom: 5px;">
+                            <MudPaper Outlined="true" Style="display: flex;">
+                                <MudButton DisableElevation="true" DisableRipple="true" Variant="Variant.Text">Logic subsystem</MudButton>
+                                <MudAppBarSpacer></MudAppBarSpacer>
+                                <MudText Style="padding: 6px; margin: 5px 30px;">@methodShortcut: A</MudText>
+                                <MudText Style="padding: 6px; margin-top: 5px; margin-bottom: 5px;">Completed: </MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.Close" Style="margin: 10px 5px;" />
+                            </MudPaper>
+                        </MudItem>
+                        <MudItem xs="12" Style="padding-top: 5px; padding-bottom: 5px;">
+                            <MudPaper Outlined="true" Style="display: flex;">
+                                <MudButton DisableElevation="true" DisableRipple="true" Variant="Variant.Text">Communication subsystem 2</MudButton>
+                                <MudAppBarSpacer></MudAppBarSpacer>
+                                <MudText Style="padding: 6px; margin: 5px 30px;">@methodShortcut: A</MudText>
+                                <MudText Style="padding: 6px; margin-top: 5px; margin-bottom: 5px;">Completed: </MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.Close" Style="margin: 10px 5px;" />
+                            </MudPaper>
+                        </MudItem>
+                        <MudItem xs="12" Style="padding-top: 5px; padding-bottom: 5px;">
+                            <MudPaper Outlined="true" Style="display: flex;">
+                                <MudButton DisableElevation="true" DisableRipple="true" Variant="Variant.Text">Output subsystem</MudButton>
+                                <MudAppBarSpacer></MudAppBarSpacer>
+                                <MudText Style="padding: 6px; margin: 5px 30px;">@methodShortcut: A</MudText>
+                                <MudText Style="padding: 6px; margin-top: 5px; margin-bottom: 5px;">Completed: </MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.Close" Style="margin: 10px 5px;" />
+                            </MudPaper>
+                        </MudItem>
+                    </MudGrid>
                 </MudCardContent>
                 <MudCardActions>
                     <MudGrid>
@@ -58,6 +109,8 @@
     public SafetyFunctionDetailModelPL modelPL;
     public SafetyFunctionDetailModelSIL modelSIL;
 
+    private string methodShortcut = string.Empty;
+
     /// <summary>
     /// Method fetches data from server according to id in route
     /// </summary>
@@ -66,11 +119,13 @@
         // TODO: fetch all typeOfFunctions
         if (Methodics.Equals("PL"))
         {
+            methodShortcut = "PL";
             modelPL = new SafetyFunctionDetailModelPL();
             // TODO: Fetch data according to id in route to modelPL
         }
         else
         {
+            methodShortcut = "SIL";
             modelSIL = new SafetyFunctionDetailModelSIL();
             // TODO: Fetch data according to id in route to modelSIL
         }
