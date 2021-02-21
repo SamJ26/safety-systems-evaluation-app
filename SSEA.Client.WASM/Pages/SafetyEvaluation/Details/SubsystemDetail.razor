@@ -1,6 +1,8 @@
-﻿@page "/safetyEvaluation/subsystemDetail/{methodics}/{id:int?}"
+﻿@page "/safetyEvaluation/subsystemDetail/{methodics}"
 
 @layout MainLayout
+
+@inject NavigationManager navigationManager
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
     <MudCard Elevation="3">
@@ -26,9 +28,24 @@
 @code {
 
     [Parameter]
-    public int Id { get; set; }
-
-    [Parameter]
     public string Methodics { get; set; }
+
+    private int id = 0;
+    private string typeOfSubsystem = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("type", out var type))
+        {
+            typeOfSubsystem = type;
+        }
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var value))
+        {
+            id = Convert.ToInt32(value);
+        }
+        Console.WriteLine($"Id: {id}");
+        Console.WriteLine($"TypeOfSubsystem: {typeOfSubsystem}");
+    }
 
 }
