@@ -18,22 +18,54 @@
         </MudCardHeader>
         <MudCardContent>
             <MudGrid>
-                <MudItem xs="4">
-                    @if (Methodics.Equals("PL"))
-                    {
+                @if (Methodics.Equals("PL"))
+                {
+                    <MudItem xs="4">
                         <SubsystemPL Model="modelPL" />
-                    }
-                    else
-                    {
-                        
-                    }
-                </MudItem>
-                <MudItem xs="4">
+                    </MudItem>
+                    <MudItem xs="8">
+                        <MudCard Elevation="3">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">Elements</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudGrid>
+                                    <MudItem xs="6">
+                                        <ElementPL Model="elementPL"/>
+                                    </MudItem>
+                                    <MudItem xs="6">
+                                        <ElementPL Model="elementPL"/>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                else
+                {
+                    <MudItem xs="4">
 
-                </MudItem>
-                <MudItem xs="4">
+                    </MudItem>
+                    <MudItem xs="8">
+                        <MudCard Elevation="3">
+                            <MudCardHeader>
+                                <MudText Typo="Typo.h6">Elements</MudText>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudGrid>
+                                    <MudItem xs="6">
 
-                </MudItem>
+                                    </MudItem>
+                                    <MudItem xs="6">
+
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
             </MudGrid>
         </MudCardContent>
         <MudCardActions>
@@ -43,6 +75,8 @@
 </MudContainer>
 
 @code {
+
+    public ElementDetailModelPL elementPL = new ElementDetailModelPL();
 
     [Parameter]
     public string Methodics { get; set; }
