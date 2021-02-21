@@ -18,7 +18,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public ProducerDetailModel Producer { get; set; }
         public SubsystemListModel Subsystem { get; set; }
         public DCModel DC { get; set; }
-        public MTTFdModel MTTFd_result { get; set; }
 
         public ICollection<ElementSFFModel> ElementSFFs { get; set; }
 
