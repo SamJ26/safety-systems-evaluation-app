@@ -39,6 +39,7 @@ namespace SSEA.Client.WASM
                 var state = new AuthenticationState(user);
                 NotifyAuthenticationStateChanged(Task.FromResult(state));
                 return state;
+
             }
 
             // There is not LocalUserInfo object in local storage of browser

@@ -48,9 +48,13 @@
                 </MudListItem>
             </NestedList>
         </MudListItem>
-        <MudListItem Icon="@Icons.Material.Filled.Subject" Href="">
-            Code list
-        </MudListItem>
+        <AuthorizeView>
+            <Authorized>
+                <MudListItem Icon="@Icons.Material.Filled.Subject" Href="">
+                    Code list
+                </MudListItem>
+            </Authorized>
+        </AuthorizeView>
         <MudListItem Icon="@Icons.Material.Filled.Settings" Href="">
             Settings
         </MudListItem>
