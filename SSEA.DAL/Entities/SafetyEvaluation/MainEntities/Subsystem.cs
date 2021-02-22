@@ -22,7 +22,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public ICollection<SubsystemCCF> SubsystemCCFs { get; set; }
 
         // Properties for PL methodics:
-        public bool CCFvalid { get; set; }
+        public bool ValidCCF { get; set; }
 
         [ForeignKey("Category_Id")]
         public Category Category { get; set; }

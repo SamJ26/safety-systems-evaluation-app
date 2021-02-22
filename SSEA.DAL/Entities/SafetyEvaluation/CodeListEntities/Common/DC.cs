@@ -9,7 +9,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("DC")]
-    public class DC : EntityBase
+    public class DC : CodeListEntityBase
     {
         [Required]
         [StringLength(10)]
@@ -20,7 +20,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         public ICollection<Subsystem> Subsystems { get; set; }
         public ICollection<Element> Elements { get; set; }
-        public ICollection<Category> Categories_DC_min { get; set; }
-        public ICollection<Category> Categories_DC_max { get; set; }
+        public ICollection<Category> CategoriesDCmin { get; set; }
+        public ICollection<Category> CategoriesDCmax { get; set; }
     }
 }

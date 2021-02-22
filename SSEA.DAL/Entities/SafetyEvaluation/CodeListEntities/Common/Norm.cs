@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("Norm")]
-    public class Norm : EntityBase
+    public class Norm : CodeListEntityBase
     {
         [Required]
         [StringLength(30)]

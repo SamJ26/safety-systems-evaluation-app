@@ -394,29 +394,29 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Restrict);
 
                 c.HasOne(c => c.DC_min)
-                 .WithMany(dc => dc.Categories_DC_min)
+                 .WithMany(dc => dc.CategoriesDCmin)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 c.HasOne(c => c.DC_max)
-                 .WithMany(dc => dc.Categories_DC_max)
+                 .WithMany(dc => dc.CategoriesDCmax)
                  .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<TypeOfLogic>(tol =>
             {
-                tol.HasOne(tol => tol.PL_max)
+                tol.HasOne(tol => tol.MaxPL)
                    .WithMany(p => p.TypeOfLogics)
                    .OnDelete(DeleteBehavior.Restrict);
 
-                tol.HasOne(tol => tol.Category_max)
+                tol.HasOne(tol => tol.MaxCategory)
                    .WithMany(c => c.TypeOfLogics)
                    .OnDelete(DeleteBehavior.Restrict);
 
-                tol.HasOne(tol => tol.SIL_max)
+                tol.HasOne(tol => tol.MaxSIL)
                    .WithMany(s => s.TypeOfLogics)
                    .OnDelete(DeleteBehavior.Restrict);
 
-                tol.HasOne(tol => tol.Architecture_max)
+                tol.HasOne(tol => tol.MaxArchitecture)
                    .WithMany(a => a.TypeOfLogics)
                    .OnDelete(DeleteBehavior.Restrict);
             });

@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("TypeOfSubsystem")]
-    public class TypeOfSubsystem : EntityBase
+    public class TypeOfSubsystem : CodeListEntityBase
     {
         [Required]
         [StringLength(20)]

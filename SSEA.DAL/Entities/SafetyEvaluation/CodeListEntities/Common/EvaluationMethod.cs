@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("EvaluationMethod")]
-    public class EvaluationMethod : EntityBase
+    public class EvaluationMethod : CodeListEntityBase
     {
         [Required]
         [StringLength(50)]

@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("CCF")]
-    public class CCF : EntityBase
+    public class CCF : CodeListEntityBase
     {
         [Required]
         [StringLength(200)]

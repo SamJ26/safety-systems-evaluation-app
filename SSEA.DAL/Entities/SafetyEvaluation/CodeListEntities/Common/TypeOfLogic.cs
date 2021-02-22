@@ -10,7 +10,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("TypeOfLogic")]
-    public class TypeOfLogic : EntityBase
+    public class TypeOfLogic : CodeListEntityBase
     {
         [Required]
         [StringLength(50)]
@@ -19,20 +19,20 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         public int SI { get; set; }
         public int SO { get; set; }
         public bool Communication { get; set; }
-        public int? AccessPoints_MaxCount { get; set; }
-        public uint? EthernetAdresses_MaxCount { get; set; }
+        public int? AccessPointsMaxCount { get; set; }
+        public uint? EthernetAdressesMaxCount { get; set; }
 
-        [ForeignKey("PL_max_Id")]
-        public PerformanceLevel PL_max { get; set; }
+        [ForeignKey("MaxPL_Id")]
+        public PerformanceLevel MaxPL { get; set; }
 
-        [ForeignKey("Category_max_Id")]
-        public Category Category_max { get; set; }
+        [ForeignKey("MaxCategory_Id")]
+        public Category MaxCategory { get; set; }
 
-        [ForeignKey("SIL_max_Id")]
-        public PFHd SIL_max { get; set; }
+        [ForeignKey("MaxSIL_Id")]
+        public PFHd MaxSIL { get; set; }
 
-        [ForeignKey("Architecture_max_Id")]
-        public Architecture Architecture_max { get; set; }
+        [ForeignKey("MaxArchitecture_Id")]
+        public Architecture MaxArchitecture { get; set; }
 
         public ICollection<Machine> Machines { get; set; }
     }

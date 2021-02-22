@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("TypeOfFunction")]
-    public class TypeOfFunction : EntityBase
+    public class TypeOfFunction : CodeListEntityBase
     {
         [Required]
         [StringLength(50)]

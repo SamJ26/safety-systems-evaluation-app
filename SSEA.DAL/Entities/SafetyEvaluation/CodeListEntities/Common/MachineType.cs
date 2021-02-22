@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("MachineType")]
-    public class MachineType : EntityBase
+    public class MachineType : CodeListEntityBase
     {
         [Required]
         [StringLength(50)]
