@@ -1,0 +1,93 @@
+﻿@page "/auth/login"
+
+@layout AuthLayout
+
+@inject NavigationManager navigationManager
+@inject IClientService clientService
+@inject ILocalStorageService storageService
+@inject AuthenticationStateProvider authStateProviderService
+
+<div style=" margin: auto; width: 450px; margin-top: 50px;">
+    <EditForm Model="@loginUserModel" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <MudCard Elevation="10">
+            <MudCardHeader Style="padding-bottom: 0px;">
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h4" Align="Align.Center" Style="margin-bottom: 5px;">Login</MudText>
+                    <hr />
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent Style="padding-top: 0px;">
+                <MudTextField Label="Email" Class="mt-3" @bind-Value="loginUserModel.Email" For="@(() => loginUserModel.Email)" />
+                <MudTextField Label="Password" Class="mt-3" @bind-Value="loginUserModel.Password" For="@(() => loginUserModel.Password)" InputType="InputType.Password" />
+                @if (showMessage == true)
+                {
+                    <MudAlert Severity="Severity.Error" Style="margin-top: 20px;">@message</MudAlert>
+                }
+            </MudCardContent>
+            <MudCardActions>
+                <MudGrid>
+                    <MudItem xs="12" Style="margin-left: 7px; margin-right: 7px;">
+                        <MudButton @ref="LoginButton" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Style="width:100%;" Disabled="@isBusy">Login</MudButton>
+                    </MudItem>
+                    <MudItem xs="12" Style="margin-left: 7px; margin-right: 7px; margin-bottom: 10px; padding-top: 0px;">
+                        <MudButton @ref="RegisterButton" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Style="width:100%;" @onclick="GoToRegister" Disabled="@isBusy">Register</MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+</div>
+
+@code {
+
+    private MudButton LoginButton { get; set; }
+    private MudButton RegisterButton { get; set; }
+
+
+    private LoginUserModel loginUserModel = new LoginUserModel();
+
+    private bool isBusy = false;
+    private bool showMessage = false;
+    private string message = string.Empty;
+
+    private async void OnValidSubmit()
+    {
+        isBusy = true;
+        AuthResponseModel response = await clientService.LoginUserAsync(loginUserModel);
+        if (response.IsSuccess)
+        {
+            // This object will be stored in local storage
+            LocalUserInfo userInfo = new LocalUserInfo()
+            {
+                ID = Int32.Parse(response.UserInfo[System.Security.Claims.ClaimTypes.NameIdentifier]),
+                FirstName = response.UserInfo["FirstName"],
+                LastName = response.UserInfo["LastName"],
+                Email = response.UserInfo["Email"],
+                AccessToken = response.Message,
+
+            };
+            await storageService.SetItemAsync("UserInfo", userInfo);
+
+            // Notifying authorized pages, that authentication state changes
+            await authStateProviderService.GetAuthenticationStateAsync();
+
+            navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            message = response.Message;
+            showMessage = true;
+        }
+        isBusy = false;
+        StateHasChanged();
+
+        Console.WriteLine("Breakpoint!");
+    }
+
+    private void GoToRegister()
+    {
+        navigationManager.NavigateTo("/auth/register");
+    }
+
+}

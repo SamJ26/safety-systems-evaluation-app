@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SSEA.Api.Controllers
 {
@@ -25,6 +26,7 @@ namespace SSEA.Api.Controllers
         /// <param name="typeName"> Name of entity (type) </param>
         /// <returns> All records as JSON </returns>
         [HttpGet("{typeName}")]
+        [SwaggerOperation(OperationId = "CodeListGetAll")]
         public ActionResult<IEnumerable<JObject>> GetAll(string typeName)
         {
             return Ok();
@@ -39,6 +41,7 @@ namespace SSEA.Api.Controllers
         /// <param name="jsonObject"> Serialized object of type typeName </param>
         /// <returns> Id of created record </returns>
         [HttpPost("{typeName}")]
+        [SwaggerOperation(OperationId = "CodeListCreate")]
         public ActionResult<int> Create(string typeName, [FromBody] JObject jsonObject)
         {
             return Ok();
@@ -53,6 +56,7 @@ namespace SSEA.Api.Controllers
         /// <param name="jsonObject"> Serialized object of type typeName </param>
         /// <returns> Id of updated record </returns>
         [HttpPut("{typeName}")]
+        [SwaggerOperation(OperationId = "CodeListUpdate")]
         public ActionResult<int> Update(string typeName, [FromBody] JObject jsonObject)
         {
             return Ok();
@@ -68,6 +72,7 @@ namespace SSEA.Api.Controllers
         /// <param name="id"> Id of deleted record </param>
         /// <returns></returns>
         [HttpDelete("{typeName}/{id}")]
+        [SwaggerOperation(OperationId = "CodeListDelete")]
         public ActionResult Delete(string typeName, int id)
         {
             return Ok();

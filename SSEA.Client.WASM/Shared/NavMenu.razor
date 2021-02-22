@@ -1,0 +1,62 @@
+﻿
+<MudNavMenu>
+    <MudList Clickable="true">
+        <MudListItem Icon="@Icons.Material.Filled.Dashboard" Href="">
+            Dashboard
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.Filled.Analytics" Text="Machines">
+            <NestedList>
+                <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/machineList">
+                    List
+                </MudListItem>
+                <MudListItem Icon="@Icons.Material.Filled.Add" Href="/safetyEvaluation/machineDetail">
+                    Create new
+                </MudListItem>
+            </NestedList>
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.Filled.Security" Text="Safety functions">
+            <NestedList>
+                <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/safetyFunctionList">
+                    List
+                </MudListItem>
+                <MudListItem Icon="@Icons.Material.Filled.Add" Text="Create new" InitiallyExpanded="true">
+                    <NestedList>
+                        <MudListItem Href="/safetyEvaluation/safetyFunctionDetail/PL" Style="padding-left: 85px;">
+                            PL methodics
+                        </MudListItem>
+                        <MudListItem Href="/safetyEvaluation/safetyFunctionDetail/SIL" Style="padding-left: 85px;">
+                            SIL methodics
+                        </MudListItem>
+                    </NestedList>
+                </MudListItem>
+            </NestedList>
+        </MudListItem>
+        <MudListItem Icon="@Icons.Material.Filled.Widgets" Text="Subsystems">
+            <NestedList>
+                <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/subsystemList">
+                    List
+                </MudListItem>
+                <MudListItem Icon="@Icons.Material.Filled.Add" Text="Create new" InitiallyExpanded="true">
+                    <NestedList>
+                        <MudListItem Href="/safetyEvaluation/subsystemDetail/PL" Style="padding-left: 85px;">
+                            PL methodics
+                        </MudListItem>
+                        <MudListItem Href="/safetyEvaluation/subsystemDetail/SIL" Style="padding-left: 85px;">
+                            SIL methodics
+                        </MudListItem>
+                    </NestedList>
+                </MudListItem>
+            </NestedList>
+        </MudListItem>
+        <AuthorizeView>
+            <Authorized>
+                <MudListItem Icon="@Icons.Material.Filled.Subject" Href="">
+                    Code list
+                </MudListItem>
+            </Authorized>
+        </AuthorizeView>
+        <MudListItem Icon="@Icons.Material.Filled.Settings" Href="">
+            Settings
+        </MudListItem>
+    </MudList>
+</MudNavMenu>

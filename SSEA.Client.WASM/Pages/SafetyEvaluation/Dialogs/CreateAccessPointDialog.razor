@@ -1,0 +1,34 @@
+﻿
+<MudDialog Style="width: 500px;">
+    <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h5">Add new access point</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Description" Label="Description" Variant="Variant.Outlined" Lines="3"></MudTextField>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+    public string Name { get; set; }
+    public string Description { get; set; }
+
+}

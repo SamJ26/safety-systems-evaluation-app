@@ -1,0 +1,112 @@
+﻿@page "/safetyEvaluation/subsystemDetail/{methodics}"
+
+@layout MainLayout
+
+@inject NavigationManager navigationManager
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
+    <MudCard Elevation="3">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">Subsystem detail with its elements</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Default" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Default" />
+                <MudIconButton Icon="@Icons.Material.Filled.Save" Color="Color.Default" />
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudGrid>
+                @if (Methodics.Equals("PL"))
+                {
+                    <MudItem xs="4">
+                        <SubsystemPL Model="modelPL" />
+                    </MudItem>
+                    <MudItem xs="8">
+                        <MudCard Elevation="3">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">Elements</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudGrid>
+                                    <MudItem xs="6">
+                                        <ElementPL Model="elementPL"/>
+                                    </MudItem>
+                                    <MudItem xs="6">
+                                        <ElementPL Model="elementPL"/>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                else
+                {
+                    <MudItem xs="4">
+                        <SubsystemSIL Model="modelSIL" />
+                    </MudItem>
+                    <MudItem xs="8">
+                        <MudCard Elevation="3">
+                            <MudCardHeader>
+                                <MudText Typo="Typo.h6">Elements</MudText>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudGrid>
+                                    <MudItem xs="6">
+                                        <ElementSIL Model="elementSIL" />
+                                    </MudItem>
+                                    <MudItem xs="6">
+                                        <ElementSIL Model="elementSIL" />
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudCardContent>
+        <MudCardActions>
+            
+        </MudCardActions>
+    </MudCard>
+</MudContainer>
+
+@code {
+
+    public ElementDetailModelPL elementPL = new ElementDetailModelPL();
+    public ElementDetailModelSIL elementSIL = new ElementDetailModelSIL();
+
+    [Parameter]
+    public string Methodics { get; set; }
+
+    public SubsystemDetailModelPL modelPL;
+    public SubsystemDetailModelSIL modelSIL;
+
+    private int id = 0;
+    private string typeOfSubsystem = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("type", out var type))
+            typeOfSubsystem = type;
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("id", out var value))
+            id = Convert.ToInt32(value);
+        if (Methodics.Equals("PL"))
+        {
+            modelPL = new SubsystemDetailModelPL();
+            // TODO: Fetch data according to id in route to modelPL
+        }
+        else
+        {
+            modelSIL = new SubsystemDetailModelSIL();
+            // TODO: Fetch data according to id in route to modelSIL
+        }
+
+        // TODO: fetch all data
+    }
+
+}

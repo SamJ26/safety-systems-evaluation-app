@@ -1,0 +1,38 @@
+﻿@inherits ComponentBase
+
+<EditForm Model="@Model" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="4">
+            <MudTextField @bind-Value="Model.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+        </MudItem>
+        <MudItem xs="4">
+            <MudSelect T="string" Label="Type of function" Strict="true" Variant="Variant.Outlined" Format="F2">
+                <MudSelectItem T="string" Value="@("Vstup")" />
+                <MudSelectItem T="string" Value="@("Logika")" />
+                <MudSelectItem T="string" Value="@("Vystup")" />
+                <MudSelectItem T="string" Value="@("Komunikacia")" />
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="4">
+            <MudTextField @bind-Value="MethodicsName" Label="Evaluation method" Variant="Variant.Outlined" Text="SIL"></MudTextField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudTextField @bind-Value="Model.Description" T="string" Label="Access point description" Variant="Variant.Outlined" Lines="3" />
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+
+    public string MethodicsName = string.Empty;
+
+    [Parameter]
+    public SafetyFunctionDetailModelSIL Model { get; set; }
+
+    private void OnValidSubmit()
+    {
+
+    }
+
+}
