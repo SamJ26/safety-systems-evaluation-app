@@ -7,7 +7,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
 {
     [Table("SafetyFunctionSubsystem")]
-    public class SafetyFunctionSubsystem : ExtendedEntityBase
+    public class SafetyFunctionSubsystem : EntityBase
     {
         public int SafetyFunctionId { get; set; }
         public int SubsystemId { get; set; }

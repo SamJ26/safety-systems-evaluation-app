@@ -218,7 +218,7 @@ namespace SSEA.DAL
                   .WithMany(pl => pl.SafetyFunctions_PLr)
                   .OnDelete(DeleteBehavior.Restrict);
 
-                sf.HasOne(sf => sf.PL_result)
+                sf.HasOne(sf => sf.PLresult)
                   .WithMany(pl => pl.SafetyFunctions_PL_result)
                   .OnDelete(DeleteBehavior.Restrict);
 
@@ -238,7 +238,7 @@ namespace SSEA.DAL
                   .WithMany(p => p.SafetyFunctions_SILCL)
                   .OnDelete(DeleteBehavior.Restrict);
 
-                sf.HasOne(sf => sf.SIL_result)
+                sf.HasOne(sf => sf.SILresult)
                   .WithMany(p => p.SafetyFunctions_SIL_result)
                   .OnDelete(DeleteBehavior.Restrict);
 
@@ -274,15 +274,15 @@ namespace SSEA.DAL
                  .WithMany(t => t.Subsystems)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.MTTFd_result)
+                s.HasOne(s => s.MTTFdResult)
                  .WithMany(m => m.Subsystems)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.DC_result)
+                s.HasOne(s => s.DCresult)
                  .WithMany(d => d.Subsystems)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.PL_result)
+                s.HasOne(s => s.PLresult)
                  .WithMany(p => p.Subsystems)
                  .OnDelete(DeleteBehavior.Restrict);
 
@@ -294,7 +294,7 @@ namespace SSEA.DAL
                  .WithMany(h => h.Subsystems)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.PFHd_result)
+                s.HasOne(s => s.PFHdResult)
                  .WithMany(p => p.Subsystems)
                  .OnDelete(DeleteBehavior.Restrict);
 
@@ -321,7 +321,7 @@ namespace SSEA.DAL
                  .WithMany(d => d.Elements)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                e.HasOne(e => e.MTTFd_result)
+                e.HasOne(e => e.MTTFdResult)
                  .WithMany(m => m.Elements)
                  .OnDelete(DeleteBehavior.Restrict);
 
@@ -332,11 +332,11 @@ namespace SSEA.DAL
 
             builder.Entity<SubsystemCCF>(sc =>
             {
-                sc.HasKey(sc => new { sc.SubsystemId, sc.CCF_Id });
+                sc.HasKey(sc => new { sc.SubsystemId, sc.CCFId });
 
                 sc.HasOne(sc => sc.CCF)
                   .WithMany(c => c.SubsystemCCFs)
-                  .HasForeignKey(sc => sc.CCF_Id)
+                  .HasForeignKey(sc => sc.CCFId)
                   .OnDelete(DeleteBehavior.Cascade);
 
                 sc.HasOne(sc => sc.Subsystem)
@@ -346,15 +346,18 @@ namespace SSEA.DAL
 
                 sc.Property(sc => sc.SubsystemId)
                   .HasColumnName("Subsystem_Id");
+
+                sc.Property(sc => sc.CCFId)
+                  .HasColumnName("CCF_Id");
             });
 
             builder.Entity<ElementSFF>(es =>
             {
-                es.HasKey(es => new { es.ElementId, es.SFF_Id });
+                es.HasKey(es => new { es.ElementId, es.SFFId });
 
                 es.HasOne(es => es.SFF)
                   .WithMany(s => s.ElementSFFs)
-                  .HasForeignKey(es => es.SFF_Id)
+                  .HasForeignKey(es => es.SFFId)
                   .OnDelete(DeleteBehavior.Cascade);
 
                 es.HasOne(es => es.Element)
@@ -364,6 +367,9 @@ namespace SSEA.DAL
 
                 es.Property(es => es.ElementId)
                   .HasColumnName("Element_Id");
+
+                es.Property(es => es.SFFId)
+                  .HasColumnName("SFF_Id");
             });
 
             builder.Entity<Architecture>(a =>
