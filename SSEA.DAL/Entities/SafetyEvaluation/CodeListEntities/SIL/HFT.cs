@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
     [Table("HFT")]
-    public class HFT : EntityBase
+    public class HFT : CodeListEntityBase
     {
         [Required]
         public uint Value { get; set; }

@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
     [Table("Se")]
-    public class Se : EntityBase
+    public class Se : CodeListEntityBase
     {
         [StringLength(50)]
         public string Description { get; set; }

@@ -9,7 +9,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
     [Table("PFHd")]
-    public class PFHd : EntityBase
+    public class PFHd : CodeListEntityBase
     {
         [Required]
         [StringLength(20)]
@@ -18,8 +18,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
         public decimal Min { get; set; }
         public decimal Max { get; set; }
 
-        public ICollection<SafetyFunction> SafetyFunctions_SILCL { get; set; }
-        public ICollection<SafetyFunction> SafetyFunctions_SIL_result { get; set; }
+        public ICollection<SafetyFunction> SafetyFunctionsSILCL { get; set; }
+        public ICollection<SafetyFunction> SafetyFunctionsSILresult { get; set; }
         public ICollection<Subsystem> Subsystems { get; set; }
         public ICollection<Architecture> Architectures { get; set; }
         public ICollection<TypeOfLogic> TypeOfLogics { get; set; }

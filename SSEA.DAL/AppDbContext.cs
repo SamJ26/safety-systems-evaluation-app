@@ -235,11 +235,11 @@ namespace SSEA.DAL
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.SILCL)
-                  .WithMany(p => p.SafetyFunctions_SILCL)
+                  .WithMany(p => p.SafetyFunctionsSILCL)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.SILresult)
-                  .WithMany(p => p.SafetyFunctions_SIL_result)
+                  .WithMany(p => p.SafetyFunctionsSILresult)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Se)
@@ -378,7 +378,7 @@ namespace SSEA.DAL
                  .WithMany(h => h.Architectures)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                a.HasOne(a => a.PFHd_max)
+                a.HasOne(a => a.MaxPFHd)
                  .WithMany(p => p.Architectures)
                  .OnDelete(DeleteBehavior.Restrict);
             });

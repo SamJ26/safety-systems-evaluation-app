@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
     [Table("SFF")]
-    public class SFF : EntityBase
+    public class SFF : CodeListEntityBase
     {
         [Required]
         [StringLength(100)]

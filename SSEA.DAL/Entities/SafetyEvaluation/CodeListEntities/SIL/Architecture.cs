@@ -9,7 +9,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
     [Table("Architecture")]
-    public class Architecture : EntityBase
+    public class Architecture : CodeListEntityBase
     {
         [Required]
         [StringLength(2)]
@@ -21,14 +21,14 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
         public bool Logic { get; set; }
         public bool Diagnostic { get; set; }
         public short Channels { get; set; }
-        public double SFF_min { get; set; }
-        public double SFF_max { get; set; }
+        public double MinSFF { get; set; }
+        public double MaxSFF { get; set; }
 
         [ForeignKey("HFT_Id")]
         public HFT HFT { get; set; }
 
-        [ForeignKey("PFHd_max_Id")]
-        public PFHd PFHd_max { get; set; }
+        [ForeignKey("MaxPFHd_Id")]
+        public PFHd MaxPFHd { get; set; }
 
         public ICollection<Subsystem> Subsystems { get; set; }
         public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
