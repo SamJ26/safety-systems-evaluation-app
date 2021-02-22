@@ -11,7 +11,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
     public class Pr : CodeListEntityBase
     {
         [StringLength(50)]
-        public string Description { get; set; }
+        public string DescriptionCZ { get; set; }
+
+        [StringLength(50)]
+        public string DescriptionEN { get; set; }
 
         public short Value { get; set; }
 

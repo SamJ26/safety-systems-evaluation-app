@@ -11,7 +11,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
     public class Fr : CodeListEntityBase
     {
         [StringLength(50)]
-        public string Description { get; set; }
+        public string FrequencyOfThreatCZ { get; set; }
+
+        [StringLength(50)]
+        public string FrequencyOfThreatEN { get; set; }
 
         public short Value { get; set; }
 

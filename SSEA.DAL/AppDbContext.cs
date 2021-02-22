@@ -483,6 +483,8 @@ namespace SSEA.DAL
                   .WithMany(ns => ns.NextStateTransitions)
                   .OnDelete(DeleteBehavior.Restrict);
             });
+
+            builder.SeedData();
         }
     }
 }
