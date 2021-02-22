@@ -7,5 +7,6 @@ namespace SSEA.DAL.Entities.Auth
 {
     public class Role : IdentityRole<int>
     {
+        public bool IsValid { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace SSEA.DAL.Entities.System
         [ForeignKey("Entity_Id")]
         public Entity Entity { get; set; }
 
-        public ICollection<StateTransition> StateTransitions_current { get; set; }
-        public ICollection<StateTransition> StateTransitions_next { get; set; }
+        public ICollection<StateTransition> CurrentStateTransitions { get; set; }
+        public ICollection<StateTransition> NextStateTransitions { get; set; }
     }
 }

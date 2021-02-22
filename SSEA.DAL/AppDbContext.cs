@@ -125,6 +125,9 @@ namespace SSEA.DAL
                 u.ToTable("SY_User");
                 u.Property(u => u.Email)
                  .IsRequired();
+
+                u.HasOne(u => u.CurrentState)
+                 .WithMany();
             });
 
             builder.Entity<AccessPointSafetyFunction>(apsf =>
@@ -195,6 +198,9 @@ namespace SSEA.DAL
                 m.HasOne(m => m.CurrentState)
                  .WithMany()
                  .OnDelete(DeleteBehavior.Restrict);
+
+                m.HasOne(m => m.CurrentState)
+                 .WithMany();
             });
 
             builder.Entity<AccessPoint>(ap =>
@@ -202,6 +208,9 @@ namespace SSEA.DAL
                 ap.HasOne(ap => ap.CurrentState)
                   .WithMany()
                   .OnDelete(DeleteBehavior.Cascade);
+
+                ap.HasOne(ap => ap.CurrentState)
+                  .WithMany();
             });
 
             builder.Entity<SafetyFunction>(sf =>
@@ -261,6 +270,9 @@ namespace SSEA.DAL
                 sf.HasOne(sf => sf.CurrentState)
                   .WithMany()
                   .OnDelete(DeleteBehavior.Restrict);
+
+                sf.HasOne(sf => sf.CurrentState)
+                  .WithMany();
             });
 
             builder.Entity<Subsystem>(s =>
@@ -309,6 +321,9 @@ namespace SSEA.DAL
                 s.HasOne(s => s.CurrentState)
                  .WithMany()
                  .OnDelete(DeleteBehavior.Restrict);
+
+                s.HasOne(s => s.CurrentState)
+                 .WithMany();
             });
 
             builder.Entity<Element>(e =>
@@ -328,6 +343,15 @@ namespace SSEA.DAL
                 e.HasOne(e => e.CurrentState)
                  .WithMany()
                  .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasOne(e => e.CurrentState)
+                 .WithMany();
+            });
+
+            builder.Entity<Producer>(p =>
+            {
+                p.HasOne(p => p.CurrentState)
+                 .WithMany();
             });
 
             builder.Entity<SubsystemCCF>(sc =>
@@ -452,11 +476,11 @@ namespace SSEA.DAL
             builder.Entity<StateTransition>(st =>
             {
                 st.HasOne(st => st.CurrentState)
-                  .WithMany(cs => cs.StateTransitions_current)
+                  .WithMany(cs => cs.CurrentStateTransitions)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 st.HasOne(st => st.NextState)
-                  .WithMany(ns => ns.StateTransitions_next)
+                  .WithMany(ns => ns.NextStateTransitions)
                   .OnDelete(DeleteBehavior.Restrict);
             });
         }
