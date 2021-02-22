@@ -11,12 +11,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
     [Table("PFHd")]
     public class PFHd : CodeListEntityBase
     {
-        [Required]
-        [StringLength(20)]
-        public string Label { get; set; }
-
-        public decimal Min { get; set; }
-        public decimal Max { get; set; }
+        public short ValueSIL { get; set; }
+        public float MinPFHd { get; set; }
+        public float MaxPFHd { get; set; }
 
         public ICollection<SafetyFunction> SafetyFunctionsSILCL { get; set; }
         public ICollection<SafetyFunction> SafetyFunctionsSILresult { get; set; }

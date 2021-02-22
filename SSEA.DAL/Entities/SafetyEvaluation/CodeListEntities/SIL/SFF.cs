@@ -11,11 +11,18 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
     public class SFF : CodeListEntityBase
     {
         [Required]
-        [StringLength(100)]
-        public string ComponentName { get; set; }
+        [StringLength(200)]
+        public string ComponentNameCZ { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        public string FailureModeCZ { get; set; }
 
         [StringLength(100)]
-        public string FailureMode { get; set; }
+        public string ComponentNameEN { get; set; }
+      
+        [StringLength(100)]
+        public string FailureModeEN { get; set; }
 
         public uint Value { get; set; }
 

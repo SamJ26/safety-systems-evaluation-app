@@ -10,6 +10,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
     [Table("Av")]
     public class Av : CodeListEntityBase
     {
+        [Required]
         [StringLength(50)]
         public string DescriptionCZ { get; set; }
 
