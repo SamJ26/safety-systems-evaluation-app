@@ -1,21 +1,24 @@
 ﻿
-<MudDialog Style="width: 200px;">
+<MudDialog Style="width: 500px;">
     <TitleContent>
-        <MudText Align="Align.Center" Typo="Typo.h5">Create access point</MudText>
+        <MudText Align="Align.Center" Typo="Typo.h5">Add new access point</MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField @bind-Value="accessPoint.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
-    </DialogContent>
-    <DialogActions>
         <MudGrid>
-            <MudItem xs="6">
-                <MudButton OnClick="Cancel" Style="width:100%;">Cancel</MudButton>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="Description" Label="Description" Variant="Variant.Outlined" Lines="3"></MudTextField>
             </MudItem>
             <MudItem xs="6">
-                <MudButton Color="Color.Primary" OnClick="Submit" Style="width:100%;">Save</MudButton>
+                <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
             </MudItem>
         </MudGrid>
-    </DialogActions>
+    </DialogContent>
 </MudDialog>
 
 @code {
@@ -25,6 +28,7 @@
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
 
-    AccessPointListModel accessPoint = new AccessPointListModel();
+    public string Name { get; set; }
+    public string Description { get; set; }
 
 }
