@@ -1,0 +1,48 @@
+﻿@inherits ComponentBase
+
+<EditForm Model="@Model" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12">
+            <MudSelect T="string" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
+                <MudSelectItem T="string" Value="@("Siemens")" />
+                <MudSelectItem T="string" Value="@("Sipron")" />
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12">
+            <MudTextField @bind-Value="Model.B10d" Label="B10d" Variant="Variant.Outlined"></MudTextField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudSelect T="string" Label="DC" Strict="true" Variant="Variant.Outlined" Format="F2">
+                <MudSelectItem T="string" Value="@("Low")" />
+                <MudSelectItem T="string" Value="@("Medium")" />
+                <MudSelectItem T="string" Value="@("High")" />
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12">
+            <MudTextField @bind-Value="Model.Lambda_c" Label="N_op" Variant="Variant.Outlined"></MudTextField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudTextField @bind-Value="Model.C" Label="H_op" Variant="Variant.Outlined"></MudTextField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudSelect T="string" Label="SFF" Variant="Variant.Outlined" MultiSelection="true">
+                <MudSelectItem T="string">Option1</MudSelectItem>
+                <MudSelectItem T="string">Option2</MudSelectItem>
+                <MudSelectItem T="string">Option3</MudSelectItem>
+            </MudSelect>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public ElementDetailModelSIL Model { get; set; }
+
+    private void OnValidSubmit()
+    {
+
+    }
+
+}

@@ -56,10 +56,10 @@
                             <MudCardContent>
                                 <MudGrid>
                                     <MudItem xs="6">
-
+                                        <ElementSIL Model="elementSIL" />
                                     </MudItem>
                                     <MudItem xs="6">
-
+                                        <ElementSIL Model="elementSIL" />
                                     </MudItem>
                                 </MudGrid>
                             </MudCardContent>
@@ -77,6 +77,7 @@
 @code {
 
     public ElementDetailModelPL elementPL = new ElementDetailModelPL();
+    public ElementDetailModelSIL elementSIL = new ElementDetailModelSIL();
 
     [Parameter]
     public string Methodics { get; set; }
