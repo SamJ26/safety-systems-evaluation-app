@@ -28,22 +28,19 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [ForeignKey("DC_Id")]
         public DC DC { get; set; }
 
-        [ForeignKey("CurrentState_Id")]
-        public State CurrentState { get; set; }
-
         // Properties for PL methodics:
-        public double? n_op { get; set; }
-        public double? h_op { get; set; }
-        public double? d_op { get; set; }
-        public double? t_cycles { get; set; }
-        public double? MTTFd_counted { get; set; }
+        public double? Nop { get; set; }
+        public double? Hop { get; set; }
+        public double? Dop { get; set; }
+        public double? Tcycles { get; set; }
+        public double? MTTFdCounted { get; set; }
 
-        [ForeignKey("MTTFd_result_Id")]
-        public MTTFd MTTFd_result { get; set; }
+        [ForeignKey("MTTFdResult_Id")]
+        public MTTFd MTTFdResult { get; set; }
 
         // Properties for SIL methodics:
         public double? C { get; set; }
-        public double? Lambda_c { get; set; }
+        public double? LambdaC { get; set; }
 
         public ICollection<ElementSFF> ElementSFFs { get; set; }
     }

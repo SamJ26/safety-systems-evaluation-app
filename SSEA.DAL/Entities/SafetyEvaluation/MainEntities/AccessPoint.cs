@@ -21,9 +21,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [ForeignKey("Machine_Id")]
         public Machine Machine { get; set; }
 
-        [ForeignKey("CurrentState_Id")]
-        public State CurrentState { get; set; }
-
         public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
     }
 }

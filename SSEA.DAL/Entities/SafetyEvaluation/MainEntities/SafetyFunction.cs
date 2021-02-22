@@ -27,9 +27,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [ForeignKey("EvaluationMethod_Id")]
         public EvaluationMethod EvaluationMethod { get; set; }
 
-        [ForeignKey("CurrentState_Id")]
-        public State CurrentState { get; set; }
-
         public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
 
@@ -38,8 +35,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [ForeignKey("PLr_Id")]
         public PerformanceLevel PLr { get; set; }
 
-        [ForeignKey("PL_result_Id")]
-        public PerformanceLevel PL_result { get; set; }
+        [ForeignKey("PLresult_Id")]
+        public PerformanceLevel PLresult { get; set; }
 
         [ForeignKey("S_Id")]
         public S S { get; set; }
@@ -55,8 +52,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [ForeignKey("SILCL_Id")]
         public PFHd SILCL { get; set; }
 
-        [ForeignKey("SIL_result_Id")]
-        public PFHd SIL_result { get; set; }
+        [ForeignKey("SILresult_Id")]
+        public PFHd SILresult { get; set; }
 
         [ForeignKey("Se_Id")]
         public Se Se { get; set; }

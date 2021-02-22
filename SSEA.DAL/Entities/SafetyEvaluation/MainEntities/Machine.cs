@@ -39,9 +39,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [ForeignKey("TypeOfLogic_Id")]
         public TypeOfLogic TypeOfLogic { get; set; }
 
-        [ForeignKey("CurrentState_Id")]
-        public State CurrentState { get; set; }
-
         public ICollection<AccessPoint> AccessPoints { get; set; }
         public ICollection<MachineNorm> MachineNorms { get; set; }
     }

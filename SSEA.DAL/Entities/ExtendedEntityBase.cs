@@ -8,9 +8,12 @@ namespace SSEA.DAL.Entities
 {
     public abstract class ExtendedEntityBase : EntityBase, IExtendedEntityBase
     {
-        public int Id_created { get; set; }
-        public DateTime DT_created { get; set; }
-        public int? Id_updated { get; set; }
-        public DateTime? DT_updated { get; set; }
+        public int IdCreated { get; set; }
+        public DateTime DateTimeCreated { get; set; }
+        public int? IdUpdated { get; set; }
+        public DateTime? DateTimeUpdated { get; set; }
+
+        [ForeignKey("CurrentState_Id")]
+        public State CurrentState { get; set; }
     }
 }
