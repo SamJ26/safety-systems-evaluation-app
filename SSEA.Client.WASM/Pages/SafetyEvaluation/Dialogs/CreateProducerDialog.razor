@@ -1,12 +1,24 @@
 ﻿
-<MudDialog>
+<MudDialog Style="width: 500px;">
+    <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h5">Create new producer</MudText>
+    </TitleContent>
     <DialogContent>
-        Dialog Content
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="producer.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="producer.CountryOfOrigin" Label="Country of origin" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
+            </MudItem>
+        </MudGrid>
     </DialogContent>
-    <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
-    </DialogActions>
 </MudDialog>
 
 @code {
@@ -15,5 +27,7 @@
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
+
+    public ProducerDetailModel producer = new ProducerDetailModel();
 
 }
