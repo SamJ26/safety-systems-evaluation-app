@@ -23,9 +23,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
         public short Channels { get; set; }
         public double MinSFF { get; set; }
         public double MaxSFF { get; set; }
-
-        [ForeignKey("HFT_Id")]
-        public HFT HFT { get; set; }
+        public short HFT { get; set; }
 
         [ForeignKey("MaxPFHd_Id")]
         public PFHd MaxPFHd { get; set; }

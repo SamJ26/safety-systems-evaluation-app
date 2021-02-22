@@ -55,7 +55,6 @@ namespace SSEA.DAL
         public DbSet<Av> Avs { get; set; }
         public DbSet<CFF> CFFs { get; set; }
         public DbSet<Fr> Frs { get; set; }
-        public DbSet<HFT> HFTs { get; set; }
         public DbSet<PFHd> PFHds { get; set; }
         public DbSet<Pr> Prs { get; set; }
         public DbSet<Se> Ses { get; set; }
@@ -302,10 +301,6 @@ namespace SSEA.DAL
                  .WithMany(a => a.Subsystems)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.HFT)
-                 .WithMany(h => h.Subsystems)
-                 .OnDelete(DeleteBehavior.Restrict);
-
                 s.HasOne(s => s.PFHdResult)
                  .WithMany(p => p.Subsystems)
                  .OnDelete(DeleteBehavior.Restrict);
@@ -398,10 +393,6 @@ namespace SSEA.DAL
 
             builder.Entity<Architecture>(a =>
             {
-                a.HasOne(a => a.HFT)
-                 .WithMany(h => h.Architectures)
-                 .OnDelete(DeleteBehavior.Restrict);
-
                 a.HasOne(a => a.MaxPFHd)
                  .WithMany(p => p.Architectures)
                  .OnDelete(DeleteBehavior.Restrict);

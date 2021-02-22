@@ -40,13 +40,11 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         // Properties for SIL methodics:
         public double? T1 { get; set; }
         public double? T2 { get; set; }
-        public double? SFFresult { get; set; }
+        public double? HFT { get; set; }
+        public short SFFresult { get; set; }
 
         [ForeignKey("Architecture_Id")]
         public Architecture Architecture { get; set; }
-
-        [ForeignKey("HFT_Id")]
-        public HFT HFT { get; set; }
 
         [ForeignKey("PFHdResult_Id")]
         public PFHd PFHdResult { get; set; }

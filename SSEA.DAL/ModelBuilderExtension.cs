@@ -10,6 +10,9 @@ namespace SSEA.DAL
     {
         public static void SeedData(this ModelBuilder modelBuilder)
         {
+
+            #region Data for SIL methodics
+
             // TODO: modelBuilder.Entity<Architecture>().HasData();
 
             modelBuilder.Entity<Av>().HasData(
@@ -125,6 +128,36 @@ namespace SSEA.DAL
                     IsValid = true,
                 }
             );
+
+            modelBuilder.Entity<CFF>().HasData(
+                new CFF()
+                {
+                    MinCCF = 0,
+                    MaxCCF = 35,
+                    Beta = 0.1,
+                },
+                new CFF()
+                {
+                    MinCCF = 35,
+                    MaxCCF = 65,
+                    Beta = 0.05,
+                },
+                new CFF()
+                {
+                    MinCCF = 65,
+                    MaxCCF = 85,
+                    Beta = 0.02,
+                },
+                new CFF()
+                {
+                    MinCCF = 85,
+                    MaxCCF = 100,
+                    Beta = 0.01,
+                }
+            );
+
+            #endregion
+
         }
     }
 }
