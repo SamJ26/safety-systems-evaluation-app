@@ -11,7 +11,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
     /// This class represents frequency and/or exposure to hazard parameter
     /// </summary>
     [Table("F")]
-    public class F : EntityBase
+    public class F : CodeListEntityBase
     {
         [StringLength(2)]
         public string Value { get; set; }

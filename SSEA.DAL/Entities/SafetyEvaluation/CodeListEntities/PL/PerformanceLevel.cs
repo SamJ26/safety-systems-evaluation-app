@@ -9,14 +9,14 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
 {
     [Table("PL")]
-    public class PerformanceLevel : EntityBase
+    public class PerformanceLevel : CodeListEntityBase
     {
         [Required]
         [StringLength(2)]
         public string Label { get; set; }
 
-        public ICollection<SafetyFunction> SafetyFunctions_PLr { get; set; }
-        public ICollection<SafetyFunction> SafetyFunctions_PL_result { get; set; }
+        public ICollection<SafetyFunction> SafetyFunctionsPLr { get; set; }
+        public ICollection<SafetyFunction> SafetyFunctionsPLresult { get; set; }
         public ICollection<Subsystem> Subsystems { get; set; }
         public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
     }

@@ -8,7 +8,7 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
 {
     [Table("MTTFd")]
-    public class MTTFd : EntityBase
+    public class MTTFd : CodeListEntityBase
     {
         [Required]
         [StringLength(10)]
@@ -19,7 +19,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
 
         public ICollection<Subsystem> Subsystems { get; set; }
         public ICollection<Element> Elements { get; set; }
-        public ICollection<Category> Categories_MTTFd_min { get; set; }
-        public ICollection<Category> Categories_MTTFd_max { get; set; }
+        public ICollection<Category> CategoriesMTTFdMin { get; set; }
+        public ICollection<Category> CategoriesMTTFdMax { get; set; }
     }
 }

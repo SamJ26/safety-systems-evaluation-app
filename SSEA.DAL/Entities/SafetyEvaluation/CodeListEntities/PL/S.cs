@@ -11,7 +11,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
     /// This class represents severity of injury parameter
     /// </summary>
     [Table("S")]
-    public class S : EntityBase
+    public class S : CodeListEntityBase
     {
         [StringLength(2)]
         public string Value { get; set; }

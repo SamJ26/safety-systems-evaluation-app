@@ -215,11 +215,11 @@ namespace SSEA.DAL
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.PLr)
-                  .WithMany(pl => pl.SafetyFunctions_PLr)
+                  .WithMany(pl => pl.SafetyFunctionsPLr)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.PLresult)
-                  .WithMany(pl => pl.SafetyFunctions_PL_result)
+                  .WithMany(pl => pl.SafetyFunctionsPLresult)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.S)
@@ -385,19 +385,19 @@ namespace SSEA.DAL
 
             builder.Entity<Category>(c =>
             {
-                c.HasOne(c => c.MTTFd_max)
-                 .WithMany(m => m.Categories_MTTFd_max)
+                c.HasOne(c => c.MaxMTTFd)
+                 .WithMany(m => m.CategoriesMTTFdMax)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                c.HasOne(c => c.MTTFd_min)
-                 .WithMany(m => m.Categories_MTTFd_min)
+                c.HasOne(c => c.MinMTTFd)
+                 .WithMany(m => m.CategoriesMTTFdMin)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                c.HasOne(c => c.DC_min)
+                c.HasOne(c => c.MinDC)
                  .WithMany(dc => dc.CategoriesDCmin)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                c.HasOne(c => c.DC_max)
+                c.HasOne(c => c.MaxDC)
                  .WithMany(dc => dc.CategoriesDCmax)
                  .OnDelete(DeleteBehavior.Restrict);
             });
