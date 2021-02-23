@@ -15,8 +15,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         [StringLength(50)]
         public string CountryOfOrigin { get; set; }
-
-        public ICollection<Machine> Machines { get; set; }
-        public ICollection<Element> Elements { get; set; }
     }
 }

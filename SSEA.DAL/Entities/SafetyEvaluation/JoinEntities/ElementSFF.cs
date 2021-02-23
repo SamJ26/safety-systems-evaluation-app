@@ -10,7 +10,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     [Table("ElementSFF")]
     public class ElementSFF : EntityBase
     {
+        [Column("Element_Id")]
         public int ElementId { get; set; }
+
+        [Column("SFF_Id")]
         public int SFFId { get; set; }
 
         public Element Element { get; set; }

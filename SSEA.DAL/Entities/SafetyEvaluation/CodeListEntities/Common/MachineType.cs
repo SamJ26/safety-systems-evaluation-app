@@ -17,7 +17,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         [Required]
         [StringLength(200)]
         public string Description { get; set; }
-
-        public ICollection<Machine> Machines { get; set; }
     }
 }

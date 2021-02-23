@@ -21,10 +21,12 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [StringLength(250)]
         public string Description { get; set; }
 
-        [ForeignKey("TypeOfFunction_Id")]
+        [Column("TypeOfFunction_Id")]
+        public int TypeOfFunctionId { get; set; }
         public TypeOfFunction TypeOfFunction { get; set; }
 
-        [ForeignKey("EvaluationMethod_Id")]
+        [Column("EvaluationMethod_Id")]
+        public int EvaluationMethodId { get; set; }
         public EvaluationMethod EvaluationMethod { get; set; }
 
         public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }
@@ -32,39 +34,50 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         // Properties for PL methodics:
 
-        [ForeignKey("PLr_Id")]
+        [Column("PLr_Id")]
+        public int? PLrId { get; set; }
         public PerformanceLevel PLr { get; set; }
 
-        [ForeignKey("PLresult_Id")]
+        [Column("PLresult_Id")]
+        public int? PLresultId { get; set; }
         public PerformanceLevel PLresult { get; set; }
 
-        [ForeignKey("S_Id")]
+        [Column("S_Id")]
+        public int? SId { get; set; }
         public S S { get; set; }
 
-        [ForeignKey("F_Id")]
+        [Column("F_Id")]
+        public int? FId { get; set; }
         public F F { get; set; }
 
-        [ForeignKey("P_Id")]
+        [Column("P_Id")]
+        public int? PId { get; set; }
         public P P { get; set; }
 
         // Properties for SIL methodics:
 
-        [ForeignKey("SILCL_Id")]
+        [Column("SILCL_Id")]
+        public int? SILCLId { get; set; }
         public PFHd SILCL { get; set; }
 
-        [ForeignKey("SILresult_Id")]
+        [Column("SILresult_Id")]
+        public int? SILresultId { get; set; }
         public PFHd SILresult { get; set; }
 
-        [ForeignKey("Se_Id")]
+        [Column("Se_Id")]
+        public int? SeId { get; set; }
         public Se Se { get; set; }
 
-        [ForeignKey("Fr_Id")]
+        [Column("Fr_Id")]
+        public int? FrId { get; set; }
         public Fr Fr { get; set; }
 
-        [ForeignKey("Pr_Id")]
+        [Column("Pr_Id")]
+        public int? PrId { get; set; }
         public Pr Pr { get; set; }
 
-        [ForeignKey("Av_Id")]
+        [Column("Av_Id")]
+        public int? AvId { get; set; }
         public Av Av { get; set; }
     }
 }

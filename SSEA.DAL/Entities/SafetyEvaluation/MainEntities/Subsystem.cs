@@ -14,7 +14,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
     [Table("Subsystem")]
     public class Subsystem : ExtendedEntityBase
     {
-        [ForeignKey("TypeOfSubsystem_Id")]
+        [Column("TypeOfSubsystem_Id")]
+        public int TypeOfSubsystemId { get; set; }
         public TypeOfSubsystem TypeOfSubsystem { get; set; }
 
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
@@ -22,34 +23,43 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public ICollection<SubsystemCCF> SubsystemCCFs { get; set; }
 
         // Properties for PL methodics:
+
         public bool ValidCCF { get; set; }
 
-        [ForeignKey("Category_Id")]
+        [Column("Category_Id")]
+        public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
-        [ForeignKey("MTTFdResult_Id")]
+        [Column("MTTFdResult_Id")]
+        public int? MTTFdResultId { get; set; }
         public MTTFd MTTFdResult { get; set; }
 
-        [ForeignKey("DCresult_Id")]
+        [Column("DCresult_Id")]
+        public int? DCresultId { get; set; }
         public DC DCresult { get; set; }
 
-        [ForeignKey("PLresult_Id")]
+        [Column("PLresult_Id")]
+        public int? PLresultId { get; set; }
         public PerformanceLevel PLresult { get; set; }
 
 
         // Properties for SIL methodics:
+
         public double? T1 { get; set; }
         public double? T2 { get; set; }
         public double? HFT { get; set; }
         public short SFFresult { get; set; }
 
-        [ForeignKey("Architecture_Id")]
+        [Column("Architecture_Id")]
+        public int? ArchitectureId { get; set; }
         public Architecture Architecture { get; set; }
 
-        [ForeignKey("PFHdResult_Id")]
+        [Column("PFHdResult_Id")]
+        public int? PFHdResultId { get; set; }
         public PFHd PFHdResult { get; set; }
 
-        [ForeignKey("CFF_Id")]
+        [Column("CFF_Id")]
+        public int? CFFId { get; set; }
         public CFF CFF { get; set; }
     }
 }

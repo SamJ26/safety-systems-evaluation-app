@@ -16,10 +16,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
 
         public short Min { get; set; }
         public short Max { get; set; }
-
-        public ICollection<Subsystem> Subsystems { get; set; }
-        public ICollection<Element> Elements { get; set; }
-        public ICollection<Category> CategoriesMTTFdMin { get; set; }
-        public ICollection<Category> CategoriesMTTFdMax { get; set; }
     }
 }

@@ -18,7 +18,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
 
         [StringLength(30)]
         public string Description { get; set; }
-
-        public ICollection<SafetyFunction> SafetyFunctions { get; set; }
     }
 }

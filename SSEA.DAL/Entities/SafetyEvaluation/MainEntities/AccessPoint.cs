@@ -13,12 +13,13 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
     {
         [Required]
         [StringLength(100)]
-        public string ShortName { get; set; }
+        public string Name { get; set; }
 
         [StringLength(200)]
         public string Description { get; set; }
 
-        [ForeignKey("Machine_Id")]
+        [Column("Machine_Id")]
+        public int MachineId { get; set; }
         public Machine Machine { get; set; }
 
         public ICollection<AccessPointSafetyFunction> AccessPointSafetyFunctions { get; set; }

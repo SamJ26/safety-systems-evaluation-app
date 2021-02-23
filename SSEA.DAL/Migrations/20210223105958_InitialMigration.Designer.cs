@@ -10,8 +10,8 @@ using SSEA.DAL;
 namespace SSEA.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210203142933_AddedStateProperty")]
-    partial class AddedStateProperty
+    [Migration("20210223105958_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -88,6 +91,9 @@ namespace SSEA.DAL.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CurrentState_Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -140,6 +146,8 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrentState_Id");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -237,12 +245,27 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("ForPL")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
                     b.Property<long>("Points")
@@ -264,6 +287,21 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<short>("Max")
                         .HasColumnType("smallint");
@@ -288,6 +326,21 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -310,10 +363,25 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -336,6 +404,21 @@ namespace SSEA.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Label")
                         .IsRequired()
@@ -369,10 +452,25 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ShortName")
                         .IsRequired()
@@ -391,33 +489,52 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("AccessPoints_MaxCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Architecture_max_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Category_max_Id")
+                    b.Property<int?>("AccessPointsMaxCount")
                         .HasColumnType("int");
 
                     b.Property<bool>("Communication")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("EthernetAdresses_MaxCount")
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("EthernetAdressesMaxCount")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MaxArchitectureId")
+                        .HasColumnType("int")
+                        .HasColumnName("MaxArchitecture_Id");
+
+                    b.Property<int>("MaxCategoryId")
+                        .HasColumnType("int")
+                        .HasColumnName("MaxCategory_Id");
+
+                    b.Property<int>("MaxPLId")
+                        .HasColumnType("int")
+                        .HasColumnName("MaxPL_Id");
+
+                    b.Property<int>("MaxSILId")
+                        .HasColumnType("int")
+                        .HasColumnName("MaxSIL_Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("PL_max_Id")
-                        .HasColumnType("int");
-
                     b.Property<int>("SI")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SIL_max_Id")
                         .HasColumnType("int");
 
                     b.Property<int>("SO")
@@ -425,13 +542,13 @@ namespace SSEA.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Architecture_max_Id");
+                    b.HasIndex("MaxArchitectureId");
 
-                    b.HasIndex("Category_max_Id");
+                    b.HasIndex("MaxCategoryId");
 
-                    b.HasIndex("PL_max_Id");
+                    b.HasIndex("MaxPLId");
 
-                    b.HasIndex("SIL_max_Id");
+                    b.HasIndex("MaxSILId");
 
                     b.ToTable("TypeOfLogic");
                 });
@@ -443,6 +560,21 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -453,24 +585,21 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("TypeOfSubsystem");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.Category", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<bool>("CCF_relevant")
-                        .HasColumnType("bit");
-
                     b.Property<short>("Channels")
                         .HasColumnType("smallint");
 
-                    b.Property<int?>("DC_max_Id")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DC_min_Id")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(250)
@@ -480,6 +609,15 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(2)
@@ -488,11 +626,24 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("Logic")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MTTFd_max_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("MaxDCId")
+                        .HasColumnType("int")
+                        .HasColumnName("MaxDC_Id");
 
-                    b.Property<int?>("MTTFd_min_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("MaxMTTFdId")
+                        .HasColumnType("int")
+                        .HasColumnName("MaxMTTFd_Id");
+
+                    b.Property<int>("MinDCId")
+                        .HasColumnType("int")
+                        .HasColumnName("MinDC_Id");
+
+                    b.Property<int>("MinMTTFdId")
+                        .HasColumnType("int")
+                        .HasColumnName("MinMTTFd_Id");
+
+                    b.Property<bool>("RelevantCCF")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Requirements")
                         .HasMaxLength(250)
@@ -500,27 +651,42 @@ namespace SSEA.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DC_max_Id");
+                    b.HasIndex("MaxDCId");
 
-                    b.HasIndex("DC_min_Id");
+                    b.HasIndex("MaxMTTFdId");
 
-                    b.HasIndex("MTTFd_max_Id");
+                    b.HasIndex("MinDCId");
 
-                    b.HasIndex("MTTFd_min_Id");
+                    b.HasIndex("MinMTTFdId");
 
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.F", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.F", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Value")
                         .HasMaxLength(2)
@@ -531,12 +697,27 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("F");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.MTTFd", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<short>("Max")
                         .HasColumnType("smallint");
@@ -554,16 +735,31 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("MTTFd");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.P", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.P", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Value")
                         .HasMaxLength(2)
@@ -574,12 +770,27 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("P");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.PL", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Label")
                         .IsRequired()
@@ -591,16 +802,31 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("PL");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.S", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.S", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Value")
                         .HasMaxLength(2)
@@ -611,7 +837,7 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("S");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Architecture", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Architecture", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -621,15 +847,30 @@ namespace SSEA.DAL.Migrations
                     b.Property<short>("Channels")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("Description")
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DescriptionCZ")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<bool>("Diagnostic")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("HFT_Id")
+                    b.Property<short>("HFT")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("IdCreated")
                         .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Label")
                         .IsRequired()
@@ -639,34 +880,53 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("Logic")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PFHd_max_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("MaxPFHdId")
+                        .HasColumnType("int")
+                        .HasColumnName("MaxPFHd_Id");
 
-                    b.Property<double>("SFF_max")
+                    b.Property<double>("MaxSFF")
                         .HasColumnType("float");
 
-                    b.Property<double>("SFF_min")
+                    b.Property<double>("MinSFF")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HFT_Id");
-
-                    b.HasIndex("PFHd_max_Id");
+                    b.HasIndex("MaxPFHdId");
 
                     b.ToTable("Architecture");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Av", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Av", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Description")
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DescriptionCZ")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DescriptionEN")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<short>("Value")
                         .HasColumnType("smallint");
@@ -676,7 +936,7 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("Av");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.CFF", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.CFF", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -686,10 +946,25 @@ namespace SSEA.DAL.Migrations
                     b.Property<double>("Beta")
                         .HasColumnType("float");
 
-                    b.Property<short>("CCF_max")
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
+                    b.Property<short>("MaxCCF")
                         .HasColumnType("smallint");
 
-                    b.Property<short>("CCF_min")
+                    b.Property<short>("MinCCF")
                         .HasColumnType("smallint");
 
                     b.HasKey("Id");
@@ -697,16 +972,36 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("CFF");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Fr", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Fr", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Description")
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FrequencyOfThreatCZ")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FrequencyOfThreatEN")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<short>("Value")
                         .HasColumnType("smallint");
@@ -716,54 +1011,72 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("Fr");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.HFT", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<long>("Value")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.ToTable("HFT");
-                });
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.PFHd", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
-                    b.Property<decimal>("Max")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("MaxPFHd")
+                        .HasColumnType("real");
 
-                    b.Property<decimal>("Min")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("MinPFHd")
+                        .HasColumnType("real");
+
+                    b.Property<short>("ValueSIL")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id");
 
                     b.ToTable("PFHd");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Pr", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Pr", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Description")
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DescriptionCZ")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DescriptionEN")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<short>("Value")
                         .HasColumnType("smallint");
@@ -773,21 +1086,45 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("Pr");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.SFF", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.SFF", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("ComponentName")
+                    b.Property<string>("ComponentNameCZ")
                         .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ComponentNameEN")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("FailureMode")
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FailureModeCZ")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("FailureModeEN")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<long>("Value")
                         .HasColumnType("bigint");
@@ -797,16 +1134,36 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("SFF");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Se", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Se", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Description")
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DescriptionCZ")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DescriptionEN")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
 
                     b.Property<short>("Value")
                         .HasColumnType("smallint");
@@ -826,19 +1183,7 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("SafetyFunction_Id");
 
-                    b.Property<DateTime>("DT_created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DT_updated")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id_created")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Id_updated")
                         .HasColumnType("int");
 
                     b.HasKey("AccessPointId", "SafetyFunctionId");
@@ -854,27 +1199,16 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Element_Id");
 
-                    b.Property<int>("SFF_Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DT_created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DT_updated")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("SFFId")
+                        .HasColumnType("int")
+                        .HasColumnName("SFF_Id");
 
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id_created")
-                        .HasColumnType("int");
+                    b.HasKey("ElementId", "SFFId");
 
-                    b.Property<int?>("Id_updated")
-                        .HasColumnType("int");
-
-                    b.HasKey("ElementId", "SFF_Id");
-
-                    b.HasIndex("SFF_Id");
+                    b.HasIndex("SFFId");
 
                     b.ToTable("ElementSFF");
                 });
@@ -889,19 +1223,7 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Norm_Id");
 
-                    b.Property<DateTime>("DT_created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DT_updated")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id_created")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Id_updated")
                         .HasColumnType("int");
 
                     b.HasKey("MachineId", "NormId");
@@ -921,19 +1243,7 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Subsystem_Id");
 
-                    b.Property<DateTime>("DT_created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DT_updated")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id_created")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Id_updated")
                         .HasColumnType("int");
 
                     b.HasKey("SafetyFunctionId", "SubsystemId");
@@ -949,27 +1259,16 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Subsystem_Id");
 
-                    b.Property<int>("CCF_Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DT_created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DT_updated")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("CCFId")
+                        .HasColumnType("int")
+                        .HasColumnName("CCF_Id");
 
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id_created")
-                        .HasColumnType("int");
+                    b.HasKey("SubsystemId", "CCFId");
 
-                    b.Property<int?>("Id_updated")
-                        .HasColumnType("int");
-
-                    b.HasKey("SubsystemId", "CCF_Id");
-
-                    b.HasIndex("CCF_Id");
+                    b.HasIndex("CCFId");
 
                     b.ToTable("SubsystemCCF");
                 });
@@ -984,26 +1283,27 @@ namespace SSEA.DAL.Migrations
                     b.Property<int?>("CurrentState_Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DT_created")
+                    b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DT_updated")
+                    b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Id_created")
+                    b.Property<int>("IdCreated")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Id_updated")
+                    b.Property<int?>("IdUpdated")
                         .HasColumnType("int");
 
-                    b.Property<int>("Machine_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("MachineId")
+                        .HasColumnType("int")
+                        .HasColumnName("Machine_Id");
 
-                    b.Property<string>("ShortName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -1012,7 +1312,7 @@ namespace SSEA.DAL.Migrations
 
                     b.HasIndex("CurrentState_Id");
 
-                    b.HasIndex("Machine_Id");
+                    b.HasIndex("MachineId");
 
                     b.ToTable("AccessPoint");
                 });
@@ -1030,65 +1330,73 @@ namespace SSEA.DAL.Migrations
                     b.Property<double?>("C")
                         .HasColumnType("float");
 
+                    b.Property<string>("CatalogNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<int?>("CurrentState_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DC_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("DCId")
+                        .HasColumnType("int")
+                        .HasColumnName("DC_Id");
 
-                    b.Property<DateTime>("DT_created")
+                    b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DT_updated")
+                    b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id_created")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Id_updated")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("MTTFd_counted")
+                    b.Property<double?>("Dop")
                         .HasColumnType("float");
 
-                    b.Property<int?>("MTTFd_result_Id")
+                    b.Property<double?>("Hop")
+                        .HasColumnType("float");
+
+                    b.Property<int>("IdCreated")
                         .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("LambdaC")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("MTTFdCounted")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("MTTFdResultId")
+                        .HasColumnType("int")
+                        .HasColumnName("MTTFdResult_Id");
+
+                    b.Property<double?>("Nop")
+                        .HasColumnType("float");
 
                     b.Property<short>("OrderNum")
                         .HasColumnType("smallint");
 
-                    b.Property<int?>("Producer_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("ProducerId")
+                        .HasColumnType("int")
+                        .HasColumnName("Producer_Id");
 
-                    b.Property<int>("Subsystem_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("SubsystemId")
+                        .HasColumnType("int")
+                        .HasColumnName("Subsystem_Id");
 
-                    b.Property<double?>("d_op")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("h_op")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("lambda_c")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("n_op")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("t_cycles")
+                    b.Property<double?>("Tcycles")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentState_Id");
 
-                    b.HasIndex("DC_Id");
+                    b.HasIndex("DCId");
 
-                    b.HasIndex("MTTFd_result_Id");
+                    b.HasIndex("MTTFdResultId");
 
-                    b.HasIndex("Producer_Id");
+                    b.HasIndex("ProducerId");
 
-                    b.HasIndex("Subsystem_Id");
+                    b.HasIndex("SubsystemId");
 
                     b.ToTable("Element");
                 });
@@ -1109,33 +1417,35 @@ namespace SSEA.DAL.Migrations
                     b.Property<int?>("CurrentState_Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DT_created")
+                    b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DT_updated")
+                    b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int?>("EvaluationMethod_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("EvaluationMethodId")
+                        .HasColumnType("int")
+                        .HasColumnName("EvaluationMethod_Id");
 
                     b.Property<bool?>("HMI")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Id_created")
+                    b.Property<int>("IdCreated")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Id_updated")
+                    b.Property<int?>("IdUpdated")
                         .HasColumnType("int");
 
                     b.Property<bool?>("MachineHelp")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MachineType_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("MachineTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("MachineType_Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1145,8 +1455,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool?>("PLC")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Producer_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("ProducerId")
+                        .HasColumnType("int")
+                        .HasColumnName("Producer_Id");
 
                     b.Property<bool?>("SafetyMasterInPlace")
                         .HasColumnType("bit");
@@ -1154,20 +1465,21 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool?>("SecurityOfSafetyParts")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("TypeOfLogic_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("TypeOfLogicId")
+                        .HasColumnType("int")
+                        .HasColumnName("TypeOfLogic_Id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentState_Id");
 
-                    b.HasIndex("EvaluationMethod_Id");
+                    b.HasIndex("EvaluationMethodId");
 
-                    b.HasIndex("MachineType_Id");
+                    b.HasIndex("MachineTypeId");
 
-                    b.HasIndex("Producer_Id");
+                    b.HasIndex("ProducerId");
 
-                    b.HasIndex("TypeOfLogic_Id");
+                    b.HasIndex("TypeOfLogicId");
 
                     b.ToTable("Machine");
                 });
@@ -1183,16 +1495,19 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("DT_created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DT_updated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Id_created")
+                    b.Property<int?>("CurrentState_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Id_updated")
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -1201,6 +1516,8 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrentState_Id");
 
                     b.ToTable("Producer");
                 });
@@ -1212,35 +1529,39 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("Av_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("AvId")
+                        .HasColumnType("int")
+                        .HasColumnName("Av_Id");
 
                     b.Property<int?>("CurrentState_Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DT_created")
+                    b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DT_updated")
+                    b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int?>("EvaluationMethod_Id")
+                    b.Property<int>("EvaluationMethodId")
+                        .HasColumnType("int")
+                        .HasColumnName("EvaluationMethod_Id");
+
+                    b.Property<int?>("FId")
+                        .HasColumnType("int")
+                        .HasColumnName("F_Id");
+
+                    b.Property<int?>("FrId")
+                        .HasColumnType("int")
+                        .HasColumnName("Fr_Id");
+
+                    b.Property<int>("IdCreated")
                         .HasColumnType("int");
 
-                    b.Property<int?>("F_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Fr_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id_created")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Id_updated")
+                    b.Property<int?>("IdUpdated")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -1248,62 +1569,71 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("PL_result_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("PId")
+                        .HasColumnType("int")
+                        .HasColumnName("P_Id");
 
-                    b.Property<int?>("PLr_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("PLrId")
+                        .HasColumnType("int")
+                        .HasColumnName("PLr_Id");
 
-                    b.Property<int?>("P_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("PLresultId")
+                        .HasColumnType("int")
+                        .HasColumnName("PLresult_Id");
 
-                    b.Property<int?>("Pr_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("PrId")
+                        .HasColumnType("int")
+                        .HasColumnName("Pr_Id");
 
-                    b.Property<int?>("SILCL_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("SILCLId")
+                        .HasColumnType("int")
+                        .HasColumnName("SILCL_Id");
 
-                    b.Property<int?>("SIL_result_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("SILresultId")
+                        .HasColumnType("int")
+                        .HasColumnName("SILresult_Id");
 
-                    b.Property<int?>("S_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("SId")
+                        .HasColumnType("int")
+                        .HasColumnName("S_Id");
 
-                    b.Property<int?>("Se_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("SeId")
+                        .HasColumnType("int")
+                        .HasColumnName("Se_Id");
 
-                    b.Property<int?>("TypeOfFunction_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("TypeOfFunctionId")
+                        .HasColumnType("int")
+                        .HasColumnName("TypeOfFunction_Id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Av_Id");
+                    b.HasIndex("AvId");
 
                     b.HasIndex("CurrentState_Id");
 
-                    b.HasIndex("EvaluationMethod_Id");
+                    b.HasIndex("EvaluationMethodId");
 
-                    b.HasIndex("F_Id");
+                    b.HasIndex("FId");
 
-                    b.HasIndex("Fr_Id");
+                    b.HasIndex("FrId");
 
-                    b.HasIndex("PL_result_Id");
+                    b.HasIndex("PId");
 
-                    b.HasIndex("PLr_Id");
+                    b.HasIndex("PLrId");
 
-                    b.HasIndex("P_Id");
+                    b.HasIndex("PLresultId");
 
-                    b.HasIndex("Pr_Id");
+                    b.HasIndex("PrId");
 
-                    b.HasIndex("SILCL_Id");
+                    b.HasIndex("SILCLId");
 
-                    b.HasIndex("SIL_result_Id");
+                    b.HasIndex("SILresultId");
 
-                    b.HasIndex("S_Id");
+                    b.HasIndex("SId");
 
-                    b.HasIndex("Se_Id");
+                    b.HasIndex("SeId");
 
-                    b.HasIndex("TypeOfFunction_Id");
+                    b.HasIndex("TypeOfFunctionId");
 
                     b.ToTable("SafetyFunction");
                 });
@@ -1315,54 +1645,54 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("Architecture_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("ArchitectureId")
+                        .HasColumnType("int")
+                        .HasColumnName("Architecture_Id");
 
-                    b.Property<bool>("CCF_valid")
-                        .HasColumnType("bit");
+                    b.Property<int?>("CFFId")
+                        .HasColumnType("int")
+                        .HasColumnName("CFF_Id");
 
-                    b.Property<int?>("CFF_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CatalogNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("Category_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int")
+                        .HasColumnName("Category_Id");
 
                     b.Property<int?>("CurrentState_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DC_result_Id")
-                        .HasColumnType("int");
+                    b.Property<int?>("DCresultId")
+                        .HasColumnType("int")
+                        .HasColumnName("DCresult_Id");
 
-                    b.Property<DateTime>("DT_created")
+                    b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DT_updated")
+                    b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("HFT_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id_created")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Id_updated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MTTFd_result_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PFHd_result_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PL_result_Id")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("SFF_result")
+                    b.Property<double?>("HFT")
                         .HasColumnType("float");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MTTFdResultId")
+                        .HasColumnType("int")
+                        .HasColumnName("MTTFdResult_Id");
+
+                    b.Property<int?>("PFHdResultId")
+                        .HasColumnType("int")
+                        .HasColumnName("PFHdResult_Id");
+
+                    b.Property<int?>("PLresultId")
+                        .HasColumnType("int")
+                        .HasColumnName("PLresult_Id");
+
+                    b.Property<short>("SFFresult")
+                        .HasColumnType("smallint");
 
                     b.Property<double?>("T1")
                         .HasColumnType("float");
@@ -1370,30 +1700,32 @@ namespace SSEA.DAL.Migrations
                     b.Property<double?>("T2")
                         .HasColumnType("float");
 
-                    b.Property<int?>("TypeOfSubsystem_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("TypeOfSubsystemId")
+                        .HasColumnType("int")
+                        .HasColumnName("TypeOfSubsystem_Id");
+
+                    b.Property<bool>("ValidCCF")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Architecture_Id");
+                    b.HasIndex("ArchitectureId");
 
-                    b.HasIndex("CFF_Id");
+                    b.HasIndex("CFFId");
 
-                    b.HasIndex("Category_Id");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("CurrentState_Id");
 
-                    b.HasIndex("DC_result_Id");
+                    b.HasIndex("DCresultId");
 
-                    b.HasIndex("HFT_Id");
+                    b.HasIndex("MTTFdResultId");
 
-                    b.HasIndex("MTTFd_result_Id");
+                    b.HasIndex("PFHdResultId");
 
-                    b.HasIndex("PFHd_result_Id");
+                    b.HasIndex("PLresultId");
 
-                    b.HasIndex("PL_result_Id");
-
-                    b.HasIndex("TypeOfSubsystem_Id");
+                    b.HasIndex("TypeOfSubsystemId");
 
                     b.ToTable("Subsystem");
                 });
@@ -1426,8 +1758,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int?>("Entity_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("EntityId")
+                        .HasColumnType("int")
+                        .HasColumnName("Entity_Id");
 
                     b.Property<bool>("FinalState")
                         .HasColumnType("bit");
@@ -1448,7 +1781,7 @@ namespace SSEA.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Entity_Id");
+                    b.HasIndex("EntityId");
 
                     b.ToTable("SY_State");
                 });
@@ -1460,11 +1793,13 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CurrentState_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("CurrentStateId")
+                        .HasColumnType("int")
+                        .HasColumnName("CurrentState_Id");
 
-                    b.Property<int?>("NextState_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("NextStateId")
+                        .HasColumnType("int")
+                        .HasColumnName("NextState_Id");
 
                     b.Property<string>("Note")
                         .HasMaxLength(200)
@@ -1475,9 +1810,9 @@ namespace SSEA.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrentState_Id");
+                    b.HasIndex("CurrentStateId");
 
-                    b.HasIndex("NextState_Id");
+                    b.HasIndex("NextStateId");
 
                     b.ToTable("SY_StateTransition");
                 });
@@ -1489,6 +1824,15 @@ namespace SSEA.DAL.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SSEA.DAL.Entities.Auth.User", b =>
+                {
+                    b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
+                        .WithMany()
+                        .HasForeignKey("CurrentState_Id");
+
+                    b.Navigation("CurrentState");
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.Auth.UserClaim", b =>
@@ -1535,81 +1879,83 @@ namespace SSEA.DAL.Migrations
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfLogic", b =>
                 {
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Architecture", "Architecture_max")
-                        .WithMany("TypeOfLogics")
-                        .HasForeignKey("Architecture_max_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Architecture", "MaxArchitecture")
+                        .WithMany()
+                        .HasForeignKey("MaxArchitectureId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.Category", "Category_max")
-                        .WithMany("TypeOfLogics")
-                        .HasForeignKey("Category_max_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.Category", "MaxCategory")
+                        .WithMany()
+                        .HasForeignKey("MaxCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.PL", "PL_max")
-                        .WithMany("TypeOfLogics")
-                        .HasForeignKey("PL_max_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "MaxPL")
+                        .WithMany()
+                        .HasForeignKey("MaxPLId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.PFHd", "SIL_max")
-                        .WithMany("TypeOfLogics")
-                        .HasForeignKey("SIL_max_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "MaxSIL")
+                        .WithMany()
+                        .HasForeignKey("MaxSILId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("Architecture_max");
+                    b.Navigation("MaxArchitecture");
 
-                    b.Navigation("Category_max");
+                    b.Navigation("MaxCategory");
 
-                    b.Navigation("PL_max");
+                    b.Navigation("MaxPL");
 
-                    b.Navigation("SIL_max");
+                    b.Navigation("MaxSIL");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.Category", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.Category", b =>
                 {
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "DC_max")
-                        .WithMany("Categories_DC_max")
-                        .HasForeignKey("DC_max_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "MaxDC")
+                        .WithMany()
+                        .HasForeignKey("MaxDCId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "DC_min")
-                        .WithMany("Categories_DC_min")
-                        .HasForeignKey("DC_min_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", "MaxMTTFd")
+                        .WithMany()
+                        .HasForeignKey("MaxMTTFdId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.MTTFd", "MTTFd_max")
-                        .WithMany("Categories_MTTFd_max")
-                        .HasForeignKey("MTTFd_max_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "MinDC")
+                        .WithMany()
+                        .HasForeignKey("MinDCId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.MTTFd", "MTTFd_min")
-                        .WithMany("Categories_MTTFd_min")
-                        .HasForeignKey("MTTFd_min_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", "MinMTTFd")
+                        .WithMany()
+                        .HasForeignKey("MinMTTFdId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("DC_max");
+                    b.Navigation("MaxDC");
 
-                    b.Navigation("DC_min");
+                    b.Navigation("MaxMTTFd");
 
-                    b.Navigation("MTTFd_max");
+                    b.Navigation("MinDC");
 
-                    b.Navigation("MTTFd_min");
+                    b.Navigation("MinMTTFd");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Architecture", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Architecture", b =>
                 {
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.HFT", "HFT")
-                        .WithMany("Architectures")
-                        .HasForeignKey("HFT_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "MaxPFHd")
+                        .WithMany()
+                        .HasForeignKey("MaxPFHdId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.PFHd", "PFHd_max")
-                        .WithMany("Architectures")
-                        .HasForeignKey("PFHd_max_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("HFT");
-
-                    b.Navigation("PFHd_max");
+                    b.Navigation("MaxPFHd");
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.JoinEntities.AccessPointSafetyFunction", b =>
@@ -1639,9 +1985,9 @@ namespace SSEA.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.SFF", "SFF")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.SFF", "SFF")
                         .WithMany("ElementSFFs")
-                        .HasForeignKey("SFF_Id")
+                        .HasForeignKey("SFFId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1692,7 +2038,7 @@ namespace SSEA.DAL.Migrations
                 {
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.CCF", "CCF")
                         .WithMany("SubsystemCCFs")
-                        .HasForeignKey("CCF_Id")
+                        .HasForeignKey("CCFId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1711,12 +2057,11 @@ namespace SSEA.DAL.Migrations
                 {
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CurrentState_Id");
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Machine", "Machine")
                         .WithMany("AccessPoints")
-                        .HasForeignKey("Machine_Id")
+                        .HasForeignKey("MachineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1729,27 +2074,28 @@ namespace SSEA.DAL.Migrations
                 {
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CurrentState_Id");
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "DC")
-                        .WithMany("Elements")
-                        .HasForeignKey("DC_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("DCId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.MTTFd", "MTTFd_result")
-                        .WithMany("Elements")
-                        .HasForeignKey("MTTFd_result_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", "MTTFdResult")
+                        .WithMany()
+                        .HasForeignKey("MTTFdResultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", "Producer")
-                        .WithMany("Elements")
-                        .HasForeignKey("Producer_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("ProducerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Subsystem", "Subsystem")
                         .WithMany("Elements")
-                        .HasForeignKey("Subsystem_Id")
+                        .HasForeignKey("SubsystemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1757,7 +2103,7 @@ namespace SSEA.DAL.Migrations
 
                     b.Navigation("DC");
 
-                    b.Navigation("MTTFd_result");
+                    b.Navigation("MTTFdResult");
 
                     b.Navigation("Producer");
 
@@ -1768,27 +2114,29 @@ namespace SSEA.DAL.Migrations
                 {
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CurrentState_Id");
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.EvaluationMethod", "EvaluationMethod")
-                        .WithMany("Machines")
-                        .HasForeignKey("EvaluationMethod_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("EvaluationMethodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.MachineType", "MachineType")
-                        .WithMany("Machines")
-                        .HasForeignKey("MachineType_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("MachineTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", "Producer")
-                        .WithMany("Machines")
-                        .HasForeignKey("Producer_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("ProducerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfLogic", "TypeOfLogic")
-                        .WithMany("Machines")
-                        .HasForeignKey("TypeOfLogic_Id")
+                        .WithMany()
+                        .HasForeignKey("TypeOfLogicId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CurrentState");
@@ -1802,77 +2150,87 @@ namespace SSEA.DAL.Migrations
                     b.Navigation("TypeOfLogic");
                 });
 
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", b =>
+                {
+                    b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
+                        .WithMany()
+                        .HasForeignKey("CurrentState_Id");
+
+                    b.Navigation("CurrentState");
+                });
+
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.SafetyFunction", b =>
                 {
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Av", "Av")
-                        .WithMany("SafetyFunctions")
-                        .HasForeignKey("Av_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Av", "Av")
+                        .WithMany()
+                        .HasForeignKey("AvId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CurrentState_Id");
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.EvaluationMethod", "EvaluationMethod")
-                        .WithMany("SafetyFunctions")
-                        .HasForeignKey("EvaluationMethod_Id")
+                        .WithMany()
+                        .HasForeignKey("EvaluationMethodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.F", "F")
+                        .WithMany()
+                        .HasForeignKey("FId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.F", "F")
-                        .WithMany("SafetyFunctions")
-                        .HasForeignKey("F_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Fr", "Fr")
+                        .WithMany()
+                        .HasForeignKey("FrId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Fr", "Fr")
-                        .WithMany("SafetyFunctions")
-                        .HasForeignKey("Fr_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.P", "P")
+                        .WithMany()
+                        .HasForeignKey("PId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.PL", "PL_result")
-                        .WithMany("SafetyFunctions_PL_result")
-                        .HasForeignKey("PL_result_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "PLr")
+                        .WithMany()
+                        .HasForeignKey("PLrId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.PL", "PLr")
-                        .WithMany("SafetyFunctions_PLr")
-                        .HasForeignKey("PLr_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "PLresult")
+                        .WithMany()
+                        .HasForeignKey("PLresultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.P", "P")
-                        .WithMany("SafetyFunctions")
-                        .HasForeignKey("P_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Pr", "Pr")
+                        .WithMany()
+                        .HasForeignKey("PrId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Pr", "Pr")
-                        .WithMany("SafetyFunctions")
-                        .HasForeignKey("Pr_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "SILCL")
+                        .WithMany()
+                        .HasForeignKey("SILCLId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.PFHd", "SILCL")
-                        .WithMany("SafetyFunctions_SILCL")
-                        .HasForeignKey("SILCL_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "SILresult")
+                        .WithMany()
+                        .HasForeignKey("SILresultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.PFHd", "SIL_result")
-                        .WithMany("SafetyFunctions_SIL_result")
-                        .HasForeignKey("SIL_result_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.S", "S")
+                        .WithMany()
+                        .HasForeignKey("SId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.S", "S")
-                        .WithMany("SafetyFunctions")
-                        .HasForeignKey("S_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Se", "Se")
-                        .WithMany("SafetyFunctions")
-                        .HasForeignKey("Se_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Se", "Se")
+                        .WithMany()
+                        .HasForeignKey("SeId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfFunction", "TypeOfFunction")
-                        .WithMany("SafetyFunctions")
-                        .HasForeignKey("TypeOfFunction_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("TypeOfFunctionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Av");
 
@@ -1886,9 +2244,9 @@ namespace SSEA.DAL.Migrations
 
                     b.Navigation("P");
 
-                    b.Navigation("PL_result");
-
                     b.Navigation("PLr");
+
+                    b.Navigation("PLresult");
 
                     b.Navigation("Pr");
 
@@ -1896,64 +2254,59 @@ namespace SSEA.DAL.Migrations
 
                     b.Navigation("Se");
 
-                    b.Navigation("SIL_result");
-
                     b.Navigation("SILCL");
+
+                    b.Navigation("SILresult");
 
                     b.Navigation("TypeOfFunction");
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Subsystem", b =>
                 {
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Architecture", "Architecture")
-                        .WithMany("Subsystems")
-                        .HasForeignKey("Architecture_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Architecture", "Architecture")
+                        .WithMany()
+                        .HasForeignKey("ArchitectureId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.CFF", "CFF")
-                        .WithMany("Subsystems")
-                        .HasForeignKey("CFF_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.CFF", "CFF")
+                        .WithMany()
+                        .HasForeignKey("CFFId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.Category", "Category")
-                        .WithMany("Subsystems")
-                        .HasForeignKey("Category_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id")
+                        .HasForeignKey("CurrentState_Id");
+
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "DCresult")
+                        .WithMany()
+                        .HasForeignKey("DCresultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "DC_result")
-                        .WithMany("Subsystems")
-                        .HasForeignKey("DC_result_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", "MTTFdResult")
+                        .WithMany()
+                        .HasForeignKey("MTTFdResultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.HFT", "HFT")
-                        .WithMany("Subsystems")
-                        .HasForeignKey("HFT_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "PFHdResult")
+                        .WithMany()
+                        .HasForeignKey("PFHdResultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.MTTFd", "MTTFd_result")
-                        .WithMany("Subsystems")
-                        .HasForeignKey("MTTFd_result_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.PFHd", "PFHd_result")
-                        .WithMany("Subsystems")
-                        .HasForeignKey("PFHd_result_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.PL", "PL_result")
-                        .WithMany("Subsystems")
-                        .HasForeignKey("PL_result_Id")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "PLresult")
+                        .WithMany()
+                        .HasForeignKey("PLresultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfSubsystem", "TypeOfSubsystem")
-                        .WithMany("Subsystems")
-                        .HasForeignKey("TypeOfSubsystem_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("TypeOfSubsystemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Architecture");
 
@@ -1963,15 +2316,13 @@ namespace SSEA.DAL.Migrations
 
                     b.Navigation("CurrentState");
 
-                    b.Navigation("DC_result");
+                    b.Navigation("DCresult");
 
-                    b.Navigation("HFT");
+                    b.Navigation("MTTFdResult");
 
-                    b.Navigation("MTTFd_result");
+                    b.Navigation("PFHdResult");
 
-                    b.Navigation("PFHd_result");
-
-                    b.Navigation("PL_result");
+                    b.Navigation("PLresult");
 
                     b.Navigation("TypeOfSubsystem");
                 });
@@ -1980,8 +2331,9 @@ namespace SSEA.DAL.Migrations
                 {
                     b.HasOne("SSEA.DAL.Entities.System.Entity", "Entity")
                         .WithMany("States")
-                        .HasForeignKey("Entity_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Entity");
                 });
@@ -1989,14 +2341,16 @@ namespace SSEA.DAL.Migrations
             modelBuilder.Entity("SSEA.DAL.Entities.System.StateTransition", b =>
                 {
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
-                        .WithMany("StateTransitions_current")
-                        .HasForeignKey("CurrentState_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("CurrentStateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.System.State", "NextState")
-                        .WithMany("StateTransitions_next")
-                        .HasForeignKey("NextState_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("NextStateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("CurrentState");
 
@@ -2008,148 +2362,14 @@ namespace SSEA.DAL.Migrations
                     b.Navigation("SubsystemCCFs");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", b =>
-                {
-                    b.Navigation("Categories_DC_max");
-
-                    b.Navigation("Categories_DC_min");
-
-                    b.Navigation("Elements");
-
-                    b.Navigation("Subsystems");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.EvaluationMethod", b =>
-                {
-                    b.Navigation("Machines");
-
-                    b.Navigation("SafetyFunctions");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.MachineType", b =>
-                {
-                    b.Navigation("Machines");
-                });
-
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Norm", b =>
                 {
                     b.Navigation("MachineNorms");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfFunction", b =>
-                {
-                    b.Navigation("SafetyFunctions");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfLogic", b =>
-                {
-                    b.Navigation("Machines");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfSubsystem", b =>
-                {
-                    b.Navigation("Subsystems");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.Category", b =>
-                {
-                    b.Navigation("Subsystems");
-
-                    b.Navigation("TypeOfLogics");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.F", b =>
-                {
-                    b.Navigation("SafetyFunctions");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.MTTFd", b =>
-                {
-                    b.Navigation("Categories_MTTFd_max");
-
-                    b.Navigation("Categories_MTTFd_min");
-
-                    b.Navigation("Elements");
-
-                    b.Navigation("Subsystems");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.P", b =>
-                {
-                    b.Navigation("SafetyFunctions");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.PL", b =>
-                {
-                    b.Navigation("SafetyFunctions_PL_result");
-
-                    b.Navigation("SafetyFunctions_PLr");
-
-                    b.Navigation("Subsystems");
-
-                    b.Navigation("TypeOfLogics");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL_methodics.S", b =>
-                {
-                    b.Navigation("SafetyFunctions");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Architecture", b =>
-                {
-                    b.Navigation("Subsystems");
-
-                    b.Navigation("TypeOfLogics");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Av", b =>
-                {
-                    b.Navigation("SafetyFunctions");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.CFF", b =>
-                {
-                    b.Navigation("Subsystems");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Fr", b =>
-                {
-                    b.Navigation("SafetyFunctions");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.HFT", b =>
-                {
-                    b.Navigation("Architectures");
-
-                    b.Navigation("Subsystems");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.PFHd", b =>
-                {
-                    b.Navigation("Architectures");
-
-                    b.Navigation("SafetyFunctions_SIL_result");
-
-                    b.Navigation("SafetyFunctions_SILCL");
-
-                    b.Navigation("Subsystems");
-
-                    b.Navigation("TypeOfLogics");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Pr", b =>
-                {
-                    b.Navigation("SafetyFunctions");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.SFF", b =>
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.SFF", b =>
                 {
                     b.Navigation("ElementSFFs");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL_methodics.Se", b =>
-                {
-                    b.Navigation("SafetyFunctions");
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.AccessPoint", b =>
@@ -2167,13 +2387,6 @@ namespace SSEA.DAL.Migrations
                     b.Navigation("AccessPoints");
 
                     b.Navigation("MachineNorms");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", b =>
-                {
-                    b.Navigation("Elements");
-
-                    b.Navigation("Machines");
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.SafetyFunction", b =>
@@ -2195,13 +2408,6 @@ namespace SSEA.DAL.Migrations
             modelBuilder.Entity("SSEA.DAL.Entities.System.Entity", b =>
                 {
                     b.Navigation("States");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.System.State", b =>
-                {
-                    b.Navigation("StateTransitions_current");
-
-                    b.Navigation("StateTransitions_next");
                 });
 #pragma warning restore 612, 618
         }

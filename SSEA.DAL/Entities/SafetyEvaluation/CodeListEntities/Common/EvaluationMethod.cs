@@ -17,8 +17,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         [Required]
         [StringLength(3)]
         public string Shortcut { get; set; }
-
-        public ICollection<Machine> Machines { get; set; }
-        public ICollection<SafetyFunction> SafetyFunctions { get; set; }
     }
 }
