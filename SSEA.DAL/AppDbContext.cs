@@ -215,55 +215,67 @@ namespace SSEA.DAL
             builder.Entity<SafetyFunction>(sf =>
             {
                 sf.HasOne(sf => sf.TypeOfFunction)
-                  .WithMany(tof => tof.SafetyFunctions)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.TypeOfFunctionId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.EvaluationMethod)
-                  .WithMany(em => em.SafetyFunctions)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.EvaluationMethodId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.PLr)
-                  .WithMany(pl => pl.SafetyFunctionsPLr)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.PLrId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.PLresult)
-                  .WithMany(pl => pl.SafetyFunctionsPLresult)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.PLresultId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.S)
-                  .WithMany(s => s.SafetyFunctions)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.SId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.F)
-                  .WithMany(f => f.SafetyFunctions)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.FId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.P)
-                  .WithMany(p => p.SafetyFunctions)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.PId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.SILCL)
-                  .WithMany(p => p.SafetyFunctionsSILCL)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.SILCLId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.SILresult)
-                  .WithMany(p => p.SafetyFunctionsSILresult)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.SILresultId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Se)
-                  .WithMany(s => s.SafetyFunctions)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.SeId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Fr)
-                  .WithMany(f => f.SafetyFunctions)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.FrId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Pr)
-                  .WithMany(p => p.SafetyFunctions)
+                  .WithMany()
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Av)
-                  .WithMany(a => a.SafetyFunctions)
+                  .WithMany()
+                  .HasForeignKey(sf => sf.AvId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.CurrentState)
