@@ -142,12 +142,6 @@ namespace SSEA.DAL
                     .WithMany(ap => ap.AccessPointSafetyFunctions)
                     .HasForeignKey(apsf => apsf.AccessPointId)
                     .OnDelete(DeleteBehavior.Cascade);
-
-                apsf.Property(apsf => apsf.SafetyFunctionId)
-                    .HasColumnName("SafetyFunction_Id");
-
-                apsf.Property(apsf => apsf.AccessPointId)
-                    .HasColumnName("AccessPoint_Id");
             });
 
             builder.Entity<SafetyFunctionSubsystem>(sfs =>
@@ -163,12 +157,6 @@ namespace SSEA.DAL
                    .WithMany(sf => sf.SafetyFunctionSubsystems)
                    .HasForeignKey(sfs => sfs.SafetyFunctionId)
                    .OnDelete(DeleteBehavior.Cascade);
-
-                sfs.Property(sfs => sfs.SubsystemId)
-                   .HasColumnName("Subsystem_Id");
-
-                sfs.Property(sfs => sfs.SafetyFunctionId)
-                   .HasColumnName("SafetyFunction_Id");
             });
 
             builder.Entity<Machine>(m =>
@@ -389,12 +377,6 @@ namespace SSEA.DAL
                   .WithMany(s => s.SubsystemCCFs)
                   .HasForeignKey(sc => sc.SubsystemId)
                   .OnDelete(DeleteBehavior.Cascade);
-
-                sc.Property(sc => sc.SubsystemId)
-                  .HasColumnName("Subsystem_Id");
-
-                sc.Property(sc => sc.CCFId)
-                  .HasColumnName("CCF_Id");
             });
 
             builder.Entity<ElementSFF>(es =>
@@ -410,12 +392,6 @@ namespace SSEA.DAL
                   .WithMany(e => e.ElementSFFs)
                   .HasForeignKey(es => es.ElementId)
                   .OnDelete(DeleteBehavior.Cascade);
-
-                es.Property(es => es.ElementId)
-                  .HasColumnName("Element_Id");
-
-                es.Property(es => es.SFFId)
-                  .HasColumnName("SFF_Id");
             });
 
             builder.Entity<Architecture>(a =>
@@ -480,12 +456,6 @@ namespace SSEA.DAL
                  .WithMany(m => m.MachineNorms)
                  .HasForeignKey(mn => mn.MachineId)
                  .OnDelete(DeleteBehavior.Cascade);
-
-               mn.Property(mn => mn.NormId)
-                 .HasColumnName("Norm_Id");
-
-               mn.Property(mn => mn.MachineId)
-                 .HasColumnName("Machine_Id");
             });
 
             builder.Entity<Entity>(e =>

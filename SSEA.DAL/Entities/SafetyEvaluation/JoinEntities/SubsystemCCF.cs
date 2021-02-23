@@ -10,7 +10,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     [Table("SubsystemCCF")]
     public class SubsystemCCF : EntityBase
     {
+        [Column("Subsystem_Id")]
         public int SubsystemId { get; set; }
+
+        [Column("CCF_Id")]
         public int CCFId { get; set; }
 
         public Subsystem Subsystem { get; set; }

@@ -9,7 +9,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     [Table("SafetyFunctionSubsystem")]
     public class SafetyFunctionSubsystem : EntityBase
     {
+        [Column("SafetyFunction_Id")]
         public int SafetyFunctionId { get; set; }
+
+        [Column("Subsystem_Id")]
         public int SubsystemId { get; set; }
 
         public SafetyFunction SafetyFunction { get; set; }
