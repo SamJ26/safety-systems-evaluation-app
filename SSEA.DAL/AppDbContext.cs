@@ -77,12 +77,12 @@ namespace SSEA.DAL
                 // Existing entity was modified
                 if (entry.State.Equals(EntityState.Modified))
                 {
-                    entry.Property("DT_updated").CurrentValue = DateTime.Now;
+                    entry.Property("DateTimeUpdate").CurrentValue = DateTime.Now;
                 }
                 // New entity was added
                 else
                 {
-                    entry.Property("DT_created").CurrentValue = DateTime.Now;
+                    entry.Property("DateTimeCreated").CurrentValue = DateTime.Now;
                 }
             }
 
@@ -187,19 +187,11 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasOne(m => m.CurrentState)
-                 .WithMany()
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                m.HasOne(m => m.CurrentState)
                  .WithMany();
             });
 
             builder.Entity<AccessPoint>(ap =>
             {
-                ap.HasOne(ap => ap.CurrentState)
-                  .WithMany()
-                  .OnDelete(DeleteBehavior.Cascade);
-
                 ap.HasOne(ap => ap.CurrentState)
                   .WithMany();
             });
@@ -271,10 +263,6 @@ namespace SSEA.DAL
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.CurrentState)
-                  .WithMany()
-                  .OnDelete(DeleteBehavior.Restrict);
-
-                sf.HasOne(sf => sf.CurrentState)
                   .WithMany();
             });
 
@@ -326,10 +314,6 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.CurrentState)
-                 .WithMany()
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                s.HasOne(s => s.CurrentState)
                  .WithMany();
             });
 
@@ -348,10 +332,6 @@ namespace SSEA.DAL
                 e.HasOne(e => e.MTTFdResult)
                  .WithMany()
                  .HasForeignKey(e => e.MTTFdResultId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                e.HasOne(e => e.CurrentState)
-                 .WithMany()
                  .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(e => e.CurrentState)
@@ -467,17 +447,20 @@ namespace SSEA.DAL
             {
                 e.HasMany(e => e.States)
                  .WithOne(s => s.Entity)
+                 .HasForeignKey(s => s.EntityId)
                  .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<StateTransition>(st =>
             {
                 st.HasOne(st => st.CurrentState)
-                  .WithMany(cs => cs.CurrentStateTransitions)
+                  .WithMany()
+                  .HasForeignKey(st => st.CurrentStateId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 st.HasOne(st => st.NextState)
-                  .WithMany(ns => ns.NextStateTransitions)
+                  .WithMany()
+                  .HasForeignKey(st => st.NextStateId)
                   .OnDelete(DeleteBehavior.Restrict);
             });
 
