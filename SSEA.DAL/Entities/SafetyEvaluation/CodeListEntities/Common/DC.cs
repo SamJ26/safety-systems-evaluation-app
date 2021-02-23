@@ -20,7 +20,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         public ICollection<Subsystem> Subsystems { get; set; }
         public ICollection<Element> Elements { get; set; }
-        public ICollection<Category> CategoriesDCmin { get; set; }
-        public ICollection<Category> CategoriesDCmax { get; set; }
     }
 }
