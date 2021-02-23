@@ -10,10 +10,9 @@ namespace SSEA.DAL
     {
         public static void SeedData(this ModelBuilder modelBuilder)
         {
-
             #region Data for SIL methodics
 
-            // TODO: modelBuilder.Entity<Architecture>().HasData();
+            // TODO: modelBuilder.Entity<Architecture>().HasData()
 
             modelBuilder.Entity<Av>().HasData(
                 new Av()

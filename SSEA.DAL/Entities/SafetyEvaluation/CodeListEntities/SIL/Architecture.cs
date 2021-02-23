@@ -16,7 +16,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
         public string Label { get; set; }
 
         [StringLength(250)]
-        public string Description { get; set; }
+        public string DescriptionCZ { get; set; }
 
         public bool Logic { get; set; }
         public bool Diagnostic { get; set; }
