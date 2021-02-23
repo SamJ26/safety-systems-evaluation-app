@@ -397,7 +397,8 @@ namespace SSEA.DAL
             builder.Entity<Architecture>(a =>
             {
                 a.HasOne(a => a.MaxPFHd)
-                 .WithMany(p => p.Architectures)
+                 .WithMany()
+                 .HasForeignKey(a => a.MaxPFHdId)
                  .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -427,19 +428,23 @@ namespace SSEA.DAL
             builder.Entity<TypeOfLogic>(tol =>
             {
                 tol.HasOne(tol => tol.MaxPL)
-                   .WithMany(p => p.TypeOfLogics)
+                   .WithMany()
+                   .HasForeignKey(tol => tol.MaxPLId)
                    .OnDelete(DeleteBehavior.Restrict);
 
                 tol.HasOne(tol => tol.MaxCategory)
-                   .WithMany(c => c.TypeOfLogics)
+                   .WithMany()
+                   .HasForeignKey(tol => tol.MaxCategoryId)
                    .OnDelete(DeleteBehavior.Restrict);
 
                 tol.HasOne(tol => tol.MaxSIL)
-                   .WithMany(s => s.TypeOfLogics)
+                   .WithMany()
+                   .HasForeignKey(tol => tol.MaxSILId)
                    .OnDelete(DeleteBehavior.Restrict);
 
                 tol.HasOne(tol => tol.MaxArchitecture)
-                   .WithMany(a => a.TypeOfLogics)
+                   .WithMany()
+                   .HasForeignKey(tol => tol.MaxArchitectureId)
                    .OnDelete(DeleteBehavior.Restrict);
             });
 

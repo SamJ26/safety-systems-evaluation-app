@@ -43,7 +43,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
         [Column("MaxDC_Id")]
         public int MaxDCId { get; set; }
         public DC MaxDC { get; set; }
-
-        public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
     }
 }

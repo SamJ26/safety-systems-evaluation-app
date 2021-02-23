@@ -14,7 +14,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
         [Required]
         [StringLength(2)]
         public string Label { get; set; }
-
-        public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
     }
 }

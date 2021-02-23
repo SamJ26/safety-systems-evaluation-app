@@ -1,10 +1,7 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
-using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
@@ -25,9 +22,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
         public double MaxSFF { get; set; }
         public short HFT { get; set; }
 
-        [ForeignKey("MaxPFHd_Id")]
+        [Column("MaxPFHd_Id")]
+        public int MaxPFHdId { get; set; }
         public PFHd MaxPFHd { get; set; }
-
-        public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
     }
 }

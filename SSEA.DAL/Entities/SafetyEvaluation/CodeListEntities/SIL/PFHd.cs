@@ -14,8 +14,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
         public short ValueSIL { get; set; }
         public float MinPFHd { get; set; }
         public float MaxPFHd { get; set; }
-
-        public ICollection<Architecture> Architectures { get; set; }
-        public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
     }
 }

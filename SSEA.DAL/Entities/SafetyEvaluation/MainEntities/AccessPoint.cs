@@ -13,7 +13,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
     {
         [Required]
         [StringLength(100)]
-        public string ShortName { get; set; }
+        public string Name { get; set; }
 
         [StringLength(200)]
         public string Description { get; set; }
