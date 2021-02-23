@@ -401,19 +401,23 @@ namespace SSEA.DAL
             builder.Entity<Category>(c =>
             {
                 c.HasOne(c => c.MaxMTTFd)
-                 .WithMany(m => m.CategoriesMTTFdMax)
+                 .WithMany()
+                 .HasForeignKey(c => c.MaxMTTFdId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 c.HasOne(c => c.MinMTTFd)
-                 .WithMany(m => m.CategoriesMTTFdMin)
+                 .WithMany()
+                 .HasForeignKey(c => c.MinMTTFdId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 c.HasOne(c => c.MinDC)
-                 .WithMany(dc => dc.CategoriesDCmin)
+                 .WithMany()
+                 .HasForeignKey(c => c.MinDCId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 c.HasOne(c => c.MaxDC)
-                 .WithMany(dc => dc.CategoriesDCmax)
+                 .WithMany()
+                 .HasForeignKey(c => c.MaxDCId)
                  .OnDelete(DeleteBehavior.Restrict);
             });
 

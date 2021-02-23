@@ -28,16 +28,20 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
         public short Channels { get; set; }
         public bool RelevantCCF { get; set; }
 
-        [ForeignKey("MinMTTFd_Id")]
+        [Column("MinMTTFd_Id")]
+        public int MinMTTFdId { get; set; }
         public MTTFd MinMTTFd { get; set; }
 
-        [ForeignKey("MaxMTTFd_Id")]
+        [Column("MaxMTTFd_Id")]
+        public int MaxMTTFdId { get; set; }
         public MTTFd MaxMTTFd { get; set; }
 
-        [ForeignKey("MinDC_Id")]
+        [Column("MinDC_Id")]
+        public int MinDCId { get; set; }
         public DC MinDC { get; set; }
 
-        [ForeignKey("MaxDC_Id")]
+        [Column("MaxDC_Id")]
+        public int MaxDCId { get; set; }
         public DC MaxDC { get; set; }
 
         public ICollection<Subsystem> Subsystems { get; set; }
