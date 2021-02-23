@@ -32,6 +32,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public DC DC { get; set; }
 
         // Properties for PL methodics:
+
         public double? Nop { get; set; }
         public double? Hop { get; set; }
         public double? Dop { get; set; }
@@ -43,6 +44,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public MTTFd MTTFdResult { get; set; }
 
         // Properties for SIL methodics:
+
         public double? C { get; set; }
         public double? LambdaC { get; set; }
 

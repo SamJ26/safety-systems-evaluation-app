@@ -28,7 +28,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
         [ForeignKey("MaxPFHd_Id")]
         public PFHd MaxPFHd { get; set; }
 
-        public ICollection<Subsystem> Subsystems { get; set; }
         public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
     }
 }

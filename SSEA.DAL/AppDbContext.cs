@@ -174,7 +174,7 @@ namespace SSEA.DAL
             builder.Entity<Machine>(m =>
             {
                 m.HasOne(m => m.Producer)
-                 .WithMany(p => p.Machines)
+                 .WithMany()
                  .HasForeignKey(m => m.ProducerId)
                  .OnDelete(DeleteBehavior.Restrict);
 
@@ -298,35 +298,43 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Cascade);
 
                 s.HasOne(s => s.TypeOfSubsystem)
-                 .WithMany(t => t.Subsystems)
+                 .WithMany()
+                 .HasForeignKey(s => s.TypeOfSubsystemId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.MTTFdResult)
-                 .WithMany(m => m.Subsystems)
+                 .WithMany()
+                 .HasForeignKey(s => s.MTTFdResultId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.DCresult)
-                 .WithMany(d => d.Subsystems)
+                 .WithMany()
+                 .HasForeignKey(s => s.DCresultId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.PLresult)
-                 .WithMany(p => p.Subsystems)
+                 .WithMany()
+                 .HasForeignKey(s => s.PLresultId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.Architecture)
-                 .WithMany(a => a.Subsystems)
+                 .WithMany()
+                 .HasForeignKey(s => s.ArchitectureId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.PFHdResult)
-                 .WithMany(p => p.Subsystems)
+                 .WithMany()
+                 .HasForeignKey(s => s.PFHdResultId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.CFF)
-                 .WithMany(c => c.Subsystems)
+                 .WithMany()
+                 .HasForeignKey(s => s.CFFId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.Category)
-                 .WithMany(c => c.Subsystems)
+                 .WithMany()
+                 .HasForeignKey(s => s.CategoryId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.CurrentState)
@@ -340,7 +348,7 @@ namespace SSEA.DAL
             builder.Entity<Element>(e =>
             {
                 e.HasOne(e => e.Producer)
-                 .WithMany(p => p.Elements)
+                 .WithMany()
                  .HasForeignKey(e => e.ProducerId)
                  .OnDelete(DeleteBehavior.Restrict);
 

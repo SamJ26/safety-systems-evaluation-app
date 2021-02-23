@@ -13,7 +13,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
         public short MinCCF { get; set; }
         public short MaxCCF { get; set; }
         public double Beta { get; set; }
-
-        public ICollection<Subsystem> Subsystems { get; set; }
     }
 }

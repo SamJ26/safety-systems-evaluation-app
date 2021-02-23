@@ -17,7 +17,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         public short Min { get; set; }
         public short Max { get; set; }
-
-        public ICollection<Subsystem> Subsystems { get; set; }
     }
 }
