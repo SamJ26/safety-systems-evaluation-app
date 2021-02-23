@@ -175,6 +175,7 @@ namespace SSEA.DAL
             {
                 m.HasOne(m => m.Producer)
                  .WithMany(p => p.Machines)
+                 .HasForeignKey(m => m.ProducerId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasMany(m => m.AccessPoints)
@@ -183,15 +184,18 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Cascade);
 
                 m.HasOne(m => m.EvaluationMethod)
-                 .WithMany(em => em.Machines)
+                 .WithMany()
+                 .HasForeignKey(m => m.EvaluationMethodId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasOne(m => m.MachineType)
-                 .WithMany(mt => mt.Machines)
+                 .WithMany()
+                 .HasForeignKey(m => m.MachineTypeId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasOne(m => m.TypeOfLogic)
-                 .WithMany(t => t.Machines)
+                 .WithMany()
+                 .HasForeignKey(m => m.TypeOfLogicId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasOne(m => m.CurrentState)

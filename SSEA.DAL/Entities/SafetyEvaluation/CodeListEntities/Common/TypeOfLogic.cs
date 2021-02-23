@@ -33,7 +33,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         [ForeignKey("MaxArchitecture_Id")]
         public Architecture MaxArchitecture { get; set; }
-
-        public ICollection<Machine> Machines { get; set; }
     }
 }

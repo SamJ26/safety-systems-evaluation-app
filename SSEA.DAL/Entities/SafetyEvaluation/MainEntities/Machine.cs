@@ -27,16 +27,20 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public bool? SecurityOfSafetyParts { get; set; }
         public bool? SafetyMasterInPlace { get; set; }
 
-        [ForeignKey("Producer_Id")]
+        [Column("Producer_Id")]
+        public int ProducerId { get; set; }
         public Producer Producer { get; set; }
 
-        [ForeignKey("EvaluationMethod_Id")]
+        [Column("EvaluationMethod_Id")]
+        public int EvaluationMethodId { get; set; }
         public EvaluationMethod EvaluationMethod { get; set; }
 
-        [ForeignKey("MachineType_Id")]
+        [Column("MachineType_Id")]
+        public int MachineTypeId { get; set; }
         public MachineType MachineType { get; set; }
 
-        [ForeignKey("TypeOfLogic_Id")]
+        [Column("TypeOfLogic_Id")]
+        public int? TypeOfLogicId { get; set; }
         public TypeOfLogic TypeOfLogic { get; set; }
 
         public ICollection<AccessPoint> AccessPoints { get; set; }
