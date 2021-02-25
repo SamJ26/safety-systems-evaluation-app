@@ -12,7 +12,7 @@ namespace SSEA.DAL
         public static void SeedData(this ModelBuilder modelBuilder)
         {
             // TODO: validated data by competent person
-            // TODO: add DateTimeCreated and IdCreated properties
+            // TODO: add DateTimeCreated, IdCreated and IsValid properties
 
             #region Data for SIL methodics
 
@@ -309,6 +309,58 @@ namespace SSEA.DAL
                     Id = 2,
                     Value = "P2",
                     DescriptionCZ = "Sotva možné",
+                }
+            );
+
+            modelBuilder.Entity<PerformanceLevel>().HasData(
+                new PerformanceLevel()
+                {
+                    Id = 1,
+                    Label = "a",
+                },
+                new PerformanceLevel()
+                {
+                    Id = 2,
+                    Label = "b",
+                },
+                new PerformanceLevel()
+                {
+                    Id = 3,
+                    Label = "c",
+                },
+                new PerformanceLevel()
+                {
+                    Id = 4,
+                    Label = "d",
+                },
+                new PerformanceLevel()
+                {
+                    Id = 5,
+                    Label = "e",
+                }
+            );
+
+            modelBuilder.Entity<MTTFd>().HasData(
+                new MTTFd()
+                {
+                    Id = 1,
+                    ValueCZ = "Krátká",
+                    Min = 3,
+                    Max = 10,
+                },
+                new MTTFd()
+                {
+                    Id = 2,
+                    ValueCZ = "Střední",
+                    Min = 10,
+                    Max = 30,
+                },
+                new MTTFd()
+                {
+                    Id = 3,
+                    ValueCZ = "Dlouhá",
+                    Min = 30,
+                    Max = 100,
                 }
             );
 
