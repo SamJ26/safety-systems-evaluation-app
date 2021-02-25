@@ -14,7 +14,7 @@ namespace SSEA.DAL
         {
             // TODO: validated data by competent person
             // TODO: add DateTimeCreated, IdCreated and IsValid properties
-            // TODO: replace fake data in entity category
+            // TODO: replace fake data in Category
 
             #region Data for SIL methodics
 
@@ -617,6 +617,90 @@ namespace SSEA.DAL
 
                 // TODO: supply all data from table in norm EN ISO 13849-1 on page 74
 
+            );
+
+            modelBuilder.Entity<TypeOfFunction>().HasData(
+                new TypeOfFunction()
+                {
+                    Id = 1,
+                    NameCZ = "Funkce bezpečného zastavení iniciována bezpečnostním zařízením",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 2,
+                    NameCZ = "Funkce ručního opětného nastavení",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 3,
+                    NameCZ = "Funkce místního ovládaní",
+                }
+
+                // TODO: supply all data
+
+            );
+
+            modelBuilder.Entity<TypeOfLogic>().HasData(
+                new TypeOfLogic()
+                {
+                    Id = 1,
+                    NameCZ = "Relé",
+                    NameEN = "Relay",
+                    SI = 4,
+                    SO = 4,
+                    Communication = false,
+                    AccessPointsMaxCount = 2,
+                    EthernetAdressesMaxCount = 0,
+                    MaxPLId = 5,
+                    MaxCategoryId = 5,
+                    MaxSILId = 1,
+                    MaxArchitectureId = 4,
+                },
+                new TypeOfLogic()
+                {
+                    Id = 2,
+                    NameCZ = "CR30",
+                    NameEN = "CR30",
+                    SI = 12,
+                    SO = 10,
+                    Communication = false,
+                    AccessPointsMaxCount = 5,
+                    EthernetAdressesMaxCount = 0,
+                    MaxPLId = 5,
+                    MaxCategoryId = 5,
+                    MaxSILId = 1,
+                    MaxArchitectureId = 4,
+                },
+                new TypeOfLogic()
+                {
+                    Id = 3,
+                    NameCZ = "GMX",
+                    NameEN = "GMX",
+                    SI = 6144,
+                    SO = 6144,
+                    Communication = true,
+                    AccessPointsMaxCount = null,
+                    EthernetAdressesMaxCount = 48,
+                    MaxPLId = 5,
+                    MaxCategoryId = 5,
+                    MaxSILId = 1,
+                    MaxArchitectureId = 4,
+                },
+                new TypeOfLogic()
+                {
+                    Id = 4,
+                    NameCZ = "GLX",
+                    NameEN = "GLX",
+                    SI = 65536,
+                    SO = 65536,
+                    Communication = true,
+                    AccessPointsMaxCount = null,
+                    EthernetAdressesMaxCount = 256,
+                    MaxPLId = 5,
+                    MaxCategoryId = 5,
+                    MaxSILId = 1,
+                    MaxArchitectureId = 4,
+                }
             );
 
             #endregion

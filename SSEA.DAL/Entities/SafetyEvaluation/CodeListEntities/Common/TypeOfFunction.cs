@@ -11,11 +11,16 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
     public class TypeOfFunction : CodeListEntityBase
     {
         [Required]
-        [StringLength(50)]
-        public string ShortName { get; set; }
+        [StringLength(100)]
+        public string NameCZ { get; set; }
 
-        [Required]
-        [StringLength(200)]
-        public string Description { get; set; }
+        [StringLength(100)]
+        public string NameEN { get; set; }
+
+        [StringLength(250)]
+        public string DescriptionCZ { get; set; }
+
+        [StringLength(250)]
+        public string DescriptionEN { get; set; }
     }
 }
