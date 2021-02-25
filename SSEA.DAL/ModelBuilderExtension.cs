@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using System;
@@ -362,6 +363,59 @@ namespace SSEA.DAL
                     Min = 30,
                     Max = 100,
                 }
+            );
+
+            // TODO: add Category seeds
+
+            #endregion
+
+            #region Data for common entities
+
+            modelBuilder.Entity<TypeOfSubsystem>().HasData(
+                new TypeOfSubsystem()
+                {
+                    Id = 1,
+                    NameCZ = "Vstupní",
+                },
+                new TypeOfSubsystem()
+                {
+                    Id = 2,
+                    NameCZ = "Výstupní",
+                },
+                new TypeOfSubsystem()
+                {
+                    Id = 3,
+                    NameCZ = "Logický",
+                },
+                new TypeOfSubsystem()
+                {
+                    Id = 4,
+                    NameCZ = "Komunikační",
+                }
+            );
+
+            modelBuilder.Entity<MachineType>().HasData(
+                new MachineType()
+                {
+                    Id = 1,
+                    NameCZ = "Jednoúčelový stroj",
+                    DescriptionCZ = "Nějaký popis",
+                },
+                new MachineType()
+                {
+                    Id = 2,
+                    NameCZ = "Víceúčelový stroj",
+                    DescriptionCZ = "Nějaký popis",
+                },
+                new MachineType()
+                {
+                    Id = 3,
+                    NameCZ = "Montážní linka",
+                    DescriptionCZ = "Nějaký popis",
+                }
+
+                // TODO: supply all data
+
             );
 
             #endregion

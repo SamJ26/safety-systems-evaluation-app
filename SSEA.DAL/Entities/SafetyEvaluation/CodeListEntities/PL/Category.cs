@@ -16,13 +16,22 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
         public string Label { get; set; }
 
         [StringLength(250)]
-        public string Description { get; set; }
+        public string DescriptionCZ { get; set; }
 
         [StringLength(250)]
-        public string Requirements { get; set; }
+        public string DescriptionEN { get; set; }
 
         [StringLength(250)]
-        public string FailureBehavior { get; set; }
+        public string RequirementsCZ { get; set; }
+
+        [StringLength(250)]
+        public string RequirementsEN { get; set; }
+
+        [StringLength(250)]
+        public string FailureBehaviorCZ { get; set; }
+
+        [StringLength(250)]
+        public string FailureBehaviorEN { get; set; }
 
         public bool Logic { get; set; }
         public short Channels { get; set; }
