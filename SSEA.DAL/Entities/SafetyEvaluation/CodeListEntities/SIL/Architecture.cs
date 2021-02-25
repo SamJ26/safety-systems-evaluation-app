@@ -15,6 +15,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
         [StringLength(250)]
         public string DescriptionCZ { get; set; }
 
+        [StringLength(250)]
+        public string DescriptionEN { get; set; }
+
         public bool Logic { get; set; }
         public bool Diagnostic { get; set; }
         public short Channels { get; set; }

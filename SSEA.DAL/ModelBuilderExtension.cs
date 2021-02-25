@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using System;
 using System.Collections.Generic;
@@ -259,6 +260,55 @@ namespace SSEA.DAL
                     MaxSFF = 99,
                     HFT = 1,
                     MaxPFHdId = 1,
+                }
+            );
+
+            #endregion
+
+            #region Data for PL methodics
+
+            modelBuilder.Entity<S>().HasData(
+                new S()
+                {
+                    Id = 1,
+                    Value = "S1",
+                    DescriptionCZ = "Lehké",
+                },
+                new S()
+                {
+                    Id = 2,
+                    Value = "S2",
+                    DescriptionCZ = "Závažné",
+                }
+            );
+
+            modelBuilder.Entity<F>().HasData(
+                new F()
+                {
+                    Id = 1,
+                    Value = "F1",
+                    DescriptionCZ = "Řídká až málo častá",
+                },
+                new F()
+                {
+                    Id = 2,
+                    Value = "F2",
+                    DescriptionCZ = "Častá až nepřetržitá",
+                }
+            );
+
+            modelBuilder.Entity<P>().HasData(
+                new P()
+                {
+                    Id = 1,
+                    Value = "P1",
+                    DescriptionCZ = "Možné za určitých podmínek",
+                },
+                new P()
+                {
+                    Id = 2,
+                    Value = "P2",
+                    DescriptionCZ = "Sotva možné",
                 }
             );
 

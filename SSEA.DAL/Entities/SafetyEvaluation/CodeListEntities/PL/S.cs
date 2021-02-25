@@ -17,6 +17,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
         public string Value { get; set; }
 
         [StringLength(30)]
-        public string Description { get; set; }
+        public string DescriptionCZ { get; set; }
+
+        [StringLength(30)]
+        public string DescriptionEN { get; set; }
     }
 }
