@@ -12,7 +12,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
     {
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string NameCZ { get; set; }
+
+        [StringLength(50)]
+        public string NameEN { get; set; }
 
         [Required]
         [StringLength(3)]

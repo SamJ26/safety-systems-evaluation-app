@@ -418,6 +418,53 @@ namespace SSEA.DAL
 
             );
 
+            modelBuilder.Entity<Norm>().HasData(
+                new Norm()
+                {
+                    Id = 1,
+                    Label = "ČSN EN ISO 13849-1",
+                    NameCZ = "Bezpečnost strojních zařízení - Bezpečnostné části ovládacích systému - Část 1: Všeobecné zásady pro konstrukci",
+                    CatalogNumber = "15296296",
+                    NormCategory = "B1",
+                },
+                new Norm()
+                {
+                    Id = 2,
+                    Label = "ČSN EN ISO 12100",
+                    NameCZ = "Popis tejto normy",
+                    CatalogNumber = "15296296",
+                    NormCategory = "A",
+                },
+                new Norm()
+                {
+                    Id = 3,
+                    Label = "ČSN EN 62061",
+                    NameCZ = "Popis tejto normy",
+                    CatalogNumber = "15296296",
+                    NormCategory = "B1",
+                }
+
+                // TODO: supply all data
+
+            );
+
+            modelBuilder.Entity<EvaluationMethod>().HasData(
+                new EvaluationMethod()
+                {
+                    Id = 1,
+                    NameCZ = "Úroveň vlastností",
+                    NameEN = "Performance Level",
+                    Shortcut = "PL",
+                },
+                new EvaluationMethod()
+                {
+                    Id = 1,
+                    NameCZ = "Úroveň integrity bezpečnosti",
+                    NameEN = "Safety Integrity Level",
+                    Shortcut = "SIL",
+                }
+            );
+
             #endregion
 
         }
