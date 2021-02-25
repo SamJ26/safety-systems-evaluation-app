@@ -458,11 +458,88 @@ namespace SSEA.DAL
                 },
                 new EvaluationMethod()
                 {
-                    Id = 1,
+                    Id = 2,
                     NameCZ = "Úroveň integrity bezpečnosti",
                     NameEN = "Safety Integrity Level",
                     Shortcut = "SIL",
                 }
+            );
+
+            modelBuilder.Entity<DC>().HasData(
+                new DC()
+                {
+                    Id = 1,
+                    ValueCZ = "Žádné",
+                    Min = 0,
+                    Max = 60,
+                },
+                new DC()
+                {
+                    Id = 2,
+                    ValueCZ = "Nízké",
+                    Min = 60,
+                    Max = 90,
+                },
+                new DC()
+                {
+                    Id = 3,
+                    ValueCZ = "Střední",
+                    Min = 90,
+                    Max = 99,
+                },
+                new DC()
+                {
+                    Id = 4,
+                    ValueCZ = "Vysoké",
+                    Min = 99,
+                    Max = 100,
+                }
+            );
+
+            modelBuilder.Entity<CCF>().HasData(
+                new CCF()
+                {
+                    Id = 1,
+                    DescriptionCZ = "Fyzické oddělení medzi jednotlivými dráhami signálu",
+                    TypeCZ = "Oddělení/segregace",
+                    Points = 15,
+                    ForPL = true,
+                },
+                new CCF()
+                {
+                    Id = 2,
+                    DescriptionCZ = "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy",
+                    TypeCZ = "Diverzita",
+                    Points = 20,
+                    ForPL = true,
+                },
+                new CCF()
+                {
+                    Id = 3,
+                    DescriptionCZ = "Ochrana proti přepětí, přetlaku, nadproudu, atd.",
+                    TypeCZ = "Konstrukce/použití/zkušenosti",
+                    Points = 15,
+                    ForPL = true,
+                },
+                new CCF()
+                {
+                    Id = 4,
+                    DescriptionCZ = "Jsou použity osvědčené součásti",
+                    TypeCZ = "Konstrukce/použití/zkušenosti",
+                    Points = 5,
+                    ForPL = true,
+                },
+                new CCF()
+                {
+                    Id = 5,
+                    DescriptionCZ = "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?",
+                    TypeCZ = "Posouzení/analýza",
+                    Points = 5,
+                    ForPL = true,
+                }
+
+                // TODO: supply all data from table in norm EN ISO 13849-1 on page 74
+
             );
 
             #endregion
