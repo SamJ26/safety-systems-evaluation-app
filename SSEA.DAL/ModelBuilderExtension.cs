@@ -14,6 +14,7 @@ namespace SSEA.DAL
         {
             // TODO: validated data by competent person
             // TODO: add DateTimeCreated, IdCreated and IsValid properties
+            // TODO: replace fake data in entity category
 
             #region Data for SIL methodics
 
@@ -365,7 +366,83 @@ namespace SSEA.DAL
                 }
             );
 
-            // TODO: add Category seeds
+            modelBuilder.Entity<Category>().HasData(
+                new Category()
+                {
+                    Id = 1,
+                    Label = "B",
+                    DescriptionCZ = "Random text",
+                    RequirementsCZ = "Random text",
+                    FailureBehaviorCZ = "Random text",
+                    Logic = true,
+                    Channels = 1,
+                    RelevantCCF = false,
+                    MinMTTFdId = 1,
+                    MaxMTTFdId = 2,
+                    MinDCId = 1,
+                    MaxDCId = 1,
+                },
+                new Category()
+                {
+                    Id = 2,
+                    Label = "1",
+                    DescriptionCZ = "Random text",
+                    RequirementsCZ = "Random text",
+                    FailureBehaviorCZ = "Random text",
+                    Logic = true,
+                    Channels = 1,
+                    RelevantCCF = false,
+                    MinMTTFdId = 3,
+                    MaxMTTFdId = 3,
+                    MinDCId = 1,
+                    MaxDCId = 1,
+                },
+                new Category()
+                {
+                    Id = 3,
+                    Label = "2",
+                    DescriptionCZ = "Random text",
+                    RequirementsCZ = "Random text",
+                    FailureBehaviorCZ = "Random text",
+                    Logic = true,
+                    Channels = 1,
+                    RelevantCCF = true,
+                    MinMTTFdId = 1,
+                    MaxMTTFdId = 3,
+                    MinDCId = 2,
+                    MaxDCId = 3,
+                },
+                new Category()
+                {
+                    Id = 4,
+                    Label = "3",
+                    DescriptionCZ = "Random text",
+                    RequirementsCZ = "Random text",
+                    FailureBehaviorCZ = "Random text",
+                    Logic = true,
+                    Channels = 2,
+                    RelevantCCF = true,
+                    MinMTTFdId = 1,
+                    MaxMTTFdId = 3,
+                    MinDCId = 2,
+                    MaxDCId = 3,
+                },
+                new Category()
+                {
+                    Id = 5,
+                    Label = "4",
+                    DescriptionCZ = "Random text",
+                    RequirementsCZ = "Random text",
+                    FailureBehaviorCZ = "Random text",
+                    Logic = true,
+                    Channels = 2,
+                    RelevantCCF = true,
+                    MinMTTFdId = 3,
+                    MaxMTTFdId = 3,
+                    MinDCId = 4,
+                    MaxDCId = 4,
+                }
+            );
 
             #endregion
 
