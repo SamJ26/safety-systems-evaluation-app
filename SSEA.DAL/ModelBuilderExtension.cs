@@ -13,7 +13,7 @@ namespace SSEA.DAL
         public static void SeedData(this ModelBuilder modelBuilder)
         {
             // TODO: validated data by competent person
-            // TODO: add DateTimeCreated, IdCreated and IsValid properties
+            // TODO: add DateTimeCreated, IdCreated properties
             // TODO: replace fake data in Category
 
             #region Data for SIL methodics

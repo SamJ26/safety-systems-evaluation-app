@@ -33,8 +33,10 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    TypeCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TypeEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Points = table.Column<long>(type: "bigint", nullable: false),
                     ForPL = table.Column<bool>(type: "bit", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
@@ -74,7 +76,8 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Value = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    ValueCZ = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    ValueEN = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     Min = table.Column<short>(type: "smallint", nullable: false),
                     Max = table.Column<short>(type: "smallint", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
@@ -94,7 +97,8 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NameCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NameEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Shortcut = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -114,7 +118,8 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Value = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
@@ -152,8 +157,10 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    NameCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NameEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
@@ -171,7 +178,8 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Value = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    ValueCZ = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    ValueEN = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     Min = table.Column<short>(type: "smallint", nullable: false),
                     Max = table.Column<short>(type: "smallint", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
@@ -191,10 +199,10 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Label = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Label = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     NameCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    NameEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    CatalogNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    NameEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    CatalogNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     NormCategory = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -214,7 +222,8 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Value = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
@@ -291,7 +300,8 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Value = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
@@ -380,8 +390,10 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ShortName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    NameCZ = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    NameEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
@@ -399,7 +411,8 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    NameCZ = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    NameEN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
@@ -418,9 +431,12 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Label = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    Requirements = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    FailureBehavior = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    RequirementsCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    RequirementsEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    FailureBehaviorCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    FailureBehaviorEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Logic = table.Column<bool>(type: "bit", nullable: false),
                     Channels = table.Column<short>(type: "smallint", nullable: false),
                     RelevantCCF = table.Column<bool>(type: "bit", nullable: false),
@@ -471,6 +487,7 @@ namespace SSEA.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Label = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     DescriptionCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Logic = table.Column<bool>(type: "bit", nullable: false),
                     Diagnostic = table.Column<bool>(type: "bit", nullable: false),
                     Channels = table.Column<short>(type: "smallint", nullable: false),
@@ -547,7 +564,10 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NameCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NameEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     SI = table.Column<int>(type: "int", nullable: false),
                     SO = table.Column<int>(type: "int", nullable: false),
                     Communication = table.Column<bool>(type: "bit", nullable: false),
@@ -1241,6 +1261,245 @@ namespace SSEA.DAL.Migrations
                         principalTable: "SafetyFunction",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Av",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nemožné", null, 0, null, true, (short)5 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pradvěpodobné", null, 0, null, true, (short)1 },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možné za určitých podmínek", null, 0, null, true, (short)3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CCF",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "ForPL", "IdCreated", "IdUpdated", "IsValid", "Points", "TypeCZ", "TypeEN" },
+                values: new object[,]
+                {
+                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?", null, true, 0, null, true, 5L, "Posouzení/analýza", null },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Fyzické oddělení medzi jednotlivými dráhami signálu", null, true, 0, null, true, 15L, "Oddělení/segregace", null },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou použity osvědčené součásti", null, true, 0, null, true, 5L, "Konstrukce/použití/zkušenosti", null },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Ochrana proti přepětí, přetlaku, nadproudu, atd.", null, true, 0, null, true, 15L, "Konstrukce/použití/zkušenosti", null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy", null, true, 0, null, true, 20L, "Diverzita", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CFF",
+                columns: new[] { "Id", "Beta", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "MaxCCF", "MinCCF" },
+                values: new object[,]
+                {
+                    { 4, 0.01, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)85 },
+                    { 3, 0.02, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)85, (short)65 },
+                    { 1, 0.10000000000000001, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)35, (short)0 },
+                    { 2, 0.050000000000000003, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)65, (short)35 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "DC",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
+                values: new object[,]
+                {
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)99, "Vysoké", null },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)99, (short)90, "Střední", null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)90, (short)60, "Nízké", null },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)60, (short)0, "Žádné", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EvaluationMethod",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN", "Shortcut" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Úroveň vlastností", "Performance Level", "PL" },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Úroveň integrity bezpečnosti", "Safety Integrity Level", "SIL" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "F",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                values: new object[,]
+                {
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Častá až nepřetržitá", null, 0, null, true, "F2" },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Řídká až málo častá", null, 0, null, true, "F1" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Fr",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "FrequencyOfThreatCZ", "FrequencyOfThreatEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                values: new object[,]
+                {
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1h až <= 1 den", null, 0, null, true, (short)5 },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "<= 1h", null, 0, null, true, (short)5 },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 2 týdny až <= 1 rok", null, 0, null, true, (short)3 },
+                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1 rok", null, 0, null, true, (short)2 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1 den až <= 2 týdny", null, 0, null, true, (short)4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MTTFd",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)10, (short)3, "Krátká", null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)30, (short)10, "Střední", null },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)30, "Dlouhá", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MachineType",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN" },
+                values: new object[,]
+                {
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Montážní linka", null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Víceúčelový stroj", null },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Jednoúčelový stroj", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Norm",
+                columns: new[] { "Id", "CatalogNumber", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Label", "NameCZ", "NameEN", "NormCategory" },
+                values: new object[,]
+                {
+                    { 3, "15296296", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "ČSN EN 62061", "Popis tejto normy", null, "B1" },
+                    { 2, "15296296", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "ČSN EN ISO 12100", "Popis tejto normy", null, "A" },
+                    { 1, "15296296", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "ČSN EN ISO 13849-1", "Bezpečnost strojních zařízení - Bezpečnostné části ovládacích systému - Část 1: Všeobecné zásady pro konstrukci", null, "B1" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "P",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možné za určitých podmínek", null, 0, null, true, "P1" },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Sotva možné", null, 0, null, true, "P2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PFHd",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "MaxPFHd", "MinPFHd", "ValueSIL" },
+                values: new object[,]
+                {
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, 1E-05f, 1E-06f, (short)2 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, 0.0001f, 1E-05f, (short)1 },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, 1E-06f, 1E-07f, (short)3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PL",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Label" },
+                values: new object[,]
+                {
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "b" },
+                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "e" },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "d" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PL",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Label" },
+                values: new object[,]
+                {
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "c" },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "a" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Pr",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                values: new object[,]
+                {
+                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Zanedbatelná", null, 0, null, true, (short)1 },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Výjimečná", null, 0, null, true, (short)2 },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Velmi vysoká", null, 0, null, true, (short)5 },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pravděpodobná", null, 0, null, true, (short)4 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možná", null, 0, null, true, (short)3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "S",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Lehké", null, 0, null, true, "S1" },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Závažné", null, 0, null, true, "S2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SFF",
+                columns: new[] { "Id", "ComponentNameCZ", "ComponentNameEN", "DateTimeCreated", "DateTimeUpdated", "FailureModeCZ", "FailureModeEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                values: new object[,]
+                {
+                    { 3, "Relé", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Současný zkrat mezi třemi kontakty přepínacího spínače", null, 0, null, true, 10L },
+                    { 2, "Relé", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Kontakty nelze sepnout", null, 0, null, true, 10L },
+                    { 1, "Relé", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Kontakty nelze rozepnout", null, 0, null, true, 10L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Se",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                values: new object[,]
+                {
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Trvalé: zlomená končetina, ztráta prstu", null, 0, null, true, (short)3 },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Trvalé: smrt, ztráta oka nebo paže", null, 0, null, true, (short)4 },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Přechodné: vyžadující ošetření na první pomoci", null, 0, null, true, (short)1 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Přechodné: vyžadující ošetření praktickým lékařem", null, 0, null, true, (short)2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TypeOfFunction",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN" },
+                values: new object[,]
+                {
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce místního ovládaní", null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce ručního opětného nastavení", null },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce bezpečného zastavení iniciována bezpečnostním zařízením", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TypeOfSubsystem",
+                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Vstupní", null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Výstupní", null },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Logický", null },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Komunikační", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Architecture",
+                columns: new[] { "Id", "Channels", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "Diagnostic", "HFT", "IdCreated", "IdUpdated", "IsValid", "Label", "Logic", "MaxPFHd_Id", "MaxSFF", "MinSFF" },
+                values: new object[,]
+                {
+                    { 1, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, (short)0, 0, null, true, "A", true, 1, 99.0, 60.0 },
+                    { 2, (short)2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, (short)1, 0, null, true, "B", true, 1, 99.0, 0.0 },
+                    { 3, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, true, (short)0, 0, null, true, "C", true, 1, 99.0, 60.0 },
+                    { 4, (short)2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, true, (short)1, 0, null, true, "D", true, 1, 99.0, 0.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "Id", "Channels", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "FailureBehaviorCZ", "FailureBehaviorEN", "IdCreated", "IdUpdated", "IsValid", "Label", "Logic", "MaxDC_Id", "MaxMTTFd_Id", "MinDC_Id", "MinMTTFd_Id", "RelevantCCF", "RequirementsCZ", "RequirementsEN" },
+                values: new object[,]
+                {
+                    { 1, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "B", true, 1, 2, 1, 1, false, "Random text", null },
+                    { 2, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "1", true, 1, 3, 1, 3, false, "Random text", null },
+                    { 3, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "2", true, 3, 3, 2, 1, true, "Random text", null },
+                    { 4, (short)2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "3", true, 3, 3, 2, 1, true, "Random text", null },
+                    { 5, (short)2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "4", true, 4, 3, 4, 3, true, "Random text", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TypeOfLogic",
+                columns: new[] { "Id", "AccessPointsMaxCount", "Communication", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "EthernetAdressesMaxCount", "IdCreated", "IdUpdated", "IsValid", "MaxArchitecture_Id", "MaxCategory_Id", "MaxPL_Id", "MaxSIL_Id", "NameCZ", "NameEN", "SI", "SO" },
+                values: new object[,]
+                {
+                    { 1, 2, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0L, 0, null, true, 4, 5, 5, 1, "Relé", "Relay", 4, 4 },
+                    { 2, 5, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0L, 0, null, true, 4, 5, 5, 1, "CR30", "CR30", 12, 10 },
+                    { 3, null, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 48L, 0, null, true, 4, 5, 5, 1, "GMX", "GMX", 6144, 6144 },
+                    { 4, null, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 256L, 0, null, true, 4, 5, 5, 1, "GLX", "GLX", 65536, 65536 }
                 });
 
             migrationBuilder.CreateIndex(

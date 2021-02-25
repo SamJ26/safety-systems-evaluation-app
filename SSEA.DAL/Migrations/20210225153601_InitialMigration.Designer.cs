@@ -10,7 +10,7 @@ using SSEA.DAL;
 namespace SSEA.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210223105958_InitialMigration")]
+    [Migration("20210225153601_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -251,8 +251,12 @@ namespace SSEA.DAL.Migrations
                     b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionCZ")
                         .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("DescriptionEN")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -271,14 +275,75 @@ namespace SSEA.DAL.Migrations
                     b.Property<long>("Points")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("TypeCZ")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TypeEN")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("CCF");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Fyzické oddělení medzi jednotlivými dráhami signálu",
+                            ForPL = true,
+                            IdCreated = 0,
+                            IsValid = true,
+                            Points = 15L,
+                            TypeCZ = "Oddělení/segregace"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy",
+                            ForPL = true,
+                            IdCreated = 0,
+                            IsValid = true,
+                            Points = 20L,
+                            TypeCZ = "Diverzita"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Ochrana proti přepětí, přetlaku, nadproudu, atd.",
+                            ForPL = true,
+                            IdCreated = 0,
+                            IsValid = true,
+                            Points = 15L,
+                            TypeCZ = "Konstrukce/použití/zkušenosti"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Jsou použity osvědčené součásti",
+                            ForPL = true,
+                            IdCreated = 0,
+                            IsValid = true,
+                            Points = 5L,
+                            TypeCZ = "Konstrukce/použití/zkušenosti"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?",
+                            ForPL = true,
+                            IdCreated = 0,
+                            IsValid = true,
+                            Points = 5L,
+                            TypeCZ = "Posouzení/analýza"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", b =>
@@ -309,14 +374,60 @@ namespace SSEA.DAL.Migrations
                     b.Property<short>("Min")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("Value")
+                    b.Property<string>("ValueCZ")
                         .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("ValueEN")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
                     b.ToTable("DC");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Max = (short)60,
+                            Min = (short)0,
+                            ValueCZ = "Žádné"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Max = (short)90,
+                            Min = (short)60,
+                            ValueCZ = "Nízké"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Max = (short)99,
+                            Min = (short)90,
+                            ValueCZ = "Střední"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Max = (short)100,
+                            Min = (short)99,
+                            ValueCZ = "Vysoké"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.EvaluationMethod", b =>
@@ -341,8 +452,12 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameCZ")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("NameEN")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -354,6 +469,28 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EvaluationMethod");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Úroveň vlastností",
+                            NameEN = "Performance Level",
+                            Shortcut = "PL"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Úroveň integrity bezpečnosti",
+                            NameEN = "Safety Integrity Level",
+                            Shortcut = "SIL"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.MachineType", b =>
@@ -369,8 +506,12 @@ namespace SSEA.DAL.Migrations
                     b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionCZ")
                         .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("DescriptionEN")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -383,14 +524,47 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameCZ")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("NameEN")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("MachineType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Nějaký popis",
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Jednoúčelový stroj"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Nějaký popis",
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Víceúčelový stroj"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Nějaký popis",
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Montážní linka"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Norm", b =>
@@ -402,8 +576,8 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<string>("CatalogNumber")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
@@ -422,8 +596,8 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<string>("Label")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("NameCZ")
                         .IsRequired()
@@ -431,7 +605,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("NameEN")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -443,6 +616,41 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Norm");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CatalogNumber = "15296296",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "ČSN EN ISO 13849-1",
+                            NameCZ = "Bezpečnost strojních zařízení - Bezpečnostné části ovládacích systému - Část 1: Všeobecné zásady pro konstrukci",
+                            NormCategory = "B1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CatalogNumber = "15296296",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "ČSN EN ISO 12100",
+                            NameCZ = "Popis tejto normy",
+                            NormCategory = "A"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CatalogNumber = "15296296",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "ČSN EN 62061",
+                            NameCZ = "Popis tejto normy",
+                            NormCategory = "B1"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfFunction", b =>
@@ -458,10 +666,13 @@ namespace SSEA.DAL.Migrations
                     b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<string>("DescriptionCZ")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("DescriptionEN")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("IdCreated")
                         .HasColumnType("int");
@@ -472,14 +683,44 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ShortName")
+                    b.Property<string>("NameCZ")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("NameEN")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("TypeOfFunction");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Funkce bezpečného zastavení iniciována bezpečnostním zařízením"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Funkce ručního opětného nastavení"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Funkce místního ovládaní"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfLogic", b =>
@@ -500,6 +741,14 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DescriptionCZ")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("DescriptionEN")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<long?>("EthernetAdressesMaxCount")
                         .HasColumnType("bigint");
@@ -529,8 +778,12 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("MaxSIL_Id");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameCZ")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("NameEN")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -551,6 +804,78 @@ namespace SSEA.DAL.Migrations
                     b.HasIndex("MaxSILId");
 
                     b.ToTable("TypeOfLogic");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessPointsMaxCount = 2,
+                            Communication = false,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EthernetAdressesMaxCount = 0L,
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxArchitectureId = 4,
+                            MaxCategoryId = 5,
+                            MaxPLId = 5,
+                            MaxSILId = 1,
+                            NameCZ = "Relé",
+                            NameEN = "Relay",
+                            SI = 4,
+                            SO = 4
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessPointsMaxCount = 5,
+                            Communication = false,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EthernetAdressesMaxCount = 0L,
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxArchitectureId = 4,
+                            MaxCategoryId = 5,
+                            MaxPLId = 5,
+                            MaxSILId = 1,
+                            NameCZ = "CR30",
+                            NameEN = "CR30",
+                            SI = 12,
+                            SO = 10
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Communication = true,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EthernetAdressesMaxCount = 48L,
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxArchitectureId = 4,
+                            MaxCategoryId = 5,
+                            MaxPLId = 5,
+                            MaxSILId = 1,
+                            NameCZ = "GMX",
+                            NameEN = "GMX",
+                            SI = 6144,
+                            SO = 6144
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Communication = true,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EthernetAdressesMaxCount = 256L,
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxArchitectureId = 4,
+                            MaxCategoryId = 5,
+                            MaxPLId = 5,
+                            MaxSILId = 1,
+                            NameCZ = "GLX",
+                            NameEN = "GLX",
+                            SI = 65536,
+                            SO = 65536
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfSubsystem", b =>
@@ -575,14 +900,52 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameCZ")
                         .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("NameEN")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
                     b.ToTable("TypeOfSubsystem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Vstupní"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Výstupní"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Logický"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            NameCZ = "Komunikační"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.Category", b =>
@@ -601,11 +964,19 @@ namespace SSEA.DAL.Migrations
                     b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionCZ")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("FailureBehavior")
+                    b.Property<string>("DescriptionEN")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("FailureBehaviorCZ")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("FailureBehaviorEN")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -645,7 +1016,11 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("RelevantCCF")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Requirements")
+                    b.Property<string>("RequirementsCZ")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("RequirementsEN")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -660,6 +1035,98 @@ namespace SSEA.DAL.Migrations
                     b.HasIndex("MinMTTFdId");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Channels = (short)1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Random text",
+                            FailureBehaviorCZ = "Random text",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "B",
+                            Logic = true,
+                            MaxDCId = 1,
+                            MaxMTTFdId = 2,
+                            MinDCId = 1,
+                            MinMTTFdId = 1,
+                            RelevantCCF = false,
+                            RequirementsCZ = "Random text"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Channels = (short)1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Random text",
+                            FailureBehaviorCZ = "Random text",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "1",
+                            Logic = true,
+                            MaxDCId = 1,
+                            MaxMTTFdId = 3,
+                            MinDCId = 1,
+                            MinMTTFdId = 3,
+                            RelevantCCF = false,
+                            RequirementsCZ = "Random text"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Channels = (short)1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Random text",
+                            FailureBehaviorCZ = "Random text",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "2",
+                            Logic = true,
+                            MaxDCId = 3,
+                            MaxMTTFdId = 3,
+                            MinDCId = 2,
+                            MinMTTFdId = 1,
+                            RelevantCCF = true,
+                            RequirementsCZ = "Random text"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Channels = (short)2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Random text",
+                            FailureBehaviorCZ = "Random text",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "3",
+                            Logic = true,
+                            MaxDCId = 3,
+                            MaxMTTFdId = 3,
+                            MinDCId = 2,
+                            MinMTTFdId = 1,
+                            RelevantCCF = true,
+                            RequirementsCZ = "Random text"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Channels = (short)2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Random text",
+                            FailureBehaviorCZ = "Random text",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "4",
+                            Logic = true,
+                            MaxDCId = 4,
+                            MaxMTTFdId = 3,
+                            MinDCId = 4,
+                            MinMTTFdId = 3,
+                            RelevantCCF = true,
+                            RequirementsCZ = "Random text"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.F", b =>
@@ -675,7 +1142,11 @@ namespace SSEA.DAL.Migrations
                     b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionCZ")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("DescriptionEN")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -695,6 +1166,26 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("F");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Řídká až málo častá",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = "F1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Častá až nepřetržitá",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = "F2"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", b =>
@@ -725,14 +1216,50 @@ namespace SSEA.DAL.Migrations
                     b.Property<short>("Min")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("Value")
+                    b.Property<string>("ValueCZ")
                         .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("ValueEN")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
                     b.ToTable("MTTFd");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Max = (short)10,
+                            Min = (short)3,
+                            ValueCZ = "Krátká"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Max = (short)30,
+                            Min = (short)10,
+                            ValueCZ = "Střední"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Max = (short)100,
+                            Min = (short)30,
+                            ValueCZ = "Dlouhá"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.P", b =>
@@ -748,7 +1275,11 @@ namespace SSEA.DAL.Migrations
                     b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionCZ")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("DescriptionEN")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -768,6 +1299,26 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("P");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Možné za určitých podmínek",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = "P1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Sotva možné",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = "P2"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", b =>
@@ -800,6 +1351,48 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PL");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "a"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "b"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "c"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "d"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "e"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.S", b =>
@@ -815,7 +1408,11 @@ namespace SSEA.DAL.Migrations
                     b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionCZ")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("DescriptionEN")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -835,6 +1432,26 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("S");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Lehké",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = "S1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Závažné",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = "S2"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Architecture", b =>
@@ -854,6 +1471,10 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DescriptionCZ")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("DescriptionEN")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -895,6 +1516,68 @@ namespace SSEA.DAL.Migrations
                     b.HasIndex("MaxPFHdId");
 
                     b.ToTable("Architecture");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Channels = (short)1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Diagnostic = false,
+                            HFT = (short)0,
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "A",
+                            Logic = true,
+                            MaxPFHdId = 1,
+                            MaxSFF = 99.0,
+                            MinSFF = 60.0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Channels = (short)2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Diagnostic = false,
+                            HFT = (short)1,
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "B",
+                            Logic = true,
+                            MaxPFHdId = 1,
+                            MaxSFF = 99.0,
+                            MinSFF = 0.0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Channels = (short)1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Diagnostic = true,
+                            HFT = (short)0,
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "C",
+                            Logic = true,
+                            MaxPFHdId = 1,
+                            MaxSFF = 99.0,
+                            MinSFF = 60.0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Channels = (short)2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Diagnostic = true,
+                            HFT = (short)1,
+                            IdCreated = 0,
+                            IsValid = true,
+                            Label = "D",
+                            Logic = true,
+                            MaxPFHdId = 1,
+                            MaxSFF = 99.0,
+                            MinSFF = 0.0
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Av", b =>
@@ -934,6 +1617,35 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Av");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Nemožné",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Možné za určitých podmínek",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Pradvěpodobné",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)1
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.CFF", b =>
@@ -970,6 +1682,48 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CFF");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Beta = 0.10000000000000001,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxCCF = (short)35,
+                            MinCCF = (short)0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Beta = 0.050000000000000003,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxCCF = (short)65,
+                            MinCCF = (short)35
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Beta = 0.02,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxCCF = (short)85,
+                            MinCCF = (short)65
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Beta = 0.01,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxCCF = (short)100,
+                            MinCCF = (short)85
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Fr", b =>
@@ -1009,6 +1763,53 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Fr");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FrequencyOfThreatCZ = "<= 1h",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FrequencyOfThreatCZ = "> 1h až <= 1 den",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)5
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FrequencyOfThreatCZ = "> 1 den až <= 2 týdny",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)4
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FrequencyOfThreatCZ = "> 2 týdny až <= 1 rok",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FrequencyOfThreatCZ = "> 1 rok",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)2
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", b =>
@@ -1045,6 +1846,38 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PFHd");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxPFHd = 1E-06f,
+                            MinPFHd = 1E-07f,
+                            ValueSIL = (short)3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxPFHd = 1E-05f,
+                            MinPFHd = 1E-06f,
+                            ValueSIL = (short)2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            MaxPFHd = 0.0001f,
+                            MinPFHd = 1E-05f,
+                            ValueSIL = (short)1
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Pr", b =>
@@ -1084,6 +1917,53 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pr");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Velmi vysoká",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Pravděpodobná",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)4
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Možná",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Výjimečná",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Zanedbatelná",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)1
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.SFF", b =>
@@ -1132,6 +2012,38 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SFF");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ComponentNameCZ = "Relé",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FailureModeCZ = "Kontakty nelze rozepnout",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ComponentNameCZ = "Relé",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FailureModeCZ = "Kontakty nelze sepnout",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ComponentNameCZ = "Relé",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FailureModeCZ = "Současný zkrat mezi třemi kontakty přepínacího spínače",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = 10L
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Se", b =>
@@ -1171,6 +2083,44 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Se");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Trvalé: smrt, ztráta oka nebo paže",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)4
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Trvalé: zlomená končetina, ztráta prstu",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Přechodné: vyžadující ošetření praktickým lékařem",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescriptionCZ = "Přechodné: vyžadující ošetření na první pomoci",
+                            IdCreated = 0,
+                            IsValid = true,
+                            Value = (short)1
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.JoinEntities.AccessPointSafetyFunction", b =>

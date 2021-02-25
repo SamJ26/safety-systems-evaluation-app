@@ -7,6 +7,11 @@ namespace SSEA.DAL.Entities
 {
     public abstract class CodeListEntityBase : EntityBase, IExtendedEntityBase
     {
+        protected CodeListEntityBase()
+        {
+            IsValid = true;
+        }
+
         public int IdCreated { get; set; }
         public DateTime DateTimeCreated { get; set; }
         public int? IdUpdated { get; set; }
