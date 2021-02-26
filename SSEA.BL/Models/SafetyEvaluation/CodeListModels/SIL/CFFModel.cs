@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using SSEA.BL.Extensions;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,5 +12,13 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
         public short MinCCF { get; set; }
         public short MaxCCF { get; set; }
         public double Beta { get; set; }
+    }
+
+    public class CFFModelMapperProfile : Profile
+    {
+        public CFFModelMapperProfile()
+        {
+            CreateMap<CFF, CFFModel>().ReverseMap();
+        }
     }
 }

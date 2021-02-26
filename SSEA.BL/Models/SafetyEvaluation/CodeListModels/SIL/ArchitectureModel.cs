@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using AutoMapper;
+using SSEA.BL.Extensions;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
@@ -16,5 +19,16 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
         public double MaxSFF { get; set; }
         public short HFT { get; set; }
         public PFHdModel MaxPFHd { get; set; }
+    }
+
+    public class ArchitectureModelMapperProfile : Profile
+    {
+        public ArchitectureModelMapperProfile()
+        {
+            CreateMap<Architecture, ArchitectureModel>().IgnoreSource(src => src.DescriptionEN)
+                                                        .IgnoreSource(src => src.MaxPFHdId)
+                                                        .MapMember(dest => dest.Description, src => src.DescriptionCZ)
+                                                        .ReverseMap();
+        }
     }
 }
