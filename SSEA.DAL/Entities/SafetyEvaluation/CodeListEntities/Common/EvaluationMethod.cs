@@ -8,17 +8,17 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("EvaluationMethod")]
-    public class EvaluationMethod : EntityBase
+    public class EvaluationMethod : CodeListEntityBase
     {
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string NameCZ { get; set; }
+
+        [StringLength(50)]
+        public string NameEN { get; set; }
 
         [Required]
         [StringLength(3)]
         public string Shortcut { get; set; }
-
-        public ICollection<Machine> Machines { get; set; }
-        public ICollection<SafetyFunction> SafetyFunctions { get; set; }
     }
 }

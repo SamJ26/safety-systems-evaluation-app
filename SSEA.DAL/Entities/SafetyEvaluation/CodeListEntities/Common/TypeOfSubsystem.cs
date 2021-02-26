@@ -8,12 +8,13 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("TypeOfSubsystem")]
-    public class TypeOfSubsystem : EntityBase
+    public class TypeOfSubsystem : CodeListEntityBase
     {
         [Required]
         [StringLength(20)]
-        public string Name { get; set; }
+        public string NameCZ { get; set; }
 
-        public ICollection<Subsystem> Subsystems { get; set; }
+        [StringLength(20)]
+        public string NameEN { get; set; }
     }
 }

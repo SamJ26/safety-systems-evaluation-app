@@ -8,12 +8,10 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
     [Table("CFF")]
-    public class CFF : EntityBase
+    public class CFF : CodeListEntityBase
     {
-        public short CCF_min { get; set; }
-        public short CCF_max { get; set; }
+        public short MinCCF { get; set; }
+        public short MaxCCF { get; set; }
         public double Beta { get; set; }
-
-        public ICollection<Subsystem> Subsystems { get; set; }
     }
 }

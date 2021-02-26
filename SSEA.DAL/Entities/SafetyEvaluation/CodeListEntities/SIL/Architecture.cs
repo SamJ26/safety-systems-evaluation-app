@@ -1,36 +1,32 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
-using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
     [Table("Architecture")]
-    public class Architecture : EntityBase
+    public class Architecture : CodeListEntityBase
     {
         [Required]
         [StringLength(2)]
         public string Label { get; set; }
 
         [StringLength(250)]
-        public string Description { get; set; }
+        public string DescriptionCZ { get; set; }
+
+        [StringLength(250)]
+        public string DescriptionEN { get; set; }
 
         public bool Logic { get; set; }
         public bool Diagnostic { get; set; }
         public short Channels { get; set; }
-        public double SFF_min { get; set; }
-        public double SFF_max { get; set; }
+        public double MinSFF { get; set; }
+        public double MaxSFF { get; set; }
+        public short HFT { get; set; }
 
-        [ForeignKey("HFT_Id")]
-        public HFT HFT { get; set; }
-
-        [ForeignKey("PFHd_max_Id")]
-        public PFHd PFHd_max { get; set; }
-
-        public ICollection<Subsystem> Subsystems { get; set; }
-        public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
+        [Column("MaxPFHd_Id")]
+        public int MaxPFHdId { get; set; }
+        public PFHd MaxPFHd { get; set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SSEA.DAL.Entities.System;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SSEA.DAL.Entities.Auth
@@ -15,5 +17,8 @@ namespace SSEA.DAL.Entities.Auth
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+
+        [ForeignKey("CurrentState_Id")]
+        public State CurrentState { get; set; }
     }
 }

@@ -8,22 +8,21 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("Norm")]
-    public class Norm : EntityBase
+    public class Norm : CodeListEntityBase
     {
         [Required]
-        [StringLength(30)]
+        [StringLength(40)]
         public string Label { get; set; }
 
         [Required]
         [StringLength(250)]
         public string NameCZ { get; set; }
 
-        [Required]
         [StringLength(250)]
         public string NameEN { get; set; }
 
         [Required]
-        [StringLength(10)]
+        [StringLength(20)]
         public string CatalogNumber { get; set; }
 
         [Required]

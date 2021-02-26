@@ -7,9 +7,9 @@ namespace SSEA.DAL.Entities
 {
     public interface IExtendedEntityBase
     {
-        int Id_created { get; set; }
-        DateTime DT_created { get; set; }
-        int? Id_updated { get; set; }
-        DateTime? DT_updated { get; set; }
+        int IdCreated { get; set; }
+        DateTime DateTimeCreated { get; set; }
+        int? IdUpdated { get; set; }
+        DateTime? DateTimeUpdated { get; set; }
     }
 }

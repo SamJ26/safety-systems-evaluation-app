@@ -8,13 +8,15 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 {
     [Table("Fr")]
-    public class Fr : EntityBase
+    public class Fr : CodeListEntityBase
     {
+        [Required]
         [StringLength(50)]
-        public string Description { get; set; }
+        public string FrequencyOfThreatCZ { get; set; }
+
+        [StringLength(50)]
+        public string FrequencyOfThreatEN { get; set; }
 
         public short Value { get; set; }
-
-        public ICollection<SafetyFunction> SafetyFunctions { get; set; }
     }
 }

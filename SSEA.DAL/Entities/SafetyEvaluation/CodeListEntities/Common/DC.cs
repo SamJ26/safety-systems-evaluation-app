@@ -9,18 +9,16 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("DC")]
-    public class DC : EntityBase
+    public class DC : CodeListEntityBase
     {
         [Required]
         [StringLength(10)]
-        public string Value { get; set; }
+        public string ValueCZ { get; set; }
+
+        [StringLength(10)]
+        public string ValueEN { get; set; }
 
         public short Min { get; set; }
         public short Max { get; set; }
-
-        public ICollection<Subsystem> Subsystems { get; set; }
-        public ICollection<Element> Elements { get; set; }
-        public ICollection<Category> Categories_DC_min { get; set; }
-        public ICollection<Category> Categories_DC_max { get; set; }
     }
 }

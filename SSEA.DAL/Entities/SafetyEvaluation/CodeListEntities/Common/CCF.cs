@@ -8,15 +8,21 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("CCF")]
-    public class CCF : EntityBase
+    public class CCF : CodeListEntityBase
     {
         [Required]
         [StringLength(200)]
-        public string Description { get; set; }
+        public string DescriptionCZ { get; set; }
+
+        [StringLength(200)]
+        public string DescriptionEN { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Type { get; set; }
+        public string TypeCZ { get; set; }
+
+        [StringLength(50)]
+        public string TypeEN { get; set; }
 
         public uint Points { get; set; }
         public bool ForPL { get; set; }

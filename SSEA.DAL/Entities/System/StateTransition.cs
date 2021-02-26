@@ -14,10 +14,12 @@ namespace SSEA.DAL.Entities.System
 
         public bool Valid { get; set; }
 
-        [ForeignKey("CurrentState_Id")]
+        [Column("CurrentState_Id")]
+        public int CurrentStateId { get; set; }
         public State CurrentState { get; set; }
 
-        [ForeignKey("NextState_Id")]
+        [Column("NextState_Id")]
+        public int NextStateId { get; set; }
         public State NextState { get; set; }
     }
 }

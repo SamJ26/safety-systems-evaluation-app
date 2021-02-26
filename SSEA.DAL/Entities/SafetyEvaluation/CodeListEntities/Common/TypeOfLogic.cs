@@ -10,30 +10,41 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
     [Table("TypeOfLogic")]
-    public class TypeOfLogic : EntityBase
+    public class TypeOfLogic : CodeListEntityBase
     {
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string NameCZ { get; set; }
+
+        [StringLength(50)]
+        public string NameEN { get; set; }
+
+        [StringLength(250)]
+        public string DescriptionCZ { get; set; }
+
+        [StringLength(250)]
+        public string DescriptionEN { get; set; }
 
         public int SI { get; set; }
         public int SO { get; set; }
         public bool Communication { get; set; }
-        public int? AccessPoints_MaxCount { get; set; }
-        public uint? EthernetAdresses_MaxCount { get; set; }
+        public int? AccessPointsMaxCount { get; set; }
+        public uint? EthernetAdressesMaxCount { get; set; }
 
-        [ForeignKey("PL_max_Id")]
-        public PerformanceLevel PL_max { get; set; }
+        [Column("MaxPL_Id")]
+        public int MaxPLId { get; set; }
+        public PerformanceLevel MaxPL { get; set; }
 
-        [ForeignKey("Category_max_Id")]
-        public Category Category_max { get; set; }
+        [Column("MaxCategory_Id")]
+        public int MaxCategoryId { get; set; }
+        public Category MaxCategory { get; set; }
 
-        [ForeignKey("SIL_max_Id")]
-        public PFHd SIL_max { get; set; }
+        [Column("MaxSIL_Id")]
+        public int MaxSILId { get; set; }
+        public PFHd MaxSIL { get; set; }
 
-        [ForeignKey("Architecture_max_Id")]
-        public Architecture Architecture_max { get; set; }
-
-        public ICollection<Machine> Machines { get; set; }
+        [Column("MaxArchitecture_Id")]
+        public int MaxArchitectureId { get; set; }
+        public Architecture MaxArchitecture { get; set; }
     }
 }

@@ -14,47 +14,52 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
     [Table("Subsystem")]
     public class Subsystem : ExtendedEntityBase
     {
-        [ForeignKey("TypeOfSubsystem_Id")]
+        [Column("TypeOfSubsystem_Id")]
+        public int TypeOfSubsystemId { get; set; }
         public TypeOfSubsystem TypeOfSubsystem { get; set; }
-
-        [ForeignKey("CurrentState_Id")]
-        public State CurrentState { get; set; }
 
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
         public ICollection<Element> Elements { get; set; }
         public ICollection<SubsystemCCF> SubsystemCCFs { get; set; }
 
         // Properties for PL methodics:
-        public bool CCF_valid { get; set; }
 
-        [ForeignKey("Category_Id")]
+        public bool ValidCCF { get; set; }
+
+        [Column("Category_Id")]
+        public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
-        [ForeignKey("MTTFd_result_Id")]
-        public MTTFd MTTFd_result { get; set; }
+        [Column("MTTFdResult_Id")]
+        public int? MTTFdResultId { get; set; }
+        public MTTFd MTTFdResult { get; set; }
 
-        [ForeignKey("DC_result_Id")]
-        public DC DC_result { get; set; }
+        [Column("DCresult_Id")]
+        public int? DCresultId { get; set; }
+        public DC DCresult { get; set; }
 
-        [ForeignKey("PL_result_Id")]
-        public PerformanceLevel PL_result { get; set; }
+        [Column("PLresult_Id")]
+        public int? PLresultId { get; set; }
+        public PerformanceLevel PLresult { get; set; }
 
 
         // Properties for SIL methodics:
+
         public double? T1 { get; set; }
         public double? T2 { get; set; }
-        public double? SFF_result { get; set; }
+        public double? HFT { get; set; }
+        public short SFFresult { get; set; }
 
-        [ForeignKey("Architecture_Id")]
+        [Column("Architecture_Id")]
+        public int? ArchitectureId { get; set; }
         public Architecture Architecture { get; set; }
 
-        [ForeignKey("HFT_Id")]
-        public HFT HFT { get; set; }
+        [Column("PFHdResult_Id")]
+        public int? PFHdResultId { get; set; }
+        public PFHd PFHdResult { get; set; }
 
-        [ForeignKey("PFHd_result_Id")]
-        public PFHd PFHd_result { get; set; }
-
-        [ForeignKey("CFF_Id")]
+        [Column("CFF_Id")]
+        public int? CFFId { get; set; }
         public CFF CFF { get; set; }
     }
 }

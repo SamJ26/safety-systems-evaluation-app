@@ -19,31 +19,34 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [StringLength(50)]
         public string CatalogNumber { get; set; }
 
-        [ForeignKey("Producer_Id")]
+        [Column("Producer_Id")]
+        public int ProducerId { get; set; }
         public Producer Producer { get; set; }
 
-        [ForeignKey("Subsystem_Id")]
+        [Column("Subsystem_Id")]
+        public int SubsystemId { get; set; }
         public Subsystem Subsystem { get; set; }
 
-        [ForeignKey("DC_Id")]
+        [Column("DC_Id")]
+        public int DCId { get; set; }
         public DC DC { get; set; }
 
-        [ForeignKey("CurrentState_Id")]
-        public State CurrentState { get; set; }
-
         // Properties for PL methodics:
-        public double? n_op { get; set; }
-        public double? h_op { get; set; }
-        public double? d_op { get; set; }
-        public double? t_cycles { get; set; }
-        public double? MTTFd_counted { get; set; }
 
-        [ForeignKey("MTTFd_result_Id")]
-        public MTTFd MTTFd_result { get; set; }
+        public double? Nop { get; set; }
+        public double? Hop { get; set; }
+        public double? Dop { get; set; }
+        public double? Tcycles { get; set; }
+        public double? MTTFdCounted { get; set; }
+
+        [Column("MTTFdResult_Id")]
+        public int? MTTFdResultId { get; set; }
+        public MTTFd MTTFdResult { get; set; }
 
         // Properties for SIL methodics:
+
         public double? C { get; set; }
-        public double? Lambda_c { get; set; }
+        public double? LambdaC { get; set; }
 
         public ICollection<ElementSFF> ElementSFFs { get; set; }
     }

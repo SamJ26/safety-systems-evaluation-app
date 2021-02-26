@@ -11,14 +11,15 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
     /// This class represents possibility of avoiding hazard or limiting harm parameter
     /// </summary>
     [Table("P")]
-    public class P : EntityBase
+    public class P : CodeListEntityBase
     {
         [StringLength(2)]
         public string Value { get; set; }
 
         [StringLength(30)]
-        public string Description { get; set; }
+        public string DescriptionCZ { get; set; }
 
-        public ICollection<SafetyFunction> SafetyFunctions { get; set; }
+        [StringLength(30)]
+        public string DescriptionEN { get; set; }
     }
 }

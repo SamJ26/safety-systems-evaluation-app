@@ -9,38 +9,48 @@ using System.Text;
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
 {
     [Table("Category")]
-    public class Category : EntityBase
+    public class Category : CodeListEntityBase
     {
         [Required]
         [StringLength(2)]
         public string Label { get; set; }
 
         [StringLength(250)]
-        public string Description { get; set; }
+        public string DescriptionCZ { get; set; }
 
         [StringLength(250)]
-        public string Requirements { get; set; }
+        public string DescriptionEN { get; set; }
 
         [StringLength(250)]
-        public string FailureBehavior { get; set; }
+        public string RequirementsCZ { get; set; }
+
+        [StringLength(250)]
+        public string RequirementsEN { get; set; }
+
+        [StringLength(250)]
+        public string FailureBehaviorCZ { get; set; }
+
+        [StringLength(250)]
+        public string FailureBehaviorEN { get; set; }
 
         public bool Logic { get; set; }
         public short Channels { get; set; }
-        public bool CCF_relevant { get; set; }
+        public bool RelevantCCF { get; set; }
 
-        [ForeignKey("MTTFd_min_Id")]
-        public MTTFd MTTFd_min { get; set; }
+        [Column("MinMTTFd_Id")]
+        public int MinMTTFdId { get; set; }
+        public MTTFd MinMTTFd { get; set; }
 
-        [ForeignKey("MTTFd_max_Id")]
-        public MTTFd MTTFd_max { get; set; }
+        [Column("MaxMTTFd_Id")]
+        public int MaxMTTFdId { get; set; }
+        public MTTFd MaxMTTFd { get; set; }
 
-        [ForeignKey("DC_min_Id")]
-        public DC DC_min { get; set; }
+        [Column("MinDC_Id")]
+        public int MinDCId { get; set; }
+        public DC MinDC { get; set; }
 
-        [ForeignKey("DC_max_Id")]
-        public DC DC_max { get; set; }
-
-        public ICollection<Subsystem> Subsystems { get; set; }
-        public ICollection<TypeOfLogic> TypeOfLogics { get; set; }
+        [Column("MaxDC_Id")]
+        public int MaxDCId { get; set; }
+        public DC MaxDC { get; set; }
     }
 }
