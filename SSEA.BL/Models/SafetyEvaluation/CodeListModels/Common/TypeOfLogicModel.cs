@@ -1,5 +1,8 @@
-﻿using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
+﻿using AutoMapper;
+using SSEA.BL.Extensions;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,5 +23,21 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
         public CategoryModel MaxCategory { get; set; }
         public PFHdModel MaxSI { get; set; }
         public ArchitectureModel MaxArchitecture { get; set; }
+    }
+
+    public class TypeOfLogicModelMapperProfile : Profile
+    {
+        public TypeOfLogicModelMapperProfile()
+        {
+            CreateMap<TypeOfLogic, TypeOfLogicModel>().IgnoreSource(src => src.NameEN)
+                                                      .IgnoreSource(src => src.DescriptionEN)
+                                                      .IgnoreSource(src => src.MaxPLId)
+                                                      .IgnoreSource(src => src.MaxCategoryId)
+                                                      .IgnoreSource(src => src.MaxSILId)
+                                                      .IgnoreSource(src => src.MaxArchitectureId)
+                                                      .MapMember(dest => dest.Name, src => src.NameCZ)
+                                                      .MapMember(dest => dest.Description, src => src.DescriptionCZ)
+                                                      .ReverseMap();
+        }
     }
 }
