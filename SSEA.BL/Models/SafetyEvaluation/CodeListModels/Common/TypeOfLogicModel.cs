@@ -7,28 +7,18 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
 {
-    public class TypeOfLogicModel : ModelBase
+    public class TypeOfLogicModel : CodeListModelBase
     {
-        [Required]
-        [StringLength(50)]
         public string Name { get; set; }
-
+        public string Description { get; set; }
         public int SI { get; set; }
         public int SO { get; set; }
         public bool Communication { get; set; }
-        public int AccessPoints_MaxCount { get; set; }
-        public uint EthernetAdresses_MaxCount { get; set; }
-
-        [Required]
-        public PLModel PL_max { get; set; }
-        
-        [Required]
-        public CategoryModel Category_max { get; set; }
-
-        [Required]
-        public PFHdModel SIL_max { get; set; }
-
-        [Required]
-        public ArchitectureModel Architecture_max { get; set; }
+        public int AccessPointsMaxCount { get; set; }
+        public uint EthernetAdressesMaxCount { get; set; }
+        public PLModel MaxPL { get; set; }
+        public CategoryModel MaxCategory { get; set; }
+        public PFHdModel MaxSI { get; set; }
+        public ArchitectureModel MaxArchitecture { get; set; }
     }
 }

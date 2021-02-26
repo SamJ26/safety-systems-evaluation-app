@@ -5,10 +5,8 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
 {
-    public class TypeOfSubsystemModel : ModelBase
+    public class TypeOfSubsystemModel : CodeListModelBase
     {
-        [Required]
-        [StringLength(20)]
         public string Name { get; set; }
     }
 }
