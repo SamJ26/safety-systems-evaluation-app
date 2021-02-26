@@ -5,13 +5,9 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
 {
-    public class FModel : ModelBase
+    public class FModel : CodeListModelBase
     {
-        [Required]
-        [StringLength(2)]
         public string Value { get; set; }
-
-        [StringLength(30)]
         public string Description { get; set; }
     }
 }

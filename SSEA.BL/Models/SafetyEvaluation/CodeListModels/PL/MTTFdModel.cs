@@ -5,12 +5,9 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
 {
-    public class MTTFdModel : ModelBase
+    public class MTTFdModel : CodeListModelBase
     {
-        [Required]
-        [StringLength(10)]
         public string Value { get; set; }
-
         public short Min { get; set; }
         public short Max { get; set; }
     }
