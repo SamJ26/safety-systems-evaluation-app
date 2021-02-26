@@ -10,5 +10,6 @@ namespace SSEA.BL.Models
         public DateTime DT_created { get; set; }
         public int? Id_updated { get; set; }
         public DateTime? DT_updated { get; set; }
+        public StateModel CurrentState { get; set; }
     }
 }
