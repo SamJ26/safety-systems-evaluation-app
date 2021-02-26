@@ -5,11 +5,9 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
-    public class AvModel : ModelBase
+    public class AvModel : CodeListModelBase
     {
-        [StringLength(50)]
         public string Description { get; set; }
-
         public short Value { get; set; }
     }
 }

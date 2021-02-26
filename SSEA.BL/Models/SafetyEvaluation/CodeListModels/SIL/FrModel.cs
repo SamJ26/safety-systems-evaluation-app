@@ -5,11 +5,9 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
-    public class FrModel : ModelBase
+    public class FrModel : CodeListModelBase
     {
-        [StringLength(50)]
-        public string Description { get; set; }
-
+        public string FrequencyOfThreat { get; set; }
         public short Value { get; set; }
     }
 }

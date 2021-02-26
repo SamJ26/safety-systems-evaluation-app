@@ -5,13 +5,10 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
-    public class PFHdModel : ModelBase
+    public class PFHdModel : CodeListModelBase
     {
-        [Required]
-        [StringLength(20)]
-        public string Label { get; set; }
-
-        public decimal Min { get; set; }
-        public decimal Max { get; set; }
+        public short ValueSIL { get; set; }
+        public float MinPFHd { get; set; }
+        public float MaxPFHd { get; set; }
     }
 }

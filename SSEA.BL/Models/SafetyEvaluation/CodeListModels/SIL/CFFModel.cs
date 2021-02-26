@@ -4,10 +4,10 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
-    public class CFFModel : ModelBase
+    public class CFFModel : CodeListModelBase
     {
-        public short CCF_min { get; set; }
-        public short CCF_max { get; set; }
+        public short MinCCF { get; set; }
+        public short MaxCCF { get; set; }
         public double Beta { get; set; }
     }
 }
