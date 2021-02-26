@@ -1,8 +1,10 @@
-﻿using SSEA.DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SSEA.DAL.Repositories
 {
@@ -17,30 +19,33 @@ namespace SSEA.DAL.Repositories
 
         public IQueryable<TEntity> GetAll()
         {
-            return dbContext.Set<TEntity>();
+            return dbContext.Set<TEntity>().AsQueryable();
         }
 
-        public TEntity GetById(int id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
-            return dbContext.Set<TEntity>().SingleOrDefault(entity => entity.Id == id);
+            return await dbContext.Set<TEntity>().SingleOrDefaultAsync(entity => entity.Id == id);
         }
 
-        public int Insert(TEntity entity)
+        public async Task<int> InsertAsync(TEntity entity)
         {
-            dbContext.Add(entity);
+            await dbContext.Set<TEntity>().AddAsync(entity);
+            await dbContext.SaveChangesAsync();
             return entity.Id;
         }
 
-        public int Update(TEntity entity)
+        public async Task<int> UpdateAsync(TEntity entity)
         {
-            dbContext.Update(entity);
+            dbContext.Entry(entity).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
             return entity.Id;
         }
 
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            var entity = GetById(id);
-            dbContext.Set<TEntity>().Remove(entity);
+            var entity = await dbContext.Set<TEntity>().SingleOrDefaultAsync(entity => entity.Id == id);
+            dbContext.Entry(entity).State = EntityState.Deleted;
+            await dbContext.SaveChangesAsync();
         }
     }
 }
