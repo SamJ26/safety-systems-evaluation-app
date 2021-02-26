@@ -1,4 +1,5 @@
-﻿using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
+﻿using AutoMapper;
+using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
@@ -6,55 +7,58 @@ using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
 {
     public class SafetyFunctionFacade : IExtendedFacade<SafetyFunctionDetailModelPL, SafetyFunctionDetailModelSIL, SafetyFunctionListModel, SafetyFunction>
     {
-        private readonly Repository<Machine> machineRepository;
+        private readonly Repository<SafetyFunction> safetyFunctionRepository;
+        private readonly IMapper mapper;
 
-        // TODO: inject IMapper
-        public SafetyFunctionFacade(Repository<Machine> machineRepository)
+        public SafetyFunctionFacade(Repository<SafetyFunction> safetyFunctionRepository,
+                                    IMapper mapper)
         {
-            this.machineRepository = machineRepository;
+            this.safetyFunctionRepository = safetyFunctionRepository;
+            this.mapper = mapper;
         }
 
-        public int Create(SafetyFunctionDetailModelPL newModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Create(SafetyFunctionDetailModelSIL newModel)
+        public Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(int Id)
+        public Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<SafetyFunctionListModel> GetAll()
+        public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public SafetyFunctionDetailModelPL GetById()
+        public Task<IEnumerable<SafetyFunctionListModel>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public SafetyFunctionDetailModelSIL GetById(int temp = 0)
+        public Task<SafetyFunctionDetailModelPL> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public int Update(SafetyFunctionDetailModelPL updatedModel)
+        public Task<SafetyFunctionDetailModelSIL> GetByIdAsync(int id, int temp = 0)
         {
             throw new NotImplementedException();
         }
 
-        public int Update(SafetyFunctionDetailModelSIL updatedModel)
+        public Task<int> UpdateAsync(SafetyFunctionDetailModelPL updatedModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> UpdateAsync(SafetyFunctionDetailModelSIL updatedModel)
         {
             throw new NotImplementedException();
         }

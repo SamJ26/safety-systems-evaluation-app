@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
 {
     public interface IExtendedFacade<TDetailModelPL, TDetailModelSIL, TListModel, TEntity>
     {
-        IEnumerable<TListModel> GetAll();
-        TDetailModelPL GetById();
-        TDetailModelSIL GetById(int temp = 0);
-        int Create(TDetailModelPL newModel);
-        int Create(TDetailModelSIL newModel);
-        int Update(TDetailModelPL updatedModel);
-        int Update(TDetailModelSIL updatedModel);
-        void Delete(int Id);
+        Task<IEnumerable<TListModel>> GetAllAsync();
+        Task<TDetailModelPL> GetByIdAsync(int id);
+        Task<TDetailModelSIL> GetByIdAsync(int id, int temp = 0);
+        Task<int> CreateAsync(TDetailModelPL newModel);
+        Task<int> CreateAsync(TDetailModelSIL newModel);
+        Task<int> UpdateAsync(TDetailModelPL updatedModel);
+        Task<int> UpdateAsync(TDetailModelSIL updatedModel);
+        Task DeleteAsync(int id);
     }
 }
