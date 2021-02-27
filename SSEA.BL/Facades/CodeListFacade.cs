@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -45,6 +47,14 @@ namespace SSEA.BL.Facades
                 "PL" => await GetAllPLModels(),
                 "P" => await GetAllPModels(),
                 "S" => await GetAllSModels(),
+                "Architecture" => await GetAllArchitectureModels(),
+                "Av" => await GetAllAvModels(),
+                "CFF" => await GetAllCFFModels(),
+                "Fr" => await GetAllFrModels(),
+                "PFHd" => await GetAllPFHdModels(),
+                "Pr" => await GetAllPrModels(),
+                "Se" => await GetAllSeModels(),
+                "SFF" => await GetAllSFFModels(),
                 _ => 0,
             };
         }
@@ -149,7 +159,61 @@ namespace SSEA.BL.Facades
             return mapper.Map<ICollection<SModel>>(data);
         }
 
-        // TODO: add rest of methods
+        private async Task<ICollection<ArchitectureModel>> GetAllArchitectureModels()
+        {
+            var repository = new Repository<Architecture>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<ArchitectureModel>>(data);
+        }
+
+        private async Task<ICollection<AvModel>> GetAllAvModels()
+        {
+            var repository = new Repository<Av>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<AvModel>>(data);
+        }
+
+        private async Task<ICollection<CFFModel>> GetAllCFFModels()
+        {
+            var repository = new Repository<CFF>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<CFFModel>>(data);
+        }
+
+        private async Task<ICollection<FrModel>> GetAllFrModels()
+        {
+            var repository = new Repository<Fr>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<FrModel>>(data);
+        }
+
+        private async Task<ICollection<PFHdModel>> GetAllPFHdModels()
+        {
+            var repository = new Repository<PFHd>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<PFHdModel>>(data);
+        }
+
+        private async Task<ICollection<PrModel>> GetAllPrModels()
+        {
+            var repository = new Repository<Pr>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<PrModel>>(data);
+        }
+
+        private async Task<ICollection<SeModel>> GetAllSeModels()
+        {
+            var repository = new Repository<Se>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<SeModel>>(data);
+        }
+
+        private async Task<ICollection<SFFModel>> GetAllSFFModels()
+        {
+            var repository = new Repository<SFF>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<SFFModel>>(data);
+        }
 
         #endregion
     }
