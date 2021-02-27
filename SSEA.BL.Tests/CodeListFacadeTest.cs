@@ -23,6 +23,7 @@ namespace SSEA.BL.Tests
                 var mapperConfig = new MapperConfiguration(mc =>
                 {
                     mc.AddProfile(new CCFModelMapperProfile());
+                    mc.AddProfile(new TypeOfLogicModelMapperProfile());
                 });
                 mapper = mapperConfig.CreateMapper();
             }
@@ -44,6 +45,19 @@ namespace SSEA.BL.Tests
                 Type dataType = ((object)data).GetType();
                 Assert.True(dataType == typeof(List<CCFModel>));
                 Assert.True(data.Count == 5);
+            }
+        }
+
+        [Fact]
+        public async Task GetAllTypeOfLogicModels()
+        {
+            using (dbContext = dbContextFactory.CreateDbContext())
+            {
+                var facade = new CodeListFacade(mapper, dbContext);
+                var data = await facade.GetAllAsync("TypeOfLogic");
+                Type dataType = ((object)data).GetType();
+                Assert.True(dataType == typeof(List<TypeOfLogicModel>));
+                Assert.True(data.Count == 4);
             }
         }
     }
