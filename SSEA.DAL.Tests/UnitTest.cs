@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace SSEA.DAL.Tests
@@ -21,9 +23,24 @@ namespace SSEA.DAL.Tests
         }
 
         [Fact]
-        public void Test1()
+        public void GetAllDCs()
         {
+            using (var tempDbContext = dbContextFactory.CreateDbContext())
+            {
+                var data = tempDbContext.DCs.ToList();
+                Assert.True(data.Count == 4);
+            }
+        }
 
+        [Fact]
+        public void GetAllArchitectures()
+        {
+            using (var tempDbContext = dbContextFactory.CreateDbContext())
+            {
+                var data = tempDbContext.Architectures.Include(a => a.MaxPFHd)
+                                                      .ToList();
+                Assert.True(data.Count == 4);
+            }
         }
     }
 }
