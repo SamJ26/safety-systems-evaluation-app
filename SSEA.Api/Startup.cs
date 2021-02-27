@@ -24,6 +24,7 @@ using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Facades;
 using SSEA.DAL.Repositories;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+using SSEA.BL.Models;
 
 namespace SSEA.Api
 {
@@ -85,6 +86,8 @@ namespace SSEA.Api
             services.AddScoped<MachineFacade>();
             services.AddScoped<SafetyFunctionFacade>();
             services.AddScoped<SubsystemFacade>();
+
+            services.AddAutoMapper(typeof(ModelBase).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

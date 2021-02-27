@@ -1,17 +1,24 @@
-﻿using System;
+﻿using AutoMapper;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
-    public class PFHdModel : ModelBase
+    public class PFHdModel : CodeListModelBase
     {
-        [Required]
-        [StringLength(20)]
-        public string Label { get; set; }
+        public short ValueSIL { get; set; }
+        public float MinPFHd { get; set; }
+        public float MaxPFHd { get; set; }
+    }
 
-        public decimal Min { get; set; }
-        public decimal Max { get; set; }
+    public class PFHdModelMapperProfile : Profile
+    {
+        public PFHdModelMapperProfile()
+        {
+            CreateMap<PFHd, PFHdModel>().ReverseMap();
+        }
     }
 }

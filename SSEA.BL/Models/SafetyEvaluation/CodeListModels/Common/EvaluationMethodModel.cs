@@ -1,18 +1,26 @@
-﻿using System;
+﻿using AutoMapper;
+using SSEA.BL.Extensions;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
 {
-    public class EvaluationMethodModel : ModelBase
+    public class EvaluationMethodModel : CodeListModelBase
     {
-        [Required]
-        [StringLength(50)]
         public string Name { get; set; }
-
-        [Required]
-        [StringLength(3)]
         public string Shortcut { get; set; }
+    }
+
+    public class EvaluationMethodModelMapperProfile : Profile
+    {
+        public EvaluationMethodModelMapperProfile()
+        {
+            CreateMap<EvaluationMethod, EvaluationMethodModel>().IgnoreSource(src => src.NameEN)
+                                                                .MapMember(dest => dest.Name, src => src.NameCZ)
+                                                                .ReverseMap();
+        }
     }
 }

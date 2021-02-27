@@ -2,28 +2,33 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using AutoMapper;
+using SSEA.BL.Extensions;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
-    public class ArchitectureModel : ModelBase
+    public class ArchitectureModel : CodeListModelBase
     {
-        [Required]
-        [StringLength(2)]
         public string Label { get; set; }
-
-        [StringLength(250)]
         public string Description { get; set; }
-
         public bool Logic { get; set; }
         public bool Diagnostic { get; set; }
         public short Channels { get; set; }
-        public double SFF_min { get; set; }
-        public double SFF_max { get; set; }
+        public double MinSFF { get; set; }
+        public double MaxSFF { get; set; }
+        public short HFT { get; set; }
+        public PFHdModel MaxPFHd { get; set; }
+    }
 
-        [Required]
-        public HFTModel HFT { get; set; }
-
-        [Required]
-        public PFHdModel PFHd_max { get; set; }
+    public class ArchitectureModelMapperProfile : Profile
+    {
+        public ArchitectureModelMapperProfile()
+        {
+            CreateMap<Architecture, ArchitectureModel>().IgnoreSource(src => src.DescriptionEN)
+                                                        .IgnoreSource(src => src.MaxPFHdId)
+                                                        .MapMember(dest => dest.Description, src => src.DescriptionCZ)
+                                                        .ReverseMap();
+        }
     }
 }

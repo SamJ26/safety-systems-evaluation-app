@@ -23,7 +23,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [Required]
         public ArchitectureModel Architecture { get; set; }
 
-        public HFTModel HFT { get; set; }
+        public short HFT { get; set; }
         public PFHdModel PFHd_result { get; set; }
         public CFFModel CFF { get; set; }
 
