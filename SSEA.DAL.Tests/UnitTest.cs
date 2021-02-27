@@ -36,7 +36,8 @@ namespace SSEA.DAL.Tests
             using (dbContext = dbContextFactory.CreateDbContext())
             {
                 var data = dbContext.Architectures.Include(a => a.MaxPFHd)
-                                                      .ToList();
+                                                  .ToList();
+                Assert.True(data.All(a => a.MaxPFHd != null));
                 Assert.True(data.Count == 4);
             }
         }
