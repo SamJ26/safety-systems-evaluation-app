@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -37,6 +39,12 @@ namespace SSEA.BL.Facades
                 "TypeOfFunction" => await GetAllTypeOfFunctionModels(),
                 "TypeOfLogic" => await GetAllTypeOfLogicModels(),
                 "TypeOfSubsystem" => await GetAllTypeOfSubsystemModels(),
+                "Category" => await GetAllCategoryModels(),
+                "F" => await GetAllFModels(),
+                "MTTFd" => await GetAllMTTFdModels(),
+                "PL" => await GetAllPLModels(),
+                "P" => await GetAllPModels(),
+                "S" => await GetAllSModels(),
                 _ => 0,
             };
         }
@@ -97,6 +105,48 @@ namespace SSEA.BL.Facades
             var repository = new Repository<TypeOfSubsystem>(dbContext);
             var data = await repository.GetAll().ToListAsync();
             return mapper.Map<ICollection<TypeOfSubsystemModel>>(data);
+        }
+
+        private async Task<ICollection<CategoryModel>> GetAllCategoryModels()
+        {
+            var repository = new Repository<Category>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<CategoryModel>>(data);
+        }
+
+        private async Task<ICollection<FModel>> GetAllFModels()
+        {
+            var repository = new Repository<F>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<FModel>>(data);
+        }
+
+        private async Task<ICollection<MTTFdModel>> GetAllMTTFdModels()
+        {
+            var repository = new Repository<MTTFd>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<MTTFdModel>>(data);
+        }
+
+        private async Task<ICollection<PLModel>> GetAllPLModels()
+        {
+            var repository = new Repository<PerformanceLevel>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<PLModel>>(data);
+        }
+
+        private async Task<ICollection<PModel>> GetAllPModels()
+        {
+            var repository = new Repository<P>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<PModel>>(data);
+        }
+
+        private async Task<ICollection<SModel>> GetAllSModels()
+        {
+            var repository = new Repository<S>(dbContext);
+            var data = await repository.GetAll().ToListAsync();
+            return mapper.Map<ICollection<SModel>>(data);
         }
 
         // TODO: add rest of methods
