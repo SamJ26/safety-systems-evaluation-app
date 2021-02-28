@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
+using SSEA.BL.Facades;
+using Newtonsoft.Json;
 
 namespace SSEA.Api.Controllers
 {
@@ -13,9 +15,11 @@ namespace SSEA.Api.Controllers
     [ApiController]
     public class CodeListController : ControllerBase
     {
-        public CodeListController()
-        {
+        private CodeListFacade codeListFacade;
 
+        public CodeListController(CodeListFacade codeListFacade)
+        {
+            this.codeListFacade = codeListFacade;
         }
 
         /// <summary>
@@ -24,12 +28,16 @@ namespace SSEA.Api.Controllers
         /// E.g. api/codelist/typeOfFunction - controller returns all types of function from database (all records from table TypeOfFunction) <br/>
         /// </summary>
         /// <param name="typeName"> Name of entity (type) </param>
-        /// <returns> All records as JSON </returns>
+        /// <returns> All records as JSON string </returns>
         [HttpGet("{typeName}")]
         [SwaggerOperation(OperationId = "CodeListGetAll")]
-        public ActionResult<IEnumerable<JObject>> GetAll(string typeName)
+        public async Task<ActionResult<string>> GetAll(string typeName)
         {
-            return Ok();
+            var data = await codeListFacade.GetAllAsync(typeName);
+            if (data == null)
+                return new NotFoundResult();
+            var json = JsonConvert.SerializeObject(data);
+            return json;
         }
 
         /// <summary>

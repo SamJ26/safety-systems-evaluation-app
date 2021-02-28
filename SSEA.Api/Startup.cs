@@ -86,6 +86,7 @@ namespace SSEA.Api
             services.AddScoped<MachineFacade>();
             services.AddScoped<SafetyFunctionFacade>();
             services.AddScoped<SubsystemFacade>();
+            services.AddScoped<CodeListFacade>();
 
             services.AddAutoMapper(typeof(ModelBase).Assembly);
         }
