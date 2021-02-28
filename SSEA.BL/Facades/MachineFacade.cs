@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
@@ -23,29 +24,36 @@ namespace SSEA.BL.Facades
             this.mapper = mapper;
         }
 
-        public Task<int> CreateAsync(MachineDetailModel newModel)
+        public async Task<int> CreateAsync(MachineDetailModel newModel)
         {
-            throw new NotImplementedException();
+            // TODO: setup initial state for new machine
+            return await machineRepository.InsertAsync(mapper.Map<Machine>(newModel));
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var machine = await machineRepository.GetByIdAsync(id);
+            // TODO: setup machine state to removed
+            await machineRepository.UpdateAsync(machine);
         }
 
-        public Task<IEnumerable<MachineListModel>> GetAllAsync()
+        public async Task<IEnumerable<MachineListModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var data = await machineRepository.GetAll().Include(m => m.TypeOfLogic)
+                                                       .ToListAsync();
+            return mapper.Map<IEnumerable<MachineListModel>>(data);
         }
 
-        public Task<MachineDetailModel> GetByIdAsync(int id)
+        public async Task<MachineDetailModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var machine = await machineRepository.GetByIdAsync(id);
+            return mapper.Map<MachineDetailModel>(machine);
         }
 
-        public Task<int> UpdateAsync(MachineDetailModel updatedModel)
+        public async Task<int> UpdateAsync(MachineDetailModel updatedModel)
         {
-            throw new NotImplementedException();
+            // TODO: do some stuff with state of record
+            return await machineRepository.UpdateAsync(mapper.Map<Machine>(updatedModel));
         }
     }
 }
