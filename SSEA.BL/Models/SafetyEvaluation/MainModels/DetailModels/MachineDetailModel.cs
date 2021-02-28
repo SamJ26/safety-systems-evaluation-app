@@ -1,6 +1,9 @@
-﻿using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
+﻿using AutoMapper;
+using SSEA.BL.Extensions;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,9 +20,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [StringLength(250)]
         public string Description { get; set; }
 
-        [Required]
         public bool Communication { get; set; }
-
         public bool HMI { get; set; }
         public bool PLC { get; set; }
         public bool MachineHelp { get; set; }
@@ -38,7 +39,17 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 
         public ICollection<AccessPointListModel> AccessPoints { get; set; }
         public ICollection<MachineNormModel> MachineNorms { get; set; }
-        
-        // public State CurrentState { get; set; }
+    }
+
+    public class MachineDetailMapperProfile : Profile
+    {
+        public MachineDetailMapperProfile()
+        {
+            CreateMap<Machine, MachineDetailModel>().IgnoreSource(src => src.ProducerId)
+                                                    .IgnoreSource(src => src.EvaluationMethodId)
+                                                    .IgnoreSource(src => src.MachineTypeId)
+                                                    .IgnoreSource(src => src.TypeOfLogicId)
+                                                    .ReverseMap();
+        }
     }
 }
