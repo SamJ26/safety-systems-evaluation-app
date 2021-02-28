@@ -8,13 +8,11 @@ namespace SSEA.DAL.Tests
     public class UnitTest : IDisposable
     {
         private readonly DbContextInMemoryFactory dbContextFactory;
-        private readonly AppDbContext dbContext;
+        private AppDbContext dbContext;
 
         public UnitTest()
         {
             dbContextFactory = new DbContextInMemoryFactory(nameof(AppDbContext));
-            dbContext = dbContextFactory.CreateDbContext();
-            dbContext.Database.EnsureCreated();
         }
 
         public void Dispose()
@@ -25,9 +23,9 @@ namespace SSEA.DAL.Tests
         [Fact]
         public void GetAllDCs()
         {
-            using (var tempDbContext = dbContextFactory.CreateDbContext())
+            using (dbContext = dbContextFactory.CreateDbContext())
             {
-                var data = tempDbContext.DCs.ToList();
+                var data = dbContext.DCs.ToList();
                 Assert.True(data.Count == 4);
             }
         }
@@ -35,10 +33,11 @@ namespace SSEA.DAL.Tests
         [Fact]
         public void GetAllArchitectures()
         {
-            using (var tempDbContext = dbContextFactory.CreateDbContext())
+            using (dbContext = dbContextFactory.CreateDbContext())
             {
-                var data = tempDbContext.Architectures.Include(a => a.MaxPFHd)
-                                                      .ToList();
+                var data = dbContext.Architectures.Include(a => a.MaxPFHd)
+                                                  .ToList();
+                Assert.True(data.All(a => a.MaxPFHd != null));
                 Assert.True(data.Count == 4);
             }
         }
