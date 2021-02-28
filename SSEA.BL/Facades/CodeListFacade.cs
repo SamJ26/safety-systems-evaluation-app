@@ -56,7 +56,7 @@ namespace SSEA.BL.Facades
                 "Pr" => await GetAllPrModels(),
                 "Se" => await GetAllSeModels(),
                 "SFF" => await GetAllSFFModels(),
-                _ => 0,
+                _ => null,
             };
         }
 
