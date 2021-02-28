@@ -42,7 +42,7 @@ namespace SSEA.BL.Tests
         }
 
         [Fact]
-        public async Task GetAllCCFModels()
+        public async Task GetAllCCFs()
         {
             using (dbContext = dbContextFactory.CreateDbContext())
             {
@@ -55,7 +55,7 @@ namespace SSEA.BL.Tests
         }
 
         [Fact]
-        public async Task GetAllTypeOfLogicModels()
+        public async Task GetAllTypeOfLogics()
         {
             using (dbContext = dbContextFactory.CreateDbContext())
             {
@@ -73,7 +73,7 @@ namespace SSEA.BL.Tests
         }
 
         [Fact]
-        public async Task GetAllArchitectureModels()
+        public async Task GetAllArchitectures()
         {
             using (dbContext = dbContextFactory.CreateDbContext())
             {
