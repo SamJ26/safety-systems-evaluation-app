@@ -1,6 +1,7 @@
 using AutoMapper;
 using SSEA.BL.Facades;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
 using SSEA.DAL;
 using SSEA.DAL.Tests;
@@ -26,6 +27,9 @@ namespace SSEA.BL.Tests
                     mc.AddProfile(new CCFModelMapperProfile());
                     mc.AddProfile(new TypeOfLogicModelMapperProfile());
                     mc.AddProfile(new ArchitectureModelMapperProfile());
+                    mc.AddProfile(new CategoryModelMapperProfile());
+                    mc.AddProfile(new PFHdModelMapperProfile());
+                    mc.AddProfile(new PLModelMapperProfile());
                 });
                 mapper = mapperConfig.CreateMapper();
             }
@@ -50,30 +54,35 @@ namespace SSEA.BL.Tests
             }
         }
 
-        // TODO: related entities are not included
         [Fact]
         public async Task GetAllTypeOfLogicModels()
         {
             using (dbContext = dbContextFactory.CreateDbContext())
             {
                 var facade = new CodeListFacade(mapper, dbContext);
-                var data = await facade.GetAllAsync("TypeOfLogic");
-                Type dataType = ((object)data).GetType();
-                Assert.True(dataType == typeof(List<TypeOfLogicModel>));
+                List<TypeOfLogicModel> data = await facade.GetAllAsync("TypeOfLogic");
+                foreach (var item in data)
+                {
+                    Assert.True(item.MaxPL != null);
+                    Assert.True(item.MaxArchitecture != null);
+                    Assert.True(item.MaxSIL != null);
+                    Assert.True(item.MaxCategory != null);
+                }
                 Assert.True(data.Count == 4);
             }
         }
 
-        // TODO: related entities are not included
         [Fact]
         public async Task GetAllArchitectureModels()
         {
             using (dbContext = dbContextFactory.CreateDbContext())
             {
                 var facade = new CodeListFacade(mapper, dbContext);
-                var data = await facade.GetAllAsync("Architecture");
-                Type dataType = ((object)data).GetType();
-                Assert.True(dataType == typeof(List<ArchitectureModel>));
+                List<ArchitectureModel> data = await facade.GetAllAsync("Architecture");
+                foreach (var item in data)
+                {
+                    Assert.True(item.MaxPFHd != null);
+                }
                 Assert.True(data.Count == 4);
             }
         }

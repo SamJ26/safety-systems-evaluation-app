@@ -23,17 +23,6 @@ namespace SSEA.BL.Facades
         private readonly IMapper mapper;
         private readonly AppDbContext dbContext;
 
-        private Func<IQueryable<TypeOfLogic>, IIncludableQueryable<TypeOfLogic, object>>[] TypeOfLogicIncludes
-        {
-            get;
-        } = new Func<IQueryable<TypeOfLogic>, IIncludableQueryable<TypeOfLogic, object>>[]
-        {
-            i => i.Include(tol => tol.MaxPL)
-                  .Include(tol => tol.MaxCategory)
-                  .Include(tol => tol.MaxSIL)
-                  .Include(tol => tol.MaxArchitecture)
-        };
-
         public CodeListFacade(IMapper mapper,
                               AppDbContext dbContext)
         {
@@ -115,16 +104,14 @@ namespace SSEA.BL.Facades
             return mapper.Map<ICollection<TypeOfFunctionModel>>(data);
         }
 
-        // TODO: related entities are not included
         private async Task<ICollection<TypeOfLogicModel>> GetAllTypeOfLogicModels()
         {
             var repository = new Repository<TypeOfLogic>(dbContext);
-            var query = repository.GetAll();
-            foreach (var include in TypeOfLogicIncludes)
-            {
-                include(query);
-            }
-            var data = await query.ToListAsync();
+            var data = await repository.GetAll().Include(tol => tol.MaxArchitecture)
+                                                .Include(tol => tol.MaxPL)
+                                                .Include(tol => tol.MaxCategory)
+                                                .Include(tol => tol.MaxSIL)
+                                                .ToListAsync();
             return mapper.Map<ICollection<TypeOfLogicModel>>(data);
         }
 
@@ -177,13 +164,10 @@ namespace SSEA.BL.Facades
             return mapper.Map<ICollection<SModel>>(data);
         }
 
-        // TODO: related entities are not included
         private async Task<ICollection<ArchitectureModel>> GetAllArchitectureModels()
         {
             var repository = new Repository<Architecture>(dbContext);
-            var query = repository.GetAll();
-            query.Include(a => a.MaxPFHd);
-            var data = await query.ToListAsync();
+            var data = await repository.GetAll().Include(a => a.MaxPFHd).ToListAsync();
             return mapper.Map<ICollection<ArchitectureModel>>(data);
         }
 
