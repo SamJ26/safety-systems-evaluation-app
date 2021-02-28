@@ -37,11 +37,11 @@ namespace SSEA.BL.Facades
             await machineRepository.UpdateAsync(machine);
         }
 
-        public async Task<IEnumerable<MachineListModel>> GetAllAsync()
+        public async Task<ICollection<MachineListModel>> GetAllAsync()
         {
             var data = await machineRepository.GetAll().Include(m => m.TypeOfLogic)
                                                        .ToListAsync();
-            return mapper.Map<IEnumerable<MachineListModel>>(data);
+            return mapper.Map<ICollection<MachineListModel>>(data);
         }
 
         public async Task<MachineDetailModel> GetByIdAsync(int id)

@@ -83,5 +83,41 @@ namespace SSEA.BL.Tests
                 Assert.Equal(machine.Name, existingMachine.Name);
             }
         }
+
+        [Fact]
+        public async Task GetAllMachines()
+        {
+            using (dbContext = dbContextFactory.CreateDbContext())
+            {
+                MachineFacade facade = new MachineFacade(new Repository<Machine>(dbContext), mapper);
+                var machine1 = new MachineDetailModel()
+                {
+                    Name = "FirstMachine",
+                    Description = "FirstDescription",
+                    Communication = false,
+                    EvaluationMethod = new EvaluationMethodModel() { Shortcut = "PL" },
+                    MachineType = new MachineTypeModel() { Name = "Some type" },
+                    Producer = new ProducerDetailModel() { Name = "Sipron" },
+                    TypeOfLogic = new TypeOfLogicModel() { Name = "CR30" },
+                };
+                var machine2 = new MachineDetailModel()
+                {
+                    Name = "SecondMachine",
+                    Description = "SecondDescription",
+                    Communication = false,
+                    EvaluationMethod = new EvaluationMethodModel() { Shortcut = "SIL" },
+                    MachineType = new MachineTypeModel() { Name = "Some type" },
+                    Producer = new ProducerDetailModel() { Name = "Siemens" },
+                    TypeOfLogic = new TypeOfLogicModel() { Name = "PLC" },
+                };
+                var id1 = await facade.CreateAsync(machine1);
+                Assert.True(id1 != 0);
+                var id2 = await facade.CreateAsync(machine2);
+                Assert.True(id2 != 0);
+                Assert.True(id1 != id2);
+                var machines = await facade.GetAllAsync();
+                Assert.True(machines.Count == 2);
+            }
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SubsystemListModel>> GetAllAsync()
+        public Task<ICollection<SubsystemListModel>> GetAllAsync()
         {
             throw new NotImplementedException();
         }

@@ -38,7 +38,7 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SafetyFunctionListModel>> GetAllAsync()
+        public Task<ICollection<SafetyFunctionListModel>> GetAllAsync()
         {
             throw new NotImplementedException();
         }

@@ -7,7 +7,7 @@ namespace SSEA.BL.Facades
 {
     public interface IFacade<TDetailModel, TListModel, TEntity>
     {
-        Task<IEnumerable<TListModel>> GetAllAsync();
+        Task<ICollection<TListModel>> GetAllAsync();
         Task<TDetailModel> GetByIdAsync(int id);
         Task<int> CreateAsync(TDetailModel newModel);
         Task<int> UpdateAsync(TDetailModel updatedModel);
