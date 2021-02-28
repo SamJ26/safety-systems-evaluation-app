@@ -32,9 +32,9 @@ namespace SSEA.BL.Facades
 
         public async Task DeleteAsync(int id)
         {
-            var machine = await machineRepository.GetByIdAsync(id);
+            var machine = await GetByIdAsync(id);
             // TODO: setup machine state to removed
-            await machineRepository.UpdateAsync(machine);
+            await machineRepository.UpdateAsync(mapper.Map<Machine>(machine));
         }
 
         public async Task<ICollection<MachineListModel>> GetAllAsync()
@@ -46,7 +46,13 @@ namespace SSEA.BL.Facades
 
         public async Task<MachineDetailModel> GetByIdAsync(int id)
         {
-            var machine = await machineRepository.GetByIdAsync(id);
+            var machine = await machineRepository.GetAll().Include(m => m.EvaluationMethod)
+                                                          .Include(m => m.MachineType)
+                                                          .Include(m => m.Producer)
+                                                          .Include(m => m.TypeOfLogic)
+                                                          .Include(m => m.AccessPoints)
+                                                          .Include(m => m.MachineNorms)
+                                                          .SingleOrDefaultAsync(m => m.Id == id);
             return mapper.Map<MachineDetailModel>(machine);
         }
 
