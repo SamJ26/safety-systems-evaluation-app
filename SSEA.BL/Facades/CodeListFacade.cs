@@ -125,7 +125,11 @@ namespace SSEA.BL.Facades
         private async Task<ICollection<CategoryModel>> GetAllCategoryModels()
         {
             var repository = new Repository<Category>(dbContext);
-            var data = await repository.GetAll().ToListAsync();
+            var data = await repository.GetAll().Include(c => c.MinMTTFd)
+                                                .Include(c => c.MaxMTTFd)
+                                                .Include(c => c.MinDC)
+                                                .Include(c => c.MaxDC)
+                                                .ToListAsync();
             return mapper.Map<ICollection<CategoryModel>>(data);
         }
 
@@ -167,7 +171,8 @@ namespace SSEA.BL.Facades
         private async Task<ICollection<ArchitectureModel>> GetAllArchitectureModels()
         {
             var repository = new Repository<Architecture>(dbContext);
-            var data = await repository.GetAll().Include(a => a.MaxPFHd).ToListAsync();
+            var data = await repository.GetAll().Include(a => a.MaxPFHd)
+                                                .ToListAsync();
             return mapper.Map<ICollection<ArchitectureModel>>(data);
         }
 
