@@ -41,9 +41,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public ICollection<MachineNormModel> MachineNorms { get; set; }
     }
 
-    public class MachineDetailMapperProfile : Profile
+    public class MachineDetailModelMapperProfile : Profile
     {
-        public MachineDetailMapperProfile()
+        public MachineDetailModelMapperProfile()
         {
             CreateMap<Machine, MachineDetailModel>().IgnoreSource(src => src.ProducerId)
                                                     .IgnoreSource(src => src.EvaluationMethodId)
