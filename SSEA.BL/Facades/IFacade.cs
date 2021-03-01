@@ -11,6 +11,6 @@ namespace SSEA.BL.Facades
         Task<TDetailModel> GetByIdAsync(int id);
         Task<int> CreateAsync(TDetailModel newModel);
         Task<int> UpdateAsync(TDetailModel updatedModel);
-        Task DeleteAsync(int id);
+        Task<int> DeleteAsync(int id);
     }
 }

@@ -30,11 +30,13 @@ namespace SSEA.BL.Facades
             return await machineRepository.InsertAsync(mapper.Map<Machine>(newModel));
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int id)
         {
             var machine = await GetByIdAsync(id);
+            if (machine == null)
+                return 0;
             // TODO: setup machine state to removed
-            await machineRepository.UpdateAsync(mapper.Map<Machine>(machine));
+            return await machineRepository.UpdateAsync(mapper.Map<Machine>(machine));
         }
 
         public async Task<ICollection<MachineListModel>> GetAllAsync()

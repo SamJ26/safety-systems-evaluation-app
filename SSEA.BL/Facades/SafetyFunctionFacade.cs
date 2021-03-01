@@ -33,7 +33,7 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int id)
+        public Task<int> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
