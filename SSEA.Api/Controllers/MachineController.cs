@@ -22,15 +22,17 @@ namespace SSEA.Api.Controllers
             this.machineFacade = machineFacade;
         }
 
-        // api/machine
+        // Route: api/machine
         [HttpGet]
         [SwaggerOperation(OperationId = "MachineGetAll")]
-        public ActionResult<IEnumerable<MachineListModel>> GetAll()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<MachineListModel>>> GetAll()
         {
-            return Ok();
+            var data = await machineFacade.GetAllAsync();
+            return Ok(data);
         }
 
-        // api/machine/{id}
+        // Route: api/machine/{id}
         [HttpGet("{id}")]
         [SwaggerOperation(OperationId = "MachineGetById")]
         public ActionResult<MachineDetailModel> GetById(int id)
@@ -38,7 +40,7 @@ namespace SSEA.Api.Controllers
             return Ok();
         }
 
-        // api/machine
+        // Route: api/machine
         [HttpPost]
         [SwaggerOperation(OperationId = "MachineCreate")]
         public ActionResult<int> Create(MachineDetailModel newModel)
@@ -46,7 +48,7 @@ namespace SSEA.Api.Controllers
             return Ok();
         }
 
-        // api/machine
+        // Route: api/machine
         [HttpPut]
         [SwaggerOperation(OperationId = "MachineUpdate")]
         public ActionResult<int> Update(MachineDetailModel updatedModel)
@@ -54,7 +56,7 @@ namespace SSEA.Api.Controllers
             return Ok();
         }
 
-        // api/machine/{id}
+        // Route: api/machine/{id}
         [HttpDelete("{id}")]
         [SwaggerOperation(OperationId = "MachineDelete")]
         public ActionResult Delete(int id)
