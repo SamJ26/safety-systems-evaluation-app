@@ -61,16 +61,26 @@ namespace SSEA.Api.Controllers
         // Route: api/machine
         [HttpPut]
         [SwaggerOperation(OperationId = "MachineUpdate")]
-        public ActionResult<int> Update(MachineDetailModel updatedModel)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> Update(MachineDetailModel updatedModel)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = await machineFacade.UpdateAsync(updatedModel);
+            return Ok(id);
         }
 
         // Route: api/machine/{id}
         [HttpDelete("{id}")]
         [SwaggerOperation(OperationId = "MachineDelete")]
-        public ActionResult Delete(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Delete(int id)
         {
+            var foundId = await machineFacade.DeleteAsync(id);
+            if (foundId == 0)
+                return BadRequest();
             return Ok();
         }
     }
