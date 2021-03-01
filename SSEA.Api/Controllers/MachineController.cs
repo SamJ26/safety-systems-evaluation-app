@@ -48,9 +48,14 @@ namespace SSEA.Api.Controllers
         // Route: api/machine
         [HttpPost]
         [SwaggerOperation(OperationId = "MachineCreate")]
-        public ActionResult<int> Create(MachineDetailModel newModel)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> Create(MachineDetailModel newModel)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = await machineFacade.CreateAsync(newModel);
+            return Ok(id);
         }
 
         // Route: api/machine

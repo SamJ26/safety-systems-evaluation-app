@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using SSEA.BL.Extensions;
+using SSEA.DAL.Entities.System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,5 +13,17 @@ namespace SSEA.BL.Models
         public string Description { get; set; }
         public int StateNumber { get; set; }
         public bool Valid { get; set; }
+    }
+
+    public class StateModelMapperProfile : Profile
+    {
+        public StateModelMapperProfile()
+        {
+            CreateMap<State, StateModel>().IgnoreSource(src => src.InitialState)
+                                          .IgnoreSource(src => src.FinalState)
+                                          .IgnoreSource(src => src.Entity)
+                                          .IgnoreSource(src => src.EntityId)
+                                          .ReverseMap();
+        }
     }
 }
