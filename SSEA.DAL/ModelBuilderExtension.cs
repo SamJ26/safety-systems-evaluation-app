@@ -738,6 +738,11 @@ namespace SSEA.DAL
                 {
                     Id = 6,
                     Name = "Subsystem",
+                },
+                new Entity()
+                {
+                    Id = 7,
+                    Name = "User",
                 }
             );
 
@@ -804,7 +809,7 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 4,
+                    Id = 5,
                     NameCZ = "Nový",
                     NameEN = "New",
                     DescriptionCZ = "Bez bezpečnostní funkce",
@@ -817,7 +822,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 5,
+                    Id = 6,
                     NameCZ = "Ošetřený bezpečnostní funkcí",
                     NameEN = "Protected with safety function",
                     DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
@@ -830,7 +835,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 6,
+                    Id = 7,
                     NameCZ = "Odstránený",
                     NameEN = "Removed",
                     DescriptionCZ = "Přístupový bod byl odstránený",

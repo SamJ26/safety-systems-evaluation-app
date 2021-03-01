@@ -2693,6 +2693,43 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SY_Entity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "AccessPoint"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Element"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Machine"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Producer"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "SafetyFunction"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Subsystem"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.System.State", b =>
@@ -2702,7 +2739,11 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionCZ")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("DescriptionEN")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -2716,8 +2757,12 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("InitialState")
                         .HasColumnType("bit");
 
-                    b.Property<string>("StateName")
+                    b.Property<string>("NameCZ")
                         .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("NameEN")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -2732,6 +2777,99 @@ namespace SSEA.DAL.Migrations
                     b.HasIndex("EntityId");
 
                     b.ToTable("SY_State");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DescriptionCZ = "Řídící jednotka není vybrána",
+                            DescriptionEN = "Conrol logic is not selected",
+                            EntityId = 3,
+                            FinalState = false,
+                            InitialState = true,
+                            NameCZ = "Nová",
+                            NameEN = "New",
+                            StateNumber = 1,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DescriptionCZ = "Pracuje se na detailech",
+                            DescriptionEN = "Working on details",
+                            EntityId = 3,
+                            FinalState = false,
+                            InitialState = false,
+                            NameCZ = "Rozpracovaná",
+                            NameEN = "Work in progres",
+                            StateNumber = 2,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DescriptionCZ = "Řídící jednotka byla vybrána",
+                            DescriptionEN = "Control logic was selected",
+                            EntityId = 3,
+                            FinalState = false,
+                            InitialState = false,
+                            NameCZ = "Dokončená",
+                            NameEN = "Completed",
+                            StateNumber = 3,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DescriptionCZ = "Mašina byla odstránená",
+                            DescriptionEN = "Machine was deleted",
+                            EntityId = 3,
+                            FinalState = true,
+                            InitialState = false,
+                            NameCZ = "Odstránená",
+                            NameEN = "Removed",
+                            StateNumber = 4,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DescriptionCZ = "Bez bezpečnostní funkce",
+                            DescriptionEN = "Without safety function",
+                            EntityId = 1,
+                            FinalState = false,
+                            InitialState = true,
+                            NameCZ = "Nový",
+                            NameEN = "New",
+                            StateNumber = 1,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
+                            DescriptionEN = "Access point has one or more safety functions",
+                            EntityId = 1,
+                            FinalState = false,
+                            InitialState = false,
+                            NameCZ = "Ošetřený bezpečnostní funkcí",
+                            NameEN = "Protected with safety function",
+                            StateNumber = 2,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DescriptionCZ = "Přístupový bod byl odstránený",
+                            DescriptionEN = "Access point was deleted",
+                            EntityId = 1,
+                            FinalState = true,
+                            InitialState = false,
+                            NameCZ = "Odstránený",
+                            NameEN = "Removed",
+                            StateNumber = 3,
+                            Valid = true
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.System.StateTransition", b =>
