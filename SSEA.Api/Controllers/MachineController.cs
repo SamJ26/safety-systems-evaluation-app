@@ -35,9 +35,14 @@ namespace SSEA.Api.Controllers
         // Route: api/machine/{id}
         [HttpGet("{id}")]
         [SwaggerOperation(OperationId = "MachineGetById")]
-        public ActionResult<MachineDetailModel> GetById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<MachineDetailModel>> GetById(int id)
         {
-            return Ok();
+            var data = await machineFacade.GetByIdAsync(id);
+            if (data == null)
+                return NotFound();
+            return Ok(data);
         }
 
         // Route: api/machine
