@@ -9,7 +9,7 @@ namespace SSEA.BL.Models
 {
     public class StateModel : ModelBase
     {
-        public string StateName { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public int StateNumber { get; set; }
         public bool Valid { get; set; }
@@ -23,6 +23,10 @@ namespace SSEA.BL.Models
                                           .IgnoreSource(src => src.FinalState)
                                           .IgnoreSource(src => src.Entity)
                                           .IgnoreSource(src => src.EntityId)
+                                          .IgnoreSource(src => src.NameEN)
+                                          .IgnoreSource(src => src.DescriptionEN)
+                                          .MapMember(dest => dest.Description, src => src.DescriptionCZ)
+                                          .MapMember(dest => dest.Name, src => src.NameCZ)
                                           .ReverseMap();
         }
     }

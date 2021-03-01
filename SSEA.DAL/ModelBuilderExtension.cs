@@ -2,6 +2,7 @@
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
+using SSEA.DAL.Entities.System;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -705,6 +706,148 @@ namespace SSEA.DAL
 
             #endregion
 
+            #region Data for system tables
+
+            modelBuilder.Entity<Entity>().HasData(
+                new Entity()
+                {
+                    Id = 1,
+                    Name = "AccessPoint",
+                },
+                new Entity()
+                {
+                    Id = 2,
+                    Name = "Element",
+                },
+                new Entity()
+                {
+                    Id = 3,
+                    Name = "Machine",
+                },
+                new Entity()
+                {
+                    Id = 4,
+                    Name = "Producer",
+                },
+                new Entity()
+                {
+                    Id = 5,
+                    Name = "SafetyFunction",
+                },
+                new Entity()
+                {
+                    Id = 6,
+                    Name = "Subsystem",
+                }
+            );
+
+            modelBuilder.Entity<State>().HasData(
+
+                #region States for machines
+
+                new State()
+                {
+                    Id = 1,
+                    NameCZ = "Nová",
+                    NameEN = "New",
+                    DescriptionCZ = "Řídící jednotka není vybrána",
+                    DescriptionEN = "Conrol logic is not selected",
+                    StateNumber = 1,
+                    Valid = true,
+                    InitialState = true,
+                    FinalState = false,
+                    EntityId = 3,
+                },
+                new State()
+                {
+                    Id = 2,
+                    NameCZ = "Rozpracovaná",
+                    NameEN = "Work in progres",
+                    DescriptionCZ = "Pracuje se na detailech",
+                    DescriptionEN = "Working on details",
+                    StateNumber = 2,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = false,
+                    EntityId = 3,
+                },
+                new State()
+                {
+                    Id = 3,
+                    NameCZ = "Dokončená",
+                    NameEN = "Completed",
+                    DescriptionCZ = "Řídící jednotka byla vybrána",
+                    DescriptionEN = "Control logic was selected",
+                    StateNumber = 3,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = false,
+                    EntityId = 3,
+                },
+                new State()
+                {
+                    Id = 4,
+                    NameCZ = "Odstránená",
+                    NameEN = "Removed",
+                    DescriptionCZ = "Mašina byla odstránená",
+                    DescriptionEN = "Machine was deleted",
+                    StateNumber = 4,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = true,
+                    EntityId = 3,
+                },
+
+            #endregion
+
+            #region States for access points
+
+                new State()
+                {
+                    Id = 4,
+                    NameCZ = "Nový",
+                    NameEN = "New",
+                    DescriptionCZ = "Bez bezpečnostní funkce",
+                    DescriptionEN = "Without safety function",
+                    StateNumber = 1,
+                    Valid = true,
+                    InitialState = true,
+                    FinalState = false,
+                    EntityId = 1,
+                },
+                new State()
+                {
+                    Id = 5,
+                    NameCZ = "Ošetřený bezpečnostní funkcí",
+                    NameEN = "Protected with safety function",
+                    DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
+                    DescriptionEN = "Access point has one or more safety functions",
+                    StateNumber = 2,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = false,
+                    EntityId = 1,
+                },
+                new State()
+                {
+                    Id = 6,
+                    NameCZ = "Odstránený",
+                    NameEN = "Removed",
+                    DescriptionCZ = "Přístupový bod byl odstránený",
+                    DescriptionEN = "Access point was deleted",
+                    StateNumber = 3,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = true,
+                    EntityId = 1,
+                }
+
+                #endregion
+            );
+
+            // TODO: add seeds for StateTransition ??
+
+            #endregion
         }
     }
 }

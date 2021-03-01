@@ -11,10 +11,16 @@ namespace SSEA.DAL.Entities.System
     {
         [Required]
         [StringLength(100)]
-        public string StateName { get; set; }
+        public string NameCZ { get; set; }
+
+        [StringLength(100)]
+        public string NameEN { get; set; }
 
         [StringLength(200)]
-        public string Description { get; set; }
+        public string DescriptionCZ { get; set; }
+
+        [StringLength(200)]
+        public string DescriptionEN { get; set; }
 
         public int StateNumber { get; set; }
         public bool Valid { get; set; }
