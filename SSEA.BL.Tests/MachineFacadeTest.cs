@@ -69,7 +69,7 @@ namespace SSEA.BL.Tests
             int id = 0;
             using (dbContext = dbContextFactory.CreateDbContext())
             {
-                MachineFacade machineFacade = new MachineFacade(new Repository<Machine>(dbContext), dbContext, mapper);
+                MachineFacade machineFacade = new MachineFacade(dbContext, mapper);
                 CodeListFacade codeListFacade = new CodeListFacade(mapper, dbContext);
 
                 ICollection<EvaluationMethodModel> evaluationMethods = await codeListFacade.GetAllAsync("EvaluationMethod");
@@ -99,7 +99,7 @@ namespace SSEA.BL.Tests
             }
             using (dbContext = dbContextFactory.CreateDbContext())
             {
-                MachineFacade machineFacade = new MachineFacade(new Repository<Machine>(dbContext), dbContext, mapper);
+                MachineFacade machineFacade = new MachineFacade(dbContext, mapper);
                 var machines = await machineFacade.GetAllAsync();
                 Assert.True(machines.Count == 1);
             }

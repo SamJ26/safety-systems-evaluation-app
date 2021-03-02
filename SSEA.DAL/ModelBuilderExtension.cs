@@ -718,13 +718,13 @@ namespace SSEA.DAL
                 },
                 new Producer()
                 {
-                    Id = 1,
+                    Id = 2,
                     Name = "Sipron",
                     CountryOfOrigin = "Slovakia",
                 },
                 new Producer()
                 {
-                    Id = 1,
+                    Id = 3,
                     Name = "Allen Bradley",
                     CountryOfOrigin = "USA",
                 }
