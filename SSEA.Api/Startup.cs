@@ -25,6 +25,7 @@ using SSEA.BL.Facades;
 using SSEA.DAL.Repositories;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.BL.Models;
+using SSEA.DAL.Entities.System;
 
 namespace SSEA.Api
 {

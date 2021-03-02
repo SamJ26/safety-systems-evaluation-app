@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SSEA.BL.Models;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+using SSEA.DAL.Entities.System;
 using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,19 +18,36 @@ namespace SSEA.BL.Facades
     public class MachineFacade : IFacade<MachineDetailModel, MachineListModel, Machine>
     {
         private readonly Repository<Machine> machineRepository;
+        private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
+        private readonly int machineTableId = 3;
 
         public MachineFacade(Repository<Machine> machineRepository,
+                             AppDbContext dbContext,
                              IMapper mapper)
         {
             this.machineRepository = machineRepository;
+            this.dbContext = dbContext;
             this.mapper = mapper;
         }
 
         public async Task<int> CreateAsync(MachineDetailModel newModel)
         {
-            // TODO: setup initial state for new machine
-            return await machineRepository.InsertAsync(mapper.Map<Machine>(newModel));
+            // Getting initial state for machines from DB with EntityState.Unchanged
+            State initialState = await dbContext.States.SingleOrDefaultAsync(state => state.EntityId == machineTableId && state.InitialState == true);
+
+            Machine machineEntity = mapper.Map<Machine>(newModel);
+            machineEntity.CurrentState = initialState;
+
+            // Attaching existing related models to change tracker
+            dbContext.Attach(machineEntity.EvaluationMethod).State = EntityState.Unchanged;
+            dbContext.Attach(machineEntity.MachineType).State = EntityState.Unchanged;
+            //if (machineEntity.Producer != null)
+            //    dbContext.Attach(machineEntity.Producer).State = EntityState.Unchanged;
+
+            await dbContext.Machines.AddAsync(machineEntity);
+            await dbContext.SaveChangesAsync();
+            return machineEntity.Id;
         }
 
         public async Task<int> DeleteAsync(int id)

@@ -34,7 +34,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [Required]
         public MachineTypeModel MachineType { get; set; }
 
+        [Required]
         public ProducerDetailModel Producer { get; set; }
+
         public TypeOfLogicModel TypeOfLogic { get; set; }
 
         public ICollection<AccessPointListModel> AccessPoints { get; set; }
