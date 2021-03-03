@@ -6,7 +6,6 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Entities.System;
-using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

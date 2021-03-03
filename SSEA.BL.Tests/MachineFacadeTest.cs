@@ -11,7 +11,6 @@ using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Entities.System;
-using SSEA.DAL.Repositories;
 using SSEA.DAL.Tests;
 using System;
 using System.Collections.Generic;
@@ -70,7 +69,7 @@ namespace SSEA.BL.Tests
             using (dbContext = dbContextFactory.CreateDbContext())
             {
                 MachineFacade machineFacade = new MachineFacade(dbContext, mapper);
-                CodeListFacade codeListFacade = new CodeListFacade(mapper, dbContext);
+                CodeListFacade codeListFacade = new CodeListFacade(dbContext, mapper);
 
                 ICollection<EvaluationMethodModel> evaluationMethods = await codeListFacade.GetAllAsync("EvaluationMethod");
                 ICollection<MachineTypeModel> machineTypes = await codeListFacade.GetAllAsync("MachineType");

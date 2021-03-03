@@ -9,7 +9,6 @@ using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
-using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +19,13 @@ namespace SSEA.BL.Facades
 {
     public class CodeListFacade
     {
-        private readonly IMapper mapper;
         private readonly AppDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public CodeListFacade(IMapper mapper,
-                              AppDbContext dbContext)
+        public CodeListFacade(AppDbContext dbContext, IMapper mapper)
         {
-            this.mapper = mapper;
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public async Task<dynamic> GetAllAsync(string typeName)

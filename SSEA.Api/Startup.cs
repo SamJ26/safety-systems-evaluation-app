@@ -10,11 +10,6 @@ using Microsoft.OpenApi.Models;
 using SSEA.BL.Services.Implementations;
 using SSEA.BL.Services.Interfaces;
 using SSEA.DAL;
-using SSEA.DAL.Factories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SSEA.DAL.Entities.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,7 +17,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Facades;
-using SSEA.DAL.Repositories;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.BL.Models;
 using SSEA.DAL.Entities.System;
@@ -79,10 +73,6 @@ namespace SSEA.Api
             });
 
             services.AddScoped<IAuthService, AuthService>();
-
-            services.AddScoped<Repository<Machine>>();
-            services.AddScoped<Repository<SafetyFunction>>();
-            services.AddScoped<Repository<Subsystem>>();
 
             services.AddScoped<MachineFacade>();
             services.AddScoped<SafetyFunctionFacade>();
