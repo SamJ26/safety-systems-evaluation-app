@@ -46,7 +46,7 @@ namespace SSEA.BL.Tests
         {
             using (dbContext = dbContextFactory.CreateDbContext())
             {
-                var facade = new CodeListFacade(mapper, dbContext);
+                var facade = new CodeListFacade(dbContext, mapper);
                 var data = await facade.GetAllAsync("CCF");
                 Type dataType = ((object)data).GetType();
                 Assert.True(dataType == typeof(List<CCFModel>));
@@ -59,7 +59,7 @@ namespace SSEA.BL.Tests
         {
             using (dbContext = dbContextFactory.CreateDbContext())
             {
-                var facade = new CodeListFacade(mapper, dbContext);
+                var facade = new CodeListFacade(dbContext, mapper);
                 List<TypeOfLogicModel> data = await facade.GetAllAsync("TypeOfLogic");
                 foreach (var item in data)
                 {
@@ -77,7 +77,7 @@ namespace SSEA.BL.Tests
         {
             using (dbContext = dbContextFactory.CreateDbContext())
             {
-                var facade = new CodeListFacade(mapper, dbContext);
+                var facade = new CodeListFacade(dbContext, mapper);
                 List<ArchitectureModel> data = await facade.GetAllAsync("Architecture");
                 foreach (var item in data)
                 {

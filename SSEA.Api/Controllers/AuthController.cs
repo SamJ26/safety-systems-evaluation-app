@@ -14,7 +14,7 @@ namespace SSEA.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private IAuthService authService;
+        private readonly IAuthService authService;
 
         public AuthController(IAuthService authService)
         {

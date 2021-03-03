@@ -2,6 +2,7 @@
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Entities.System;
 using System;
 using System.Collections.Generic;
@@ -701,6 +702,31 @@ namespace SSEA.DAL
                     MaxCategoryId = 5,
                     MaxSILId = 1,
                     MaxArchitectureId = 4,
+                }
+            );
+
+            #endregion
+
+            #region Data for main entities
+
+            modelBuilder.Entity<Producer>().HasData(
+                new Producer()
+                {
+                    Id = 1,
+                    Name = "Siemens",
+                    CountryOfOrigin = "Germany",
+                },
+                new Producer()
+                {
+                    Id = 2,
+                    Name = "Sipron",
+                    CountryOfOrigin = "Slovakia",
+                },
+                new Producer()
+                {
+                    Id = 3,
+                    Name = "Allen Bradley",
+                    CountryOfOrigin = "USA",
                 }
             );
 

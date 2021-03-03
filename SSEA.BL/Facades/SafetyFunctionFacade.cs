@@ -3,7 +3,6 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,13 +12,12 @@ namespace SSEA.BL.Facades
 {
     public class SafetyFunctionFacade : IExtendedFacade<SafetyFunctionDetailModelPL, SafetyFunctionDetailModelSIL, SafetyFunctionListModel, SafetyFunction>
     {
-        private readonly Repository<SafetyFunction> safetyFunctionRepository;
+        private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
 
-        public SafetyFunctionFacade(Repository<SafetyFunction> safetyFunctionRepository,
-                                    IMapper mapper)
+        public SafetyFunctionFacade(AppDbContext dbContext, IMapper mapper)
         {
-            this.safetyFunctionRepository = safetyFunctionRepository;
+            this.dbContext = dbContext;
             this.mapper = mapper;
         }
 
