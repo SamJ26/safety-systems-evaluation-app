@@ -17,7 +17,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public double t_cycles { get; set; }
         public double MTTFd_counted { get; set; }
 
-        public ProducerDetailModel Producer { get; set; }
+        public ProducerModel Producer { get; set; }
         public SubsystemListModel Subsystem { get; set; }
         public DCModel DC { get; set; }
         public MTTFdModel MTTFd_result { get; set; }

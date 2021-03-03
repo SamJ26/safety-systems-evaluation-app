@@ -5,6 +5,7 @@ using SSEA.BL.Models;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
+using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
@@ -54,6 +55,7 @@ namespace SSEA.BL.Facades
                 "Pr" => await GetAllPrModels(),
                 "Se" => await GetAllSeModels(),
                 "SFF" => await GetAllSFFModels(),
+                "Producer" => await GetAllProducers(),
                 _ => null,
             };
         }
@@ -202,6 +204,12 @@ namespace SSEA.BL.Facades
         {
             var data = await dbContext.SFFs.AsNoTracking().ToListAsync();
             return mapper.Map<ICollection<SFFModel>>(data);
+        }
+
+        private async Task<ICollection<ProducerModel>> GetAllProducers()
+        {
+            var data = await dbContext.Producers.AsNoTracking().ToListAsync();
+            return mapper.Map<ICollection<ProducerModel>>(data);
         }
 
         #endregion

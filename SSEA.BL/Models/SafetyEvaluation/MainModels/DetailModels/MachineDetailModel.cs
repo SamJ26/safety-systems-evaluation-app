@@ -35,7 +35,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public MachineTypeModel MachineType { get; set; }
 
         [Required]
-        public ProducerDetailModel Producer { get; set; }
+        public ProducerModel Producer { get; set; }
 
         public TypeOfLogicModel TypeOfLogic { get; set; }
 

@@ -705,10 +705,6 @@ namespace SSEA.DAL
                 }
             );
 
-            #endregion
-
-            #region Data for main entities
-
             modelBuilder.Entity<Producer>().HasData(
                 new Producer()
                 {
@@ -729,6 +725,10 @@ namespace SSEA.DAL
                     CountryOfOrigin = "USA",
                 }
             );
+
+            #endregion
+
+            #region Data for main entities
 
             #endregion
 

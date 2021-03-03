@@ -15,7 +15,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public double C { get; set; }
         public double Lambda_c { get; set; }
 
-        public ProducerDetailModel Producer { get; set; }
+        public ProducerModel Producer { get; set; }
         public SubsystemListModel Subsystem { get; set; }
         public DCModel DC { get; set; }
 
