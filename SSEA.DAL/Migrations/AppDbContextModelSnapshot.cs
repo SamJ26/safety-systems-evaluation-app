@@ -651,6 +651,71 @@ namespace SSEA.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Producer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CountryOfOrigin")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Producer");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountryOfOrigin = "Germany",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Name = "Siemens"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CountryOfOrigin = "Slovakia",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Name = "Sipron"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CountryOfOrigin = "USA",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Name = "Allen Bradley"
+                        });
+                });
+
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfFunction", b =>
                 {
                     b.Property<int>("Id")
@@ -2432,70 +2497,6 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("Machine");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("CountryOfOrigin")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("CurrentState_Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrentState_Id");
-
-                    b.ToTable("Producer");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CountryOfOrigin = "Germany",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
-                            Name = "Siemens"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CountryOfOrigin = "Slovakia",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
-                            Name = "Sipron"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CountryOfOrigin = "USA",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
-                            Name = "Allen Bradley"
-                        });
-                });
-
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.SafetyFunction", b =>
                 {
                     b.Property<int>("Id")
@@ -3199,7 +3200,7 @@ namespace SSEA.DAL.Migrations
                         .HasForeignKey("MTTFdResultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", "Producer")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Producer", "Producer")
                         .WithMany()
                         .HasForeignKey("ProducerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -3240,7 +3241,7 @@ namespace SSEA.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", "Producer")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Producer", "Producer")
                         .WithMany()
                         .HasForeignKey("ProducerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -3260,15 +3261,6 @@ namespace SSEA.DAL.Migrations
                     b.Navigation("Producer");
 
                     b.Navigation("TypeOfLogic");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", b =>
-                {
-                    b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
-                        .WithMany()
-                        .HasForeignKey("CurrentState_Id");
-
-                    b.Navigation("CurrentState");
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.SafetyFunction", b =>

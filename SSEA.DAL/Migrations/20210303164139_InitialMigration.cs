@@ -294,6 +294,25 @@ namespace SSEA.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Producer",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CountryOfOrigin = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    IdCreated = table.Column<int>(type: "int", nullable: false),
+                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdUpdated = table.Column<int>(type: "int", nullable: true),
+                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsValid = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Producer", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "S",
                 columns: table => new
                 {
@@ -610,31 +629,6 @@ namespace SSEA.DAL.Migrations
                         name: "FK_TypeOfLogic_PL_MaxPL_Id",
                         column: x => x.MaxPL_Id,
                         principalTable: "PL",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Producer",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CountryOfOrigin = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CurrentState_Id = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Producer", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Producer_SY_State_CurrentState_Id",
-                        column: x => x.CurrentState_Id,
-                        principalTable: "SY_State",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1393,8 +1387,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Label" },
                 values: new object[,]
                 {
-                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "e" },
                     { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "d" },
+                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "e" },
                     { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "c" }
                 });
 
@@ -1412,11 +1406,21 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možná", null, 0, null, true, (short)3 },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pravděpodobná", null, 0, null, true, (short)4 },
                     { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Zanedbatelná", null, 0, null, true, (short)1 },
                     { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Výjimečná", null, 0, null, true, (short)2 },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pravděpodobná", null, 0, null, true, (short)4 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možná", null, 0, null, true, (short)3 },
                     { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Velmi vysoká", null, 0, null, true, (short)5 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Producer",
+                columns: new[] { "Id", "CountryOfOrigin", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Germany", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Siemens" },
+                    { 2, "Slovakia", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Sipron" },
+                    { 3, "USA", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Allen Bradley" }
                 });
 
             migrationBuilder.InsertData(
@@ -1424,8 +1428,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Závažné", null, 0, null, true, "S2" },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Lehké", null, 0, null, true, "S1" }
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Lehké", null, 0, null, true, "S1" },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Závažné", null, 0, null, true, "S2" }
                 });
 
             migrationBuilder.InsertData(
@@ -1468,8 +1472,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce místního ovládaní", null },
                     { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce bezpečného zastavení iniciována bezpečnostním zařízením", null },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce místního ovládaní", null },
                     { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce ručního opětného nastavení", null }
                 });
 
@@ -1631,11 +1635,6 @@ namespace SSEA.DAL.Migrations
                 name: "IX_MachineNorm_Norm_Id",
                 table: "MachineNorm",
                 column: "Norm_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Producer_CurrentState_Id",
-                table: "Producer",
-                column: "CurrentState_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SafetyFunction_Av_Id",
@@ -1947,10 +1946,10 @@ namespace SSEA.DAL.Migrations
                 name: "CFF");
 
             migrationBuilder.DropTable(
-                name: "TypeOfSubsystem");
+                name: "SY_State");
 
             migrationBuilder.DropTable(
-                name: "SY_State");
+                name: "TypeOfSubsystem");
 
             migrationBuilder.DropTable(
                 name: "Architecture");
