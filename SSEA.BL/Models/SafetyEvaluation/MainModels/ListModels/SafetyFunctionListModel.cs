@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
 {
-    public class SafetyFunctionListModel : ModelBase
+    public class SafetyFunctionListModel : ExtendedModelBase
     {
         [Required]
         [StringLength(50)]

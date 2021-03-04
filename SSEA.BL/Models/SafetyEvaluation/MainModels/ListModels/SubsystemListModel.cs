@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
 {
-    public class SubsystemListModel : ModelBase
+    public class SubsystemListModel : ExtendedModelBase
     {
         public TypeOfSubsystemModel TypeOfSubsystem { get; set; }
 
