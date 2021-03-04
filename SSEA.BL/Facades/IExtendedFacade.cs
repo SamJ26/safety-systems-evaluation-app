@@ -7,13 +7,13 @@ namespace SSEA.BL.Facades
 {
     public interface IExtendedFacade<TDetailModelPL, TDetailModelSIL, TListModel, TEntity>
     {
-        Task<IEnumerable<TListModel>> GetAllAsync();
+        Task<ICollection<TListModel>> GetAllAsync();
         Task<TDetailModelPL> GetByIdAsync(int id);
         Task<TDetailModelSIL> GetByIdAsync(int id, int temp = 0);
         Task<int> CreateAsync(TDetailModelPL newModel);
         Task<int> CreateAsync(TDetailModelSIL newModel);
         Task<int> UpdateAsync(TDetailModelPL updatedModel);
         Task<int> UpdateAsync(TDetailModelSIL updatedModel);
-        Task DeleteAsync(int id);
+        Task<int> DeleteAsync(int id);
     }
 }

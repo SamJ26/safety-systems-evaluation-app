@@ -651,6 +651,71 @@ namespace SSEA.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Producer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CountryOfOrigin")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateTimeUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUpdated")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Producer");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountryOfOrigin = "Germany",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Name = "Siemens"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CountryOfOrigin = "Slovakia",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Name = "Sipron"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CountryOfOrigin = "USA",
+                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdCreated = 0,
+                            IsValid = true,
+                            Name = "Allen Bradley"
+                        });
+                });
+
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfFunction", b =>
                 {
                     b.Property<int>("Id")
@@ -2432,44 +2497,6 @@ namespace SSEA.DAL.Migrations
                     b.ToTable("Machine");
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("CountryOfOrigin")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("CurrentState_Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrentState_Id");
-
-                    b.ToTable("Producer");
-                });
-
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.SafetyFunction", b =>
                 {
                     b.Property<int>("Id")
@@ -2693,6 +2720,43 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SY_Entity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "AccessPoint"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Element"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Machine"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Producer"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "SafetyFunction"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Subsystem"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.System.State", b =>
@@ -2702,7 +2766,11 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionCZ")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("DescriptionEN")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -2716,8 +2784,12 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("InitialState")
                         .HasColumnType("bit");
 
-                    b.Property<string>("StateName")
+                    b.Property<string>("NameCZ")
                         .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("NameEN")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -2732,6 +2804,99 @@ namespace SSEA.DAL.Migrations
                     b.HasIndex("EntityId");
 
                     b.ToTable("SY_State");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DescriptionCZ = "Řídící jednotka není vybrána",
+                            DescriptionEN = "Conrol logic is not selected",
+                            EntityId = 3,
+                            FinalState = false,
+                            InitialState = true,
+                            NameCZ = "Nová",
+                            NameEN = "New",
+                            StateNumber = 1,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DescriptionCZ = "Pracuje se na detailech",
+                            DescriptionEN = "Working on details",
+                            EntityId = 3,
+                            FinalState = false,
+                            InitialState = false,
+                            NameCZ = "Rozpracovaná",
+                            NameEN = "Work in progres",
+                            StateNumber = 2,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DescriptionCZ = "Řídící jednotka byla vybrána",
+                            DescriptionEN = "Control logic was selected",
+                            EntityId = 3,
+                            FinalState = false,
+                            InitialState = false,
+                            NameCZ = "Dokončená",
+                            NameEN = "Completed",
+                            StateNumber = 3,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DescriptionCZ = "Mašina byla odstránená",
+                            DescriptionEN = "Machine was deleted",
+                            EntityId = 3,
+                            FinalState = true,
+                            InitialState = false,
+                            NameCZ = "Odstránená",
+                            NameEN = "Removed",
+                            StateNumber = 4,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DescriptionCZ = "Bez bezpečnostní funkce",
+                            DescriptionEN = "Without safety function",
+                            EntityId = 1,
+                            FinalState = false,
+                            InitialState = true,
+                            NameCZ = "Nový",
+                            NameEN = "New",
+                            StateNumber = 1,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
+                            DescriptionEN = "Access point has one or more safety functions",
+                            EntityId = 1,
+                            FinalState = false,
+                            InitialState = false,
+                            NameCZ = "Ošetřený bezpečnostní funkcí",
+                            NameEN = "Protected with safety function",
+                            StateNumber = 2,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DescriptionCZ = "Přístupový bod byl odstránený",
+                            DescriptionEN = "Access point was deleted",
+                            EntityId = 1,
+                            FinalState = true,
+                            InitialState = false,
+                            NameCZ = "Odstránený",
+                            NameEN = "Removed",
+                            StateNumber = 3,
+                            Valid = true
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.System.StateTransition", b =>
@@ -3035,7 +3200,7 @@ namespace SSEA.DAL.Migrations
                         .HasForeignKey("MTTFdResultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", "Producer")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Producer", "Producer")
                         .WithMany()
                         .HasForeignKey("ProducerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -3076,7 +3241,7 @@ namespace SSEA.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", "Producer")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Producer", "Producer")
                         .WithMany()
                         .HasForeignKey("ProducerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -3096,15 +3261,6 @@ namespace SSEA.DAL.Migrations
                     b.Navigation("Producer");
 
                     b.Navigation("TypeOfLogic");
-                });
-
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Producer", b =>
-                {
-                    b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
-                        .WithMany()
-                        .HasForeignKey("CurrentState_Id");
-
-                    b.Navigation("CurrentState");
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.SafetyFunction", b =>

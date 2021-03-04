@@ -22,43 +22,65 @@ namespace SSEA.Api.Controllers
             this.machineFacade = machineFacade;
         }
 
-        // api/machine
+        // Route: api/machine
         [HttpGet]
         [SwaggerOperation(OperationId = "MachineGetAll")]
-        public ActionResult<IEnumerable<MachineListModel>> GetAll()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<MachineListModel>>> GetAll()
         {
-            return Ok();
+            var data = await machineFacade.GetAllAsync();
+            return Ok(data);
         }
 
-        // api/machine/{id}
+        // Route: api/machine/{id}
         [HttpGet("{id}")]
         [SwaggerOperation(OperationId = "MachineGetById")]
-        public ActionResult<MachineDetailModel> GetById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<MachineDetailModel>> GetById(int id)
         {
-            return Ok();
+            var data = await machineFacade.GetByIdAsync(id);
+            if (data == null)
+                return NotFound();
+            return Ok(data);
         }
 
-        // api/machine
+        // Route: api/machine
         [HttpPost]
         [SwaggerOperation(OperationId = "MachineCreate")]
-        public ActionResult<int> Create(MachineDetailModel newModel)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> Create(MachineDetailModel newModel)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = await machineFacade.CreateAsync(newModel);
+            return Ok(id);
         }
 
-        // api/machine
+        // Route: api/machine
         [HttpPut]
         [SwaggerOperation(OperationId = "MachineUpdate")]
-        public ActionResult<int> Update(MachineDetailModel updatedModel)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> Update(MachineDetailModel updatedModel)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = await machineFacade.UpdateAsync(updatedModel);
+            return Ok(id);
         }
 
-        // api/machine/{id}
+        // Route: api/machine/{id}
         [HttpDelete("{id}")]
         [SwaggerOperation(OperationId = "MachineDelete")]
-        public ActionResult Delete(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Delete(int id)
         {
+            var foundId = await machineFacade.DeleteAsync(id);
+            if (foundId == 0)
+                return BadRequest();
             return Ok();
         }
     }

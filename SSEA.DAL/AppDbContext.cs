@@ -26,7 +26,6 @@ namespace SSEA.DAL
 
         #region DbSets
 
-        public DbSet<Producer> Producers { get; set; }
         public DbSet<Machine> Machines { get; set; }
         public DbSet<AccessPoint> AccessPoints { get; set; }
         public DbSet<SafetyFunction> SafetyFunctions { get; set; }
@@ -39,6 +38,7 @@ namespace SSEA.DAL
         public DbSet<MachineNorm> MachineNorms { get; set; }
         public DbSet<SubsystemCCF> SubsystemCCFs { get; set; }
 
+        public DbSet<Producer> Producers { get; set; }
         public DbSet<CCF> CCFs { get; set; }
         public DbSet<DC> DCs { get; set; }
         public DbSet<EvaluationMethod> EvaluationMethods { get; set; }
@@ -336,12 +336,6 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(e => e.CurrentState)
-                 .WithMany();
-            });
-
-            builder.Entity<Producer>(p =>
-            {
-                p.HasOne(p => p.CurrentState)
                  .WithMany();
             });
 

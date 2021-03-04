@@ -15,7 +15,7 @@ namespace SSEA.Api.Controllers
     [ApiController]
     public class CodeListController : ControllerBase
     {
-        private CodeListFacade codeListFacade;
+        private readonly CodeListFacade codeListFacade;
 
         public CodeListController(CodeListFacade codeListFacade)
         {

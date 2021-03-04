@@ -3,7 +3,6 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,13 +12,12 @@ namespace SSEA.BL.Facades
 {
     public class SubsystemFacade : IExtendedFacade<SubsystemDetailModelPL, SubsystemDetailModelSIL, SubsystemListModel, Subsystem>
     {
-        private readonly Repository<Subsystem> subsystemRepository;
+        private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
 
-        public SubsystemFacade(Repository<Subsystem> subsystemRepository,
-                               IMapper mapper)
+        public SubsystemFacade(AppDbContext dbContext, IMapper mapper)
         {
-            this.subsystemRepository = subsystemRepository;
+            this.dbContext = dbContext;
             this.mapper = mapper;
         }
 
@@ -33,12 +31,12 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int id)
+        public Task<int> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SubsystemListModel>> GetAllAsync()
+        public Task<ICollection<SubsystemListModel>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
