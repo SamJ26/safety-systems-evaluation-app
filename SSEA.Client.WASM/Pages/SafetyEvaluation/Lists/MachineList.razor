@@ -2,6 +2,8 @@
 
 @layout MainLayout
 
+@inject IClientService clientService
+
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
     <MudGrid>
         <MudItem xs="2">
@@ -72,6 +74,13 @@
 
     private string machineName = string.Empty;
 
-    private List<MachineListModel> machines = new List<MachineListModel>();
+    private ICollection<MachineListModel> machines = new List<MachineListModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("MachineList before fetch!");
+        machines = await clientService.MachineGetAllAsync();
+        Console.WriteLine("MachineList after fetch!");
+    }
 
 }

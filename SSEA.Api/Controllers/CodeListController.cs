@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
 using SSEA.BL.Facades;
-using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text.Json;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
@@ -35,13 +34,14 @@ namespace SSEA.Api.Controllers
         /// <returns> All records as JSON string </returns>
         [HttpGet("{typeName}")]
         [SwaggerOperation(OperationId = "CodeListGetAll")]
-        public async Task<ActionResult<CodeListResponse>> GetAll(string typeName)
+        public async Task<ActionResult<CodeListResponseModel>> GetAll(string typeName)
         {
             dynamic data = await codeListFacade.GetAllAsync(typeName);
             if (data == null)
-                return NotFound(new CodeListResponse());  
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-            CodeListResponse response = new()
+                return NotFound(new CodeListResponseModel());
+            string json = JsonSerializer.Serialize(data);
+            // string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            CodeListResponseModel response = new()
             {
                 Data = json,
                 Count = (uint)data.Count,
