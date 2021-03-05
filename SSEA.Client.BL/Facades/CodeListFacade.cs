@@ -18,6 +18,8 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
+        // TODO: uncomment methods after adding all models to client service
+
         //public async Task<ICollection<CCFModel>> GetAllCCFsAsync()
         //{
         //    var data = await dbContext.CCFs.AsNoTracking().ToListAsync();
@@ -33,12 +35,14 @@ namespace SSEA.Client.BL.Facades
         public async Task<ICollection<EvaluationMethodModel>> GetAllEvaluationMethodsAsync()
         {
             var response = await clientService.CodeListGetAllAsync("EvaluationMethod");
+            Console.WriteLine($"Fetching data - EvaluationMethod - Count: {response.Count}");
             return JsonConvert.DeserializeObject<ICollection<EvaluationMethodModel>>(response.Data);
         }
 
         public async Task<ICollection<MachineTypeModel>> GetAllMachineTypesAsync()
         {
             var response = await clientService.CodeListGetAllAsync("MachineType");
+            Console.WriteLine($"Fetching data - MachineType - Count: {response.Count}");
             return JsonConvert.DeserializeObject<ICollection<MachineTypeModel>>(response.Data);
         }
 
@@ -57,6 +61,7 @@ namespace SSEA.Client.BL.Facades
         public async Task<ICollection<TypeOfLogicModel>> GetAllTypeOfLogicsAsync()
         {
             var response = await clientService.CodeListGetAllAsync("TypeOfLogic");
+            Console.WriteLine($"Fetching data - TypeOfLogic - Count: {response.Count}");
             return JsonConvert.DeserializeObject<ICollection<TypeOfLogicModel>>(response.Data);
         }
 
@@ -153,6 +158,7 @@ namespace SSEA.Client.BL.Facades
         public async Task<ICollection<ProducerModel>> GetAllProducersAsync()
         {
             var response = await clientService.CodeListGetAllAsync("Producer");
+            Console.WriteLine($"Fetching data - Producer - Count: {response.Count}");
             return JsonConvert.DeserializeObject<ICollection<ProducerModel>>(response.Data);
         }
     }

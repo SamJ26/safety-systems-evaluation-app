@@ -40,14 +40,12 @@ namespace SSEA.Api.Controllers
             if (data == null)
                 return NotFound(new CodeListResponseModel());
             string json = JsonSerializer.Serialize(data);
-            // string json = JsonConvert.SerializeObject(data, Formatting.Indented);
             CodeListResponseModel response = new()
             {
                 Data = json,
                 Count = (uint)data.Count,
             };       
             return Ok(response);
-            // ICollection<ProducerModel> producers = JsonConvert.DeserializeObject<ICollection<ProducerModel>>(json);
         }
 
         /// <summary>

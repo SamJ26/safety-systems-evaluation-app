@@ -43,51 +43,42 @@
                                     }
                                 </MudSelect>
                             </MudItem>
-
-                            <!-- TODO -->
                             <MudItem xs="4">
-                                <MudGrid>
-                                    <MudItem xs="10" Style="padding-right: 1px;">
-                                        <MudSelect T="string" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                            <MudSelectItem T="string" Value="@("Siemens")" />
-                                            <MudSelectItem T="string" Value="@("Sipron")" />
-                                        </MudSelect>
-                                    </MudItem>
-                                    <MudItem xs="2" Style="padding-left: 0px; padding-top: 18px;">
-                                        <MudTooltip Text="Create new producer">
-                                            <MudButton @onclick="OpenCreateProducerDialog" Variant="Variant.Filled" Style="height: 56px; min-width: 0px; width: 47px;" DisableElevation="true">
-                                                <MudIcon Icon="@Icons.Material.Filled.Add" />
-                                            </MudButton>
-                                        </MudTooltip>
-                                    </MudItem>
-                                </MudGrid>
+                                <MudSelect @bind-Value="model.Producer" T="ProducerModel" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in producers)
+                                    {
+                                        <MudSelectItem T="ProducerModel" Value="@(item)">@item.Name</MudSelectItem>
+                                    }
+                                </MudSelect>
                             </MudItem>
 
                             <!-- 2. row - communication, machine type, type of logic -->
                             <MudItem xs="4">
-                                <MudSelect T="string" Label="Communication" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                    <MudSelectItem T="string" Value="@("Yes")" />
-                                    <MudSelectItem T="string" Value="@("No")" />
+                                <MudSelect @bind-Value="model.Communication" T="bool" Label="Communication" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    <MudSelectItem T="bool" Value="@(true)">Yes</MudSelectItem>
+                                    <MudSelectItem T="bool" Value="@(false)">No</MudSelectItem>
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect T="string" Label="Machine type" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                    <MudSelectItem T="string" Value="@("Sustruh")" />
-                                    <MudSelectItem T="string" Value="@("Bruska")" />
-                                    <MudSelectItem T="string" Value="@("Lis")" />
-                                    <MudSelectItem T="string" Value="@("Freza")" />
+                                <MudSelect @bind-Value="model.MachineType" T="MachineTypeModel" Label="Machine type" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in machineTypes)
+                                    {
+                                        <MudSelectItem T="MachineTypeModel" Value="@(item)">@item.Name</MudSelectItem>
+                                    }
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect T="string" Label="Type of logic" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                    <MudSelectItem T="string" Value="@("Normal PLC")" />
-                                    <MudSelectItem T="string" Value="@("Safety PLC")" />
+                                <MudSelect @bind-Value="model.TypeOfLogic" T="TypeOfLogicModel" Label="Type of logic" Strict="true" Variant="Variant.Outlined" Format="F2" Disabled="true">
+                                    @foreach (var item in typeOfLogics)
+                                    {
+                                        <MudSelectItem T="TypeOfLogicModel" Value="@(item)">@item.Name</MudSelectItem>
+                                    }
                                 </MudSelect>
                             </MudItem>
 
                             <!-- 3. row - description -->
                             <MudItem xs="12">
-                                <MudTextField T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" />
+                                <MudTextField @bind-Value="model.Description" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
 
                             <!-- 4. row - optional parameters -->
@@ -228,9 +219,9 @@
     private string pageDescription;
 
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
-    private ICollection<MachineTypeModel> machineTypes;
-    private ICollection<ProducerModel> producers;
-    private ICollection<TypeOfLogicModel> typeOfLogics;
+    private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
+    private ICollection<ProducerModel> producers = new List<ProducerModel>();
+    private ICollection<TypeOfLogicModel> typeOfLogics = new List<TypeOfLogicModel>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -249,6 +240,7 @@
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
+
         // typeOfLogics = await codeListFacade.GetAllTypeOfLogicModels();
     }
 
