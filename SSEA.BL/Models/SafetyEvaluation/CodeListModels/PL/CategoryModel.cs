@@ -37,6 +37,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
                                                 .IgnoreSource(src => src.MaxDCId)
                                                 .MapMember(dest => dest.Description, src => src.DescriptionCZ)
                                                 .MapMember(dest => dest.Requirements, src => src.RequirementsCZ)
+                                                .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                 .ReverseMap();
         }
     }

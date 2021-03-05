@@ -22,6 +22,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
                                                           .IgnoreSource(src => src.Machine)
                                                           .IgnoreSource(src => src.MachineId)
                                                           .MapMember(dest => dest.SafetyFunctionsCount, src => src.AccessPointSafetyFunctions != null ? src.AccessPointSafetyFunctions.Count : 0)
+                                                          .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                          .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                           .ReverseMap();
         }
     }

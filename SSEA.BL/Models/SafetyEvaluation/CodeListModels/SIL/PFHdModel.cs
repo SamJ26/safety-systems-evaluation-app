@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
     {
         public PFHdModelMapperProfile()
         {
-            CreateMap<PFHd, PFHdModel>().ReverseMap();
+            CreateMap<PFHd, PFHdModel>().MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                        .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
+                                        .ReverseMap();
         }
     }
 }

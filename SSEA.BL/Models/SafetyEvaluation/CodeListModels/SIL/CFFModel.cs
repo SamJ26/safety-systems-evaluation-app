@@ -18,7 +18,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
     {
         public CFFModelMapperProfile()
         {
-            CreateMap<CFF, CFFModel>().ReverseMap();
+            CreateMap<CFF, CFFModel>().MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                      .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
+                                      .ReverseMap();
         }
     }
 }

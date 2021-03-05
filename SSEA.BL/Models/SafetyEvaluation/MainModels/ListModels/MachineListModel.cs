@@ -35,6 +35,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
                                                   .MapMember(dest => dest.EvaluationMethod, src => src.EvaluationMethod.Shortcut)
                                                   .MapMember(dest => dest.MachineType, src => src.MachineType.NameCZ)
                                                   .MapMember(dest => dest.Producer, src => src.Producer.Name)
+                                                  .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                  .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                   .ReverseMap();
         }
     }
