@@ -6,8 +6,6 @@
 @inject MachineFacade machineFacade
 @inject CodeListFacade codeListFacade
 
-@inject IClientService clientService 
-
 @attribute [Authorize]
 
 <!-- TODO: change add buttons in tables to buttons, which open dialog -->
@@ -27,7 +25,7 @@
                         </CardHeaderContent>
                         <CardHeaderActions>
                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Default" />
-                            <MudIconButton Icon="@Icons.Material.Filled.Save" Color="Color.Default" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Save" Color="Color.Default" OnClick="@ShowValue" />
                         </CardHeaderActions>
                     </MudCardHeader>
                     <MudCardContent>
@@ -41,7 +39,7 @@
                                 <MudSelect @bind-Value="model.EvaluationMethod" T="EvaluationMethodModel" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in evaluationMethods)
                                     {
-                                        <MudSelectItem T="string" Value="@(item.Shortcut)" />
+                                        <MudSelectItem T="EvaluationMethodModel" Value="@(item)">@item.Shortcut</MudSelectItem>
                                     }
                                 </MudSelect>
                             </MudItem>
@@ -209,7 +207,7 @@
                                 <MudButton Variant="Variant.Filled" Style="width:100%;">Edit</MudButton>
                             </MudItem>
                             <MudItem xs="6" Style="padding-right: 21px; padding-bottom: 20px; padding-top: 5px;">
-                                <MudButton Variant="Variant.Filled" Style="width:100%;">Save</MudButton>
+                                <MudButton Variant="Variant.Filled" Style="width:100%;" ButtonType="ButtonType.Submit">Save</MudButton>
                             </MudItem>
                         </MudGrid>
                     </MudCardActions>
@@ -229,7 +227,7 @@
     private MachineDetailModel model;
     private string pageDescription;
 
-    private ICollection<EvaluationMethodModel> evaluationMethods;
+    private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes;
     private ICollection<ProducerModel> producers;
     private ICollection<TypeOfLogicModel> typeOfLogics;
@@ -250,19 +248,25 @@
         }
 
         // TODO: check for valid return values
-        Console.WriteLine("Fetching EvaluationMethod");
-        //evaluationMethods = await codeListFacade.GetAllAsync("EvaluationMethod");
-        string json = await clientService.CodeListGetAllAsync("EvaluationMethod");
-        Console.WriteLine(json);
 
-        Console.WriteLine("Fetching MachineType");
-        machineTypes = await codeListFacade.GetAllAsync("MachineType");
+        CodeListResponseModel response = new();
 
-        Console.WriteLine("Fetching Producer");
-        producers = await codeListFacade.GetAllAsync("Producer");
+        response = await codeListFacade.GetAllAsync("EvaluationMethod");
+        evaluationMethods = JsonConvert.DeserializeObject<ICollection<EvaluationMethodModel>>(response.Data);
 
-        Console.WriteLine("Fetching TypeOfLogic");
-        typeOfLogics = await codeListFacade.GetAllAsync("TypeOfLogic");
+        //Console.WriteLine("Fetching MachineType");
+        //machineTypes = await codeListFacade.GetAllAsync("MachineType");
+
+        //Console.WriteLine("Fetching Producer");
+        //producers = await codeListFacade.GetAllAsync("Producer");
+
+        //Console.WriteLine("Fetching TypeOfLogic");
+        //typeOfLogics = await codeListFacade.GetAllAsync("TypeOfLogic");
+    }
+
+    private void ShowValue()
+    {
+        Console.WriteLine(model.EvaluationMethod.Shortcut);
     }
 
     private string searchString = string.Empty;

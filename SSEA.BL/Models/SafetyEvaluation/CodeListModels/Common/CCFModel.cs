@@ -25,6 +25,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
                                       .IgnoreSource(src => src.SubsystemCCFs)
                                       .MapMember(dest => dest.Description, src => src.DescriptionCZ)
                                       .MapMember(dest => dest.Type, src => src.TypeCZ)
+                                      .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                      .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                       .ReverseMap();
         }
     }

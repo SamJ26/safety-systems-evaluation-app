@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
     {
         public ProducerModelMapperProfile()
         {
-            CreateMap<Producer, ProducerModel>().ReverseMap();
+            CreateMap<Producer, ProducerModel>().MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
+                                                .ReverseMap();
         }
     }
 }

@@ -18,11 +18,9 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
-        public async Task<dynamic> GetAllAsync(string typeName)
+        public async Task<CodeListResponseModel> GetAllAsync(string typeName)
         {
-            string json = await clientService.CodeListGetAllAsync(typeName);
-            dynamic data = JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
-            return data;
+            return await clientService.CodeListGetAllAsync(typeName);
         }
     }
 }
