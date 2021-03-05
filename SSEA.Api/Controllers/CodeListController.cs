@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text.Json;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels;
 
 namespace SSEA.Api.Controllers
 {
@@ -34,14 +35,19 @@ namespace SSEA.Api.Controllers
         /// <returns> All records as JSON string </returns>
         [HttpGet("{typeName}")]
         [SwaggerOperation(OperationId = "CodeListGetAll")]
-        public async Task<ActionResult<JArray>> GetAll(string typeName)
+        public async Task<ActionResult<CodeListResponse>> GetAll(string typeName)
         {
             dynamic data = await codeListFacade.GetAllAsync(typeName);
             if (data == null)
-                return NotFound();
+                return NotFound(new CodeListResponse());  
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-            var jarray = JArray.Parse(json);
-            return Ok(jarray);
+            CodeListResponse response = new()
+            {
+                Data = json,
+                Count = (uint)data.Count,
+            };       
+            return Ok(response);
+            // ICollection<ProducerModel> producers = JsonConvert.DeserializeObject<ICollection<ProducerModel>>(json);
         }
 
         /// <summary>
