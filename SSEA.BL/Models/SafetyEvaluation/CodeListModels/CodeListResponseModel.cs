@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels
 {
-    public class CodeListResponse
+    public class CodeListResponseModel
     {
         public uint Count { get; set; } = 0;
         public string Data { get; set; } = string.Empty;
