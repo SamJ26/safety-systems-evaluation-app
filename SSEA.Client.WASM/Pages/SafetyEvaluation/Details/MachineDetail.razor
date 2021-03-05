@@ -246,22 +246,10 @@
             model = await machineFacade.GetByIdAsync(Id);
             pageDescription = "Detail";
         }
-
-        // TODO: check for valid return values
-
-        CodeListResponseModel response = new();
-
-        response = await codeListFacade.GetAllAsync("EvaluationMethod");
-        evaluationMethods = JsonConvert.DeserializeObject<ICollection<EvaluationMethodModel>>(response.Data);
-
-        //Console.WriteLine("Fetching MachineType");
-        //machineTypes = await codeListFacade.GetAllAsync("MachineType");
-
-        //Console.WriteLine("Fetching Producer");
-        //producers = await codeListFacade.GetAllAsync("Producer");
-
-        //Console.WriteLine("Fetching TypeOfLogic");
-        //typeOfLogics = await codeListFacade.GetAllAsync("TypeOfLogic");
+        evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
+        machineTypes = await codeListFacade.GetAllMachineTypesAsync();
+        producers = await codeListFacade.GetAllProducersAsync();
+        // typeOfLogics = await codeListFacade.GetAllTypeOfLogicModels();
     }
 
     private void ShowValue()
