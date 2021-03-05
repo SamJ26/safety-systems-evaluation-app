@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
 using SSEA.BL.Facades;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace SSEA.Api.Controllers
 {
@@ -31,13 +32,12 @@ namespace SSEA.Api.Controllers
         /// <returns> All records as JSON string </returns>
         [HttpGet("{typeName}")]
         [SwaggerOperation(OperationId = "CodeListGetAll")]
-        public async Task<ActionResult<string>> GetAll(string typeName)
+        public async Task<ActionResult> GetAll(string typeName)
         {
             var data = await codeListFacade.GetAllAsync(typeName);
             if (data == null)
-                return new NotFoundResult();
-            var json = JsonConvert.SerializeObject(data);
-            return json;
+                return NotFound();
+            return Ok(data);
         }
 
         /// <summary>
