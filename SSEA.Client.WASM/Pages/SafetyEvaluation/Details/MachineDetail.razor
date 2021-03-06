@@ -215,7 +215,7 @@
     public int Id { get; set; }
 
     private MachineDetailModel machineModel;
-    // private AccessPointDetailModel accessPointModel;
+    public AccessPointListModel accessPointModel;
 
     private string pageDescription;
     private string searchAccessPoint = string.Empty;
@@ -244,9 +244,20 @@
         typeOfLogics = await codeListFacade.GetAllTypeOfLogicsAsync();
     }
 
-    private void OpenCreateAccessPointDialog()
+    private async void OpenCreateAccessPointDialog()
     {
-        dialogService.Show<CreateAccessPointDialog>();
+        accessPointModel = new AccessPointListModel()
+        {
+            Name = "Hello",
+            Description = "Bleeee",
+        };
+        var parameteres = new DialogParameters() { ["AccessPoint"] = accessPointModel };
+        var dialog = dialogService.Show<CreateAccessPointDialog>("Create", parameteres);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            Console.WriteLine(accessPointModel.Name);
+        }
     }
 
     private void OpenCreateProducerDialog()
