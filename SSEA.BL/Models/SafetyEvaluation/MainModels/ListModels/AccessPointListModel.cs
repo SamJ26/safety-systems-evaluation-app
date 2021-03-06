@@ -11,6 +11,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
     public class AccessPointListModel : ExtendedModelBase
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         public short SafetyFunctionsCount { get; set; }
     }
 
@@ -18,8 +19,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
     {
         public AccessPointListModelMapperProfile()
         {
-            CreateMap<AccessPoint, AccessPointListModel>().IgnoreSource(src => src.Description)
-                                                          .IgnoreSource(src => src.Machine)
+            CreateMap<AccessPoint, AccessPointListModel>().IgnoreSource(src => src.Machine)
                                                           .IgnoreSource(src => src.MachineId)
                                                           .MapMember(dest => dest.SafetyFunctionsCount, src => src.AccessPointSafetyFunctions != null ? src.AccessPointSafetyFunctions.Count : 0)
                                                           .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
