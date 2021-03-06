@@ -2625,8 +2625,8 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("hft", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Hft { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("maxPFHd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public PFHdModel MaxPFHd { get; set; }
+        [Newtonsoft.Json.JsonProperty("maxSIL", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MaxSIL { get; set; }
 
 
     }
@@ -2724,17 +2724,17 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("relevantCCF", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool RelevantCCF { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("minMTTFd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public MTTFdModel MinMTTFd { get; set; }
+        [Newtonsoft.Json.JsonProperty("minMTTFd", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MinMTTFd { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("maxMTTFd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public MTTFdModel MaxMTTFd { get; set; }
+        [Newtonsoft.Json.JsonProperty("maxMTTFd", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MaxMTTFd { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("minD", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public DCModel MinD { get; set; }
+        [Newtonsoft.Json.JsonProperty("minDC", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MinDC { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("maxDC", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public DCModel MaxDC { get; set; }
+        [Newtonsoft.Json.JsonProperty("maxDC", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MaxDC { get; set; }
 
 
     }
