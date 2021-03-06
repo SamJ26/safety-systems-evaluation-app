@@ -138,20 +138,31 @@
                                         <MudButton @onclick="OpenCreateAccessPointDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Primary" Size="Size.Medium" DisableElevation="true" Style="margin-left: 20px; margin-top: 11px; margin-right: 5px;">Add</MudButton>
                                     </ToolBarContent>
                                     <ColGroup>
-                                        <col style="width:40%;" />
-                                        <col style="width:40%;" />
+                                        <col style="width:35%;" />
+                                        <col style="width:25%;" />
+                                        <col style="width:20%;" />
                                         <col style="width:20%;" />
                                     </ColGroup>
                                     <HeaderContent>
                                         <MudTh>Name</MudTh>
                                         <MudTh>State</MudTh>
+                                        <MudTh>Safety functions</MudTh>
                                         <MudTh>Actions</MudTh>
                                     </HeaderContent>
                                     <RowTemplate Context="tableContext">
                                         <MudTd DataLabel="Name">@tableContext.Name</MudTd>
-                                        <MudTd DataLabel="Name">State</MudTd>
+                                        @if (tableContext.CurrentState != null)
+                                        {
+                                            <MudTd DataLabel="Name">tableContext.CurrentState.Name</MudTd>
+                                        }
+                                        else
+                                        {
+                                            <MudTd DataLabel="Name">Undefined</MudTd>
+                                        }
+                                        <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                         <MudTd DataLabel="Name">
-                                            <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
+                                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="accessPointDeleteDisabled"></MudIconButton>
+                                            <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" Disabled="accessPointNavigationDisabled"></MudIconButton>
                                         </MudTd>
                                     </RowTemplate>
                                 </MudTable>
@@ -220,6 +231,8 @@
     private string pageDescription;
     private string searchAccessPoint = string.Empty;
     private string searchNorm = string.Empty;
+    private bool accessPointDeleteDisabled = true;
+    private bool accessPointNavigationDisabled = false;
 
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
@@ -231,6 +244,8 @@
         if (Id == 0)
         {
             machineModel = new MachineDetailModel();
+            machineModel.AccessPoints = new List<AccessPointListModel>();
+            machineModel.MachineNorms = new List<MachineNormModel>();
             pageDescription = "Create";
         }
         else
@@ -246,23 +261,15 @@
 
     private async void OpenCreateAccessPointDialog()
     {
-        accessPointModel = new AccessPointListModel()
-        {
-            Name = "Hello",
-            Description = "Bleeee",
-        };
+        accessPointModel = new AccessPointListModel();
         var parameteres = new DialogParameters() { ["AccessPoint"] = accessPointModel };
         var dialog = dialogService.Show<CreateAccessPointDialog>("Create", parameteres);
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            Console.WriteLine(accessPointModel.Name);
+            machineModel.AccessPoints.Add(accessPointModel);
         }
-    }
-
-    private void OpenCreateProducerDialog()
-    {
-        dialogService.Show<CreateProducerDialog>();
+        StateHasChanged();
     }
 
 
