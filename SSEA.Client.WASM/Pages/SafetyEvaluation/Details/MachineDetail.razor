@@ -8,8 +8,6 @@
 
 @attribute [Authorize]
 
-<!-- TODO: change add buttons in tables to buttons, which open dialog -->
-
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
     <MudGrid>
         <MudItem xs="2">
@@ -151,14 +149,7 @@
                                     </HeaderContent>
                                     <RowTemplate Context="tableContext">
                                         <MudTd DataLabel="Name">@tableContext.Name</MudTd>
-                                        @if (tableContext.CurrentState != null)
-                                        {
-                                            <MudTd DataLabel="Name">tableContext.CurrentState.Name</MudTd>
-                                        }
-                                        else
-                                        {
-                                            <MudTd DataLabel="Name">Undefined</MudTd>
-                                        }
+                                        <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "Undefined")</MudTd>
                                         <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                         <MudTd DataLabel="Name">
                                             <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="accessPointDeleteDisabled"></MudIconButton>
@@ -175,7 +166,7 @@
                                         <MudText Typo="Typo.h6">Norms used for this machine</MudText>
                                         <MudToolBarSpacer />
                                         <MudTextField @bind-Value="searchNorm" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-                                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Primary" Size="Size.Medium" DisableElevation="true" Style="margin-left: 20px; margin-top: 11px; margin-right: 5px;">Add</MudButton>
+                                        <MudButton @onclick="OpenSelectNormsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Primary" Size="Size.Medium" DisableElevation="true" Style="margin-left: 20px; margin-top: 11px; margin-right: 5px;">Add</MudButton>
                                     </ToolBarContent>
                                     <ColGroup>
                                         <col style="width:40%;" />
@@ -226,7 +217,6 @@
     public int Id { get; set; }
 
     private MachineDetailModel machineModel;
-    public AccessPointListModel accessPointModel;
 
     private string pageDescription;
     private string searchAccessPoint = string.Empty;
@@ -238,6 +228,7 @@
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
     private ICollection<TypeOfLogicModel> typeOfLogics = new List<TypeOfLogicModel>();
+    private ICollection<NormModel> norms = new List<NormModel>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -261,9 +252,9 @@
 
     private async void OpenCreateAccessPointDialog()
     {
-        accessPointModel = new AccessPointListModel();
-        var parameteres = new DialogParameters() { ["AccessPoint"] = accessPointModel };
-        var dialog = dialogService.Show<CreateAccessPointDialog>("Create", parameteres);
+        AccessPointListModel accessPointModel = new();
+        var parameters = new DialogParameters() { ["AccessPoint"] = accessPointModel };
+        var dialog = dialogService.Show<CreateAccessPointDialog>("Create access point", parameters);
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
@@ -272,11 +263,22 @@
         StateHasChanged();
     }
 
-
-
-
-
-
+    private async void OpenSelectNormsDialog()
+    {
+        norms = await codeListFacade.GetAllNormsAsync();
+        ICollection<MachineNormModel> selectedNorms = new List<MachineNormModel>();
+        var parameters = new DialogParameters() { ["Norms"] = norms, ["MachineId"] = machineModel.Id, ["SelectedNorms"] = selectedNorms };
+        var dialog = dialogService.Show<SelectNormsDialog>("Select norms", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            foreach (var item in selectedNorms)
+            {
+                machineModel.MachineNorms.Add(item);
+            }
+        }
+        StateHasChanged();
+    }
 
     private void OnValidSubmit()
     {

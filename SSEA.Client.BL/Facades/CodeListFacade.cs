@@ -29,6 +29,7 @@ namespace SSEA.Client.BL.Facades
         public async Task<ICollection<DCModel>> GetAllDCsAsync()
         {
             var response = await clientService.CodeListGetAllAsync("DC");
+            Console.WriteLine($"Fetching data - DC - Count: {response.Count}");
             return JsonConvert.DeserializeObject<ICollection<DCModel>>(response.Data);
         }
 
@@ -49,6 +50,7 @@ namespace SSEA.Client.BL.Facades
         public async Task<ICollection<NormModel>> GetAllNormsAsync()
         {
             var response = await clientService.CodeListGetAllAsync("Norm");
+            Console.WriteLine($"Fetching data - Norm - Count: {response.Count}");
             return JsonConvert.DeserializeObject<ICollection<NormModel>>(response.Data);
         }
 
