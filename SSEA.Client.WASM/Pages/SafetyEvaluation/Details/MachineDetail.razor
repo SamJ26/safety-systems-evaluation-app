@@ -137,9 +137,9 @@
                                     </ToolBarContent>
                                     <ColGroup>
                                         <col style="width:35%;" />
-                                        <col style="width:25%;" />
+                                        <col style="width:30%;" />
                                         <col style="width:20%;" />
-                                        <col style="width:20%;" />
+                                        <col style="width:15%;" />
                                     </ColGroup>
                                     <HeaderContent>
                                         <MudTh>Name</MudTh>
@@ -170,20 +170,23 @@
                                     </ToolBarContent>
                                     <ColGroup>
                                         <col style="width:40%;" />
-                                        <col style="width:25%;" />
-                                        <col style="width:25%;" />
+                                        <col style="width:20%;" />
                                         <col style="width:10%;" />
+                                        <col style="width:15%;" />
+                                        <col style="width:15%;" />
                                     </ColGroup>
                                     <HeaderContent>
                                         <MudTh>Name</MudTh>
-                                        <MudTh>Number</MudTh>
-                                        <MudTh>SomeProp</MudTh>
+                                        <MudTh>Label</MudTh>
+                                        <MudTh>Category</MudTh>
+                                        <MudTh>Up to date</MudTh>
                                         <MudTh>Actions</MudTh>
                                     </HeaderContent>
                                     <RowTemplate Context="tableContext">
-                                        <MudTd DataLabel="Name">Name</MudTd>
-                                        <MudTd DataLabel="Name">State</MudTd>
-                                        <MudTd DataLabel="Name">Bla</MudTd>
+                                        <MudTd DataLabel="Name">@tableContext.Norm.Name</MudTd>
+                                        <MudTd DataLabel="Label">@tableContext.Norm.Label</MudTd>
+                                        <MudTd DataLabel="Category">@tableContext.Norm.NormCategory</MudTd>
+                                        <MudTd DataLabel="Up to date">@tableContext.Norm.IsValid</MudTd>
                                         <MudTd DataLabel="Name">
                                             <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
                                         </MudTd>
