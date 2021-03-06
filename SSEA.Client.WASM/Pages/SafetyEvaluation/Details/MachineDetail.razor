@@ -9,14 +9,13 @@
 @attribute [Authorize]
 
 <!-- TODO: change add buttons in tables to buttons, which open dialog -->
-<!-- TODO: remake button for adding options to select box -->
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
     <MudGrid>
         <MudItem xs="2">
         </MudItem>
         <MudItem xs="8" Style="padding-bottom: 30px;">
-            <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+            <EditForm Model="@machineModel" OnValidSubmit="OnValidSubmit">
                 <DataAnnotationsValidator />
                 <MudCard Elevation="3">
                     <MudCardHeader>
@@ -25,7 +24,7 @@
                         </CardHeaderContent>
                         <CardHeaderActions>
                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Default" />
-                            <MudIconButton Icon="@Icons.Material.Filled.Save" Color="Color.Default" OnClick="@ShowValue" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Save" Color="Color.Default" />
                         </CardHeaderActions>
                     </MudCardHeader>
                     <MudCardContent>
@@ -33,10 +32,10 @@
 
                             <!-- 1. row - machine name, evaluation method, producer -->
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="model.Name" Label="Machine name" Variant="Variant.Outlined"></MudTextField>
+                                <MudTextField @bind-Value="machineModel.Name" Label="Machine name" Variant="Variant.Outlined"></MudTextField>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="model.EvaluationMethod" T="EvaluationMethodModel" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machineModel.EvaluationMethod" T="EvaluationMethodModel" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in evaluationMethods)
                                     {
                                         <MudSelectItem T="EvaluationMethodModel" Value="@(item)">@item.Shortcut</MudSelectItem>
@@ -44,7 +43,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="model.Producer" T="ProducerModel" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machineModel.Producer" T="ProducerModel" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in producers)
                                     {
                                         <MudSelectItem T="ProducerModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -54,13 +53,13 @@
 
                             <!-- 2. row - communication, machine type, type of logic -->
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="model.Communication" T="bool" Label="Communication" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machineModel.Communication" T="bool" Label="Communication" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     <MudSelectItem T="bool" Value="@(true)">Yes</MudSelectItem>
                                     <MudSelectItem T="bool" Value="@(false)">No</MudSelectItem>
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="model.MachineType" T="MachineTypeModel" Label="Machine type" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machineModel.MachineType" T="MachineTypeModel" Label="Machine type" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in machineTypes)
                                     {
                                         <MudSelectItem T="MachineTypeModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -68,7 +67,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="model.TypeOfLogic" T="TypeOfLogicModel" Label="Type of logic" Strict="true" Variant="Variant.Outlined" Format="F2" Disabled="true">
+                                <MudSelect @bind-Value="machineModel.TypeOfLogic" T="TypeOfLogicModel" Label="Type of logic" Strict="true" Variant="Variant.Outlined" Format="F2" Disabled="true">
                                     @foreach (var item in typeOfLogics)
                                     {
                                         <MudSelectItem T="TypeOfLogicModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -78,7 +77,7 @@
 
                             <!-- 3. row - description -->
                             <MudItem xs="12">
-                                <MudTextField @bind-Value="model.Description" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" />
+                                <MudTextField @bind-Value="machineModel.Description" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
 
                             <!-- 4. row - optional parameters -->
@@ -95,32 +94,32 @@
                                             <MudGrid Style="margin-top: 3px;">
                                                 <MudItem xs="4">
                                                     <MudPaper Outlined="true">
-                                                        <MudCheckBox @bind-Checked="model.Hmi">HMI</MudCheckBox>
+                                                        <MudCheckBox @bind-Checked="machineModel.Hmi">HMI</MudCheckBox>
                                                     </MudPaper>
                                                 </MudItem>
                                                 <MudItem xs="4">
                                                     <MudPaper Outlined="true">
-                                                        <MudCheckBox @bind-Checked="model.Plc">PLC</MudCheckBox>
+                                                        <MudCheckBox @bind-Checked="machineModel.Plc">PLC</MudCheckBox>
                                                     </MudPaper>
                                                 </MudItem>
                                                 <MudItem xs="4">
                                                     <MudPaper Outlined="true">
-                                                        <MudCheckBox @bind-Checked="model.MachineHelp">Machine help</MudCheckBox>
+                                                        <MudCheckBox @bind-Checked="machineModel.MachineHelp">Machine help</MudCheckBox>
                                                     </MudPaper>
                                                 </MudItem>
                                                 <MudItem xs="4">
                                                     <MudPaper Outlined="true">
-                                                        <MudCheckBox @bind-Checked="model.CodeProtection">Code protection</MudCheckBox>
+                                                        <MudCheckBox @bind-Checked="machineModel.CodeProtection">Code protection</MudCheckBox>
                                                     </MudPaper>
                                                 </MudItem>
                                                 <MudItem xs="4">
                                                     <MudPaper Outlined="true">
-                                                        <MudCheckBox @bind-Checked="model.SecurityOfSafetyParts">Security of safety parts</MudCheckBox>
+                                                        <MudCheckBox @bind-Checked="machineModel.SecurityOfSafetyParts">Security of safety parts</MudCheckBox>
                                                     </MudPaper>
                                                 </MudItem>
                                                 <MudItem xs="4">
                                                     <MudPaper Outlined="true">
-                                                        <MudCheckBox @bind-Checked="model.SafetyMasterInPlace">Safety master in place</MudCheckBox>
+                                                        <MudCheckBox @bind-Checked="machineModel.SafetyMasterInPlace">Safety master in place</MudCheckBox>
                                                     </MudPaper>
                                                 </MudItem>
                                             </MudGrid>
@@ -131,11 +130,11 @@
 
                             <!-- 5. row - table with access points -->
                             <MudItem xs="12">
-                                <MudTable Items="@model.AccessPoints" Dense="true" Hover="true" Height="300px" FixedHeader="true">
+                                <MudTable Items="@machineModel.AccessPoints" Dense="true" Hover="true" Height="300px" FixedHeader="true">
                                     <ToolBarContent>
                                         <MudText Typo="Typo.h6">Access points</MudText>
                                         <MudToolBarSpacer />
-                                        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                                        <MudTextField @bind-Value="searchAccessPoint" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                                         <MudButton @onclick="OpenCreateAccessPointDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Primary" Size="Size.Medium" DisableElevation="true" Style="margin-left: 20px; margin-top: 11px; margin-right: 5px;">Add</MudButton>
                                     </ToolBarContent>
                                     <ColGroup>
@@ -160,11 +159,11 @@
 
                             <!-- 6. row - table with used norms -->
                             <MudItem xs="12">
-                                <MudTable Items="@model.MachineNorms" Dense="true" Hover="true" Height="300px" FixedHeader="true">
+                                <MudTable Items="@machineModel.MachineNorms" Dense="true" Hover="true" Height="300px" FixedHeader="true">
                                     <ToolBarContent>
                                         <MudText Typo="Typo.h6">Norms used for this machine</MudText>
                                         <MudToolBarSpacer />
-                                        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                                        <MudTextField @bind-Value="searchNorm" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                                         <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Primary" Size="Size.Medium" DisableElevation="true" Style="margin-left: 20px; margin-top: 11px; margin-right: 5px;">Add</MudButton>
                                     </ToolBarContent>
                                     <ColGroup>
@@ -215,8 +214,12 @@
     [Parameter]
     public int Id { get; set; }
 
-    private MachineDetailModel model;
+    private MachineDetailModel machineModel;
+    // private AccessPointDetailModel accessPointModel;
+
     private string pageDescription;
+    private string searchAccessPoint = string.Empty;
+    private string searchNorm = string.Empty;
 
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
@@ -227,38 +230,18 @@
     {
         if (Id == 0)
         {
-            Console.WriteLine("Create");
-            model = new MachineDetailModel();
+            machineModel = new MachineDetailModel();
             pageDescription = "Create";
         }
         else
         {
-            Console.WriteLine("Detail");
-            model = await machineFacade.GetByIdAsync(Id);
+            machineModel = await machineFacade.GetByIdAsync(Id);
             pageDescription = "Detail";
         }
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
-
         typeOfLogics = await codeListFacade.GetAllTypeOfLogicsAsync();
-    }
-
-    private void ShowValue()
-    {
-        Console.WriteLine(model.EvaluationMethod.Shortcut);
-    }
-
-    private string searchString = string.Empty;
-
-    private void OnValidSubmit()
-    {
-
-    }
-
-    private void OpenCreateProducerDialog()
-    {
-        dialogService.Show<CreateProducerDialog>("Hello");
     }
 
     private void OpenCreateAccessPointDialog()
@@ -266,4 +249,19 @@
         dialogService.Show<CreateAccessPointDialog>();
     }
 
+    private void OpenCreateProducerDialog()
+    {
+        dialogService.Show<CreateProducerDialog>();
+    }
+
+
+
+
+
+
+
+    private void OnValidSubmit()
+    {
+
+    }
 }
