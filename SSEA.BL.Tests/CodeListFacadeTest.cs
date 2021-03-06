@@ -81,7 +81,7 @@ namespace SSEA.BL.Tests
                 List<ArchitectureModel> data = await facade.GetAllAsync("Architecture");
                 foreach (var item in data)
                 {
-                    Assert.True(item.MaxPFHd != null);
+                    Assert.True(item.MaxSIL != string.Empty);
                 }
                 Assert.True(data.Count == 4);
             }
