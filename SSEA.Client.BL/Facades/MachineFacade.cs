@@ -17,6 +17,7 @@ namespace SSEA.Client.BL.Facades
 
         public async Task<ICollection<MachineListModel>> GetAllAsync()
         {
+            Console.WriteLine("MachineFacade.GetAllAsync()");
             return await clientService.MachineGetAllAsync();
         }
 

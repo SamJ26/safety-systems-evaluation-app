@@ -3164,7 +3164,7 @@ namespace SSEA.Client.BL.Services
         public string Producer { get; set; }
 
         [Newtonsoft.Json.JsonProperty("typeOfLogic", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TypeOfLogicModel TypeOfLogic { get; set; }
+        public string TypeOfLogic { get; set; }
 
 
     }

@@ -16,7 +16,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
         public string EvaluationMethod { get; set; }
         public string MachineType { get; set; }
         public string Producer { get; set; }
-        public TypeOfLogicModel TypeOfLogic { get; set; }
+        public string TypeOfLogic { get; set; }
     }
 
     public class MachineListModelMapperProfile : Profile
@@ -35,6 +35,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
                                                   .MapMember(dest => dest.EvaluationMethod, src => src.EvaluationMethod.Shortcut)
                                                   .MapMember(dest => dest.MachineType, src => src.MachineType.NameCZ)
                                                   .MapMember(dest => dest.Producer, src => src.Producer.Name)
+                                                  .MapMember(dest => dest.TypeOfLogic, src => src.TypeOfLogic != null ? src.TypeOfLogic.NameCZ : "Not selected")
                                                   .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                   .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                   .ReverseMap();
