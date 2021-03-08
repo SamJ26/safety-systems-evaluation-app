@@ -67,7 +67,12 @@ namespace SSEA.BL.Facades
 
         public async Task<ICollection<MachineListModel>> GetAllAsync()
         {
-            var machines = await dbContext.Machines.ToListAsync();
+            var machines = await dbContext.Machines.Include(m => m.CurrentState)
+                                                   .Include(m => m.EvaluationMethod)
+                                                   .Include(m => m.MachineType)
+                                                   .Include(m => m.Producer)
+                                                   .Include(m => m.TypeOfLogic)
+                                                   .ToListAsync();
             return mapper.Map<ICollection<MachineListModel>>(machines);
         }
 

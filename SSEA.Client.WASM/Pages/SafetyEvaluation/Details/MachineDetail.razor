@@ -8,6 +8,8 @@
 
 @attribute [Authorize]
 
+@* TODO: 1. add data validation to all fields in form *@
+
 <MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
     <EditForm Model="@machineModel" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
@@ -26,7 +28,7 @@
 
                     <!-- 1. row - machine name, evaluation method, producer -->
                     <MudItem xs="4">
-                        <MudTextField @bind-Value="machineModel.Name" Label="Machine name" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="machineModel.Name" Label="Machine name" Variant="Variant.Outlined" For="@(() => machineModel.Name)"></MudTextField>
                     </MudItem>
                     <MudItem xs="4">
                         <MudSelect @bind-Value="machineModel.EvaluationMethod" T="EvaluationMethodModel" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
@@ -268,8 +270,9 @@
         StateHasChanged();
     }
 
-    private void OnValidSubmit()
+    private async void OnValidSubmit()
     {
-
+        Console.WriteLine("Saving machine model");
+        var result = await machineFacade.CreateAsync(machineModel);
     }
 }
