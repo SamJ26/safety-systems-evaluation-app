@@ -65,12 +65,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machineModel.TypeOfLogic" T="TypeOfLogicModel" Label="Type of logic" Strict="true" Variant="Variant.Outlined" Format="F2" Disabled="true">
-                                    @foreach (var item in typeOfLogics)
-                                    {
-                                        <MudSelectItem T="TypeOfLogicModel" Value="@(item)">@item.Name</MudSelectItem>
-                                    }
-                                </MudSelect>
+                                <MudField Label="Type of logic" Variant="Variant.Outlined">@(machineModel.TypeOfLogic != null ? machineModel.TypeOfLogic.Name : "Not selected")</MudField>
                             </MudItem>
 
                             <!-- 3. row - description -->
@@ -149,7 +144,7 @@
                                     </HeaderContent>
                                     <RowTemplate Context="tableContext">
                                         <MudTd DataLabel="Name">@tableContext.Name</MudTd>
-                                        <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "Undefined")</MudTd>
+                                        <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New - not saved")</MudTd>
                                         <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                         <MudTd DataLabel="Name">
                                             <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="accessPointDeleteDisabled"></MudIconButton>
@@ -230,7 +225,6 @@
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
-    private ICollection<TypeOfLogicModel> typeOfLogics = new List<TypeOfLogicModel>();
     private ICollection<NormModel> norms = new List<NormModel>();
 
     protected override async Task OnInitializedAsync()
@@ -250,7 +244,6 @@
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
-        typeOfLogics = await codeListFacade.GetAllTypeOfLogicsAsync();
     }
 
     private async void OpenCreateAccessPointDialog()
