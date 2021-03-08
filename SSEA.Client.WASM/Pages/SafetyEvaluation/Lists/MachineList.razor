@@ -22,7 +22,7 @@
             <hr />
             <MudGrid Style="margin-top: 0px;">
                 <MudItem xs="1" Style="padding-bottom: 14px; padding-top: 18px;">
-                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;"></MudButton>
+                    <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;"></MudButton>
                 </MudItem>
                 <MudItem xs="11">
                     <MudGrid>
@@ -116,10 +116,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        machines = await clientService.MachineGetAllAsync();
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
+    }
+
+    // TODO: add logic for searching
+    private async void Search()
+    {
+        machines = await clientService.MachineGetAllAsync();
     }
 
 }

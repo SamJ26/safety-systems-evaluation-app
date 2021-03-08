@@ -15,6 +15,7 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
+        // TODO: add filter options
         public async Task<ICollection<MachineListModel>> GetAllAsync()
         {
             Console.WriteLine("MachineFacade.GetAllAsync()");
