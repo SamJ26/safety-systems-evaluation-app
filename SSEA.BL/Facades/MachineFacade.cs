@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models;
+using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
+using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Entities.System;
 using System;
@@ -43,8 +45,28 @@ namespace SSEA.BL.Facades
             dbContext.Attach(machineEntity.MachineType).State = EntityState.Unchanged;
             dbContext.Attach(machineEntity.Producer).State = EntityState.Unchanged;
 
+            // Removing MachineNorms from new entity
+            machineEntity.MachineNorms.Clear();
+
+            // Saving new model without collection of selected norms
             await dbContext.Machines.AddAsync(machineEntity);
             await dbContext.SaveChangesAsync();
+
+            // Assigning auto-generated id to MachineNormModels 
+            foreach (var item in newModel.MachineNorms)
+            {
+                item.MachineId = machineEntity.Id;
+            }
+
+            // Saving new join tables of type MachineNorm
+            var machineNormEntities = mapper.Map<ICollection<MachineNorm>>(newModel.MachineNorms);
+            foreach (var item in machineNormEntities)
+            {
+                item.Norm = null;
+            }
+            dbContext.MachineNorms.AddRange(machineNormEntities);
+            await dbContext.SaveChangesAsync();
+
             return machineEntity.Id;
         }
 

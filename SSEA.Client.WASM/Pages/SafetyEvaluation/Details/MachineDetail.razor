@@ -1,10 +1,11 @@
-﻿@page "/safetyEvaluation/machineDetail/{id:int?}" 
+﻿@page "/safetyEvaluation/machineDetail/{id:int?}"
 
 @layout MainLayout
 
 @inject IDialogService dialogService
 @inject MachineFacade machineFacade
 @inject CodeListFacade codeListFacade
+@inject ILocalStorageService storageService
 
 @attribute [Authorize]
 
@@ -272,7 +273,8 @@
 
     private async void OnValidSubmit()
     {
-        Console.WriteLine("Saving machine model");
+        var userInfo = await storageService.GetItemAsync<LocalUserInfo>("UserInfo");
+        machineModel.IdCreated = userInfo.ID;
         var result = await machineFacade.CreateAsync(machineModel);
     }
 }
