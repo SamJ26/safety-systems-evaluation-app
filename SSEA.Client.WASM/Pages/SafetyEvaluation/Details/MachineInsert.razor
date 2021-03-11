@@ -18,6 +18,7 @@
                 <MudText Typo="Typo.h6">Create new machine</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
+                <MudIconButton @onclick="ClearAllFields" Icon="@Icons.Material.Filled.ClearAll" Color="Color.Primary" />
                 <MudIconButton @onclick="UnlockFields" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
                 <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
             </CardHeaderActions>
@@ -30,10 +31,10 @@
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="6">
-                                <MudTextField @bind-Value="machineModel.Name" Label="Machine name" ReadOnly="@onlyForReading" Variant="Variant.Outlined" For="@(() => machineModel.Name)"></MudTextField>
+                                <MudTextField @bind-Value="machineModel.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" For="@(() => machineModel.Name)"></MudTextField>
                             </MudItem>
                             <MudItem xs="6">
-                                <MudSelect @bind-Value="machineModel.MachineType" ReadOnly="@onlyForReading" T="MachineTypeModel" Label="Machine type" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machineModel.MachineType" ReadOnly="@onlyForReading" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in machineTypes)
                                     {
                                         <MudSelectItem T="MachineTypeModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -41,7 +42,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machineModel.EvaluationMethod" ReadOnly="@onlyForReading" T="EvaluationMethodModel" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machineModel.EvaluationMethod" ReadOnly="@onlyForReading" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in evaluationMethods)
                                     {
                                         <MudSelectItem T="EvaluationMethodModel" Value="@(item)">@item.Shortcut</MudSelectItem>
@@ -49,7 +50,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machineModel.Producer" ReadOnly="@onlyForReading" T="ProducerModel" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machineModel.Producer" ReadOnly="@onlyForReading" T="ProducerModel" Label="Producer *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in producers)
                                     {
                                         <MudSelectItem T="ProducerModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -57,13 +58,13 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machineModel.Communication" ReadOnly="@onlyForReading" T="bool" Label="Communication" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machineModel.Communication" ReadOnly="@onlyForReading" T="bool" Label="Communication *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     <MudSelectItem T="bool" Value="@(true)">Yes</MudSelectItem>
                                     <MudSelectItem T="bool" Value="@(false)">No</MudSelectItem>
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="12">
-                                <MudTextField @bind-Value="machineModel.Description" ReadOnly="@onlyForReading" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" Style="margin-bottom: 25px;"/>
+                                <MudTextField @bind-Value="machineModel.Description" ReadOnly="@onlyForReading" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" Style="margin-bottom: 25px;" />
                                 <hr />
                             </MudItem>
                             <MudItem xs="4">
@@ -95,7 +96,7 @@
                                 <MudPaper Outlined="true">
                                     <MudCheckBox @bind-Checked="machineModel.SafetyMasterInPlace" ReadOnly="@onlyForReading">Safety master in place</MudCheckBox>
                                 </MudPaper>
-                            </MudItem>   
+                            </MudItem>
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -105,7 +106,7 @@
                         <MudItem xs="2">
                             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
                         </MudItem>
-                        <MudItem xs="8"/>
+                        <MudItem xs="8" />
                         <MudItem xs="2">
                             <MudButton @onclick="OpenCreateAccessPointDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
                         </MudItem>
@@ -128,8 +129,8 @@
                                     <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New - not saved")</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                     <MudTd DataLabel="Name">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="accessPointDeleteDisabled"></MudIconButton>
-                                        <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" Disabled="accessPointNavigationDisabled"></MudIconButton>
+                                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
+                                        <MudIconButton Icon="@Icons.Material.Filled.ImageSearch"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
@@ -177,6 +178,10 @@
                 </MudTabPanel>
 
             </MudTabs>
+            @if (showMessage)
+            {
+                <MudAlert Severity="@messageType" Style="margin-top: 20px;">@message</MudAlert>
+            }
         </MudCardContent>
     </MudCard>
 </MudContainer>
@@ -185,11 +190,13 @@
 
     private MachineDetailModel machineModel;
 
-    private string searchAccessPoint = string.Empty;
-    private string searchNorm = string.Empty;
-    private bool accessPointDeleteDisabled = true;
-    private bool accessPointNavigationDisabled = false;
     private bool onlyForReading = false;
+    private bool showMessage = false;
+    private string message = string.Empty;
+    private Severity messageType = Severity.Success;
+
+    private readonly string successMessage = "Your machine was saved successfully :)";
+    private readonly string errorMessage = "Saving your machine failed :(";
 
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
@@ -236,16 +243,30 @@
         StateHasChanged();
     }
 
+
+
+    // TODO: complete logic
     private async void OnValidSubmit()
     {
         onlyForReading = true;
         //var userInfo = await storageService.GetItemAsync<LocalUserInfo>("UserInfo");
         //machineModel.IdCreated = userInfo.ID;
         //var result = await machineFacade.CreateAsync(machineModel);
+        messageType = Severity.Success;
+        message = successMessage;
+        showMessage = true;
     }
 
+    // TODO: add logic for update after saving
     private void UnlockFields()
     {
         onlyForReading = false;
+        showMessage = false;
+    }
+
+    // TODO: add logic
+    private void ClearAllFields()
+    {
+
     }
 }
