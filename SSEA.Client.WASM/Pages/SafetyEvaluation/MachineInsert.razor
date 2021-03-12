@@ -18,7 +18,7 @@
                 <MudText Typo="Typo.h6">Create new machine</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="ClearAllFields" Icon="@Icons.Material.Filled.ClearAll" Color="Color.Primary" />
+                <MudIconButton @onclick="ClearAllFields" Icon="@Icons.Material.Filled.ClearAll" Color="Color.Primary" Disabled="@onlyForReading" />
                 <MudIconButton @onclick="UnlockFields" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
                 <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
             </CardHeaderActions>
@@ -104,7 +104,7 @@
                 <MudTabPanel Text="Access points">
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="2">
-                            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
+                            <MudButton @onclick="ClearAccessPoints" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
                         </MudItem>
                         <MudItem xs="8" />
                         <MudItem xs="2">
@@ -141,7 +141,7 @@
                 <MudTabPanel Text="Used norms">
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="2">
-                            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
+                            <MudButton @onclick="ClearNorms" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
                         </MudItem>
                         <MudItem xs="8" />
                         <MudItem xs="2">
@@ -244,17 +244,30 @@
     }
 
 
-
     // TODO: complete logic
     private async void OnValidSubmit()
     {
         onlyForReading = true;
-        //var userInfo = await storageService.GetItemAsync<LocalUserInfo>("UserInfo");
-        //machineModel.IdCreated = userInfo.ID;
-        //var result = await machineFacade.CreateAsync(machineModel);
-        messageType = Severity.Success;
-        message = successMessage;
+        var userInfo = await storageService.GetItemAsync<LocalUserInfo>("UserInfo");
+        machineModel.IdCreated = userInfo.ID;
+        var result = await machineFacade.CreateAsync(machineModel);
+        if (result != 0)
+        {
+            Console.WriteLine("Successfull create");
+            messageType = Severity.Success;
+            message = successMessage;
+            // TODO: fix bug
+            // machineModel = await machineFacade.GetByIdAsync(result);
+            Console.WriteLine(result);
+        }
+        else
+        {
+            Console.WriteLine("Error create");
+            messageType = Severity.Error;
+            message = errorMessage;
+        }
         showMessage = true;
+        StateHasChanged();
     }
 
     // TODO: add logic for update after saving
@@ -268,5 +281,19 @@
     private void ClearAllFields()
     {
 
+    }
+
+    // TODO: add logic for removnig already saved items from DB
+    private void ClearAccessPoints()
+    {
+        machineModel.AccessPoints.Clear();
+        StateHasChanged();
+    }
+
+    // TODO: add logic for removnig already saved items from DB
+    private void ClearNorms()
+    {
+        machineModel.MachineNorms.Clear();
+        StateHasChanged();
     }
 }
