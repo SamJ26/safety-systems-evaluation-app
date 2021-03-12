@@ -113,10 +113,10 @@
                         <MudItem xs="12" Style="padding-top: 0px;">
                             <MudTable Items="@machineModel.AccessPoints" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
-                                    <col style="width:35%;" />
-                                    <col style="width:30%;" />
-                                    <col style="width:20%;" />
-                                    <col style="width:15%;" />
+                                    <col style="width:40%;" /><!-- Name -->
+                                    <col style="width:30%;" /><!-- State -->
+                                    <col style="width:20%;" /><!-- Safety functions count -->
+                                    <col style="width:10%;" /><!-- Actions -->
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Name</MudTh>
@@ -129,7 +129,7 @@
                                     <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New - not saved")</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                     <MudTd DataLabel="Name">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
+                                        <MudIconButton @onclick="() => RemoveAccessPoint(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
                                         <MudIconButton Icon="@Icons.Material.Filled.ImageSearch"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
@@ -194,6 +194,7 @@
     private bool showMessage = false;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
+    private bool alreadySaved = false;
 
     private readonly string successMessage = "Your machine was saved successfully :)";
     private readonly string errorMessage = "Saving your machine failed :(";
@@ -252,11 +253,9 @@
         var result = await machineFacade.CreateAsync(machineModel);
         if (result != 0)
         {
-            Console.WriteLine("Successfull create");
             messageType = Severity.Success;
             message = successMessage;
-            // TODO: fix bug
-            // machineModel = await machineFacade.GetByIdAsync(result);
+            machineModel = await machineFacade.GetByIdAsync(result);
             Console.WriteLine(result);
         }
         else
@@ -266,6 +265,7 @@
             message = errorMessage;
         }
         showMessage = true;
+        alreadySaved = true;
         StateHasChanged();
     }
 
@@ -294,5 +294,19 @@
     {
         machineModel.MachineNorms.Clear();
         StateHasChanged();
+    }
+
+    private void RemoveAccessPoint(AccessPointListModel accessPoint)
+    {
+        // Mmachine is already in database -> removing item directly from DB
+        if (!alreadySaved)
+        {
+            // TODO: call accessPointFacade.Remove(accessPoint.Id);
+        }
+        // Machine is not saved yet -> removing item from collection on frontend
+        else
+        {
+            machineModel.AccessPoints.Remove(accessPoint);
+        }
     }
 }
