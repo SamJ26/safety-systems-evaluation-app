@@ -132,9 +132,10 @@ namespace SSEA.BL.Facades
                                                   .Include(m => m.Producer)
                                                   .Include(m => m.TypeOfLogic)
                                                   .Include(m => m.MachineNorms)
+                                                    .ThenInclude(mn => mn.Norm)
                                                   .Include(m => m.CurrentState)
                                                   .Include(m => m.AccessPoints)
-                                                  .ThenInclude(ap => ap.CurrentState)
+                                                    .ThenInclude(ap => ap.CurrentState)
                                                   .SingleOrDefaultAsync(m => m.Id == id);
             return machine;
         }
