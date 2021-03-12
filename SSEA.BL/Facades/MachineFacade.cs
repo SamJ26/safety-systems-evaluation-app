@@ -23,6 +23,8 @@ namespace SSEA.BL.Facades
 
         private readonly int machineNewStateId = 1;
         private readonly int machineRemovedStateId = 4;
+        private readonly int accessPointNewStateId = 5;
+        private readonly int accessPointRemovedStateId = 7;
 
         public MachineFacade(AppDbContext dbContext, IMapper mapper)
         {
@@ -34,36 +36,38 @@ namespace SSEA.BL.Facades
 
         public async Task<int> CreateAsync(MachineDetailModel newModel)
         {
-            // Getting initial state for machines from DB with EntityState.Unchanged
-            State initialState = await dbContext.States.SingleOrDefaultAsync(state => state.Id == machineNewStateId);
+            // Getting initial state for machines and acess points from DB with EntityState.Unchanged
+            State machineInitialState = await dbContext.States.SingleOrDefaultAsync(state => state.Id == machineNewStateId);
+            State accessPointInitialState = await dbContext.States.SingleOrDefaultAsync(state => state.Id == accessPointNewStateId);
 
             Machine machineEntity = mapper.Map<Machine>(newModel);
-            machineEntity.CurrentState = initialState;
+
+            // Assigning inital state to machine and all items in access point collection
+            machineEntity.CurrentState = machineInitialState;
+            machineEntity.AccessPoints.AsParallel().ForAll(accessPoint => accessPoint.CurrentState = accessPointInitialState);
 
             // Attaching existing related models to change tracker
             dbContext.Attach(machineEntity.EvaluationMethod).State = EntityState.Unchanged;
             dbContext.Attach(machineEntity.MachineType).State = EntityState.Unchanged;
             dbContext.Attach(machineEntity.Producer).State = EntityState.Unchanged;
 
-            // Removing MachineNorms from new entity
+            // Removing MachineNorms from new machine entity
             machineEntity.MachineNorms.Clear();
 
-            // Saving new model without collection of selected norms
+            // Saving new machine entity without collection of selected norms
             await dbContext.Machines.AddAsync(machineEntity);
             await dbContext.SaveChangesAsync();
 
             // Assigning auto-generated id to MachineNormModels 
             foreach (var item in newModel.MachineNorms)
-            {
                 item.MachineId = machineEntity.Id;
-            }
 
-            // Saving new join tables of type MachineNorm
+            // Preparing MachineNorm entities for saving
             var machineNormEntities = mapper.Map<ICollection<MachineNorm>>(newModel.MachineNorms);
             foreach (var item in machineNormEntities)
-            {
                 item.Norm = null;
-            }
+
+            // Saving MachineNorm entities
             dbContext.MachineNorms.AddRange(machineNormEntities);
             await dbContext.SaveChangesAsync();
 
@@ -123,14 +127,16 @@ namespace SSEA.BL.Facades
 
         private async Task<Machine> GetMachineAsync(int id)
         {
-            return await dbContext.Machines.Include(m => m.EvaluationMethod)
-                                           .Include(m => m.MachineType)
-                                           .Include(m => m.Producer)
-                                           .Include(m => m.TypeOfLogic)
-                                           .Include(m => m.AccessPoints)
-                                           .Include(m => m.MachineNorms)
-                                           .Include(m => m.CurrentState)
-                                           .SingleOrDefaultAsync(m => m.Id == id);
+            var machine = await dbContext.Machines.Include(m => m.EvaluationMethod)
+                                                  .Include(m => m.MachineType)
+                                                  .Include(m => m.Producer)
+                                                  .Include(m => m.TypeOfLogic)
+                                                  .Include(m => m.MachineNorms)
+                                                  .Include(m => m.CurrentState)
+                                                  .Include(m => m.AccessPoints)
+                                                  .ThenInclude(ap => ap.CurrentState)
+                                                  .SingleOrDefaultAsync(m => m.Id == id);
+            return machine;
         }
     }
 }

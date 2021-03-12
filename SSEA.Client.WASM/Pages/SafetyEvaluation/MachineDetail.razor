@@ -1,4 +1,4 @@
-﻿@page "/safetyEvaluation/machineInsert"
+﻿@page "/safetyEvaluation/machineDetail/{id:int}"
 
 @layout MainLayout
 
@@ -15,11 +15,11 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Create new machine</MudText>
+                <MudText Typo="Typo.h6">Detail of machine</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
                 <MudIconButton @onclick="ClearAllFields" Icon="@Icons.Material.Filled.Clear" Color="Color.Primary" Disabled="@onlyForReading" />
-                <MudIconButton @onclick="UnlockFields" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
+                <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
                 <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
             </CardHeaderActions>
         </MudCardHeader>
@@ -30,16 +30,19 @@
                     <EditForm Model="@machineModel" OnValidSubmit="OnValidSubmit" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="6">
+                            <MudItem xs="3">
                                 <MudTextField @bind-Value="machineModel.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" For="@(() => machineModel.Name)"></MudTextField>
                             </MudItem>
-                            <MudItem xs="6">
+                            <MudItem xs="3">
                                 <MudSelect @bind-Value="machineModel.MachineType" ReadOnly="@onlyForReading" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in machineTypes)
                                     {
                                         <MudSelectItem T="MachineTypeModel" Value="@(item)">@item.Name</MudSelectItem>
                                     }
                                 </MudSelect>
+                            </MudItem>
+                            <MudItem xs="3">
+                                <MudTextField @bind-Value="machineModel.TypeOfLogic" Label="Type of logic" ReadOnly="true" Variant="Variant.Outlined">@(machineModel.TypeOfLogic != null ? machineModel.TypeOfLogic.Name : "Not selected")</MudTextField>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudSelect @bind-Value="machineModel.EvaluationMethod" ReadOnly="@onlyForReading" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
@@ -188,9 +191,12 @@
 
 @code {
 
-    private MachineDetailModel machineModel;
+    [Parameter]
+    public int Id { get; set; }
 
-    private bool onlyForReading = false;
+    private MachineDetailModel machineModel = new MachineDetailModel();
+
+    private bool onlyForReading = true;
     private bool showMessage = false;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
@@ -205,9 +211,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        machineModel = new MachineDetailModel();
-        machineModel.AccessPoints = new List<AccessPointListModel>();
-        machineModel.MachineNorms = new List<MachineNormModel>();
+        machineModel = await machineFacade.GetByIdAsync(Id);
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
@@ -270,9 +274,10 @@
     }
 
     // TODO: add logic for update after saving
-    private void UnlockFields()
+    private void Edit()
     {
         onlyForReading = false;
+
         showMessage = false;
     }
 
@@ -295,4 +300,5 @@
         machineModel.MachineNorms.Clear();
         StateHasChanged();
     }
+
 }
