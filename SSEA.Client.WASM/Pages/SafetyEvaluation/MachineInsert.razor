@@ -6,6 +6,7 @@
 @inject MachineFacade machineFacade
 @inject CodeListFacade codeListFacade
 @inject ILocalStorageService storageService
+@inject NavigationManager navigationManager 
 
 @attribute [Authorize]
 
@@ -18,8 +19,8 @@
                 <MudText Typo="Typo.h6">Create new machine</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="ClearAllFields" Icon="@Icons.Material.Filled.Clear" Color="Color.Primary" Disabled="@onlyForReading" />
-                <MudIconButton @onclick="UnlockFields" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
+                <MudIconButton @onclick="ClearData" Icon="@Icons.Material.Filled.Clear" Color="Color.Primary" Disabled="@alreadySaved" />
+                <MudIconButton @onclick="EditData" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
                 <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
             </CardHeaderActions>
         </MudCardHeader>
@@ -111,12 +112,12 @@
                             <MudButton @onclick="OpenCreateAccessPointDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable Items="@machineModel.AccessPoints" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable T="AccessPointListModel" Items="@machineModel.AccessPoints" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true" OnRowClick="@(args => GoToAccessPointDetail(args))">
                                 <ColGroup>
                                     <col style="width:40%;" /><!-- Name -->
-                                    <col style="width:30%;" /><!-- State -->
+                                    <col style="width:35%;" /><!-- State -->
                                     <col style="width:20%;" /><!-- Safety functions count -->
-                                    <col style="width:10%;" /><!-- Actions -->
+                                    <col style="width:5%;" /><!-- Actions -->
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Name</MudTh>
@@ -130,7 +131,6 @@
                                     <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                     <MudTd DataLabel="Name">
                                         <MudIconButton @onclick="() => RemoveAccessPoint(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
-                                        <MudIconButton Icon="@Icons.Material.Filled.ImageSearch"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
@@ -169,7 +169,7 @@
                                     <MudTd DataLabel="Category">@tableContext.Norm.NormCategory</MudTd>
                                     <MudTd DataLabel="Up to date">@tableContext.Norm.IsValid</MudTd>
                                     <MudTd DataLabel="Name">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
+                                        <MudIconButton @onclick="() => RemoveNorm(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
@@ -269,37 +269,58 @@
         StateHasChanged();
     }
 
-    // TODO: add logic for update after saving
-    private void UnlockFields()
+    private void EditData()
     {
         onlyForReading = false;
         showMessage = false;
     }
 
-    // TODO: add logic
-    private void ClearAllFields()
+    private void ClearData()
     {
-
+        machineModel.Name = string.Empty;
+        machineModel.MachineType = null;
+        machineModel.EvaluationMethod = null;
+        machineModel.Producer = null;
+        machineModel.Communication = false;
+        machineModel.Description = string.Empty;
+        machineModel.Hmi = false;
+        machineModel.Plc = false;
+        machineModel.MachineHelp = false;
+        machineModel.CodeProtection = false;
+        machineModel.SecurityOfSafetyParts = false;
+        machineModel.SafetyMasterInPlace = false;
+        machineModel.AccessPoints.Clear();
+        machineModel.MachineNorms.Clear();
     }
 
-    // TODO: add logic for removnig already saved items from DB
     private void ClearAccessPoints()
     {
-        machineModel.AccessPoints.Clear();
-        StateHasChanged();
+        if (alreadySaved)
+        {
+            // TODO: Remove items from DB
+        }
+        else
+        {
+            machineModel.AccessPoints.Clear();
+        }
     }
 
-    // TODO: add logic for removnig already saved items from DB
     private void ClearNorms()
     {
-        machineModel.MachineNorms.Clear();
-        StateHasChanged();
+        if (alreadySaved)
+        {
+            // TODO: Remove items from DB
+        }
+        else
+        {
+            machineModel.MachineNorms.Clear();
+        }
     }
 
     private void RemoveAccessPoint(AccessPointListModel accessPoint)
     {
         // Mmachine is already in database -> removing item directly from DB
-        if (!alreadySaved)
+        if (alreadySaved)
         {
             // TODO: call accessPointFacade.Remove(accessPoint.Id);
         }
@@ -308,5 +329,27 @@
         {
             machineModel.AccessPoints.Remove(accessPoint);
         }
+        StateHasChanged();
+    }
+
+    private void RemoveNorm(MachineNormModel norm)
+    {
+        // Mmachine is already in database -> removing item directly from DB
+        if (alreadySaved)
+        {
+            // TODO: call accessPointFacade.Remove(accessPoint.Id);
+        }
+        // Machine is not saved yet -> removing item from collection on frontend
+        else
+        {
+            machineModel.MachineNorms.Remove(norm);
+        }
+        StateHasChanged();
+    }
+
+    // TODO: test functionality
+    private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
+    {
+        navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{args.Item.Id}");
     }
 }

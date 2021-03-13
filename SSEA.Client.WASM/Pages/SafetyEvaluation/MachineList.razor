@@ -5,6 +5,7 @@
 @inject IClientService clientService
 @inject CodeListFacade codeListFacade
 @inject MachineFacade machineFacade
+@inject NavigationManager navigationManager
 
 @attribute [Authorize]
 
@@ -15,7 +16,7 @@
                 <MudText Typo="Typo.h6">Machine list</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Create" Color="Color.Primary" Style="margin-top:5px; margin-right:8px;">Create new machine</MudButton>
+                <MudButton @onclick="CreateNew" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Create" Color="Color.Primary" Style="margin-top:5px; margin-right:8px;">Create new machine</MudButton>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
@@ -63,32 +64,32 @@
             <MudTable Items="@machines" Hover="true" Elevation="5" Style="margin-top: 20px;" Dense="true">
                 <HeaderContent>
                     <MudTh>Name</MudTh>
-                    <MudTh>Communication</MudTh>
-                    <MudTh>Evaluation method</MudTh>
+                    <MudTh>State</MudTh>
                     <MudTh>Machine type</MudTh>
                     <MudTh>Type of logic</MudTh>
                     <MudTh>Producer</MudTh>
-                    <MudTh>State</MudTh>
+                    <MudTh>Evaluation method</MudTh>
+                    <MudTh>Communication</MudTh>
                     <MudTh>Actions</MudTh>
                 </HeaderContent>
                 <ColGroup>
                     <col style="width:20%;" />
                     <col style="width:10%;" />
+                    <col style="width:15%;" />
+                    <col style="width:15%;" />
+                    <col style="width:15%;" />
                     <col style="width:10%;" />
-                    <col style="width:15%;" />
-                    <col style="width:15%;" />
-                    <col style="width:15%;" />
                     <col style="width:10%;" />
                     <col style="width:5%;" />
                 </ColGroup>
                 <RowTemplate>
                     <MudTd DataLabel="Name">@context.Name</MudTd>
-                    <MudTd DataLabel="Communication">@context.Communication</MudTd>
-                    <MudTd DataLabel="Evaluation method">@context.EvaluationMethod</MudTd>
+                    <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
                     <MudTd DataLabel="Machine type">@context.MachineType</MudTd>
                     <MudTd DataLabel="Type of logic">@context.TypeOfLogic</MudTd>
                     <MudTd DataLabel="Producer">@context.Producer</MudTd>
-                    <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
+                    <MudTd DataLabel="Evaluation method">@context.EvaluationMethod</MudTd>
+                    <MudTd DataLabel="Communication">@context.Communication</MudTd>
                     <MudTd DataLabel="Actions">
                         <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
                     </MudTd>
@@ -119,6 +120,11 @@
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
+    }
+
+    private void CreateNew()
+    {
+        navigationManager.NavigateTo("/safetyEvaluation/machineInsert");
     }
 
     // TODO: add logic for searching

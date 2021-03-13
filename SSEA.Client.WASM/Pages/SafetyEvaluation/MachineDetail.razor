@@ -17,7 +17,7 @@
             <CardHeaderContent>
                 <MudText Typo="Typo.h6">Detail of machine</MudText>
                 <MudText Typo="Typo.body2">Created - user ID: @machineModel.IdCreated, time: @machineModel.DateTimeCreated</MudText>
-                @if (machineModel.IdUpdated != 0)
+                @if (machineModel.IdUpdated != null)
                 {
                     <MudText Typo="Typo.body2">Updated - user ID: @machineModel.IdUpdated, time: @machineModel.DateTimeUpdated</MudText>
                 }
