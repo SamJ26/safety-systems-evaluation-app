@@ -2568,7 +2568,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2838,7 +2838,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("orderNum", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2862,16 +2862,16 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("mttFd_counted", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double MttFd_counted { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("producer", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("producer", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ProducerModel Producer { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("subsystem", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("subsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public SubsystemListModel Subsystem { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dc", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("dc", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public DCModel Dc { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("mttFd_result", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("mttFd_result", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public MTTFdModel MttFd_result { get; set; }
 
 
@@ -2895,7 +2895,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("orderNum", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2910,13 +2910,13 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("lambda_c", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double Lambda_c { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("producer", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("producer", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ProducerModel Producer { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("subsystem", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("subsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public SubsystemListModel Subsystem { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dc", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("dc", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public DCModel Dc { get; set; }
 
         [Newtonsoft.Json.JsonProperty("elementSFFs", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3070,7 +3070,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
@@ -3115,7 +3115,7 @@ namespace SSEA.Client.BL.Services
         [System.ComponentModel.DataAnnotations.Required]
         public ProducerModel Producer { get; set; } = new ProducerModel();
 
-        [Newtonsoft.Json.JsonProperty("typeOfLogic", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("typeOfLogic", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public TypeOfLogicModel TypeOfLogic { get; set; }
 
         [Newtonsoft.Json.JsonProperty("accessPoints", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3145,7 +3145,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3163,7 +3163,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("producer", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Producer { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("typeOfLogic", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("typeOfLogic", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string TypeOfLogic { get; set; }
 
 
@@ -3181,7 +3181,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("normId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int NormId { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("norm", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("norm", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public NormModel Norm { get; set; }
 
 
@@ -3515,7 +3515,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
@@ -3535,19 +3535,19 @@ namespace SSEA.Client.BL.Services
         [System.ComponentModel.DataAnnotations.Required]
         public EvaluationMethodModel EvaluationMethod { get; set; } = new EvaluationMethodModel();
 
-        [Newtonsoft.Json.JsonProperty("pLr", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("pLr", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PLModel PLr { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("pL_result", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("pL_result", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PLModel PL_result { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("s", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("s", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public SModel S { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("f", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("f", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public FModel F { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("p", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("p", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PModel P { get; set; }
 
         [Newtonsoft.Json.JsonProperty("safetyFunctionSubsystems", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3574,7 +3574,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
@@ -3594,22 +3594,22 @@ namespace SSEA.Client.BL.Services
         [System.ComponentModel.DataAnnotations.Required]
         public EvaluationMethodModel EvaluationMethod { get; set; } = new EvaluationMethodModel();
 
-        [Newtonsoft.Json.JsonProperty("silcl", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("silcl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PFHdModel Silcl { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("siL_result", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("siL_result", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PFHdModel SiL_result { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("se", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("se", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public SeModel Se { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("fr", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("fr", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public FrModel Fr { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("pr", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("pr", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PrModel Pr { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("av", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("av", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public AvModel Av { get; set; }
 
         [Newtonsoft.Json.JsonProperty("safetyFunctionSubsystems", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3636,7 +3636,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
@@ -3644,10 +3644,10 @@ namespace SSEA.Client.BL.Services
         [System.ComponentModel.DataAnnotations.StringLength(50)]
         public string Name { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("typeOfFunction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("typeOfFunction", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public TypeOfFunctionModel TypeOfFunction { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("evaluationMethod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("evaluationMethod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public EvaluationMethodModel EvaluationMethod { get; set; }
 
 
@@ -3782,7 +3782,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("catalogNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3800,13 +3800,13 @@ namespace SSEA.Client.BL.Services
         [System.ComponentModel.DataAnnotations.Required]
         public CategoryModel Category { get; set; } = new CategoryModel();
 
-        [Newtonsoft.Json.JsonProperty("mttFd_result", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("mttFd_result", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public MTTFdModel MttFd_result { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dC_result", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("dC_result", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public DCModel DC_result { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("pL_result", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("pL_result", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PLModel PL_result { get; set; }
 
         [Newtonsoft.Json.JsonProperty("safetyFunctionSubsystems", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3839,7 +3839,7 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("catalogNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3866,10 +3866,10 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("hft", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Hft { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("pfHd_result", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("pfHd_result", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PFHdModel PfHd_result { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("cff", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("cff", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public CFFModel Cff { get; set; }
 
         [Newtonsoft.Json.JsonProperty("safetyFunctionSubsystems", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3902,10 +3902,10 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DateTimeUpdated { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currentState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel CurrentState { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("typeOfSubsystem", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("typeOfSubsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public TypeOfSubsystemModel TypeOfSubsystem { get; set; }
 
 
@@ -3983,16 +3983,16 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("ethernetAdressesMaxCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int EthernetAdressesMaxCount { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("maxPL", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("maxPL", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PLModel MaxPL { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("maxCategory", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("maxCategory", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public CategoryModel MaxCategory { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("maxSIL", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("maxSIL", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PFHdModel MaxSIL { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("maxArchitecture", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("maxArchitecture", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ArchitectureModel MaxArchitecture { get; set; }
 
 

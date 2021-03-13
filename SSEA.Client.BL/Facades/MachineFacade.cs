@@ -24,7 +24,7 @@ namespace SSEA.Client.BL.Facades
 
         public async Task<MachineDetailModel> GetByIdAsync(int id)
         {
-            Console.WriteLine("MachineFacade.GetAllAsync()");
+            Console.WriteLine("MachineFacade.GetByIdAsync()");
             return await clientService.MachineGetByIdAsync(id);
         }
 

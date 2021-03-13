@@ -5,6 +5,25 @@
     </TitleContent>
     <DialogContent>
         <MudGrid>
+            <MudItem xs="1" Style="padding-bottom: 14px; padding-top: 18px;">
+                <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;"></MudButton>
+            </MudItem>
+            <MudItem xs="11">
+                <MudGrid>
+                    <MudItem xs="4">
+                        <MudTextField @bind-Value="name" Label="norm name" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="4">
+                        <MudTextField @bind-Value="label" Label="norm label" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="4">
+                        <MudTextField @bind-Value="category" Label="norm category" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+            <MudItem xs="12">
+                <hr />
+            </MudItem>
             <MudItem xs="12">
                 <MudTable Items="@Norms" MultiSelection="true" @bind-SelectedItems="selectedItems" Height="300px" Hover="true">
                     <HeaderContent>
@@ -47,6 +66,10 @@
 
     private HashSet<NormModel> selectedItems = new HashSet<NormModel>();
 
+    private string name = string.Empty;
+    private string label = string.Empty;
+    private string category = string.Empty;
+
     protected override void OnInitialized()
     {
         Console.WriteLine($"Norms count: {Norms.Count}");
@@ -69,4 +92,10 @@
     }
 
     void Cancel() => MudDialog.Cancel();
+
+    // TODO: add logic
+    private void Search()
+    {
+
+    }
 }
