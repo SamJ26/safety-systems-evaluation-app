@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
@@ -38,9 +39,15 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public Task<AccessPointDetailModel> GetByIdAsync(int id)
+        public async Task<AccessPointDetailModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            AccessPoint data = await dbContext.AccessPoints.Include(ap => ap.CurrentState)
+                                                           .Include(ap => ap.Machine)
+                                                              .ThenInclude(m => m.EvaluationMethod)
+                                                           .Include(ap => ap.AccessPointSafetyFunctions)
+                                                              .ThenInclude(apsf => apsf.SafetyFunction)
+                                                           .SingleOrDefaultAsync(ap => ap.Id == id);
+            return mapper.Map<AccessPointDetailModel>(data);
         }
 
         public Task<int> UpdateAsync(AccessPointDetailModel updatedModel)
