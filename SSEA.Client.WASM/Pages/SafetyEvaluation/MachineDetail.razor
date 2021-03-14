@@ -222,10 +222,6 @@
     protected override async Task OnInitializedAsync()
     {
         machineModel = await machineFacade.GetByIdAsync(Id);
-        //evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
-        //machineTypes = await codeListFacade.GetAllMachineTypesAsync();
-        //producers = await codeListFacade.GetAllProducersAsync();
-        //StateHasChanged();
     }
 
     private async void OpenCreateAccessPointDialog()
