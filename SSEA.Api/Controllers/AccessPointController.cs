@@ -76,9 +76,9 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "AccessPointDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id, bool softDelete = true)
         {
-            var foundId = await accessPointFacade.DeleteAsync(id);
+            var foundId = await accessPointFacade.DeleteAsync(id, softDelete);
             if (foundId == 0)
                 return BadRequest();
             return Ok();

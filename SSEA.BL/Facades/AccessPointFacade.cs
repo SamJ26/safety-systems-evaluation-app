@@ -13,8 +13,10 @@ using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
 {
-    public class AccessPointFacade : IFacade<AccessPointDetailModel, AccessPointListModel, AccessPoint>
+    public class AccessPointFacade
     {
+        private readonly int accessPointRemovedStateId = 7;
+
         private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
 
@@ -31,9 +33,19 @@ namespace SSEA.BL.Facades
             throw new NotImplementedException();
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int id, bool softDelelte = true)
         {
-            throw new NotImplementedException();
+            var accessPoint = await GetAccessPointById(id);
+            if (softDelelte)
+            {
+                // TODO: set up removed state to all records
+            }
+            else
+            {
+                dbContext.AccessPoints.Remove(accessPoint);
+            }
+            await dbContext.SaveChangesAsync();
+            return accessPoint.Id;
         }
 
         public Task<ICollection<AccessPointListModel>> GetAllAsync()
@@ -43,12 +55,7 @@ namespace SSEA.BL.Facades
 
         public async Task<AccessPointDetailModel> GetByIdAsync(int id)
         {
-            AccessPoint data = await dbContext.AccessPoints.Include(ap => ap.CurrentState)
-                                                           .Include(ap => ap.Machine)
-                                                              .ThenInclude(m => m.EvaluationMethod)
-                                                           .Include(ap => ap.AccessPointSafetyFunctions)
-                                                              .ThenInclude(apsf => apsf.SafetyFunction)
-                                                           .SingleOrDefaultAsync(ap => ap.Id == id);
+            AccessPoint data = await GetAccessPointById(id);
             return mapper.Map<AccessPointDetailModel>(data);
         }
 
@@ -93,6 +100,16 @@ namespace SSEA.BL.Facades
             await dbContext.SaveChangesAsync();
 
             return entity.Id;
+        }
+
+        private async Task<AccessPoint> GetAccessPointById(int id)
+        {
+            return await dbContext.AccessPoints.Include(ap => ap.CurrentState)
+                                               .Include(ap => ap.Machine)
+                                                  .ThenInclude(m => m.EvaluationMethod)
+                                               .Include(ap => ap.AccessPointSafetyFunctions)
+                                                  .ThenInclude(apsf => apsf.SafetyFunction)
+                                               .SingleOrDefaultAsync(ap => ap.Id == id);
         }
     }
 }
