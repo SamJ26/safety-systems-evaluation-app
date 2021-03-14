@@ -6,6 +6,7 @@
 @inject MachineFacade machineFacade
 @inject CodeListFacade codeListFacade
 @inject ILocalStorageService storageService
+@inject NavigationManager navigationManager 
 
 @attribute [Authorize]
 
@@ -119,7 +120,7 @@
                             <MudButton @onclick="OpenCreateAccessPointDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable Items="@machineModel.AccessPoints" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable T="AccessPointListModel" Items="@machineModel.AccessPoints"  OnRowClick="@(args => GoToAccessPointDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
                                     <col style="width:35%;" />
                                     <col style="width:30%;" />
@@ -314,4 +315,9 @@
         StateHasChanged();
     }
 
+    // TODO: test functionality
+    private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
+    {
+        navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{machineModel.Id}/{args.Item.Id}");
+    }
 }

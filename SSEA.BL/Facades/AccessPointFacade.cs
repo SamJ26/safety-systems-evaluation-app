@@ -8,6 +8,7 @@ using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,7 +63,7 @@ namespace SSEA.BL.Facades
         public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel)
         {
             // Items which have set Id are already in database and so can be removed for upcoming processing
-            foreach (var item in updatedModel.AccessPointSafetyFunctions)
+            foreach (var item in updatedModel.AccessPointSafetyFunctions.ToList())
             {
                 // Item is already in database -> no operation with item
                 if (item.Id != 0)
@@ -75,16 +76,20 @@ namespace SSEA.BL.Facades
                 // Safety function is new -> creating new safety function + record in join table
                 else if (item.SafetyFunctionId == 0 && item.SafetyFunction != null)
                 {
-                    // Inserting new safety function to databse
-                    var newSafetyFunction = mapper.Map<SafetyFunction>(item.SafetyFunction);
-                    dbContext.SafetyFunctions.Add(newSafetyFunction);
+                    // TODO: add initial state to safety function
+
+                    // Inserting new safety function to database
+                    var safetyFunctionEntity = mapper.Map<SafetyFunction>(item.SafetyFunction);
+                    dbContext.Attach(safetyFunctionEntity.EvaluationMethod).State = EntityState.Unchanged;
+                    dbContext.Attach(safetyFunctionEntity.TypeOfFunction).State = EntityState.Unchanged;
+                    dbContext.SafetyFunctions.Add(safetyFunctionEntity);
                     await dbContext.SaveChangesAsync();
 
                     // Creating new record in join table in database
                     var newJoinTable = new AccessPointSafetyFunction()
                     {
                         AccessPointId = item.AccessPointId,
-                        SafetyFunctionId = newSafetyFunction.Id,
+                        SafetyFunctionId = safetyFunctionEntity.Id,
                     };
                     dbContext.AccessPointSafetyFunctions.Add(newJoinTable);
                     await dbContext.SaveChangesAsync();
@@ -94,7 +99,7 @@ namespace SSEA.BL.Facades
                 }
             }
 
-            // In collection remains just items with AccessPointId and SafetyFunctionId
+            // In collection remain just items with AccessPointId and SafetyFunctionId
             var entity = mapper.Map<AccessPoint>(updatedModel);
             dbContext.AccessPoints.Update(entity);
             await dbContext.SaveChangesAsync();
