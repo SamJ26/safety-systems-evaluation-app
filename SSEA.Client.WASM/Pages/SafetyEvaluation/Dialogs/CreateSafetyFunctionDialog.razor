@@ -1,0 +1,45 @@
+﻿
+<MudDialog Style="width: 500px;">
+    <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h5">Create new safety function</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="SafetyFunction.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudSelect @bind-Value="SafetyFunction.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function" Variant="Variant.Outlined" Format="F2">
+                    @foreach (var item in TypeOfFunctions)
+                    {
+                        <MudSelectItem T="TypeOfFunctionModel" Value="@(item)">@item.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12">
+                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@(SafetyFunction.EvaluationMethod.Shortcut)</MudField>
+            </MudItem >
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public SafetyFunctionListModel SafetyFunction { get; set; } = new SafetyFunctionListModel();
+
+    [Parameter]
+    public ICollection<TypeOfFunctionModel> TypeOfFunctions { get; set; } = new List<TypeOfFunctionModel>();
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}
