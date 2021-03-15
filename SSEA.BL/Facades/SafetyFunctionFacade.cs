@@ -5,6 +5,7 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+using SSEA.DAL.Entities.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace SSEA.BL.Facades
     {
         private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
+
+        private readonly int safetyFunctionNewStateId = 8;
 
         public SafetyFunctionFacade(AppDbContext dbContext, IMapper mapper)
         {
@@ -58,6 +61,9 @@ namespace SSEA.BL.Facades
             // Creating entity without collection
             var entity = mapper.Map<SafetyFunction>(newModel);
 
+            // Assigning inital state to new record
+            entity.CurrentState = await GetState(safetyFunctionNewStateId);
+
             dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
             dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
             dbContext.Attach(entity.PLr).State = EntityState.Unchanged;
@@ -80,6 +86,9 @@ namespace SSEA.BL.Facades
             // Creating entity without collection
             var entity = mapper.Map<SafetyFunction>(newModel);
 
+            // Assigning inital state to new record
+            entity.CurrentState = await GetState(safetyFunctionNewStateId);
+
             dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
             dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
             dbContext.Attach(entity.SILCL).State = EntityState.Unchanged;
@@ -94,6 +103,11 @@ namespace SSEA.BL.Facades
             await dbContext.SafetyFunctions.AddAsync(entity);
             await dbContext.SaveChangesAsync();
             return entity.Id;
+        }
+
+        private async Task<State> GetState(int stateId)
+        {
+            return await dbContext.States.SingleOrDefaultAsync(s => s.Id == stateId);
         }
     }
 }
