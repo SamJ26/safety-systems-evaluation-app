@@ -50,6 +50,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
                                                                 .IgnoreSource(src => src.PrId)
                                                                 .IgnoreSource(src => src.Av)
                                                                 .IgnoreSource(src => src.AvId)
+                                                                .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                                .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                                 .ReverseMap();
         }
     }
