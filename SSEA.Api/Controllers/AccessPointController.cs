@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SSEA.BL.Facades;
+using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
@@ -67,8 +68,8 @@ namespace SSEA.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var id = await accessPointFacade.UpdateAsync(updatedModel);
-            return Ok(id);
+            // var id = await accessPointFacade.UpdateAsync(updatedModel);
+            return Ok(1);
         }
 
         // Route: api/accessPoint/{id}
@@ -82,6 +83,19 @@ namespace SSEA.Api.Controllers
             if (foundId == 0)
                 return BadRequest();
             return Ok();
+        }
+
+        // POST: api/accessPoint/addSafetyFunction
+        [HttpPost("addSafetyFunction")]
+        [SwaggerOperation(OperationId = "AddSafetyFunctionAsync")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> AddSafetyFunctionAsync(AccessPointSafetyFunctionModel model)
+        {
+            if (model.AccessPointId == 0 || model.SafetyFunctionId == 0)
+                return BadRequest();
+            var result = await accessPointFacade.AddSafetyFunctionAsync(model);
+            return Ok(result);
         }
     }
 }

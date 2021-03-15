@@ -1,8 +1,9 @@
 ﻿
 @inject CodeListFacade codeListFacade
 @inject SafetyFunctionFacade safetyFunctionFacade 
+@inject AccessPointFacade accessPointFacade
 
-<MudDialog Style="width: 600px;">
+<MudDialog Style="width: 700px;">
     <TitleContent>
         <MudText Align="Align.Center" Typo="Typo.h5">Create new safety function</MudText>
     </TitleContent>
@@ -11,10 +12,10 @@
             @if (EvaluationMethod.Equals("PL"))
             {
                 <MudItem xs="12">
-                    <MudTextField @bind-Value="safetyFunctionPL.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+                    <MudTextField @bind-Value="safetyFunctionPL.Name" Label="Name *" Variant="Variant.Outlined"></MudTextField>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudSelect @bind-Value="safetyFunctionPL.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function" Variant="Variant.Outlined" Format="F2">
+                    <MudSelect @bind-Value="safetyFunctionPL.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function *" Variant="Variant.Outlined" Format="F2">
                         @foreach (var item in typeOfFunctions)
                         {
                             <MudSelectItem T="TypeOfFunctionModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -65,7 +66,7 @@
             }
             else
             {
-
+                // TODO: add gui layout for SIL methodics
             }
             <MudItem xs="6">
                 <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
@@ -84,6 +85,9 @@
 
     [Parameter]
     public string EvaluationMethod { get; set; } = string.Empty;
+
+    [Parameter]
+    public int AccessPointId { get; set; }
 
     private SafetyFunctionDetailModelPL safetyFunctionPL { get; set; } = new();
     private SafetyFunctionDetailModelSIL safetyFunctionSIL { get; set; } = new();
@@ -128,8 +132,9 @@
         }
         else
         {
-
+            var result = await safetyFunctionFacade.CreateAsync(safetyFunctionSIL);
         }
+        // TODO: create record in join table
         MudDialog.Close(DialogResult.Ok(true));
     }
 

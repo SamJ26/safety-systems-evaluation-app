@@ -6,6 +6,7 @@
 @inject NavigationManager navigationManager
 @inject AccessPointFacade accessPointFacade
 @inject CodeListFacade codeListFacade
+@inject SafetyFunctionFacade safetyFunctionFacade
 
 @attribute [Authorize]
 
@@ -62,7 +63,7 @@
                             <MudButton @onclick="OpenCreateSafetyFunctionDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Create" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Create new</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable T="AccessPointSafetyFunctionModel" Items="@accessPointModel.AccessPointSafetyFunctions" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable T="SafetyFunctionListModel" Items="@safetyFunctions" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
                                     <col style="width:40%;" /> Name 
                                     <col style="width:25%;" /> State 
@@ -78,10 +79,10 @@
                                     <MudTh>Actions</MudTh>
                                 </HeaderContent>
                                 <RowTemplate Context="tableContext">
-                                    <MudTd DataLabel="Name">@tableContext.SafetyFunction.Name</MudTd>
-                                    <MudTd DataLabel="Name">@(tableContext.SafetyFunction.CurrentState != null ? tableContext.SafetyFunction.CurrentState.Name : "New - not saved")</MudTd>
-                                    <MudTd DataLabel="Name">@tableContext.SafetyFunction.TypeOfFunction.Name</MudTd>
-                                    <MudTd DataLabel="Name">@tableContext.SafetyFunction.EvaluationMethod.Shortcut</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.Name</MudTd>
+                                    <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New - not saved")</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.TypeOfFunction.Name</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.EvaluationMethod.Shortcut</MudTd>
                                     <MudTd DataLabel="Name">
                                         <MudIconButton @onclick="() => RemoveSafetyFunction(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
                                     </MudTd>
@@ -109,8 +110,7 @@
     public int MachineId { get; set; }
 
     private AccessPointDetailModel accessPointModel = new AccessPointDetailModel();
-
-    private ICollection<AccessPointSafetyFunctionModel> safetyFunctions = new List<AccessPointSafetyFunctionModel>();
+    private ICollection<SafetyFunctionListModel> safetyFunctions = new List<SafetyFunctionListModel>();
 
     private bool onlyForReading = true;
     private bool showMessage = false;
@@ -122,10 +122,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // accessPointModel = await accessPointFacade.GetByIdAsync(AccessPointId);
+        accessPointModel = await accessPointFacade.GetByIdAsync(AccessPointId);
+        safetyFunctions = await safetyFunctionFacade.GetAllAsync(AccessPointId);
         StateHasChanged();
     }
 
+    // TODO
     private async void OpenSelectSafetyFunctionDialog()
     {
         ICollection<SafetyFunctionListModel> selectedItems = new List<SafetyFunctionListModel>();
@@ -141,14 +143,12 @@
 
     private async void OpenCreateSafetyFunctionDialog()
     {
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = "PL" };
-        // var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPointModel.EvaluationMethod };
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPointModel.EvaluationMethod, ["AccessPointId"] = accessPointModel.Id };
         var dialog = dialogService.Show<CreateSafetyFunctionDialog>("Create safety function", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            // TODO
-            Console.WriteLine("Created!");
+            safetyFunctions = await safetyFunctionFacade.GetAllAsync(AccessPointId);
         }
         StateHasChanged();
     }
@@ -164,17 +164,16 @@
         navigationManager.NavigateTo($"/safetyEvaluation/machineDetail/{MachineId}");
     }
 
-    // TODO: add logic for removing saved items from DB
+    // TODO: add logic
     private void ClearSafetyFunctions()
     {
-        accessPointModel.AccessPointSafetyFunctions.Clear();
         StateHasChanged();
     }
 
     // TODO: add logic for removing saved items from DB
-    private void RemoveSafetyFunction(AccessPointSafetyFunctionModel model)
+    private void RemoveSafetyFunction(SafetyFunctionListModel model)
     {
-        accessPointModel.AccessPointSafetyFunctions.Remove(model);
+        // accessPointModel.AccessPointSafetyFunctions.Remove(model);
     }
 
     private async void OnValidSubmit()
