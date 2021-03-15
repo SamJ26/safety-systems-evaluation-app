@@ -871,6 +871,63 @@ namespace SSEA.DAL
                     InitialState = false,
                     FinalState = true,
                     EntityId = 1,
+                },
+
+                #endregion
+
+                #region States for safety functions
+
+                new State()
+                {
+                    Id = 8,
+                    NameCZ = "Nová",
+                    NameEN = "New",
+                    DescriptionCZ = "S nevyplnenými subsystémami",
+                    DescriptionEN = "Subsystems are not filled",
+                    StateNumber = 1,
+                    Valid = true,
+                    InitialState = true,
+                    FinalState = false,
+                    EntityId = 1,
+                },
+                new State()
+                {
+                    Id = 9,
+                    NameCZ = "Rozpracovaná",
+                    NameEN = "Work in progress",
+                    DescriptionCZ = "Příprava subsystému",
+                    DescriptionEN = "Preparing subsystems",
+                    StateNumber = 2,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = false,
+                    EntityId = 1,
+                },
+                new State()
+                {
+                    Id = 10,
+                    NameCZ = "Dokončená",
+                    NameEN = "Completed",
+                    DescriptionCZ = "Určená výsledná úroveň bezpečnosti",
+                    DescriptionEN = "Determined final level of security",
+                    StateNumber = 3,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = false,
+                    EntityId = 1,
+                },
+                new State()
+                {
+                    Id = 11,
+                    NameCZ = "Odstránená",
+                    NameEN = "Removed",
+                    DescriptionCZ = "Bezpečnostní funkce byla odstránena",
+                    DescriptionEN = "Safety function was deleted",
+                    StateNumber = 4,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = false,
+                    EntityId = 1,
                 }
 
                 #endregion
