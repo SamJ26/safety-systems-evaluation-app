@@ -126,15 +126,16 @@
 
     private async void Submit()
     {
+        int id = 0;
         if (EvaluationMethod.Equals("PL"))
         {
-            var result = await safetyFunctionFacade.CreateAsync(safetyFunctionPL);
+           id = await safetyFunctionFacade.CreateAsync(safetyFunctionPL);
         }
         else
         {
-            var result = await safetyFunctionFacade.CreateAsync(safetyFunctionSIL);
+            id = await safetyFunctionFacade.CreateAsync(safetyFunctionSIL);
         }
-        // TODO: create record in join table
+        var result = await accessPointFacade.AddSafetyFunctionAsync(AccessPointId, id);
         MudDialog.Close(DialogResult.Ok(true));
     }
 

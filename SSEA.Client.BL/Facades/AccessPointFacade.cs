@@ -17,9 +17,19 @@ namespace SSEA.Client.BL.Facades
 
         public async Task<AccessPointDetailModel> GetByIdAsync(int id)
         {
-            Console.WriteLine("AccessPointFacade.GetByIdAsync()");
             return await clientService.AccessPointGetByIdAsync(id);
         }
+
+        public async Task<int> AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
+        {
+            var model = new AccessPointSafetyFunctionModel()
+            {
+                AccessPointId = accessPointId,
+                SafetyFunctionId = safetyFunctionId,
+            };
+            return await clientService.AccessPointAddSafetyFunctionAsync(model);
+        }
+
 
         public async Task<int> UpdateAsync(AccessPointDetailModel updateModel)
         {
