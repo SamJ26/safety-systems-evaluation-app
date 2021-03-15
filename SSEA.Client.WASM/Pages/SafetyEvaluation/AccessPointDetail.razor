@@ -45,11 +45,6 @@
                             <MudItem xs="12">
                                 <MudTextField @bind-Value="accessPointModel.Description" ReadOnly="@onlyForReading" T="string" Label="Access point description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
-
-                            <MudItem xs="12">
-                                @accessPointModel.AccessPointSafetyFunctions.Count
-                            </MudItem>
-
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -66,20 +61,15 @@
                         <MudItem xs="2">
                             <MudButton @onclick="OpenCreateSafetyFunctionDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Create" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Create new</MudButton>
                         </MudItem>
-
-                        <MudItem xs="12">
-                            @accessPointModel.AccessPointSafetyFunctions.Count
-                        </MudItem>
-
                         <MudItem xs="12" Style="padding-top: 0px;">
                             <MudTable T="AccessPointSafetyFunctionModel" Items="@accessPointModel.AccessPointSafetyFunctions" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
-                                <!--<ColGroup>
-                                    <col style="width:40%;" />--><!-- Name -->
-                                    <!--<col style="width:25%;" />--><!-- State -->
-                                    <!--<col style="width:25%;" />--><!-- Type of function -->
-                                    <!--<col style="width:10%;" />--><!-- Evaluation method -->
-                                    <!--<col style="width:10%;" />--><!-- Actions -->
-                                <!--</ColGroup>
+                                <ColGroup>
+                                    <col style="width:40%;" /> Name 
+                                    <col style="width:25%;" /> State 
+                                    <col style="width:25%;" /> Type of function 
+                                    <col style="width:10%;" /> Evaluation method 
+                                    <col style="width:10%;" /> Actions 
+                                </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Name</MudTh>
                                     <MudTh>State</MudTh>
@@ -95,7 +85,7 @@
                                     <MudTd DataLabel="Name">
                                         <MudIconButton @onclick="() => RemoveSafetyFunction(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
                                     </MudTd>
-                                </RowTemplate>-->
+                                </RowTemplate>
                             </MudTable>
                         </MudItem>
                     </MudGrid>
@@ -132,13 +122,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        accessPointModel = await accessPointFacade.GetByIdAsync(AccessPointId);
+        // accessPointModel = await accessPointFacade.GetByIdAsync(AccessPointId);
         StateHasChanged();
     }
 
     private async void OpenSelectSafetyFunctionDialog()
     {
-        // TODO: call SafetyFunctionController and fetch all safety functions
+        ICollection<SafetyFunctionListModel> selectedItems = new List<SafetyFunctionListModel>();
+        var parameters = new DialogParameters() { ["SelectedSafetyFunctions"] = selectedItems };
+        var dialog = dialogService.Show<SelectSafetyFunctionsDialog>("Select safety functions", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            Console.WriteLine("Success");
+        }
+        StateHasChanged();
     }
 
     private async void OpenCreateSafetyFunctionDialog()
