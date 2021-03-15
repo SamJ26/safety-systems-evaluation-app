@@ -51,39 +51,49 @@ namespace SSEA.BL.Facades
             return mapper.Map<ICollection<SafetyFunctionListModel>>(data);
         }
 
-        public Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel)
+        public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel)
         {
-            throw new NotImplementedException();
+            newModel.SafetyFunctionSubsystems.Clear();
+
+            // Creating entity without collection
+            var entity = mapper.Map<SafetyFunction>(newModel);
+
+            dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
+            dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
+            dbContext.Attach(entity.PLr).State = EntityState.Unchanged;
+            if (entity.S != null && entity.F != null && entity.P != null)
+            {
+                dbContext.Attach(entity.S).State = EntityState.Unchanged;
+                dbContext.Attach(entity.F).State = EntityState.Unchanged;
+                dbContext.Attach(entity.P).State = EntityState.Unchanged;
+            }
+
+            await dbContext.SafetyFunctions.AddAsync(entity);
+            await dbContext.SaveChangesAsync();
+            return entity.Id;
         }
 
-        public Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
+        public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
         {
-            throw new NotImplementedException();
-        }
+            newModel.SafetyFunctionSubsystems.Clear();
 
-        public Task<int> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+            // Creating entity without collection
+            var entity = mapper.Map<SafetyFunction>(newModel);
 
-        public Task<SafetyFunctionDetailModelPL> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+            dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
+            dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
+            dbContext.Attach(entity.SILCL).State = EntityState.Unchanged;
+            if (entity.Se != null && entity.Fr != null && entity.Pr != null && entity.Av != null)
+            {
+                dbContext.Attach(entity.Se).State = EntityState.Unchanged;
+                dbContext.Attach(entity.Fr).State = EntityState.Unchanged;
+                dbContext.Attach(entity.Pr).State = EntityState.Unchanged;
+                dbContext.Attach(entity.Av).State = EntityState.Unchanged;
+            }
 
-        public Task<SafetyFunctionDetailModelSIL> GetByIdAsync(int id, int temp = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> UpdateAsync(SafetyFunctionDetailModelPL updatedModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> UpdateAsync(SafetyFunctionDetailModelSIL updatedModel)
-        {
-            throw new NotImplementedException();
+            await dbContext.SafetyFunctions.AddAsync(entity);
+            await dbContext.SaveChangesAsync();
+            return entity.Id;
         }
     }
 }
