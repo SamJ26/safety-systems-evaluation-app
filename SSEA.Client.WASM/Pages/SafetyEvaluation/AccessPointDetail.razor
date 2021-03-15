@@ -141,18 +141,14 @@
 
     private async void OpenCreateSafetyFunctionDialog()
     {
-        var model = new AccessPointSafetyFunctionModel();
-        model.SafetyFunction = new SafetyFunctionListModel();
-        model.AccessPointId = accessPointModel.Id;
-        var typeOfFunctions = await codeListFacade.GetAllTypeOfFunctionsAsync();
-        var evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
-        model.SafetyFunction.EvaluationMethod = accessPointModel.EvaluationMethod == "PL" ? evaluationMethods.First(e => e.Shortcut == "PL") : evaluationMethods.First(e => e.Shortcut == "SIL");
-        var parameters = new DialogParameters() { ["SafetyFunction"] = model.SafetyFunction, ["TypeOfFunctions"] = typeOfFunctions };
-        var dialog = dialogService.Show<CreateSafetyFunctionDialog>("Create safety function", parameters);
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = "PL" };
+        // var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPointModel.EvaluationMethod };
+        var dialog = dialogService.Show<CreateSafetyFunctionDialog>("Create safety function", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            accessPointModel.AccessPointSafetyFunctions.Add(model);
+            // TODO
+            Console.WriteLine("Created!");
         }
         StateHasChanged();
     }
