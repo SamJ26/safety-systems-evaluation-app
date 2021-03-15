@@ -74,6 +74,7 @@ namespace SSEA.Api
             });
 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IPerformanceLevelService, PerformanceLevelService>();
 
             services.AddScoped<MachineFacade>();
             services.AddScoped<AccessPointFacade>();

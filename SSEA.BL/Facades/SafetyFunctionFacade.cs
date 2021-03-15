@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
+using SSEA.BL.Services.Interfaces;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
@@ -18,13 +19,15 @@ namespace SSEA.BL.Facades
     {
         private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
+        private readonly IPerformanceLevelService methodicService;
 
         private readonly int safetyFunctionNewStateId = 8;
 
-        public SafetyFunctionFacade(AppDbContext dbContext, IMapper mapper)
+        public SafetyFunctionFacade(AppDbContext dbContext, IMapper mapper, IPerformanceLevelService methodicService)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
+            this.methodicService = methodicService;
         }
 
         public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync()
@@ -56,7 +59,7 @@ namespace SSEA.BL.Facades
 
         public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel)
         {
-            newModel.SafetyFunctionSubsystems.Clear();
+            newModel.SafetyFunctionSubsystems?.Clear();
 
             // Creating entity without collection
             var entity = mapper.Map<SafetyFunction>(newModel);
@@ -64,15 +67,19 @@ namespace SSEA.BL.Facades
             // Assigning inital state to new record
             entity.CurrentState = await GetState(safetyFunctionNewStateId);
 
+            // Assigning evaluation method
+            entity.EvaluationMethod = await dbContext.EvaluationMethods.SingleOrDefaultAsync(e => e.Shortcut.Equals("PL"));
+
             dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
             dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
-            dbContext.Attach(entity.PLr).State = EntityState.Unchanged;
             if (entity.S != null && entity.F != null && entity.P != null)
             {
                 dbContext.Attach(entity.S).State = EntityState.Unchanged;
                 dbContext.Attach(entity.F).State = EntityState.Unchanged;
                 dbContext.Attach(entity.P).State = EntityState.Unchanged;
+                entity.PLr = await methodicService.GetRequiredPLAsync(entity.S, entity.F, entity.P);
             }
+            dbContext.Attach(entity.PLr).State = EntityState.Unchanged;
 
             await dbContext.SafetyFunctions.AddAsync(entity);
             await dbContext.SaveChangesAsync();
@@ -81,7 +88,7 @@ namespace SSEA.BL.Facades
 
         public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
         {
-            newModel.SafetyFunctionSubsystems.Clear();
+            newModel.SafetyFunctionSubsystems?.Clear();
 
             // Creating entity without collection
             var entity = mapper.Map<SafetyFunction>(newModel);

@@ -120,8 +120,16 @@
         }
     }
 
-    void Submit()
+    private async void Submit()
     {
+        if (EvaluationMethod.Equals("PL"))
+        {
+            var result = await safetyFunctionFacade.CreateAsync(safetyFunctionPL);
+        }
+        else
+        {
+
+        }
         MudDialog.Close(DialogResult.Ok(true));
     }
 
