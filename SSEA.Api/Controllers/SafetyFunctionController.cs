@@ -22,12 +22,14 @@ namespace SSEA.Api.Controllers
             this.safetyFunctionFacade = safetyFunctionFacade;
         }
 
-        // api/safetyFunction
+        // Route: api/safetyFunction
         [HttpGet]
         [SwaggerOperation(OperationId = "SafetyFunctionGetAll")]
-        public ActionResult<IEnumerable<SafetyFunctionListModel>> GetAll()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<SafetyFunctionListModel>>> GetAll()
         {
-            return Ok();
+            var data = await safetyFunctionFacade.GetAllAsync();
+            return Ok(data);
         }
 
         // api/safetyFunction/pl/{id}

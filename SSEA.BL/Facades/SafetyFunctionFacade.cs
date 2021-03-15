@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
@@ -21,6 +22,16 @@ namespace SSEA.BL.Facades
             this.mapper = mapper;
         }
 
+        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync()
+        {
+            var data = await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
+                                                      .Include(sf => sf.EvaluationMethod)
+                                                      .Include(sf => sf.TypeOfFunction)
+                                                      .ToListAsync();
+            return mapper.Map<ICollection<SafetyFunctionListModel>>(data);
+        }
+
+
         public Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel)
         {
             throw new NotImplementedException();
@@ -32,11 +43,6 @@ namespace SSEA.BL.Facades
         }
 
         public Task<int> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ICollection<SafetyFunctionListModel>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
