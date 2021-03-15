@@ -1,4 +1,6 @@
 ﻿
+@inject SafetyFunctionFacade safetyFunctionFacade
+
 <MudDialog>
     <TitleContent>
         <MudText Align="Align.Center" Typo="Typo.h5">Select safety functions</MudText>
@@ -25,7 +27,7 @@
                 <hr />
             </MudItem>
             <MudItem xs="12">
-                <MudTable Items="@SafetyFunctions" MultiSelection="true" @bind-SelectedItems="selectedItems" Height="300px" Hover="true">
+                <MudTable Items="@safetyFunctions" MultiSelection="true" @bind-SelectedItems="selectedItems" Height="300px" Hover="true">
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>Label</MudTh>
@@ -56,10 +58,9 @@
     MudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public ICollection<SafetyFunctionListModel> SafetyFunctions { get; set; } = new List<SafetyFunctionListModel>();
-
-    [Parameter]
     public ICollection<SafetyFunctionListModel> SelectedSafetyFunctions { get; set; } = new List<SafetyFunctionListModel>();
+
+    public ICollection<SafetyFunctionListModel> safetyFunctions;
 
     private HashSet<SafetyFunctionListModel> selectedItems = new HashSet<SafetyFunctionListModel>();
 
@@ -69,7 +70,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine($"Hello");
+        Console.WriteLine($"Before fetch");
+        safetyFunctions = await safetyFunctionFacade.GetAllAsync();
+        Console.WriteLine($"After fetch");
     }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));

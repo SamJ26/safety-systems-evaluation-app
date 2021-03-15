@@ -34,6 +34,7 @@ namespace SSEA.Client.WASM
             builder.Services.AddScoped<CodeListFacade>();
             builder.Services.AddScoped<MachineFacade>();
             builder.Services.AddScoped<AccessPointFacade>();
+            builder.Services.AddScoped<SafetyFunctionFacade>();
 
             await builder.Build().RunAsync();
         }
