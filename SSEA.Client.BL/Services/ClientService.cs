@@ -3063,7 +3063,7 @@ namespace SSEA.Client.BL.Services
         public string EvaluationMethod { get; set; }
 
         [Newtonsoft.Json.JsonProperty("accessPointSafetyFunctions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<AccessPointSafetyFunctionModel> AccessPointSafetyFunctions { get; set; }
+        public System.Collections.Generic.ICollection<AccessPointSafetyFunctionModel> AccessPointSafetyFunctions { get; set; } = new System.Collections.Generic.List<AccessPointSafetyFunctionModel>();
 
 
     }
