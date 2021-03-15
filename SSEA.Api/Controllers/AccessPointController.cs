@@ -87,7 +87,7 @@ namespace SSEA.Api.Controllers
 
         // POST: api/accessPoint/addSafetyFunction
         [HttpPost("addSafetyFunction")]
-        [SwaggerOperation(OperationId = "AddSafetyFunctionAsync")]
+        [SwaggerOperation(OperationId = "AccessPointAddSafetyFunctionAsync")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<int>> AddSafetyFunctionAsync(AccessPointSafetyFunctionModel model)
