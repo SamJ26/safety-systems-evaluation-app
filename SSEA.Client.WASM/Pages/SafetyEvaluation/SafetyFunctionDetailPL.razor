@@ -49,10 +49,10 @@
                                 <MudTextField @bind-Value="safetyFunction.Description" ReadOnly="@onlyForReading" T="string" Label="Safety function description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
                             <MudItem xs="4">
-                                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.EvaluationMethod</MudField>
+                                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.EvaluationMethod.Name</MudField>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="safetyFunction.PLr" Label="Required PL" Variant="Variant.Outlined" />
+                                <MudTextField @bind-Value="safetyFunction.PLr.Label" Label="Required PL" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="4">
                                 <MudTextField @bind-Value="safetyFunction.PLresult" Label="PL result" Variant="Variant.Outlined" />
@@ -68,10 +68,10 @@
                             <MudCard>
                                 <MudCardHeader Style="padding-bottom: 0px;">
                                     <CardHeaderContent>
-                                        <MudText Typo="Typo.h6" Align="Align.Center">Input</MudText>
                                         <MudText Align="Align.Center">
                                             <MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" />
                                         </MudText> 
+                                        <MudText Typo="Typo.h6" Align="Align.Center">Input</MudText>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -101,10 +101,10 @@
                             <MudCard>
                                 <MudCardHeader Style="padding-bottom: 0px;">
                                     <CardHeaderContent>
-                                        <MudText Typo="Typo.h6" Align="Align.Center">Communication 1</MudText>
                                         <MudText Align="Align.Center">
                                             <MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" />
                                         </MudText>
+                                        <MudText Typo="Typo.h6" Align="Align.Center">Communication 1</MudText>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -134,10 +134,10 @@
                             <MudCard>
                                 <MudCardHeader Style="padding-bottom: 0px;">
                                     <CardHeaderContent>
-                                        <MudText Typo="Typo.h6" Align="Align.Center">Logic</MudText>
                                         <MudText Align="Align.Center">
                                             <MudIcon Icon="@Icons.Material.Filled.Clear" Color="Color.Error" />
                                         </MudText>
+                                        <MudText Typo="Typo.h6" Align="Align.Center">Logic</MudText>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -154,10 +154,10 @@
                             <MudCard>
                                 <MudCardHeader Style="padding-bottom: 0px;">
                                     <CardHeaderContent>
-                                        <MudText Typo="Typo.h6" Align="Align.Center">Communication 2</MudText>
                                         <MudText Align="Align.Center">
                                             <MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" />
                                         </MudText>
+                                        <MudText Typo="Typo.h6" Align="Align.Center">Communication 2</MudText>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -187,10 +187,10 @@
                             <MudCard>
                                 <MudCardHeader Style="padding-bottom: 0px;">
                                     <CardHeaderContent>
-                                        <MudText Typo="Typo.h6" Align="Align.Center">Output</MudText>
                                         <MudText Align="Align.Center">
                                             <MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" />
                                         </MudText>
+                                        <MudText Typo="Typo.h6" Align="Align.Center">Output</MudText>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -255,14 +255,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(SafetyFunctionId);
+        safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(SafetyFunctionId);
         // subsystems = await subsystemFacade.GetAllAsync(SafetyFunctionId);
         StateHasChanged();
     }
 
     private async void Edit()
     {
-        // typeOfFunctions = await codeListFacade.GetAllTypeOfFunctionsAsync();
+        typeOfFunctions = await codeListFacade.GetAllTypeOfFunctionsAsync();
         onlyForReading = false;
         showMessage = false;
     }
