@@ -51,6 +51,7 @@ namespace SSEA.BL.Facades
             var data = await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
                                                       .Include(sf => sf.EvaluationMethod)
                                                       .Include(sf => sf.TypeOfFunction)
+                                                      .AsNoTracking()
                                                       .Where(sf => safetyFunctions.Contains(sf.Id))
                                                       .ToListAsync();
 

@@ -53,7 +53,7 @@
                 <MudTabPanel Text="Safety functions">
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="2">
-                            <MudButton @onclick="ClearSafetyFunctions" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
+                            <MudButton @onclick="RemoveAllSafetyFunctions" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Remove all</MudButton>
                         </MudItem>
                         <MudItem xs="6" />
                         <MudItem xs="2">
@@ -127,16 +127,14 @@
         StateHasChanged();
     }
 
-    // TODO
     private async void OpenSelectSafetyFunctionDialog()
     {
-        ICollection<SafetyFunctionListModel> selectedItems = new List<SafetyFunctionListModel>();
-        var parameters = new DialogParameters() { ["SelectedSafetyFunctions"] = selectedItems };
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPointModel.EvaluationMethod, ["AccessPointId"] = accessPointModel.Id };
         var dialog = dialogService.Show<SelectSafetyFunctionsDialog>("Select safety functions", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            Console.WriteLine("Success");
+            safetyFunctions = await safetyFunctionFacade.GetAllAsync(AccessPointId);
         }
         StateHasChanged();
     }
@@ -165,7 +163,7 @@
     }
 
     // TODO: add logic
-    private void ClearSafetyFunctions()
+    private void RemoveAllSafetyFunctions()
     {
         StateHasChanged();
     }
