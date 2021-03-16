@@ -84,13 +84,13 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px; margin-bottom: 15px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -117,13 +117,13 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px; margin-bottom: 15px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -170,13 +170,13 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px; margin-bottom: 15px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -203,13 +203,13 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px; margin-bottom: 15px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -250,7 +250,7 @@
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
 
-    private readonly string successMessage = "SAfety function was saved successfully :)";
+    private readonly string successMessage = "Safety function was saved successfully :)";
     private readonly string errorMessage = "Saving failed :(";
 
     protected override async Task OnInitializedAsync()
