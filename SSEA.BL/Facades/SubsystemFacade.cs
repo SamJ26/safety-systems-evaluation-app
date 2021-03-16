@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
 {
-    public class SubsystemFacade : IExtendedFacade<SubsystemDetailModelPL, SubsystemDetailModelSIL, SubsystemListModel, Subsystem>
+    public class SubsystemFacade
     {
         private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
@@ -19,46 +19,6 @@ namespace SSEA.BL.Facades
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
-        }
-
-        public Task<int> CreateAsync(SubsystemDetailModelPL newModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> CreateAsync(SubsystemDetailModelSIL newModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ICollection<SubsystemListModel>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<SubsystemDetailModelPL> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<SubsystemDetailModelSIL> GetByIdAsync(int id, int temp = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> UpdateAsync(SubsystemDetailModelPL updatedModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> UpdateAsync(SubsystemDetailModelSIL updatedModel)
-        {
-            throw new NotImplementedException();
         }
     }
 }

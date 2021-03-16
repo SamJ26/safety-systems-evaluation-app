@@ -49,6 +49,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                           .IgnoreSource(src => src.PFHdResult)
                                                           .IgnoreSource(src => src.CFFId)
                                                           .IgnoreSource(src => src.CFF)
+                                                          .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                          .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                           .ReverseMap();
         }
     }
