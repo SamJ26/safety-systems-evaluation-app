@@ -83,10 +83,12 @@
         typeOfFunctions = await codeListFacade.GetAllTypeOfFunctionsAsync();
     }
 
-    // TODO
-    void Submit()
+    private async void Submit()
     {
-        Console.WriteLine(selectedItems.Count);
+        foreach (var item in selectedItems)
+        {
+            var result = await accessPointFacade.AddSafetyFunctionAsync(AccessPointId, item.Id);
+        }
         MudDialog.Close(DialogResult.Ok(true));
     }
 

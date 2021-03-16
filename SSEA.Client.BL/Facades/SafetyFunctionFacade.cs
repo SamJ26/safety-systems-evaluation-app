@@ -21,6 +21,20 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionGetAllAsync(0);
         }
 
+        // TODO: call client service
+        public async Task<SafetyFunctionDetailModelPL> GetByIdPLAsync(int id)
+        {
+            Console.WriteLine("SafetyFunctionFacade.GetByIdPLAsync(int id)");
+            return new SafetyFunctionDetailModelPL();
+        }
+
+        // TODO: call client service
+        public async Task<SafetyFunctionDetailModelSIL> GetByIdSILAsync(int id)
+        {
+            Console.WriteLine("SafetyFunctionFacade.GetByIdSILAsync(int id)");
+            return new SafetyFunctionDetailModelSIL();
+        }
+
         public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(int accessPointId)
         {
             Console.WriteLine("SafetyFunctionFacade.GetAllAsync(int accessPointId)");

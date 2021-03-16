@@ -63,7 +63,7 @@
                             <MudButton @onclick="OpenCreateSafetyFunctionDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Create" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Create new</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable T="SafetyFunctionListModel" Items="@safetyFunctions" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable T="SafetyFunctionListModel" Items="@safetyFunctions" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
                                     <col style="width:40%;" /> Name 
                                     <col style="width:25%;" /> State 
@@ -162,6 +162,11 @@
         navigationManager.NavigateTo($"/safetyEvaluation/machineDetail/{MachineId}");
     }
 
+    private void GoToSafetyFunctionDetail(TableRowClickEventArgs<SafetyFunctionListModel> args)
+    {
+        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{MachineId}/{AccessPointId}/{args.Item.Id}");
+    }
+
     // TODO: add logic
     private void RemoveAllSafetyFunctions()
     {
@@ -174,6 +179,7 @@
         // accessPointModel.AccessPointSafetyFunctions.Remove(model);
     }
 
+    // TODO: change BE logic if upadte method - do not update collection
     private async void OnValidSubmit()
     {
         Console.WriteLine("Hello");
