@@ -30,9 +30,9 @@ namespace SSEA.Api.Controllers
         {
             ICollection<SafetyFunctionListModel> data = new List<SafetyFunctionListModel>();
             if (accessPointId == 0)
-                data = await safetyFunctionFacade.GetAllAsync(accessPointId);
-            else
                 data = await safetyFunctionFacade.GetAllAsync();
+            else
+                data = await safetyFunctionFacade.GetAllAsync(accessPointId);
             return Ok(data);
         }
 

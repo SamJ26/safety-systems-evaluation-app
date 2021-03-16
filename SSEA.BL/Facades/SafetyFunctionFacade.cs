@@ -44,7 +44,7 @@ namespace SSEA.BL.Facades
         {
             // Getting all safety functions which are related to selected access point
             int[] safetyFunctions = await dbContext.AccessPointSafetyFunctions.Where(a => a.AccessPointId == accessPointId)
-                                                                              .Select(a => a.AccessPointId)
+                                                                              .Select(a => a.SafetyFunctionId)
                                                                               .ToArrayAsync();
 
             // Filtering safety functions according to id
