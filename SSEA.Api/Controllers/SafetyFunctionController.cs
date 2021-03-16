@@ -28,7 +28,7 @@ namespace SSEA.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ICollection<SafetyFunctionListModel>>> GetAllAsync(int accessPointId = 0)
         {
-            ICollection<SafetyFunctionListModel> data = new List<SafetyFunctionListModel>();
+            ICollection<SafetyFunctionListModel> data;
             if (accessPointId == 0)
                 data = await safetyFunctionFacade.GetAllAsync();
             else
@@ -50,7 +50,7 @@ namespace SSEA.Api.Controllers
         }
 
         // GET: api/safetyFunction/sil/{id}
-        [HttpGet("pl/{id}")]
+        [HttpGet("sil/{id}")]
         [SwaggerOperation(OperationId = "SafetyFunctionGetByIdSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
