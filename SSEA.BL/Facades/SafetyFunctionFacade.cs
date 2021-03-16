@@ -58,6 +58,39 @@ namespace SSEA.BL.Facades
             return mapper.Map<ICollection<SafetyFunctionListModel>>(data);
         }
 
+        public async Task<SafetyFunctionDetailModelPL> GetByIdPLAsync(int id)
+        {
+            var safetyFunction = await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
+                                                                .Include(sf => sf.TypeOfFunction)
+                                                                .Include(sf => sf.EvaluationMethod)
+                                                                .Include(sf => sf.PLr)
+                                                                .Include(sf => sf.PLresult)
+                                                                .Include(sf => sf.S)
+                                                                .Include(sf => sf.F)
+                                                                .Include(sf => sf.P)
+                                                                .AsNoTracking()
+                                                                .SingleOrDefaultAsync(sf => sf.Id == id);
+
+            return mapper.Map<SafetyFunctionDetailModelPL>(safetyFunction);
+        }
+
+        public async Task<SafetyFunctionDetailModelSIL> GetByIdSILAsync(int id)
+        {
+            var safetyFunction = await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
+                                                                .Include(sf => sf.TypeOfFunction)
+                                                                .Include(sf => sf.EvaluationMethod)
+                                                                .Include(sf => sf.SILCL)
+                                                                .Include(sf => sf.SILresult)
+                                                                .Include(sf => sf.Se)
+                                                                .Include(sf => sf.Fr)
+                                                                .Include(sf => sf.Pr)
+                                                                .Include(sf => sf.Av)
+                                                                .AsNoTracking()
+                                                                .SingleOrDefaultAsync(sf => sf.Id == id);
+
+            return mapper.Map<SafetyFunctionDetailModelSIL>(safetyFunction);
+        }
+
         public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel)
         {
             newModel.SafetyFunctionSubsystems?.Clear();
@@ -99,14 +132,16 @@ namespace SSEA.BL.Facades
 
             dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
             dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
-            dbContext.Attach(entity.SILCL).State = EntityState.Unchanged;
             if (entity.Se != null && entity.Fr != null && entity.Pr != null && entity.Av != null)
             {
                 dbContext.Attach(entity.Se).State = EntityState.Unchanged;
                 dbContext.Attach(entity.Fr).State = EntityState.Unchanged;
                 dbContext.Attach(entity.Pr).State = EntityState.Unchanged;
                 dbContext.Attach(entity.Av).State = EntityState.Unchanged;
+
+                // TODO: get SILCL by calling SafetyIntegrityLevelService
             }
+            dbContext.Attach(entity.SILCL).State = EntityState.Unchanged;
 
             await dbContext.SafetyFunctions.AddAsync(entity);
             await dbContext.SaveChangesAsync();
