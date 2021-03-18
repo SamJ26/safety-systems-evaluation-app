@@ -120,14 +120,22 @@ namespace SSEA.BL.Facades
             return mapper.Map<SubsystemDetailModelSIL>(subsystem);
         }
 
-        public async Task<int> CreatePLAsync(SubsystemDetailModelPL model)
+        // TODO: add logic
+        public async Task<int> CreateAsync(SubsystemDetailModelPL model)
         {
             // Number of elements must be equal to number of channels of given category
             if (model.Category.Channels != model.Elements.Count)
                 return 0;
 
-            // Skontrolovať či je validné CCF
-            // Skontrolovať či výsledné MTTFd a DC ktoré výjde z elementov vyhovuje danej kategórii
+            return 0;
+        }
+
+        // TODO: add logic
+        public async Task<int> CreateAsync(SubsystemDetailModelSIL model)
+        {
+            // Number of elements must be equal to number of channels of given category
+            if (model.Architecture.Channels != model.Elements.Count)
+                return 0;
 
             return 0;
         }

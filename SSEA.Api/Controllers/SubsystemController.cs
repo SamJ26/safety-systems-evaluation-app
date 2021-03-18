@@ -75,5 +75,31 @@ namespace SSEA.Api.Controllers
                 return NotFound();
             return Ok(data);
         }
+
+        // POST: api/subsystem/pl
+        [HttpPost("pl")]
+        [SwaggerOperation(OperationId = "SubsystemCreatePL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> CreateAsync(SubsystemDetailModelPL model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = await subsystemFacade.CreateAsync(model);
+            return Ok(id);
+        }
+
+        // POST: api/subsystem/sil
+        [HttpPost("pl")]
+        [SwaggerOperation(OperationId = "SubsystemCreateSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> CreateAsync(SubsystemDetailModelSIL model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = await subsystemFacade.CreateAsync(model);
+            return Ok(id);
+        }
     }
 }
