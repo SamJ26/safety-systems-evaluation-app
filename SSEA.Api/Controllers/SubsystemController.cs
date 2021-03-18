@@ -22,68 +22,84 @@ namespace SSEA.Api.Controllers
             this.subsystemFacade = subsystemFacade;
         }
 
-        // api/subsystem
-        [HttpGet]
-        [SwaggerOperation(OperationId = "SubsystemGetAll")]
-        public ActionResult<IEnumerable<SubsystemListModel>> GetAll()
-        {
-            return Ok();
-        }
-
-        // api/subsystem/pl/{id}
+        // GET: api/subsystem/pl/{id}
         [HttpGet("pl/{id}")]
-        [SwaggerOperation(OperationId = "SubsystemGetByIdPL")]
-        public ActionResult<SubsystemDetailModelPL> GetByIdPL(int id)
+        [SwaggerOperation(OperationId = "SubsystemGetAllPL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<SubsystemDetailModelPL>>> GetAllPLAsync(int safetyFunctionId = 0)
         {
-            return Ok();
+            ICollection<SubsystemDetailModelPL> data;
+            if (safetyFunctionId == 0)
+                data = await subsystemFacade.GetAllPLAsync();
+            else
+                data = await subsystemFacade.GetAllPLAsync(safetyFunctionId);
+            return Ok(data);
         }
 
-        // api/subsystem/sil/{id}
+        // GET: api/subsystem/sil/{id}
         [HttpGet("sil/{id}")]
-        [SwaggerOperation(OperationId = "SubsystemGetByIdSIL")]
-        public ActionResult<SubsystemDetailModelSIL> GetByIdSIL(int id)
+        [SwaggerOperation(OperationId = "SubsystemGetAllSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<SubsystemDetailModelSIL>>> GetAllSILAsync(int safetyFunctionId = 0)
         {
-            return Ok();
+            ICollection<SubsystemDetailModelSIL> data;
+            if (safetyFunctionId == 0)
+                data = await subsystemFacade.GetAllSILAsync();
+            else
+                data = await subsystemFacade.GetAllSILAsync(safetyFunctionId);
+            return Ok(data);
         }
 
-        // api/subsystem/pl
+        // GET: api/subsystem/detail/pl/{id}
+        [HttpGet("detail/pl/{id}")]
+        [SwaggerOperation(OperationId = "SubsystemGetByIdPL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<SubsystemDetailModelPL>> GetByIdPLAsync(int id)
+        {
+            var data = await subsystemFacade.GetByIdPLAsync(id);
+            if (data == null)
+                return NotFound();
+            return Ok(data);
+        }
+
+        // GET: api/subsystem/detail/sil/{id}
+        [HttpGet("detail/sil/{id}")]
+        [SwaggerOperation(OperationId = "SubsystemGetByIdSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<SubsystemDetailModelSIL>> GetByIdSILAsync(int id)
+        {
+            var data = await subsystemFacade.GetByIdSILAsync(id);
+            if (data == null)
+                return NotFound();
+            return Ok(data);
+        }
+
+        // POST: api/subsystem/pl
         [HttpPost("pl")]
         [SwaggerOperation(OperationId = "SubsystemCreatePL")]
-        public ActionResult<int> Create(SubsystemDetailModelPL newModel)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> CreateAsync(SubsystemDetailModelPL model)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = await subsystemFacade.CreateAsync(model);
+            return Ok(id);
         }
 
-        // api/subsystem/sil
-        [HttpPost("sil")]
+        // POST: api/subsystem/sil
+        [HttpPost("pl")]
         [SwaggerOperation(OperationId = "SubsystemCreateSIL")]
-        public ActionResult<int> Create(SubsystemDetailModelSIL newModel)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> CreateAsync(SubsystemDetailModelSIL model)
         {
-            return Ok();
-        }
-
-        // api/subsystem/pl
-        [HttpPut("pl")]
-        [SwaggerOperation(OperationId = "SubsystemUpdatePL")]
-        public ActionResult<int> Update(SubsystemDetailModelPL updatedModel)
-        {
-            return Ok();
-        }
-
-        // api/subsystem/sil
-        [HttpPut("sil")]
-        [SwaggerOperation(OperationId = "SubsystemUpdateSIL")]
-        public ActionResult<int> Update(SubsystemDetailModelSIL updatedModel)
-        {
-            return Ok();
-        }
-
-        // api/subsystem/{id}
-        [HttpDelete("{id}")]
-        [SwaggerOperation(OperationId = "SubsystemDelete")]
-        public ActionResult Delete(int id)
-        {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = await subsystemFacade.CreateAsync(model);
+            return Ok(id);
         }
     }
 }

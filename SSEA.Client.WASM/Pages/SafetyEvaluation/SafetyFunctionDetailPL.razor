@@ -49,10 +49,10 @@
                                 <MudTextField @bind-Value="safetyFunction.Description" ReadOnly="@onlyForReading" T="string" Label="Safety function description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
                             <MudItem xs="4">
-                                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.EvaluationMethod.Name</MudField>
+                                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.EvaluationMethod</MudField>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="safetyFunction.PLr.Label" Label="Required PL" Variant="Variant.Outlined" />
+                                <MudTextField @bind-Value="safetyFunction.PLr" Label="Required PL" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="4">
                                 <MudTextField @bind-Value="safetyFunction.PLresult" Label="PL result" Variant="Variant.Outlined" />
@@ -255,7 +255,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(SafetyFunctionId);
+        Console.WriteLine("I am here");
+        // safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(SafetyFunctionId);
         // subsystems = await subsystemFacade.GetAllAsync(SafetyFunctionId);
         StateHasChanged();
     }

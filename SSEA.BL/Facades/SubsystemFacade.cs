@@ -1,16 +1,18 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
 {
-    public class SubsystemFacade : IExtendedFacade<SubsystemDetailModelPL, SubsystemDetailModelSIL, SubsystemListModel, Subsystem>
+    public class SubsystemFacade
     {
         private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
@@ -21,44 +23,121 @@ namespace SSEA.BL.Facades
             this.mapper = mapper;
         }
 
-        public Task<int> CreateAsync(SubsystemDetailModelPL newModel)
+        public async Task<ICollection<SubsystemDetailModelPL>> GetAllPLAsync()
         {
-            throw new NotImplementedException();
+            var subsystems = await dbContext.Subsystems.Where(s => s.CategoryId != null)
+                                                       .Include(s => s.TypeOfSubsystem)
+                                                       .Include(s => s.Category)
+                                                       .Include(s => s.DCresult)
+                                                       .Include(s => s.MTTFdResult)
+                                                       .Include(s => s.PLresult)
+                                                       .Include(s => s.CurrentState)
+                                                       .AsNoTracking()
+                                                       .ToListAsync();
+
+            return mapper.Map<ICollection<SubsystemDetailModelPL>>(subsystems);
         }
 
-        public Task<int> CreateAsync(SubsystemDetailModelSIL newModel)
+        public async Task<ICollection<SubsystemDetailModelSIL>> GetAllSILAsync()
         {
-            throw new NotImplementedException();
+            var subsystems = await dbContext.Subsystems.Where(s => s.ArchitectureId != null)
+                                                       .Include(s => s.TypeOfSubsystem)
+                                                       .Include(s => s.Architecture)
+                                                       .Include(s => s.PFHdResult)
+                                                       .Include(s => s.CFF)
+                                                       .Include(s => s.CurrentState)
+                                                       .AsNoTracking()
+                                                       .ToListAsync();
+
+            return mapper.Map<ICollection<SubsystemDetailModelSIL>>(subsystems);
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<ICollection<SubsystemDetailModelPL>> GetAllPLAsync(int safetyFunctionId)
         {
-            throw new NotImplementedException();
+            // Getting all subsystems for PL which are related to selected safety function specified by safetyFunctionId
+            int[] subsystems = await dbContext.SafetyFunctionSubsystems.Where(a => a.SafetyFunctionId == safetyFunctionId)
+                                                                       .Select(a => a.SubsystemId)
+                                                                       .ToArrayAsync();
+
+            var data = await dbContext.Subsystems.Where(s => s.CategoryId != null && subsystems.Contains(s.Id))
+                                                 .Include(s => s.TypeOfSubsystem)
+                                                 .Include(s => s.Category)
+                                                 .Include(s => s.DCresult)
+                                                 .Include(s => s.MTTFdResult)
+                                                 .Include(s => s.PLresult)
+                                                 .Include(s => s.CurrentState)
+                                                 .AsNoTracking()
+                                                 .ToListAsync();
+
+            return mapper.Map<ICollection<SubsystemDetailModelPL>>(data);
         }
 
-        public Task<ICollection<SubsystemListModel>> GetAllAsync()
+        public async Task<ICollection<SubsystemDetailModelSIL>> GetAllSILAsync(int safetyFunctionId)
         {
-            throw new NotImplementedException();
+            // Getting all subsystems for SIL which are related to selected safety function specified by safetyFunctionId
+            int[] subsystems = await dbContext.SafetyFunctionSubsystems.Where(a => a.SafetyFunctionId == safetyFunctionId)
+                                                                       .Select(a => a.SubsystemId)
+                                                                       .ToArrayAsync();
+
+            var data = await dbContext.Subsystems.Where(s => s.ArchitectureId != null && subsystems.Contains(s.Id))
+                                                 .Include(s => s.TypeOfSubsystem)
+                                                 .Include(s => s.Architecture)
+                                                 .Include(s => s.PFHdResult)
+                                                 .Include(s => s.CFF)
+                                                 .Include(s => s.CurrentState)
+                                                 .AsNoTracking()
+                                                 .ToListAsync();
+
+            return mapper.Map<ICollection<SubsystemDetailModelSIL>>(data);
         }
 
-        public Task<SubsystemDetailModelPL> GetByIdAsync(int id)
+        public async Task<SubsystemDetailModelPL> GetByIdPLAsync(int id)
         {
-            throw new NotImplementedException();
+            var subsystem = await dbContext.Subsystems.Where(s => s.CategoryId != null && s.Id == id)
+                                                      .Include(s => s.TypeOfSubsystem)
+                                                      .Include(s => s.Category)
+                                                      .Include(s => s.DCresult)
+                                                      .Include(s => s.MTTFdResult)
+                                                      .Include(s => s.PLresult)
+                                                      .Include(s => s.CurrentState)
+                                                      .AsNoTracking()
+                                                      .ToListAsync();
+
+            return mapper.Map<SubsystemDetailModelPL>(subsystem);
         }
 
-        public Task<SubsystemDetailModelSIL> GetByIdAsync(int id, int temp = 0)
+        public async Task<SubsystemDetailModelSIL> GetByIdSILAsync(int id)
         {
-            throw new NotImplementedException();
+            var subsystem = await dbContext.Subsystems.Where(s => s.ArchitectureId != null && s.Id == id)
+                                                      .Include(s => s.TypeOfSubsystem)
+                                                      .Include(s => s.Architecture)
+                                                      .Include(s => s.PFHdResult)
+                                                      .Include(s => s.CFF)
+                                                      .Include(s => s.CurrentState)
+                                                      .AsNoTracking()
+                                                      .ToListAsync();
+
+            return mapper.Map<SubsystemDetailModelSIL>(subsystem);
         }
 
-        public Task<int> UpdateAsync(SubsystemDetailModelPL updatedModel)
+        // TODO: add logic
+        public async Task<int> CreateAsync(SubsystemDetailModelPL model)
         {
-            throw new NotImplementedException();
+            // Number of elements must be equal to number of channels of given category
+            if (model.Category.Channels != model.Elements.Count)
+                return 0;
+
+            return 0;
         }
 
-        public Task<int> UpdateAsync(SubsystemDetailModelSIL updatedModel)
+        // TODO: add logic
+        public async Task<int> CreateAsync(SubsystemDetailModelSIL model)
         {
-            throw new NotImplementedException();
+            // Number of elements must be equal to number of channels of given category
+            if (model.Architecture.Channels != model.Elements.Count)
+                return 0;
+
+            return 0;
         }
     }
 }
