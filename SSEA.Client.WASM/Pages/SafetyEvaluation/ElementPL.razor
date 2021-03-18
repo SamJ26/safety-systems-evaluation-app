@@ -1,55 +1,10 @@
-﻿@inherits ComponentBase
+﻿
+@inherits ComponentBase
 
-@* TODO: 1. Remove MTTFd_counted from ElementDetailModelPL *@
-
-<EditForm Model="@Model" OnValidSubmit="OnValidSubmit">
-    <DataAnnotationsValidator />
-    <MudGrid>
-        <MudItem xs="12">
-            <MudSelect T="string" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
-                <MudSelectItem T="string" Value="@("Siemens")" />
-                <MudSelectItem T="string" Value="@("Sipron")" />
-            </MudSelect>
-        </MudItem>
-        <MudItem xs="12">
-            <MudTextField @bind-Value="Model.B10d" Label="B10d" Variant="Variant.Outlined"></MudTextField>
-        </MudItem>
-        <MudItem xs="12">
-            <MudSelect T="string" Label="DC" Strict="true" Variant="Variant.Outlined" Format="F2">
-                <MudSelectItem T="string" Value="@("Low")" />
-                <MudSelectItem T="string" Value="@("Medium")" />
-                <MudSelectItem T="string" Value="@("High")" />
-            </MudSelect>
-        </MudItem>
-        <MudItem xs="12">
-            <MudTextField @bind-Value="Model.N_op" Label="N_op" Variant="Variant.Outlined"></MudTextField>
-        </MudItem>
-        <MudItem xs="12">
-            <MudTextField @bind-Value="Model.H_op" Label="H_op" Variant="Variant.Outlined"></MudTextField>
-        </MudItem>
-        <MudItem xs="12">
-            <MudTextField @bind-Value="Model.D_op" Label="D_op" Variant="Variant.Outlined"></MudTextField>
-        </MudItem>
-        <MudItem xs="12">
-            <MudTextField @bind-Value="Model.T_cycles" Label="T_cycles" Variant="Variant.Outlined"></MudTextField>
-        </MudItem>
-        <MudItem xs="12">
-            <hr />
-        </MudItem>
-        <MudItem xs="12">
-            <MudTextField @bind-Value="Model.MttFd_result" Label="MTTFd result" Variant="Variant.Outlined"></MudTextField>
-        </MudItem>
-    </MudGrid>
-</EditForm>
 
 @code {
 
     [Parameter]
     public ElementDetailModelPL Model { get; set; }
-
-    private void OnValidSubmit()
-    {
-
-    }
 
 }
