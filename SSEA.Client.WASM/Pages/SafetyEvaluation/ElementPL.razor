@@ -1,10 +1,65 @@
 ﻿
 @inherits ComponentBase
 
+<MudItem xs="12">
+    <MudTextField @bind-Value="Model.CatalogNumber" Label="Catalog number" Variant="Variant.Outlined" />
+</MudItem>
+<MudItem xs="12">
+    <MudSelect @bind-Value="Model.Producer" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined">
+        @foreach (var item in Producers)
+        {
+            <MudSelectItem T="ProducerModel" Value="@(item)">@item.Name</MudSelectItem>
+        }
+    </MudSelect>
+</MudItem>
+<MudItem xs="12">
+    <MudSelect @bind-Value="Model.Dc" T="DCModel" Label="DC *" Variant="Variant.Outlined">
+        @foreach (var item in DCs)
+        {
+            <MudSelectItem T="DCModel" Value="@(item)">@item.Value</MudSelectItem>
+        }
+    </MudSelect>
+</MudItem>
+<MudItem xs="12">
+    <MudSelect @bind-Value="Model.MttFdResult" T="MTTFdModel" Label="MTTFd *" Variant="Variant.Outlined">
+        @foreach (var item in MTTFds)
+        {
+            <MudSelectItem T="MTTFdModel" Value="@(item)">@item.Value</MudSelectItem>
+        }
+    </MudSelect>
+</MudItem>
+<MudExpansionPanels MultiExpansion="true">
+    <MudExpansionPanel Text="Count MTTFd">
+        <MudItem xs="12">
+            <MudField Label="B10d" Variant="Variant.Outlined">@Model.B10d</MudField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudField Label="Nop" Variant="Variant.Outlined">@Model.Nop</MudField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudField Label="Hop" Variant="Variant.Outlined">@Model.Hop</MudField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudField Label="Dop" Variant="Variant.Outlined">@Model.Dop</MudField>
+        </MudItem>
+        <MudItem xs="12">
+            <MudField Label="Tcycles" Variant="Variant.Outlined">@Model.Tcycles</MudField>
+        </MudItem>
+    </MudExpansionPanel>
+</MudExpansionPanels>
 
 @code {
 
     [Parameter]
     public ElementDetailModelPL Model { get; set; }
+
+    [Parameter]
+    public ICollection<MTTFdModel> MTTFds { get; set; }
+
+    [Parameter]
+    public ICollection<ProducerModel> Producers { get; set; }
+
+    [Parameter]
+    public ICollection<DCModel> DCs { get; set; }
 
 }

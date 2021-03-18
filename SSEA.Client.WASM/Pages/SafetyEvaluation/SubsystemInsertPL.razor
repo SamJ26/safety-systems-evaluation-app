@@ -54,9 +54,17 @@
                     </EditForm>
                 </MudTabPanel>
 
-                <MudTabPanel Text="Elements">
+                <MudTabPanel Text="CCF">
                     <MudGrid Style="padding: 20px;">
 
+                    </MudGrid>
+                </MudTabPanel>
+
+                <MudTabPanel Text="Elements">
+                    <MudGrid Style="padding: 20px;">
+                        <MudItem xs="6">
+                            <ElementPL Model="element" MTTFds="MTTFds" Producers="producers" DCs="DCs"/>
+                        </MudItem>
                     </MudGrid>
                 </MudTabPanel>
 
@@ -98,6 +106,9 @@
 
 @code {
 
+    public ElementDetailModelPL element = new ElementDetailModelPL();
+
+
     [Parameter]
     public string TypeOfSubsystem { get; set; }
 
@@ -113,6 +124,9 @@
     private SubsystemDetailModelPL subsystem = new SubsystemDetailModelPL();
 
     private ICollection<CategoryModel> categories = new List<CategoryModel>();
+    private ICollection<ProducerModel> producers = new List<ProducerModel>();
+    private ICollection<DCModel> DCs = new List<DCModel>();
+    private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
 
     private bool dialogVisible = false;
     private bool onlyForReading = true;
@@ -136,6 +150,9 @@
     protected override async Task OnInitializedAsync()
     {
         categories = await codeListFacade.GetAllCategoriesAsync();
+        producers = await codeListFacade.GetAllProducersAsync();
+        MTTFds = await codeListFacade.GetAllMTTFdsAsync();
+        DCs = await codeListFacade.GetAllDCsAsync();
         StateHasChanged();
         OpenDialog();
     }
