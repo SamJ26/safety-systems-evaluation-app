@@ -90,7 +90,7 @@ namespace SSEA.Api.Controllers
         }
 
         // POST: api/subsystem/sil
-        [HttpPost("pl")]
+        [HttpPost("sil")]
         [SwaggerOperation(OperationId = "SubsystemCreateSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

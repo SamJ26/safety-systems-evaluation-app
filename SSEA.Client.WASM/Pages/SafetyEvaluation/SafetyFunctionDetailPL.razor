@@ -256,7 +256,7 @@
     protected override async Task OnInitializedAsync()
     {
         Console.WriteLine("I am here");
-        // safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(SafetyFunctionId);
+        safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(SafetyFunctionId);
         // subsystems = await subsystemFacade.GetAllAsync(SafetyFunctionId);
         StateHasChanged();
     }
