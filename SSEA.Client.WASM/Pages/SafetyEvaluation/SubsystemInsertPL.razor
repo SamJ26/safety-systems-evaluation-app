@@ -62,9 +62,23 @@
 
                 <MudTabPanel Text="Elements">
                     <MudGrid Style="padding: 20px;">
-                        <MudItem xs="6">
-                            <ElementPL Model="element" MTTFds="MTTFds" Producers="producers" DCs="DCs"/>
-                        </MudItem>
+                        @if (selectedCategory.Channels == 1)
+                        {
+                            <MudItem xs="3" />
+                            <MudItem xs="6">
+                                <ElementPL Model="element" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                            </MudItem>
+                            <MudItem xs="3" />
+                        }
+                        else
+                        {
+                            <MudItem xs="6">
+                                <ElementPL Model="element" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                            </MudItem>
+                            <MudItem xs="6">
+                                <ElementPL Model="element" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                            </MudItem>
+                        }
                     </MudGrid>
                 </MudTabPanel>
 
@@ -145,6 +159,16 @@
     {
         dialogVisible = false;
         subsystem.Category = selectedCategory;
+        subsystem.Elements = new List<ElementDetailModelPL>();
+        if (selectedCategory.Channels == 1)
+        {
+            subsystem.Elements.Add(new ElementDetailModelPL());
+        }
+        else
+        {
+            subsystem.Elements.Add(new ElementDetailModelPL());
+            subsystem.Elements.Add(new ElementDetailModelPL());
+        }
     }
 
     protected override async Task OnInitializedAsync()
