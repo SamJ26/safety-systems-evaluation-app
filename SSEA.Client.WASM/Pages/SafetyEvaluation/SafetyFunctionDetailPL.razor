@@ -84,7 +84,7 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton @onclick="@(() => CreateSubsystem("Input"))" DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton DisableElevation="true" Disabled="@onlyForReading" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
@@ -277,6 +277,11 @@
     private async void OnValidSubmit()
     {
 
+    }
+
+    private void CreateSubsystem(string typeOfSubsystem)
+    {
+        navigationManager.NavigateTo($"/safetyEvaluation/subsystemInsert/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}/{typeOfSubsystem}");
     }
 
 }

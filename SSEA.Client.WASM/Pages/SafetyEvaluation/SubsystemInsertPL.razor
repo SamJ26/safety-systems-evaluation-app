@@ -1,4 +1,4 @@
-﻿@page "/safetyEvaluation/subsystemInsert/PL/{machineId:int}/{accessPointId:int}/{safetyFunctionId:int}/{subsystemId:int}"
+﻿@page "/safetyEvaluation/subsystemInsert/PL/{machineId:int}/{accessPointId:int}/{safetyFunctionId:int}/{typeOfSubsystem}"
 
 @layout MainLayout
 
@@ -22,38 +22,39 @@
         <MudCardContent>
             <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
-                <MudTabPanel Text="Safety function details">
+                <MudTabPanel Text="Subsystem details">
                     <EditForm Model="@subsystem" OnValidSubmit="OnValidSubmit" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            @*<MudItem xs="12">
-                                <MudTextField @bind-Value="safetyFunction.Name" ReadOnly="@onlyForReading" Label="Safety function name *" Variant="Variant.Outlined" />
+                            <MudItem xs="4">
+                                <MudField Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined">@TypeOfSubsystem</MudField>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudField Label="Druh subsystemu" Variant="Variant.Outlined">Mechanicky</MudField>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@selectedCategory.Label</MudField>
                             </MudItem>
                             <MudItem xs="12">
-                                <MudSelect @bind-Value="safetyFunction.TypeOfFunction" ReadOnly="@onlyForReading" T="TypeOfFunctionModel" Label="Type of function *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@typeOfLogicToString">
-                                    @foreach (var item in typeOfFunctions)
-                                    {
-                                        <MudSelectItem T="TypeOfFunctionModel" Value="@(item)" />
-                                    }
-                                </MudSelect>
+                                <hr />
                             </MudItem>
-                            <MudItem xs="12">
-                                <MudTextField @bind-Value="safetyFunction.Description" ReadOnly="@onlyForReading" T="string" Label="Safety function description" Variant="Variant.Outlined" Lines="3" />
+                            <MudItem xs="3">
+                                <MudField Label="PL result" ReadOnly="true" Variant="Variant.Outlined">@subsystem.PLresult</MudField>
                             </MudItem>
-                            <MudItem xs="4">
-                                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.EvaluationMethod</MudField>
+                            <MudItem xs="3">
+                                <MudField Label="CCF valid" ReadOnly="true" Variant="Variant.Outlined">@subsystem.ValidCCF</MudField>
                             </MudItem>
-                            <MudItem xs="4">
-                                <MudTextField @bind-Value="safetyFunction.PLr" Label="Required PL" Variant="Variant.Outlined" />
+                            <MudItem xs="3">
+                                <MudField Label="MTTFd result" ReadOnly="true" Variant="Variant.Outlined">@subsystem.MttFdResult</MudField>
                             </MudItem>
-                            <MudItem xs="4">
-                                <MudTextField @bind-Value="safetyFunction.PLresult" Label="PL result" Variant="Variant.Outlined" />
-                            </MudItem>*@
+                            <MudItem xs="3">
+                                <MudField Label="DC result" ReadOnly="true" Variant="Variant.Outlined">@subsystem.DCresult</MudField>
+                            </MudItem>
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
 
-                <MudTabPanel Text="Subsystems">
+                <MudTabPanel Text="Elements">
                     <MudGrid Style="padding: 20px;">
 
                     </MudGrid>
@@ -68,10 +69,37 @@
     </MudCard>
 </MudContainer>
 
+<MudDialog @bind-IsVisible="dialogVisible">
+    <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h5">Select category</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudField @bind-Value="TypeOfSubsystem" Disabled="true" Label="Name" Variant="Variant.Outlined"></MudField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudField Label="Druh subsystemu" Variant="Variant.Outlined"></MudField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudSelect @bind-Value="selectedCategory" T="CategoryModel" Label="Category *" Variant="Variant.Outlined">
+                    @foreach (var item in categories)
+                    {
+                        <MudSelectItem T="CategoryModel" Value="@(item)">@item.Label</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Continue</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
 @code {
 
     [Parameter]
-    public int SubsystemId { get; set; }
+    public string TypeOfSubsystem { get; set; }
 
     [Parameter]
     public int SafetyFunctionId { get; set; }
@@ -84,17 +112,32 @@
 
     private SubsystemDetailModelPL subsystem = new SubsystemDetailModelPL();
 
+    private ICollection<CategoryModel> categories = new List<CategoryModel>();
+
+    private bool dialogVisible = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
 
+    private CategoryModel selectedCategory = new CategoryModel();
+
     private readonly string successMessage = "Safety function was saved successfully :)";
     private readonly string errorMessage = "Saving failed :(";
 
+    private void OpenDialog() => dialogVisible = true;
+
+    void Submit()
+    {
+        dialogVisible = false;
+        subsystem.Category = selectedCategory;
+    }
+
     protected override async Task OnInitializedAsync()
     {
+        categories = await codeListFacade.GetAllCategoriesAsync();
         StateHasChanged();
+        OpenDialog();
     }
 
     private async void Edit()
@@ -105,7 +148,7 @@
 
     private void BackToSafetyFunction()
     {
-        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
+        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
     }
 
     // TODO
