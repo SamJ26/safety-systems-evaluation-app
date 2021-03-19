@@ -115,7 +115,7 @@ namespace SSEA.BL.Facades
             if (foundIds.Count() != 0)
             {
                 var foundCCFs = await dbContext.CCFs.Where(c => foundIds.Contains(c.Id)).ToListAsync();
-                model.SelectedCCFs = mapper.Map<ICollection<CCFModel>>(foundCCFs);
+                model.SelectedCCFs = mapper.Map<HashSet<CCFModel>>(foundCCFs);
             }
             return model;
         }
@@ -140,7 +140,7 @@ namespace SSEA.BL.Facades
             if (foundIds.Count() != 0)
             {
                 var foundCCFs = await dbContext.CCFs.Where(c => foundIds.Contains(c.Id)).ToListAsync();
-                model.SelectedCCFs = mapper.Map<ICollection<CCFModel>>(foundCCFs);
+                model.SelectedCCFs = mapper.Map<HashSet<CCFModel>>(foundCCFs);
             }
             return model;
         }

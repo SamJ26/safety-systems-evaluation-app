@@ -27,7 +27,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public PFHdModel PFHdResult { get; set; }
         public CFFModel CFF { get; set; }
 
-        public ICollection<CCFModel> SelectedCCFs { get; set; }
+        public HashSet<CCFModel> SelectedCCFs { get; set; }
         public ICollection<ElementDetailModelSIL> Elements { get; set; }
     }
 

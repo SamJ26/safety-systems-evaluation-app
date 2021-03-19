@@ -56,10 +56,11 @@
                 <MudTabPanel Text="CCF">
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="12">
-                            <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@selectedItems" Items="@CCFs" Dense="true" Hover="true" FixedHeader="true" Outlined="true">
+                            <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" FixedHeader="true" Outlined="true">
                                 <ColGroup>
+                                    <col style="width:5%;" /> Checkbox
                                     <col style="width:15%;" /> Type
-                                    <col style="width:70%;" /> Description
+                                    <col style="width:65%;" /> Description
                                     <col style="width:15%;" /> Points
                                 </ColGroup>
                                 <HeaderContent>
@@ -166,8 +167,6 @@
     private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
     private ICollection<CCFModel> CCFs = new List<CCFModel>();
 
-    private HashSet<CCFModel> selectedItems = new HashSet<CCFModel>();
-
     private bool dialogVisible = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
@@ -232,6 +231,7 @@
     private async void OnValidSubmit()
     {
         // var result = await subsystemFacade.CreatePLAync(subsystem);
+        Console.WriteLine(subsystem.SelectedCCFs.Count);
     }
 
 }

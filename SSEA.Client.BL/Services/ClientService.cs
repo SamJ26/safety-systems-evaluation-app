@@ -4218,7 +4218,7 @@ namespace SSEA.Client.BL.Services
         public PLModel PLresult { get; set; }
 
         [Newtonsoft.Json.JsonProperty("selectedCCFs", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<CCFModel> SelectedCCFs { get; set; }
+        public System.Collections.Generic.HashSet<CCFModel> SelectedCCFs { get; set; }
 
         [Newtonsoft.Json.JsonProperty("elements", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ElementDetailModelPL> Elements { get; set; }
@@ -4274,7 +4274,7 @@ namespace SSEA.Client.BL.Services
         public CFFModel Cff { get; set; }
 
         [Newtonsoft.Json.JsonProperty("selectedCCFs", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<CCFModel> SelectedCCFs { get; set; }
+        public System.Collections.Generic.HashSet<CCFModel> SelectedCCFs { get; set; }
 
         [Newtonsoft.Json.JsonProperty("elements", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ElementDetailModelSIL> Elements { get; set; }

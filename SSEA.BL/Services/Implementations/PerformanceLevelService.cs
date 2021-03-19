@@ -13,7 +13,7 @@ namespace SSEA.BL.Services.Implementations
 {
     public class PerformanceLevelService : IPerformanceLevelService
     {
-        private AppDbContext dbContext;
+        private readonly AppDbContext dbContext;
 
         public PerformanceLevelService(AppDbContext dbContext)
         {

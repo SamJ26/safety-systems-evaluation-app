@@ -25,8 +25,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public DCModel DCresult { get; set; }
         public PLModel PLresult { get; set; }
 
-        public ICollection<CCFModel> SelectedCCFs { get; set; }
-        public HashSet<ElementDetailModelPL> Elements { get; set; }
+        public HashSet<CCFModel> SelectedCCFs { get; set; }
+        public ICollection<ElementDetailModelPL> Elements { get; set; }
     }
 
     public class SubsystemDetailModelPLMapperProfile : Profile
