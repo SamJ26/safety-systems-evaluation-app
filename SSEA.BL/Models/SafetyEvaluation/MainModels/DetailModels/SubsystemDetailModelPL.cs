@@ -25,6 +25,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public DCModel DCresult { get; set; }
         public PLModel PLresult { get; set; }
 
+        public ICollection<CCFModel> SelectedCCFs { get; set; }
         public ICollection<ElementDetailModelPL> Elements { get; set; }
     }
 
@@ -49,6 +50,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                           .IgnoreSource(src => src.PFHdResult)
                                                           .IgnoreSource(src => src.CFFId)
                                                           .IgnoreSource(src => src.CFF)
+                                                          .Ignore(dest => dest.SelectedCCFs)
                                                           .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                           .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                           .ReverseMap();

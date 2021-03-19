@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
+using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
+using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
@@ -93,7 +96,7 @@ namespace SSEA.BL.Facades
 
         public async Task<SubsystemDetailModelPL> GetByIdPLAsync(int id)
         {
-            var subsystem = await dbContext.Subsystems.Where(s => s.CategoryId != null && s.Id == id)
+            var subsystem = await dbContext.Subsystems.Where(s => s.CategoryId != null)
                                                       .Include(s => s.TypeOfSubsystem)
                                                       .Include(s => s.Category)
                                                       .Include(s => s.DCresult)
@@ -101,23 +104,45 @@ namespace SSEA.BL.Facades
                                                       .Include(s => s.PLresult)
                                                       .Include(s => s.CurrentState)
                                                       .AsNoTracking()
-                                                      .ToListAsync();
+                                                      .SingleOrDefaultAsync(s => s.Id == id);
 
-            return mapper.Map<SubsystemDetailModelPL>(subsystem);
+            var model = mapper.Map<SubsystemDetailModelPL>(subsystem);
+
+            // Getting all CCFs related to selected subsystem
+            int[] foundIds = await dbContext.SubsystemCCFs.Where(a => a.SubsystemId == id)
+                                                          .Select(a => a.CCFId)
+                                                          .ToArrayAsync();
+            if (foundIds.Count() != 0)
+            {
+                var foundCCFs = await dbContext.CCFs.Where(c => foundIds.Contains(c.Id)).ToListAsync();
+                model.SelectedCCFs = mapper.Map<ICollection<CCFModel>>(foundCCFs);
+            }
+            return model;
         }
 
         public async Task<SubsystemDetailModelSIL> GetByIdSILAsync(int id)
         {
-            var subsystem = await dbContext.Subsystems.Where(s => s.ArchitectureId != null && s.Id == id)
+            var subsystem = await dbContext.Subsystems.Where(s => s.ArchitectureId != null)
                                                       .Include(s => s.TypeOfSubsystem)
                                                       .Include(s => s.Architecture)
                                                       .Include(s => s.PFHdResult)
                                                       .Include(s => s.CFF)
                                                       .Include(s => s.CurrentState)
                                                       .AsNoTracking()
-                                                      .ToListAsync();
+                                                      .SingleOrDefaultAsync(s => s.Id == id);
 
-            return mapper.Map<SubsystemDetailModelSIL>(subsystem);
+            var model = mapper.Map<SubsystemDetailModelSIL>(subsystem);
+
+            // Getting all CCFs related to selected subsystem
+            int[] foundIds = await dbContext.SubsystemCCFs.Where(a => a.SubsystemId == id)
+                                                          .Select(a => a.CCFId)
+                                                          .ToArrayAsync();
+            if (foundIds.Count() != 0)
+            {
+                var foundCCFs = await dbContext.CCFs.Where(c => foundIds.Contains(c.Id)).ToListAsync();
+                model.SelectedCCFs = mapper.Map<ICollection<CCFModel>>(foundCCFs);
+            }
+            return model;
         }
 
         // TODO: add logic
@@ -138,6 +163,14 @@ namespace SSEA.BL.Facades
                 return 0;
 
             return 0;
+        }
+
+        public async Task<int> AddCCF(SubsystemCCFModel model)
+        {
+            var entity = mapper.Map<SubsystemCCF>(model);
+            var id = await dbContext.SubsystemCCFs.AddAsync(entity);
+            await dbContext.SaveChangesAsync();
+            return entity.Id;
         }
     }
 }

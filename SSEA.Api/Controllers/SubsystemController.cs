@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SSEA.BL.Facades;
+using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
@@ -99,6 +100,19 @@ namespace SSEA.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
             var id = await subsystemFacade.CreateAsync(model);
+            return Ok(id);
+        }
+
+        // POST: api/subsystem/addCCF
+        [HttpPost("addCCF")]
+        [SwaggerOperation(OperationId = "SubsystemAddCCF")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> AddCCF(SubsystemCCFModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = await subsystemFacade.AddCCF(model);
             return Ok(id);
         }
     }
