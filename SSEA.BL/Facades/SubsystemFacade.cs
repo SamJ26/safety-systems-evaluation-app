@@ -164,13 +164,5 @@ namespace SSEA.BL.Facades
 
             return 0;
         }
-
-        public async Task<int> AddCCF(SubsystemCCFModel model)
-        {
-            var entity = mapper.Map<SubsystemCCF>(model);
-            var id = await dbContext.SubsystemCCFs.AddAsync(entity);
-            await dbContext.SaveChangesAsync();
-            return entity.Id;
-        }
     }
 }

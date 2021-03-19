@@ -4,6 +4,7 @@
 
 @inject NavigationManager navigationManager
 @inject CodeListFacade codeListFacade
+@inject SubsystemFacade subsystemFacade
 
 @attribute [Authorize]
 
@@ -230,8 +231,12 @@
     // TODO
     private async void OnValidSubmit()
     {
-        // var result = await subsystemFacade.CreatePLAync(subsystem);
-        Console.WriteLine(subsystem.SelectedCCFs.Count);
+        if (equalElements)
+        {
+            subsystem.Elements.Remove(subsystem.Elements.ElementAt(1));
+            subsystem.Elements.Add(subsystem.Elements.ElementAt(0));
+        }
+        var result = await subsystemFacade.CreateAsync(subsystem);
     }
 
 }

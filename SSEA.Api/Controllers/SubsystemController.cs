@@ -102,18 +102,5 @@ namespace SSEA.Api.Controllers
             var id = await subsystemFacade.CreateAsync(model);
             return Ok(id);
         }
-
-        // POST: api/subsystem/addCCF
-        [HttpPost("addCCF")]
-        [SwaggerOperation(OperationId = "SubsystemAddCCF")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> AddCCF(SubsystemCCFModel model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest();
-            var id = await subsystemFacade.AddCCF(model);
-            return Ok(id);
-        }
     }
 }
