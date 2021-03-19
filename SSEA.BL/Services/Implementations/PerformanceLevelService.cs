@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
+using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Services.Interfaces;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
@@ -14,10 +17,12 @@ namespace SSEA.BL.Services.Implementations
     public class PerformanceLevelService : IPerformanceLevelService
     {
         private readonly AppDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public PerformanceLevelService(AppDbContext dbContext)
+        public PerformanceLevelService(AppDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public async Task<PerformanceLevel> GetRequiredPLAsync(S s, F f, P p)
@@ -34,6 +39,34 @@ namespace SSEA.BL.Services.Implementations
                 _ => "e",
             };
             return await dbContext.PerformanceLevels.SingleOrDefaultAsync(i => i.Label == pl);
+        }
+
+        public bool IsCCFValid(HashSet<CCFModel> items)
+        {
+            uint totalCCF = 0;
+            foreach (var item in items)
+                totalCCF += item.Points;
+            return totalCCF >= 65;
+        }
+
+        // TODO: add logic
+        public bool IsSubsystemValid(SubsystemDetailModelPL subsystem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task CountMTTFd(ICollection<ElementDetailModelPL> elements)
+        {
+            var data = await dbContext.MTTFds.ToListAsync();
+            var mttfds = mapper.Map<ICollection<MTTFdModel>>(data);
+            foreach (var element in elements)
+            {
+                if (element.B10d != 0 && element.Nop != 0 && element.MTTFdResult == null)
+                {
+                    element.MTTFdCounted = element.B10d / (element.Nop * 0.01);
+                    element.MTTFdResult = mttfds.SingleOrDefault(m => m.Min <= element.MTTFdCounted && element.MTTFdCounted <= m.Max);
+                }
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
+using SSEA.BL.Services.Interfaces;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
@@ -19,11 +20,13 @@ namespace SSEA.BL.Facades
     {
         private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
+        private readonly IPerformanceLevelService PLService;
 
-        public SubsystemFacade(AppDbContext dbContext, IMapper mapper)
+        public SubsystemFacade(AppDbContext dbContext, IMapper mapper, IPerformanceLevelService PLService)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
+            this.PLService = PLService;
         }
 
         public async Task<ICollection<SubsystemDetailModelPL>> GetAllPLAsync()
@@ -152,6 +155,23 @@ namespace SSEA.BL.Facades
             if (model.Category.Channels != model.Elements.Count)
                 return 0;
 
+            // Checking if CCF is valid
+            model.ValidCCF = PLService.IsCCFValid(model.SelectedCCFs);
+
+            // Counting MTTFd for all elements
+            await PLService.CountMTTFd(model.Elements);
+
+            // TODO: continue
+
+            var entity = mapper.Map<Subsystem>(model);
+
+            // Validation of subsystem before calling SaveChanges
+            if (PLService.IsSubsystemValid(model))
+            {
+                await dbContext.AddAsync(entity);
+                await dbContext.SaveChangesAsync();
+                return entity.Id;
+            }
             return 0;
         }
 

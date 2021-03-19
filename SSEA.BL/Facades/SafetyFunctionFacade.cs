@@ -19,15 +19,15 @@ namespace SSEA.BL.Facades
     {
         private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
-        private readonly IPerformanceLevelService methodicService;
+        private readonly IPerformanceLevelService PLService;
 
         private readonly int safetyFunctionNewStateId = 8;
 
-        public SafetyFunctionFacade(AppDbContext dbContext, IMapper mapper, IPerformanceLevelService methodicService)
+        public SafetyFunctionFacade(AppDbContext dbContext, IMapper mapper, IPerformanceLevelService PLService)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
-            this.methodicService = methodicService;
+            this.PLService = PLService;
         }
 
         public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync()
@@ -111,7 +111,7 @@ namespace SSEA.BL.Facades
                 dbContext.Attach(entity.S).State = EntityState.Unchanged;
                 dbContext.Attach(entity.F).State = EntityState.Unchanged;
                 dbContext.Attach(entity.P).State = EntityState.Unchanged;
-                entity.PLr = await methodicService.GetRequiredPLAsync(entity.S, entity.F, entity.P);
+                entity.PLr = await PLService.GetRequiredPLAsync(entity.S, entity.F, entity.P);
             }
             dbContext.Attach(entity.PLr).State = EntityState.Unchanged;
 
