@@ -27,13 +27,13 @@
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="4">
-                                <MudField Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined">@TypeOfSubsystem</MudField>
+                                <MudField Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined">@subsystem.TypeOfSubsystem.Name</MudField>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudField Label="Druh subsystemu" Variant="Variant.Outlined">Mechanicky</MudField>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@selectedCategory.Label</MudField>
+                                <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@subsystem.Category.Label</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <hr />
@@ -56,27 +56,50 @@
 
                 <MudTabPanel Text="CCF">
                     <MudGrid Style="padding: 20px;">
-
+                        <MudItem xs="12">
+                            @*<MudTable Items="@Norms" MultiSelection="true" @bind-SelectedItems="selectedItems" Height="300px" Hover="true">
+                                <HeaderContent>
+                                    <MudTh>item</MudTh>
+                                    <MudTh>item</MudTh>
+                                    <MudTh>item</MudTh>
+                                    <MudTh>item</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                                    <MudTd DataLabel="Label">@context.Label</MudTd>
+                                    <MudTd DataLabel="Category">@context.NormCategory</MudTd>
+                                    <MudTd DataLabel="Up to date">@context.IsValid</MudTd>
+                                </RowTemplate>
+                            </MudTable>*@
+                        </MudItem>
                     </MudGrid>
                 </MudTabPanel>
 
                 <MudTabPanel Text="Elements">
                     <MudGrid Style="padding: 20px;">
-                        @if (selectedCategory.Channels == 1)
+                        @if (subsystem.Category.Channels == 1)
                         {
                             <MudItem xs="3" />
                             <MudItem xs="6">
-                                <ElementPL Model="element" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
                             </MudItem>
                             <MudItem xs="3" />
                         }
                         else
                         {
-                            <MudItem xs="6">
-                                <ElementPL Model="element" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                            <MudItem xs="12">
+                                <MudText Align="Align.Center">
+                                    <MudCheckBox @bind-Checked="equalElements" Color="Color.Primary" Style="padding: 0px;">Both elements are the same</MudCheckBox>
+                                </MudText>
                             </MudItem>
                             <MudItem xs="6">
-                                <ElementPL Model="element" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
+                                <ElementPL Model="subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
                             </MudItem>
                         }
                     </MudGrid>
@@ -104,7 +127,7 @@
                 <MudField Label="Druh subsystemu" Variant="Variant.Outlined"></MudField>
             </MudItem>
             <MudItem xs="12">
-                <MudSelect @bind-Value="selectedCategory" T="CategoryModel" Label="Category *" Variant="Variant.Outlined">
+                <MudSelect @bind-Value="subsystem.Category" T="CategoryModel" Label="Category *" Variant="Variant.Outlined">
                     @foreach (var item in categories)
                     {
                         <MudSelectItem T="CategoryModel" Value="@(item)">@item.Label</MudSelectItem>
@@ -141,14 +164,17 @@
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
     private ICollection<DCModel> DCs = new List<DCModel>();
     private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
+    private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
+
+    // TODO: Add list of CCF which are related to given subsystem
+    // private ICollection<CCFModel> CCFs = new List<CCFModel>();
 
     private bool dialogVisible = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
-
-    private CategoryModel selectedCategory = new CategoryModel();
+    private bool equalElements = false;
 
     private readonly string successMessage = "Safety function was saved successfully :)";
     private readonly string errorMessage = "Saving failed :(";
@@ -158,9 +184,8 @@
     void Submit()
     {
         dialogVisible = false;
-        subsystem.Category = selectedCategory;
         subsystem.Elements = new List<ElementDetailModelPL>();
-        if (selectedCategory.Channels == 1)
+        if (subsystem.Category.Channels == 1)
         {
             subsystem.Elements.Add(new ElementDetailModelPL());
         }
@@ -173,10 +198,21 @@
 
     protected override async Task OnInitializedAsync()
     {
+        typeOfSubsystems = await codeListFacade.GetAllTypeOfSubsystemsAsync();
         categories = await codeListFacade.GetAllCategoriesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
         MTTFds = await codeListFacade.GetAllMTTFdsAsync();
         DCs = await codeListFacade.GetAllDCsAsync();
+
+        subsystem.Category = categories.FirstOrDefault(c => c.Channels == 2);
+        subsystem.TypeOfSubsystem = (TypeOfSubsystem.ToLower()) switch
+        {
+            "input" => typeOfSubsystems.FirstOrDefault(t => t.Id == 1),
+            "output" => typeOfSubsystems.FirstOrDefault(t => t.Id == 2),
+            "communication" => typeOfSubsystems.FirstOrDefault(t => t.Id == 4),
+            _ => typeOfSubsystems.FirstOrDefault(t => t.Id == 3)
+        };
+
         StateHasChanged();
         OpenDialog();
     }
@@ -195,7 +231,7 @@
     // TODO
     private async void OnValidSubmit()
     {
-
+        // var result = await subsystemFacade.CreatePLAync(subsystem);
     }
 
 }
