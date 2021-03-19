@@ -2928,8 +2928,8 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("hft", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Hft { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("maxSIL", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string MaxSIL { get; set; }
+        [Newtonsoft.Json.JsonProperty("maxPFHd", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public PFHdModel MaxPFHd { get; set; }
 
 
     }
@@ -4160,7 +4160,7 @@ namespace SSEA.Client.BL.Services
         public CFFModel Cff { get; set; }
 
         [Newtonsoft.Json.JsonProperty("selectedCCFs", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<CCFModel> SelectedCCFs { get; set; }
+        public System.Collections.Generic.HashSet<CCFModel> SelectedCCFs { get; set; }
 
         [Newtonsoft.Json.JsonProperty("elements", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ElementDetailModelSIL> Elements { get; set; }
