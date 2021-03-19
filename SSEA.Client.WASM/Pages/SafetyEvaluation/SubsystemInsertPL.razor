@@ -57,20 +57,28 @@
                 <MudTabPanel Text="CCF">
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="12">
-                            @*<MudTable Items="@Norms" MultiSelection="true" @bind-SelectedItems="selectedItems" Height="300px" Hover="true">
+                            <MudTable T="CCFModel" Items="@subsystem.SelectedCCFs" Dense="true" Hover="true" Height="350px" FixedHeader="true" Outlined="true">
+                                <ColGroup>
+                                    <col style="width:25%;" /> Type
+                                    <col style="width:55%;" /> Description
+                                    <col style="width:10%;" /> Points
+                                    <col style="width:10%;" /> Actions
+                                </ColGroup>
                                 <HeaderContent>
-                                    <MudTh>item</MudTh>
-                                    <MudTh>item</MudTh>
-                                    <MudTh>item</MudTh>
-                                    <MudTh>item</MudTh>
+                                    <MudTh>Type</MudTh>
+                                    <MudTh>Description</MudTh>
+                                    <MudTh>Points</MudTh>
+                                    <MudTh>Actions</MudTh>
                                 </HeaderContent>
-                                <RowTemplate>
-                                    <MudTd DataLabel="Name">@context.Name</MudTd>
-                                    <MudTd DataLabel="Label">@context.Label</MudTd>
-                                    <MudTd DataLabel="Category">@context.NormCategory</MudTd>
-                                    <MudTd DataLabel="Up to date">@context.IsValid</MudTd>
+                                <RowTemplate Context="tableContext">
+                                    <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.Points</MudTd>
+                                    <MudTd DataLabel="Name">
+                                        <MudIconButton @onclick="() => RemoveCCF(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
+                                    </MudTd>
                                 </RowTemplate>
-                            </MudTable>*@
+                            </MudTable>
                         </MudItem>
                     </MudGrid>
                 </MudTabPanel>
@@ -166,9 +174,6 @@
     private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
     private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
 
-    // TODO: Add list of CCF which are related to given subsystem
-    // private ICollection<CCFModel> CCFs = new List<CCFModel>();
-
     private bool dialogVisible = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
@@ -217,7 +222,7 @@
         OpenDialog();
     }
 
-    private async void Edit()
+    private void Edit()
     {
         onlyForReading = false;
         showMessage = false;
@@ -232,6 +237,11 @@
     private async void OnValidSubmit()
     {
         // var result = await subsystemFacade.CreatePLAync(subsystem);
+    }
+
+    private void RemoveCCF(CCFModel model)
+    {
+        // TODO: call API
     }
 
 }
