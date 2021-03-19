@@ -18,7 +18,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
         public double MinSFF { get; set; }
         public double MaxSFF { get; set; }
         public short HFT { get; set; }
-        public string MaxSIL { get; set; }
+        public PFHdModel MaxPFHd { get; set; }
     }
 
     public class ArchitectureModelMapperProfile : Profile
@@ -30,7 +30,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
                                                         .MapMember(dest => dest.Description, src => src.DescriptionCZ)
                                                         .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                         .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
-                                                        .MapMember(dest => dest.MaxSIL, src => src.MaxPFHd.ValueSIL)
                                                         .ReverseMap();
         }
     }

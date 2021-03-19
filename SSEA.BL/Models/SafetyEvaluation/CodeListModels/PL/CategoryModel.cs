@@ -40,10 +40,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
                                                 .MapMember(dest => dest.FailureBehavior, src => src.FailureBehaviorCZ)
                                                 .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                 .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
-                                                //.MapMember(dest => dest.MinMTTFd, src => src.MinMTTFd.ValueCZ)
-                                                //.MapMember(dest => dest.MaxMTTFd, src => src.MaxMTTFd.ValueCZ)
-                                                //.MapMember(dest => dest.MinDC, src => src.MinDC.ValueCZ)
-                                                //.MapMember(dest => dest.MaxDC, src => src.MaxDC.ValueCZ)
                                                 .ReverseMap();
         }
     }
