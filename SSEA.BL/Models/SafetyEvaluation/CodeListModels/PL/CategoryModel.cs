@@ -18,10 +18,10 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
         public bool Logic { get; set; }
         public short Channels { get; set; }
         public bool RelevantCCF { get; set; }
-        public string MinMTTFd { get; set; }
-        public string MaxMTTFd { get; set; }
-        public string MinDC { get; set; }
-        public string MaxDC { get; set; }
+        public MTTFdModel MinMTTFd { get; set; }
+        public MTTFdModel MaxMTTFd { get; set; }
+        public DCModel MinDC { get; set; }
+        public DCModel MaxDC { get; set; }
     }
 
     public class CategoryModelMapperProfile : Profile
@@ -40,10 +40,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
                                                 .MapMember(dest => dest.FailureBehavior, src => src.FailureBehaviorCZ)
                                                 .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                 .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
-                                                .MapMember(dest => dest.MinMTTFd, src => src.MinMTTFd.ValueCZ)
-                                                .MapMember(dest => dest.MaxMTTFd, src => src.MaxMTTFd.ValueCZ)
-                                                .MapMember(dest => dest.MinDC, src => src.MinDC.ValueCZ)
-                                                .MapMember(dest => dest.MaxDC, src => src.MaxDC.ValueCZ);
+                                                .ReverseMap();
         }
     }
 }
