@@ -43,6 +43,8 @@ namespace SSEA.BL.Services.Implementations
 
         public bool IsCCFValid(HashSet<CCFModel> items)
         {
+            if (items == null)
+                return false;
             uint totalCCF = 0;
             foreach (var item in items)
                 totalCCF += item.Points;
