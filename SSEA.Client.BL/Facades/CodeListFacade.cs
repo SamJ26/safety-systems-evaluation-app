@@ -20,11 +20,12 @@ namespace SSEA.Client.BL.Facades
 
         // TODO: uncomment methods after adding all models to client service
 
-        //public async Task<ICollection<CCFModel>> GetAllCCFsAsync()
-        //{
-        //    var data = await dbContext.CCFs.AsNoTracking().ToListAsync();
-        //    return mapper.Map<ICollection<CCFModel>>(data);
-        //}
+        public async Task<ICollection<CCFModel>> GetAllCCFsAsync()
+        {
+            var response = await clientService.CodeListGetAllAsync("CCF");
+            Console.WriteLine($"Fetching data - CCF - Count: {response.Count}");
+            return JsonConvert.DeserializeObject<ICollection<CCFModel>>(response.Data);
+        }
 
         public async Task<ICollection<DCModel>> GetAllDCsAsync()
         {

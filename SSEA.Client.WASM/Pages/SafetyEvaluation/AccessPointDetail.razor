@@ -57,7 +57,7 @@
                         </MudItem>
                         <MudItem xs="6" />
                         <MudItem xs="2">
-                            <MudButton @onclick="OpenSelectSafetyFunctionDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add existing</MudButton>
+                            <MudButton @onclick="OpenSelectSafetyFunctionsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add existing</MudButton>
                         </MudItem>
                         <MudItem xs="2">
                             <MudButton @onclick="OpenCreateSafetyFunctionDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Create" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Create new</MudButton>
@@ -127,7 +127,7 @@
         StateHasChanged();
     }
 
-    private async void OpenSelectSafetyFunctionDialog()
+    private async void OpenSelectSafetyFunctionsDialog()
     {
         var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPointModel.EvaluationMethod, ["AccessPointId"] = accessPointModel.Id };
         var dialog = dialogService.Show<SelectSafetyFunctionsDialog>("Select safety functions", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });

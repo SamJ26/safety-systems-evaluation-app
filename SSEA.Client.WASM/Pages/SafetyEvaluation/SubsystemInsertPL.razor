@@ -15,8 +15,7 @@
             </CardHeaderContent>
             <CardHeaderActions>
                 <MudIconButton @onclick="BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" />
-                <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
+                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" />
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
@@ -57,26 +56,21 @@
                 <MudTabPanel Text="CCF">
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="12">
-                            <MudTable T="CCFModel" Items="@subsystem.SelectedCCFs" Dense="true" Hover="true" Height="350px" FixedHeader="true" Outlined="true">
+                            <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@selectedItems" Items="@CCFs" Dense="true" Hover="true" FixedHeader="true" Outlined="true">
                                 <ColGroup>
-                                    <col style="width:25%;" /> Type
-                                    <col style="width:55%;" /> Description
-                                    <col style="width:10%;" /> Points
-                                    <col style="width:10%;" /> Actions
+                                    <col style="width:15%;" /> Type
+                                    <col style="width:70%;" /> Description
+                                    <col style="width:15%;" /> Points
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Type</MudTh>
                                     <MudTh>Description</MudTh>
                                     <MudTh>Points</MudTh>
-                                    <MudTh>Actions</MudTh>
                                 </HeaderContent>
                                 <RowTemplate Context="tableContext">
                                     <MudTd DataLabel="Name">@tableContext.Type</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.Description</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.Points</MudTd>
-                                    <MudTd DataLabel="Name">
-                                        <MudIconButton @onclick="() => RemoveCCF(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
-                                    </MudTd>
                                 </RowTemplate>
                             </MudTable>
                         </MudItem>
@@ -129,7 +123,7 @@
     <DialogContent>
         <MudGrid>
             <MudItem xs="12">
-                <MudField @bind-Value="TypeOfSubsystem" Disabled="true" Label="Name" Variant="Variant.Outlined"></MudField>
+                <MudField Disabled="true" Label="Type of subsystem" Variant="Variant.Outlined">@subsystem.TypeOfSubsystem.Name</MudField>
             </MudItem>
             <MudItem xs="12">
                 <MudField Label="Druh subsystemu" Variant="Variant.Outlined"></MudField>
@@ -151,9 +145,6 @@
 
 @code {
 
-    public ElementDetailModelPL element = new ElementDetailModelPL();
-
-
     [Parameter]
     public string TypeOfSubsystem { get; set; }
 
@@ -173,6 +164,9 @@
     private ICollection<DCModel> DCs = new List<DCModel>();
     private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
     private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
+    private ICollection<CCFModel> CCFs = new List<CCFModel>();
+
+    private HashSet<CCFModel> selectedItems = new HashSet<CCFModel>();
 
     private bool dialogVisible = false;
     private bool onlyForReading = true;
@@ -208,6 +202,7 @@
         producers = await codeListFacade.GetAllProducersAsync();
         MTTFds = await codeListFacade.GetAllMTTFdsAsync();
         DCs = await codeListFacade.GetAllDCsAsync();
+        CCFs = await codeListFacade.GetAllCCFsAsync();
 
         subsystem.Category = categories.FirstOrDefault(c => c.Channels == 2);
         subsystem.TypeOfSubsystem = (TypeOfSubsystem.ToLower()) switch
@@ -237,11 +232,6 @@
     private async void OnValidSubmit()
     {
         // var result = await subsystemFacade.CreatePLAync(subsystem);
-    }
-
-    private void RemoveCCF(CCFModel model)
-    {
-        // TODO: call API
     }
 
 }
