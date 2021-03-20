@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SSEA.BL.Facades;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace SSEA.Api.Controllers
 {
+    [Authorize]
     [Route("api/machine")]
     [ApiController]
     public class MachineController : ControllerBase

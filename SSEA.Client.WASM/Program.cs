@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 using SSEA.Client.BL.Facades;
 using SSEA.Client.BL.Services;
+using SSEA.Client.WASM.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -29,7 +30,7 @@ namespace SSEA.Client.WASM
             builder.Services.AddAuthorizationCore();
             builder.Services.AddMudServices();
 
-            builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProviderService>();
+            builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             builder.Services.AddScoped<IClientService, ClientService>();
             builder.Services.AddScoped<CodeListFacade>();
             builder.Services.AddScoped<MachineFacade>();
