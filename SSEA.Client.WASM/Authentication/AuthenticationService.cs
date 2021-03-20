@@ -14,20 +14,21 @@ namespace SSEA.Client.WASM.Authentication
         private readonly AuthenticationStateProvider authStateProvider;
         private readonly IClientService clientService;
 
-        public AuthenticationService(ILocalStorageService storageService, HttpClient httpClient, AuthenticationStateProvider authStateProvider)
+        public AuthenticationService(ILocalStorageService storageService, HttpClient httpClient, AuthenticationStateProvider authStateProvider, IClientService clientService)
         {
             this.storageService = storageService;
             this.httpClient = httpClient;
             this.authStateProvider = authStateProvider;
+            this.clientService = clientService;
         }
 
-        public async Task<AuthResponseModel> RegisterUser(RegisterUserModel model)
+        public async Task<AuthResponseModel> RegisterUserAsync(RegisterUserModel model)
         {
             var result = await clientService.RegisterUserAsync(model);
             return result;
         }
 
-        public async Task<AuthResponseModel> LoginUser(LoginUserModel model)
+        public async Task<AuthResponseModel> LoginUserAsync(LoginUserModel model)
         {
             var result = await clientService.LoginUserAsync(model);
 
@@ -42,7 +43,7 @@ namespace SSEA.Client.WASM.Authentication
             return result;
         }
 
-        public async Task LogoutUser()
+        public async Task LogoutUserAsync()
         {
             await storageService.RemoveItemAsync("AuthToken");
             ((AuthStateProvider)authStateProvider).NotifyUserLogout();

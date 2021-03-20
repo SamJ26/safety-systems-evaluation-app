@@ -1,8 +1,5 @@
 ﻿@inherits LayoutComponentBase
 
-@inject AuthenticationStateProvider authenticationStateProvider
-@inject NavigationManager navigationManager
-
 <MudThemeProvider />
 <MudDialogProvider DisableBackdropClick="true"/>
 
@@ -23,6 +20,12 @@
 
 @code {
 
+    [Inject]
+    protected AuthenticationService authenticationService { get; set; }
+
+    [Inject]
+    protected NavigationManager navigationManager { get; set; }
+
     private bool drawerOpen = true;
 
     private void DrawerToggle()
@@ -32,8 +35,7 @@
 
     private async void Logout()
     {
-        var authStateProviderService = (AuthStateProviderService)authenticationStateProvider;
-        await authStateProviderService.LogoutAsync();
+        await authenticationService.LogoutUserAsync();
         navigationManager.NavigateTo("/auth/login");
     }
 
