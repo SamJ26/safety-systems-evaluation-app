@@ -18,7 +18,8 @@ namespace SSEA.DAL.Entities.Auth
         [StringLength(50)]
         public string LastName { get; set; }
 
-        [ForeignKey("CurrentState_Id")]
+        [Column("CurrentState_Id")]
+        public int CurrentStateId { get; set; }
         public State CurrentState { get; set; }
     }
 }
