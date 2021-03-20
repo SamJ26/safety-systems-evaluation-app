@@ -50,9 +50,7 @@ namespace SSEA.BL.Services.Implementations
             var result = await userManager.CreateAsync(newUser, model.Password);
             if (result.Succeeded)
             {
-
-                // TODO: assign initial user role
-
+                await userManager.AddToRoleAsync(newUser, "Observer");
                 return new AuthResponseModel()
                 {
                     Message = "User created susuccessfully!",
@@ -93,17 +91,24 @@ namespace SSEA.BL.Services.Implementations
                 };
             }
 
-            // TODO: fetch all user roles and add them to claims
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:SecurityKey"]));
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var claims = new Claim[]
+            var claimsArray = new Claim[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim("Email", model.Email),
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName),
             };
+
+            var claims = new List<Claim>();
+            claims.AddRange(claimsArray);
+            var roles = await userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             var tokenOptions = new JwtSecurityToken(issuer: configuration["JWTSettings:ValidIssuer"],
                                                     audience: configuration["JWTSettings:ValidAudience"],
                                                     claims: claims,
