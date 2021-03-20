@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using SSEA.BL.Models.Auth;
 using SSEA.BL.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SSEA.Api.Controllers
@@ -21,22 +18,30 @@ namespace SSEA.Api.Controllers
             this.authService = authService;
         }
 
-        // api/auth/register
+        // POST: api/auth/register
         [HttpPost("register")]
         [SwaggerOperation(OperationId = "RegisterUser")]
-        public async Task<AuthResponseModel> RegisterAsync([FromBody] RegisterUserModel model)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<AuthResponseModel>> RegisterAsync([FromBody] RegisterUserModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
             var result = await authService.RegisterUserAsync(model);
-            return result;
+            return Ok(result);
         }
 
-        // api/auth/login
+        // POST: api/auth/login
         [HttpPost("login")]
         [SwaggerOperation(OperationId = "LoginUser")]
-        public async Task<AuthResponseModel> LoginAsync([FromBody] LoginUserModel model)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<AuthResponseModel>> LoginAsync([FromBody] LoginUserModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
             var result = await authService.LoginUserAsync(model);
-            return result;
+            return Ok(result);
         }
     }
 }
