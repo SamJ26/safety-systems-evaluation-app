@@ -38,7 +38,7 @@ namespace SSEA.Client.WASM.Authentication
 
             // Login successful -> set token in local storage and set default request header
             await storageService.SetItemAsync("AuthToken", result.Token);
-            ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(model.Email);
+            ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(result.Token);
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
             return result;
         }

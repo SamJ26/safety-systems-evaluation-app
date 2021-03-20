@@ -30,12 +30,9 @@ namespace SSEA.Client.WASM.Authentication
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
         }
 
-        public void NotifyUserAuthentication(string email)
+        public void NotifyUserAuthentication(string token)
         {
-            var claims = new Claim[]
-            {
-                new Claim(ClaimTypes.Name, email)
-            };
+            var claims = JwtParser.ParseClaimsFromJwt(token);
             var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwtAuthType"));
             var authenticationState = Task.FromResult(new AuthenticationState(authenticatedUser));
             NotifyAuthenticationStateChanged(authenticationState);
