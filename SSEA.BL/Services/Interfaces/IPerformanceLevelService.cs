@@ -14,6 +14,6 @@ namespace SSEA.BL.Services.Interfaces
         Task<PerformanceLevel> GetRequiredPLAsync(S s, F f, P p);
         bool IsCCFValid(HashSet<CCFModel> items);
         bool IsSubsystemValid(SubsystemDetailModelPL subsystem);
-        Task CountMTTFd(ICollection<ElementDetailModelPL> elements);
+        Task EvaluateSubsystem(SubsystemDetailModelPL subsystem);
     }
 }

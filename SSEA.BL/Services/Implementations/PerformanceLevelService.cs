@@ -57,11 +57,13 @@ namespace SSEA.BL.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task CountMTTFd(ICollection<ElementDetailModelPL> elements)
+        // TODO: complete logic
+        public async Task EvaluateSubsystem(SubsystemDetailModelPL subsystem)
         {
-            var data = await dbContext.MTTFds.ToListAsync();
-            var mttfds = mapper.Map<ICollection<MTTFdModel>>(data);
-            foreach (var element in elements)
+            var mttfds = mapper.Map<ICollection<MTTFdModel>>(await dbContext.MTTFds.ToListAsync());
+
+            // Evaluating MTTFd for elements
+            foreach (var element in subsystem.Elements)
             {
                 if (element.B10d != 0 && element.Nop != 0 && element.MTTFdResult == null)
                 {
@@ -69,6 +71,9 @@ namespace SSEA.BL.Services.Implementations
                     element.MTTFdResult = mttfds.SingleOrDefault(m => m.Min <= element.MTTFdCounted && element.MTTFdCounted <= m.Max);
                 }
             }
+
+            // TODO: continue
+
         }
     }
 }

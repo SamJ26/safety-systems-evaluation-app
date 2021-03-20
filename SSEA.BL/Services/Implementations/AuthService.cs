@@ -50,6 +50,9 @@ namespace SSEA.BL.Services.Implementations
             var result = await userManager.CreateAsync(newUser, model.Password);
             if (result.Succeeded)
             {
+
+                // TODO: assign initial user role
+
                 return new AuthResponseModel()
                 {
                     Message = "User created susuccessfully!",
@@ -89,6 +92,8 @@ namespace SSEA.BL.Services.Implementations
                     IsSuccess = false,
                 };
             }
+
+            // TODO: fetch all user roles and add them to claims
 
             var claims = new Claim[]
             {

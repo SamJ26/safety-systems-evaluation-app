@@ -155,14 +155,10 @@ namespace SSEA.BL.Facades
             if (model.Category.Channels != model.Elements.Count)
                 return 0;
 
-            // Checking if CCF is valid
-            model.ValidCCF = PLService.IsCCFValid(model.SelectedCCFs);
+            // Evaluation of all imporatant properties of subsystem (couting MTTFd, DC, checking CCF ...)
+            await PLService.EvaluateSubsystem(model);
 
-            // Counting MTTFd for all elements
-            await PLService.CountMTTFd(model.Elements);
-
-            // TODO: continue
-
+            // Creating subsystem entity from model
             var entity = mapper.Map<Subsystem>(model);
 
             // Validation of subsystem before calling SaveChanges
