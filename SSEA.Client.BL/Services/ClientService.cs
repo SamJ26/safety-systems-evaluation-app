@@ -886,6 +886,16 @@ namespace SSEA.Client.BL.Services
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ClientServiceException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ClientServiceException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ClientServiceException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -964,6 +974,16 @@ namespace SSEA.Client.BL.Services
                                 throw new ClientServiceException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ClientServiceException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ClientServiceException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -2937,6 +2957,9 @@ namespace SSEA.Client.BL.Services
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.3.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class AuthResponseModel
     {
+        [Newtonsoft.Json.JsonProperty("token", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Token { get; set; }
+
         [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Message { get; set; }
 
@@ -4104,7 +4127,7 @@ namespace SSEA.Client.BL.Services
         public PLModel PLresult { get; set; }
 
         [Newtonsoft.Json.JsonProperty("selectedCCFs", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.HashSet<CCFModel> SelectedCCFs { get; set; }
+        public System.Collections.Generic.ICollection<CCFModel> SelectedCCFs { get; set; }
 
         [Newtonsoft.Json.JsonProperty("elements", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ElementDetailModelPL> Elements { get; set; }
@@ -4160,7 +4183,7 @@ namespace SSEA.Client.BL.Services
         public CFFModel Cff { get; set; }
 
         [Newtonsoft.Json.JsonProperty("selectedCCFs", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.HashSet<CCFModel> SelectedCCFs { get; set; }
+        public System.Collections.Generic.ICollection<CCFModel> SelectedCCFs { get; set; }
 
         [Newtonsoft.Json.JsonProperty("elements", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ElementDetailModelSIL> Elements { get; set; }

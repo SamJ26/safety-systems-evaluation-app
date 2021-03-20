@@ -22,7 +22,7 @@ namespace SSEA.Client.WASM.Authentication
 
         public async override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var token = await storageService.GetItemAsync<string>("UserInfo");
+            var token = await storageService.GetItemAsync<string>("AuthToken");
             if (string.IsNullOrWhiteSpace(token))
                 return anonymous;
 
@@ -41,7 +41,7 @@ namespace SSEA.Client.WASM.Authentication
             NotifyAuthenticationStateChanged(authenticationState);
         }
 
-        public void NotifyLogout()
+        public void NotifyUserLogout()
         {
             var authenticationState = Task.FromResult(anonymous);
             NotifyAuthenticationStateChanged(authenticationState);
