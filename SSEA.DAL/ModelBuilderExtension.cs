@@ -854,9 +854,9 @@ namespace SSEA.DAL
                     EntityId = 3,
                 },
 
-            #endregion
+                #endregion
 
-            #region States for access points
+                #region States for access points
 
                 new State()
                 {
@@ -913,7 +913,7 @@ namespace SSEA.DAL
                     Valid = true,
                     InitialState = true,
                     FinalState = false,
-                    EntityId = 1,
+                    EntityId = 5,
                 },
                 new State()
                 {
@@ -926,7 +926,7 @@ namespace SSEA.DAL
                     Valid = true,
                     InitialState = false,
                     FinalState = false,
-                    EntityId = 1,
+                    EntityId = 5,
                 },
                 new State()
                 {
@@ -939,7 +939,7 @@ namespace SSEA.DAL
                     Valid = true,
                     InitialState = false,
                     FinalState = false,
-                    EntityId = 1,
+                    EntityId = 5,
                 },
                 new State()
                 {
@@ -952,7 +952,38 @@ namespace SSEA.DAL
                     Valid = true,
                     InitialState = false,
                     FinalState = false,
-                    EntityId = 1,
+                    EntityId = 5,
+                },
+
+                #endregion
+
+                #region States for users
+
+                new State()
+                {
+                    Id = 12,
+                    NameCZ = "Aktivní",
+                    NameEN = "Active",
+                    DescriptionCZ = null,
+                    DescriptionEN = null,
+                    StateNumber = 1,
+                    Valid = true,
+                    InitialState = true,
+                    FinalState = false,
+                    EntityId = 7,
+                },
+                new State()
+                {
+                    Id = 13,
+                    NameCZ = "Zablokovaný",
+                    NameEN = "Blocked",
+                    DescriptionCZ = null,
+                    DescriptionEN = null,
+                    StateNumber = 2,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = false,
+                    EntityId = 7,
                 }
 
                 #endregion

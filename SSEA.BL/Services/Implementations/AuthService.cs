@@ -39,6 +39,8 @@ namespace SSEA.BL.Services.Implementations
                 };
             }
 
+            // TODO: assigning initial active state to new user
+
             var newUser = new User()
             {
                 FirstName = model.FirstName,

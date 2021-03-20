@@ -248,8 +248,6 @@
     private async void OnValidSubmit()
     {
         onlyForReading = true;
-        var userInfo = await storageService.GetItemAsync<LocalUserInfo>("UserInfo");
-        machineModel.IdCreated = userInfo.ID;
         var result = await machineFacade.CreateAsync(machineModel);
         if (result != 0)
         {
