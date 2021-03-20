@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities.Auth;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
@@ -733,6 +734,30 @@ namespace SSEA.DAL
             #endregion
 
             #region Data for system tables
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role()
+                {
+                    Id = 1,
+                    IsValid = true,
+                    Name = "Observer",
+                    NormalizedName = "OBSERVER",
+                },
+                new Role()
+                {
+                    Id = 2,
+                    IsValid = true,
+                    Name = "NormalUser",
+                    NormalizedName = "NORMALUSER",
+                },
+                new Role()
+                {
+                    Id = 3,
+                    IsValid = true,
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR",
+                }
+            );
 
             modelBuilder.Entity<Entity>().HasData(
                 new Entity()
