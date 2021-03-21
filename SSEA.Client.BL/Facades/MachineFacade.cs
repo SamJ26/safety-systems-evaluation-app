@@ -38,13 +38,14 @@ namespace SSEA.Client.BL.Facades
         public async Task<int> UpdateAsync(MachineDetailModel updateModel)
         {
             Console.WriteLine("MachineFacade.UpdateAsync(MachineDetailModel updateModel)");
-            return await clientService.MachineUpdateAsync(updateModel);
+            // return await clientService.MachineUpdateAsync(updateModel);
+            return 0;
         }
 
         public async Task DeleteAsync(int id)
         {
             Console.WriteLine("MachineFacade.DeleteAsync(int id)");
-            await clientService.MachineDeleteAsync(id);
+            // await clientService.MachineDeleteAsync(id);
         }
     }
 }

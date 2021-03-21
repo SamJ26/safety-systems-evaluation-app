@@ -62,36 +62,36 @@ namespace SSEA.Api.Controllers
             return Ok(id);
         }
 
-        // PUT: api/machine
-        [HttpPut]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
-        [SwaggerOperation(OperationId = "MachineUpdate")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> UpdateAsync(MachineDetailModel updatedModel)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest();
-            var userId = this.GetUserIdFromHttpContext();
-            var id = await machineFacade.UpdateAsync(updatedModel, userId);
-            return Ok(id);
-        }
+        //// PUT: api/machine
+        //[HttpPut]
+        ////[Authorize(Roles = "Administrator")]
+        ////[Authorize(Roles = "NormalUser")]
+        //[SwaggerOperation(OperationId = "MachineUpdate")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<ActionResult<int>> UpdateAsync(MachineDetailModel updatedModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest();
+        //    var userId = this.GetUserIdFromHttpContext();
+        //    var id = await machineFacade.UpdateAsync(updatedModel, userId);
+        //    return Ok(id);
+        //}
 
-        // DELETE: api/machine/{id}
-        [HttpDelete("{id}")]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
-        [SwaggerOperation(OperationId = "MachineDelete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeleteAsync(int id)
-        {
-            var userId = this.GetUserIdFromHttpContext();
-            var foundId = await machineFacade.DeleteAsync(id, userId);
-            if (foundId == 0)
-                return BadRequest();
-            return Ok();
-        }
+        //// DELETE: api/machine/{id}
+        //[HttpDelete("{id}")]
+        ////[Authorize(Roles = "Administrator")]
+        ////[Authorize(Roles = "NormalUser")]
+        //[SwaggerOperation(OperationId = "MachineDelete")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<ActionResult> DeleteAsync(int id)
+        //{
+        //    var userId = this.GetUserIdFromHttpContext();
+        //    var foundId = await machineFacade.DeleteAsync(id, userId);
+        //    if (foundId == 0)
+        //        return BadRequest();
+        //    return Ok();
+        //}
     }
 }
