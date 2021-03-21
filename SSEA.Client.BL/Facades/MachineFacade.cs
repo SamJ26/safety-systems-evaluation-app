@@ -15,7 +15,8 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
-        // TODO: add filter options
+        // TODO: add getallmethod with filter
+
         public async Task<ICollection<MachineListModel>> GetAllAsync()
         {
             Console.WriteLine("MachineFacade.GetAllAsync()");
@@ -24,25 +25,25 @@ namespace SSEA.Client.BL.Facades
 
         public async Task<MachineDetailModel> GetByIdAsync(int id)
         {
-            Console.WriteLine("MachineFacade.GetByIdAsync()");
+            Console.WriteLine("MachineFacade.GetByIdAsync(int id)");
             return await clientService.MachineGetByIdAsync(id);
         }
 
         public async Task<int> CreateAsync(MachineDetailModel newModel)
         {
-            Console.WriteLine("MachineFacade.CreateAsync()");
+            Console.WriteLine("MachineFacade.CreateAsync(MachineDetailModel newModel)");
             return await clientService.MachineCreateAsync(newModel);
         }
 
         public async Task<int> UpdateAsync(MachineDetailModel updateModel)
         {
-            Console.WriteLine("MachineFacade.UpdateAsync()");
+            Console.WriteLine("MachineFacade.UpdateAsync(MachineDetailModel updateModel)");
             return await clientService.MachineUpdateAsync(updateModel);
         }
 
         public async Task DeleteAsync(int id)
         {
-            Console.WriteLine("MachineFacade.DeleteAsync()");
+            Console.WriteLine("MachineFacade.DeleteAsync(int id)");
             await clientService.MachineDeleteAsync(id);
         }
     }

@@ -1,7 +1,5 @@
 ﻿using SSEA.Client.BL.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.Client.BL.Facades
@@ -27,19 +25,20 @@ namespace SSEA.Client.BL.Facades
                 AccessPointId = accessPointId,
                 SafetyFunctionId = safetyFunctionId,
             };
+            Console.WriteLine("AccessPointFacade.AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)");
             return await clientService.AccessPointAddSafetyFunctionAsync(model);
         }
 
 
         public async Task<int> UpdateAsync(AccessPointDetailModel updateModel)
         {
-            Console.WriteLine("AccessPointFacade.UpdateAsync()");
+            Console.WriteLine("AccessPointFacade.UpdateAsync(AccessPointDetailModel updateModel)");
             return await clientService.AccessPointUpdateAsync(updateModel);
         }
 
         public async Task DeleteAsync(int id, bool softDelete = true)
         {
-            Console.WriteLine("AccessPointFacade.DeleteAsync()");
+            Console.WriteLine("AccessPointFacade.DeleteAsync(int id, bool softDelete = true)");
             await clientService.AccessPointDeleteAsync(id, softDelete);
         }
     }
