@@ -27,7 +27,7 @@ namespace SSEA.Api.Controllers
         [HttpGet]
         [SwaggerOperation(OperationId = "MachineGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ICollection<MachineListModel>>> GetAll()
+        public async Task<ActionResult<ICollection<MachineListModel>>> GetAllAsync()
         {
             var data = await machineFacade.GetAllAsync();
             return Ok(data);
@@ -38,7 +38,7 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "MachineGetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MachineDetailModel>> GetById(int id)
+        public async Task<ActionResult<MachineDetailModel>> GetByIdAsync(int id)
         {
             var data = await machineFacade.GetByIdAsync(id);
             if (data == null)
@@ -53,7 +53,7 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "MachineCreate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Create(MachineDetailModel newModel)
+        public async Task<ActionResult<int>> CreateAsync(MachineDetailModel newModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -69,7 +69,7 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "MachineUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(MachineDetailModel updatedModel)
+        public async Task<ActionResult<int>> UpdateAsync(MachineDetailModel updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -85,7 +85,7 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "MachineDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> DeleteAsync(int id)
         {
             var userId = this.GetUserIdFromHttpContext();
             var foundId = await machineFacade.DeleteAsync(id, userId);

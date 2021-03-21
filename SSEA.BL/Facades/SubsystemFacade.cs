@@ -149,7 +149,7 @@ namespace SSEA.BL.Facades
         }
 
         // TODO: add logic
-        public async Task<int> CreateAsync(SubsystemDetailModelPL model)
+        public async Task<int> CreateAsync(SubsystemDetailModelPL model, int userId)
         {
             // Number of elements must be equal to number of channels of given category
             if (model.Category.Channels != model.Elements.Count)
@@ -172,7 +172,7 @@ namespace SSEA.BL.Facades
         }
 
         // TODO: add logic
-        public async Task<int> CreateAsync(SubsystemDetailModelSIL model)
+        public async Task<int> CreateAsync(SubsystemDetailModelSIL model, int userId)
         {
             // Number of elements must be equal to number of channels of given category
             if (model.Architecture.Channels != model.Elements.Count)
