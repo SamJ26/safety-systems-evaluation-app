@@ -45,6 +45,7 @@ namespace SSEA.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SSEA.Api", Version = "v1" });
+                c.UseAllOfToExtendReferenceSchemas();
                 c.EnableAnnotations();
             });
 
@@ -54,6 +55,7 @@ namespace SSEA.Api
                     .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
 
+            var jwtSettings = Configuration.GetSection("JWTSettings");
             services.AddAuthentication(auth =>
             {
                 auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -63,18 +65,21 @@ namespace SSEA.Api
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidIssuer = Configuration["AuthSettings:Issuer"],
                     ValidateAudience = true,
-                    ValidAudience = Configuration["AuthSettings:Audience"],
-                    RequireExpirationTime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthSettings:Key"])),
+                    ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = jwtSettings["ValidIssuer"],
+                    ValidAudience = jwtSettings["ValidAudience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecurityKey"]))
                 };
             });
 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IPerformanceLevelService, PerformanceLevelService>();
 
             services.AddScoped<MachineFacade>();
+            services.AddScoped<AccessPointFacade>();
             services.AddScoped<SafetyFunctionFacade>();
             services.AddScoped<SubsystemFacade>();
             services.AddScoped<CodeListFacade>();

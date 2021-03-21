@@ -1,5 +1,8 @@
-﻿using SSEA.BL.Models.SafetyEvaluation.JoinModels;
+﻿using AutoMapper;
+using SSEA.BL.Extensions;
+using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,10 +19,26 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [StringLength(200)]
         public string Description { get; set; }
 
-        public MachineListModel Machine { get; set; }
+        [Required]
+        public string MachineName { get; set; }
+
+        [Required]
+        public string EvaluationMethod { get; set; }
 
         public ICollection<AccessPointSafetyFunctionModel> AccessPointSafetyFunctions { get; set; }
-        
-        // public State CurrentState { get; set; }
+    }
+
+    public class AccessPointDetailModelMapperProfile : Profile
+    {
+        public AccessPointDetailModelMapperProfile()
+        {
+            CreateMap<AccessPoint, AccessPointDetailModel>().IgnoreSource(src => src.MachineId)
+                                                            .MapMember(dest => dest.MachineName, src => src.Machine.Name)
+                                                            .MapMember(dest => dest.EvaluationMethod, src => src.Machine.EvaluationMethod.Shortcut)
+                                                            .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                            .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
+                                                            .ReverseMap();
+
+        }
     }
 }

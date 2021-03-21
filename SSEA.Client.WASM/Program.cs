@@ -5,7 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
+using SSEA.Client.BL.Facades;
 using SSEA.Client.BL.Services;
+using SSEA.Client.WASM.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -26,9 +28,16 @@ namespace SSEA.Client.WASM
             builder.Services.AddBlazoredLocalStorage(config => config.JsonSerializerOptions.WriteIndented = true);
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
-            builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProviderService>();
-            builder.Services.AddScoped<IClientService, ClientService>();
             builder.Services.AddMudServices();
+
+            builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+            builder.Services.AddScoped<IClientService, ClientService>();
+            builder.Services.AddScoped<AuthenticationService>();
+            builder.Services.AddScoped<CodeListFacade>();
+            builder.Services.AddScoped<MachineFacade>();
+            builder.Services.AddScoped<AccessPointFacade>();
+            builder.Services.AddScoped<SafetyFunctionFacade>();
+            builder.Services.AddScoped<SubsystemFacade>();
 
             await builder.Build().RunAsync();
         }

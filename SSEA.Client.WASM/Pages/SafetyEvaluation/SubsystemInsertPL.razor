@@ -1,0 +1,242 @@
+﻿@page "/safetyEvaluation/subsystemInsert/PL/{machineId:int}/{accessPointId:int}/{safetyFunctionId:int}/{typeOfSubsystem}"
+
+@layout MainLayout
+
+@inject NavigationManager navigationManager
+@inject CodeListFacade codeListFacade
+@inject SubsystemFacade subsystemFacade
+
+@attribute [Authorize]
+
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
+    <MudCard Elevation="3">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">Subsystem insert</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudIconButton @onclick="BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" />
+                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" />
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+
+                <MudTabPanel Text="Subsystem details">
+                    <EditForm Model="@subsystem" OnValidSubmit="OnValidSubmit" id="formId">
+                        <DataAnnotationsValidator />
+                        <MudGrid Style="padding: 20px;">
+                            <MudItem xs="4">
+                                <MudField Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined">@subsystem.TypeOfSubsystem.Name</MudField>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudField Label="Druh subsystemu" Variant="Variant.Outlined">Mechanicky</MudField>
+                            </MudItem>
+                            <MudItem xs="4">
+                                <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@subsystem.Category.Label</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <hr />
+                            </MudItem>
+                            <MudItem xs="3">
+                                <MudField Label="PL result" ReadOnly="true" Variant="Variant.Outlined">@subsystem.PLresult</MudField>
+                            </MudItem>
+                            <MudItem xs="3">
+                                <MudField Label="CCF valid" ReadOnly="true" Variant="Variant.Outlined">@subsystem.ValidCCF</MudField>
+                            </MudItem>
+                            <MudItem xs="3">
+                                <MudField Label="MTTFd result" ReadOnly="true" Variant="Variant.Outlined">@subsystem.MttFdResult</MudField>
+                            </MudItem>
+                            <MudItem xs="3">
+                                <MudField Label="DC result" ReadOnly="true" Variant="Variant.Outlined">@subsystem.DCresult</MudField>
+                            </MudItem>
+                        </MudGrid>
+                    </EditForm>
+                </MudTabPanel>
+
+                <MudTabPanel Text="CCF">
+                    <MudGrid Style="padding: 20px;">
+                        <MudItem xs="12">
+                            <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" FixedHeader="true" Outlined="true">
+                                <ColGroup>
+                                    <col style="width:5%;" /> Checkbox
+                                    <col style="width:15%;" /> Type
+                                    <col style="width:65%;" /> Description
+                                    <col style="width:15%;" /> Points
+                                </ColGroup>
+                                <HeaderContent>
+                                    <MudTh>Type</MudTh>
+                                    <MudTh>Description</MudTh>
+                                    <MudTh>Points</MudTh>
+                                </HeaderContent>
+                                <RowTemplate Context="tableContext">
+                                    <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.Points</MudTd>
+                                </RowTemplate>
+                            </MudTable>
+                        </MudItem>
+                    </MudGrid>
+                </MudTabPanel>
+
+                <MudTabPanel Text="Elements">
+                    <MudGrid Style="padding: 20px;">
+                        @if (subsystem.Category.Channels == 1)
+                        {
+                            <MudItem xs="3" />
+                            <MudItem xs="6">
+                                <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                            </MudItem>
+                            <MudItem xs="3" />
+                        }
+                        else
+                        {
+                            <MudItem xs="12">
+                                <MudText Align="Align.Center">
+                                    <MudCheckBox @bind-Checked="equalElements" Color="Color.Primary" Style="padding: 0px;">Both elements are the same</MudCheckBox>
+                                </MudText>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
+                                <ElementPL Model="subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudTabPanel>
+
+            </MudTabs>
+            @if (showMessage)
+            {
+                <MudAlert Severity="@messageType" Style="margin-top: 20px;">@message</MudAlert>
+            }
+        </MudCardContent>
+    </MudCard>
+</MudContainer>
+
+<MudDialog @bind-IsVisible="dialogVisible">
+    <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h5">Select category</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudField Disabled="true" Label="Type of subsystem" Variant="Variant.Outlined">@subsystem.TypeOfSubsystem.Name</MudField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudField Label="Druh subsystemu" Variant="Variant.Outlined"></MudField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudSelect @bind-Value="subsystem.Category" T="CategoryModel" Label="Category *" Variant="Variant.Outlined">
+                    @foreach (var item in categories)
+                    {
+                        <MudSelectItem T="CategoryModel" Value="@(item)">@item.Label</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Continue</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [Parameter]
+    public string TypeOfSubsystem { get; set; }
+
+    [Parameter]
+    public int SafetyFunctionId { get; set; }
+
+    [Parameter]
+    public int AccessPointId { get; set; }
+
+    [Parameter]
+    public int MachineId { get; set; }
+
+    private SubsystemDetailModelPL subsystem = new SubsystemDetailModelPL();
+
+    private ICollection<CategoryModel> categories = new List<CategoryModel>();
+    private ICollection<ProducerModel> producers = new List<ProducerModel>();
+    private ICollection<DCModel> DCs = new List<DCModel>();
+    private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
+    private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
+    private ICollection<CCFModel> CCFs = new List<CCFModel>();
+
+    private bool dialogVisible = false;
+    private bool onlyForReading = true;
+    private bool showMessage = false;
+    private string message = string.Empty;
+    private Severity messageType = Severity.Success;
+    private bool equalElements = false;
+
+    private readonly string successMessage = "Safety function was saved successfully :)";
+    private readonly string errorMessage = "Saving failed :(";
+
+    private void OpenDialog() => dialogVisible = true;
+
+    void Submit()
+    {
+        dialogVisible = false;
+        subsystem.Elements = new List<ElementDetailModelPL>();
+        if (subsystem.Category.Channels == 1)
+        {
+            subsystem.Elements.Add(new ElementDetailModelPL());
+        }
+        else
+        {
+            subsystem.Elements.Add(new ElementDetailModelPL());
+            subsystem.Elements.Add(new ElementDetailModelPL());
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        typeOfSubsystems = await codeListFacade.GetAllTypeOfSubsystemsAsync();
+        categories = await codeListFacade.GetAllCategoriesAsync();
+        producers = await codeListFacade.GetAllProducersAsync();
+        MTTFds = await codeListFacade.GetAllMTTFdsAsync();
+        DCs = await codeListFacade.GetAllDCsAsync();
+        CCFs = await codeListFacade.GetAllCCFsAsync();
+
+        subsystem.Category = categories.FirstOrDefault(c => c.Channels == 2);
+        subsystem.TypeOfSubsystem = (TypeOfSubsystem.ToLower()) switch
+        {
+            "input" => typeOfSubsystems.FirstOrDefault(t => t.Id == 1),
+            "output" => typeOfSubsystems.FirstOrDefault(t => t.Id == 2),
+            "communication" => typeOfSubsystems.FirstOrDefault(t => t.Id == 4),
+            _ => typeOfSubsystems.FirstOrDefault(t => t.Id == 3)
+        };
+
+        StateHasChanged();
+        OpenDialog();
+    }
+
+    private void Edit()
+    {
+        onlyForReading = false;
+        showMessage = false;
+    }
+
+    private void BackToSafetyFunction()
+    {
+        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
+    }
+
+    // TODO
+    private async void OnValidSubmit()
+    {
+        if (equalElements)
+        {
+            subsystem.Elements.Remove(subsystem.Elements.ElementAt(1));
+            subsystem.Elements.Add(subsystem.Elements.ElementAt(0));
+        }
+        var result = await subsystemFacade.CreateAsync(subsystem);
+    }
+
+}

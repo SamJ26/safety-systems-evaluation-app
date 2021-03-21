@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SSEA.Api.Extensions;
 using SSEA.BL.Facades;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace SSEA.Api.Controllers
 {
+    [Authorize]
     [Route("api/safetyFunction")]
     [ApiController]
     public class SafetyFunctionController : ControllerBase
@@ -22,68 +25,72 @@ namespace SSEA.Api.Controllers
             this.safetyFunctionFacade = safetyFunctionFacade;
         }
 
-        // api/safetyFunction
+        // GET: api/safetyFunction
         [HttpGet]
         [SwaggerOperation(OperationId = "SafetyFunctionGetAll")]
-        public ActionResult<IEnumerable<SafetyFunctionListModel>> GetAll()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<SafetyFunctionListModel>>> GetAllAsync(int accessPointId = 0)
         {
-            return Ok();
+            ICollection<SafetyFunctionListModel> data;
+            if (accessPointId == 0)
+                data = await safetyFunctionFacade.GetAllAsync();
+            else
+                data = await safetyFunctionFacade.GetAllAsync(accessPointId);
+            return Ok(data);
         }
 
-        // api/safetyFunction/pl/{id}
+        // GET: api/safetyFunction/pl/{id}
         [HttpGet("pl/{id}")]
         [SwaggerOperation(OperationId = "SafetyFunctionGetByIdPL")]
-        public ActionResult<SafetyFunctionDetailModelPL> GetByIdPL(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<SafetyFunctionDetailModelPL>> GetByIdPLAsync(int id)
         {
-            return Ok();
+            var data = await safetyFunctionFacade.GetByIdPLAsync(id);
+            if (data == null)
+                return NotFound();
+            return Ok(data);
         }
 
-        // api/safetyFunction/sil/{id}
+        // GET: api/safetyFunction/sil/{id}
         [HttpGet("sil/{id}")]
         [SwaggerOperation(OperationId = "SafetyFunctionGetByIdSIL")]
-        public ActionResult<SafetyFunctionDetailModelSIL> GetByIdSIL(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<SafetyFunctionDetailModelSIL>> GetByIdSILAsync(int id)
         {
-            return Ok();
+            var data = await safetyFunctionFacade.GetByIdSILAsync(id);
+            if (data == null)
+                return NotFound();
+            return Ok(data);
         }
 
-        // api/safetyFunction/pl
+        // POST: api/safetyFunction/pl
         [HttpPost("pl")]
         [SwaggerOperation(OperationId = "SafetyFunctionCreatePL")]
-        public ActionResult<int> Create(SafetyFunctionDetailModelPL newModel)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelPL newModel)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await safetyFunctionFacade.CreateAsync(newModel, userId);
+            return Ok(id);
         }
 
-        // api/safetyFunction/sil
+        // POST: api/safetyFunction/sil
         [HttpPost("sil")]
         [SwaggerOperation(OperationId = "SafetyFunctionCreateSIL")]
-        public ActionResult<int> Create(SafetyFunctionDetailModelSIL newModel)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelSIL newModel)
         {
-            return Ok();
-        }
-
-        // api/safetyFunction/pl
-        [HttpPut("pl")]
-        [SwaggerOperation(OperationId = "SafetyFunctionUpdatePL")]
-        public ActionResult<int> Update(SafetyFunctionDetailModelPL updatedModel)
-        {
-            return Ok();
-        }
-
-        // api/safetyFunction/sil
-        [HttpPut("sil")]
-        [SwaggerOperation(OperationId = "SafetyFunctionUpdateSIL")]
-        public ActionResult<int> Update(SafetyFunctionDetailModelSIL updatedModel)
-        {
-            return Ok();
-        }
-
-        // api/safetyFunction/{id}
-        [HttpDelete("{id}")]
-        [SwaggerOperation(OperationId = "SafetyFunctionDelete")]
-        public ActionResult Delete(int id)
-        {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await safetyFunctionFacade.CreateAsync(newModel, userId);
+            return Ok(id);
         }
     }
 }

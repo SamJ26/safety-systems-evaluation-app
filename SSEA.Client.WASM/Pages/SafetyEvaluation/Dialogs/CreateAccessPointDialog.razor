@@ -6,10 +6,10 @@
     <DialogContent>
         <MudGrid>
             <MudItem xs="12">
-                <MudTextField @bind-Value="Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+                <MudTextField @bind-Value="AccessPoint.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
             </MudItem>
             <MudItem xs="12">
-                <MudTextField @bind-Value="Description" Label="Description" Variant="Variant.Outlined" Lines="3"></MudTextField>
+                <MudTextField @bind-Value="AccessPoint.Description" Label="Description" Variant="Variant.Outlined" Lines="3"></MudTextField>
             </MudItem>
             <MudItem xs="6">
                 <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
@@ -23,12 +23,12 @@
 
 @code {
 
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public AccessPointListModel AccessPoint { get; set; } = new AccessPointListModel();
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
-
-    public string Name { get; set; }
-    public string Description { get; set; }
-
 }

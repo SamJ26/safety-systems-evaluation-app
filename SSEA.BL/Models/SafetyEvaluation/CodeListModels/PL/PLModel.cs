@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
     {
         public PLModelMapperProfile()
         {
-            CreateMap<PerformanceLevel, PLModel>().ReverseMap();
+            CreateMap<PerformanceLevel, PLModel>().MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                  .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
+                                                  .ReverseMap();
         }
     }
 }

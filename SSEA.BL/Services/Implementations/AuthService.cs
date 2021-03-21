@@ -16,8 +16,8 @@ namespace SSEA.BL.Services.Implementations
 {
     public class AuthService : IAuthService
     {
-        private UserManager<User> userManager;
-        private IConfiguration configuration;
+        private readonly UserManager<User> userManager;
+        private readonly IConfiguration configuration;
 
         public AuthService(UserManager<User> userManager, IConfiguration configuration)
         {
@@ -45,11 +45,13 @@ namespace SSEA.BL.Services.Implementations
                 LastName = model.LastName,
                 Email = model.Email,
                 UserName = model.Email,
+                CurrentStateId = 1,
             };
 
             var result = await userManager.CreateAsync(newUser, model.Password);
             if (result.Succeeded)
             {
+                await userManager.AddToRoleAsync(newUser, "Observer");
                 return new AuthResponseModel()
                 {
                     Message = "User created susuccessfully!",
@@ -59,7 +61,7 @@ namespace SSEA.BL.Services.Implementations
 
             return new AuthResponseModel()
             {
-                Message = "User did not create",
+                Message = "Failed to create a new user",
                 IsSuccess = false,
                 Errors = result.Errors.Select(error => error.Description),
             };
@@ -90,30 +92,37 @@ namespace SSEA.BL.Services.Implementations
                 };
             }
 
-            var claims = new Claim[]
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:SecurityKey"]));
+            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var claimsArray = new Claim[]
             {
-                new Claim("Email", model.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("Email", model.Email),
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthSettings:Key"]));
+            var claims = new List<Claim>();
+            claims.AddRange(claimsArray);
+            var roles = await userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
-            var token = new JwtSecurityToken(issuer: configuration["AuthSettings:Issuer"],
-                                             audience: configuration["AuthSettings:Audience"],
-                                             claims: claims,
-                                             expires: DateTime.Now.AddHours(1),
-                                             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+            var tokenOptions = new JwtSecurityToken(issuer: configuration["JWTSettings:ValidIssuer"],
+                                                    audience: configuration["JWTSettings:ValidAudience"],
+                                                    claims: claims,
+                                                    expires: DateTime.Now.AddMinutes(Convert.ToDouble(configuration["JWTSettings:ExpiryInMinutes"])),
+                                                    signingCredentials: signingCredentials);
 
-            string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
             
             return new AuthResponseModel()
             {
-                Message = tokenAsString,
+                Token = token,
+                Message = "Everything is ok",
                 IsSuccess = true,
-                ExpireDate = token.ValidTo,
-                UserInfo = claims.ToDictionary(c => c.Type, c => c.Value),
             };
         }
     }

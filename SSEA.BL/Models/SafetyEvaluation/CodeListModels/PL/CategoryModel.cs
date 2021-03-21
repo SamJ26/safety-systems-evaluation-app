@@ -20,7 +20,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
         public bool RelevantCCF { get; set; }
         public MTTFdModel MinMTTFd { get; set; }
         public MTTFdModel MaxMTTFd { get; set; }
-        public DCModel MinD { get; set; }
+        public DCModel MinDC { get; set; }
         public DCModel MaxDC { get; set; }
     }
 
@@ -37,6 +37,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
                                                 .IgnoreSource(src => src.MaxDCId)
                                                 .MapMember(dest => dest.Description, src => src.DescriptionCZ)
                                                 .MapMember(dest => dest.Requirements, src => src.RequirementsCZ)
+                                                .MapMember(dest => dest.FailureBehavior, src => src.FailureBehaviorCZ)
+                                                .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                 .ReverseMap();
         }
     }

@@ -55,7 +55,7 @@ namespace SSEA.BL.Facades
                 "Pr" => await GetAllPrModels(),
                 "Se" => await GetAllSeModels(),
                 "SFF" => await GetAllSFFModels(),
-                "Producer" => await GetAllProducers(),
+                "Producer" => await GetAllProducerModels(),
                 _ => null,
             };
         }
@@ -206,7 +206,7 @@ namespace SSEA.BL.Facades
             return mapper.Map<ICollection<SFFModel>>(data);
         }
 
-        private async Task<ICollection<ProducerModel>> GetAllProducers()
+        private async Task<ICollection<ProducerModel>> GetAllProducerModels()
         {
             var data = await dbContext.Producers.AsNoTracking().ToListAsync();
             return mapper.Map<ICollection<ProducerModel>>(data);

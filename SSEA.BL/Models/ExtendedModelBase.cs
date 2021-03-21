@@ -6,10 +6,10 @@ namespace SSEA.BL.Models
 {
     public abstract class ExtendedModelBase : ModelBase
     {
-        public int Id_created { get; set; }
-        public DateTime DT_created { get; set; }
-        public int? Id_updated { get; set; }
-        public DateTime? DT_updated { get; set; }
+        public int IdCreated { get; set; }
+        public string DateTimeCreated { get; set; }
+        public int? IdUpdated { get; set; }
+        public string DateTimeUpdated { get; set; }
         public StateModel CurrentState { get; set; }
     }
 }
