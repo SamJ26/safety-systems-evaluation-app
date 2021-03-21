@@ -29,7 +29,7 @@ namespace SSEA.BL.Facades
 
         // TODO: add GetAll method with filter
 
-        public Task<int> CreateAsync(AccessPointDetailModel newModel)
+        public Task<int> CreateAsync(AccessPointDetailModel newModel, int userId)
         {
             throw new NotImplementedException();
         }

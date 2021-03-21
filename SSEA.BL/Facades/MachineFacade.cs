@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
 {
-    public class MachineFacade : IFacade<MachineDetailModel, MachineListModel, Machine>
+    public class MachineFacade
     {
         private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
@@ -34,7 +34,7 @@ namespace SSEA.BL.Facades
 
         // TODO: add GetAll method with filter
 
-        public async Task<int> CreateAsync(MachineDetailModel newModel)
+        public async Task<int> CreateAsync(MachineDetailModel newModel, int userId)
         {
             // Getting initial state for machines and acess points from DB with EntityState.Unchanged
             State machineInitialState = await dbContext.States.SingleOrDefaultAsync(state => state.Id == machineNewStateId);
@@ -56,7 +56,7 @@ namespace SSEA.BL.Facades
 
             // Saving new machine entity without collection of selected norms
             await dbContext.Machines.AddAsync(machineEntity);
-            await dbContext.SaveChangesAsync();
+            await dbContext.CommitChangesAsync(userId);
 
             // Assigning auto-generated id to MachineNormModels 
             foreach (var item in newModel.MachineNorms)
@@ -69,17 +69,17 @@ namespace SSEA.BL.Facades
 
             // Saving MachineNorm entities
             dbContext.MachineNorms.AddRange(machineNormEntities);
-            await dbContext.SaveChangesAsync();
+            await dbContext.CommitChangesAsync(userId);
 
             return machineEntity.Id;
         }
 
-        public async Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int machineId, int userId)
         {
             // Getting removed state for machines from DB with EntityState.Unchanged
             State removedState = await dbContext.States.SingleOrDefaultAsync(state => state.Id == machineRemovedStateId);
 
-            var machineEntity = await GetMachineAsync(id);
+            var machineEntity = await GetMachineAsync(machineId);
             if (machineEntity == null)
                 return 0;
 
@@ -87,7 +87,7 @@ namespace SSEA.BL.Facades
             machineEntity.CurrentState = removedState;
             dbContext.Entry(machineEntity).State = EntityState.Modified;
 
-            await dbContext.SaveChangesAsync();
+            await dbContext.CommitChangesAsync(userId);
             return machineEntity.Id;
         }
 
@@ -108,7 +108,7 @@ namespace SSEA.BL.Facades
             return mapper.Map<MachineDetailModel>(machineEntity);
         }
 
-        public async Task<int> UpdateAsync(MachineDetailModel updatedModel)
+        public async Task<int> UpdateAsync(MachineDetailModel updatedModel, int userId)
         {
             // TODO: do something with state of record
 
@@ -121,7 +121,7 @@ namespace SSEA.BL.Facades
                 dbContext.Attach(machineEntity.TypeOfLogic).State = EntityState.Unchanged;
 
             dbContext.Entry(machineEntity).State = EntityState.Modified;
-            await dbContext.SaveChangesAsync();
+            await dbContext.CommitChangesAsync(userId);
             return machineEntity.Id;
         }
 

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SSEA.Api.Extensions;
 using SSEA.BL.Facades;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace SSEA.Api.Controllers
 {
+    [Authorize]
     [Route("api/safetyFunction")]
     [ApiController]
     public class SafetyFunctionController : ControllerBase
@@ -71,7 +74,8 @@ namespace SSEA.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var id = await safetyFunctionFacade.CreateAsync(newModel);
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await safetyFunctionFacade.CreateAsync(newModel, userId);
             return Ok(id);
         }
 
@@ -84,7 +88,8 @@ namespace SSEA.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var id = await safetyFunctionFacade.CreateAsync(newModel);
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await safetyFunctionFacade.CreateAsync(newModel, userId);
             return Ok(id);
         }
     }

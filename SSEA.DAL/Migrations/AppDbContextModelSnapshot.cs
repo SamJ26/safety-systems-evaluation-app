@@ -50,6 +50,32 @@ namespace SSEA.DAL.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("SY_Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "ed83ad5d-5901-447d-8874-79e80aef23bf",
+                            IsValid = true,
+                            Name = "Observer",
+                            NormalizedName = "OBSERVER"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "e263c121-d7e5-456f-90f6-6cf7dda6568f",
+                            IsValid = true,
+                            Name = "NormalUser",
+                            NormalizedName = "NORMALUSER"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "28620cea-9e24-4d4c-ba21-ed3cc50ceaf3",
+                            IsValid = true,
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.Auth.RoleClaim", b =>
@@ -89,8 +115,9 @@ namespace SSEA.DAL.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CurrentState_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("CurrentStateId")
+                        .HasColumnType("int")
+                        .HasColumnName("CurrentState_Id");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -145,7 +172,7 @@ namespace SSEA.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrentState_Id");
+                    b.HasIndex("CurrentStateId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -2902,7 +2929,7 @@ namespace SSEA.DAL.Migrations
                             Id = 8,
                             DescriptionCZ = "S nevyplnenými subsystémami",
                             DescriptionEN = "Subsystems are not filled",
-                            EntityId = 1,
+                            EntityId = 5,
                             FinalState = false,
                             InitialState = true,
                             NameCZ = "Nová",
@@ -2915,7 +2942,7 @@ namespace SSEA.DAL.Migrations
                             Id = 9,
                             DescriptionCZ = "Příprava subsystému",
                             DescriptionEN = "Preparing subsystems",
-                            EntityId = 1,
+                            EntityId = 5,
                             FinalState = false,
                             InitialState = false,
                             NameCZ = "Rozpracovaná",
@@ -2928,7 +2955,7 @@ namespace SSEA.DAL.Migrations
                             Id = 10,
                             DescriptionCZ = "Určená výsledná úroveň bezpečnosti",
                             DescriptionEN = "Determined final level of security",
-                            EntityId = 1,
+                            EntityId = 5,
                             FinalState = false,
                             InitialState = false,
                             NameCZ = "Dokončená",
@@ -2941,12 +2968,34 @@ namespace SSEA.DAL.Migrations
                             Id = 11,
                             DescriptionCZ = "Bezpečnostní funkce byla odstránena",
                             DescriptionEN = "Safety function was deleted",
-                            EntityId = 1,
+                            EntityId = 5,
                             FinalState = false,
                             InitialState = false,
                             NameCZ = "Odstránená",
                             NameEN = "Removed",
                             StateNumber = 4,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 12,
+                            EntityId = 7,
+                            FinalState = false,
+                            InitialState = true,
+                            NameCZ = "Aktivní",
+                            NameEN = "Active",
+                            StateNumber = 1,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 13,
+                            EntityId = 7,
+                            FinalState = false,
+                            InitialState = false,
+                            NameCZ = "Zablokovaný",
+                            NameEN = "Blocked",
+                            StateNumber = 2,
                             Valid = true
                         });
                 });
@@ -2995,7 +3044,9 @@ namespace SSEA.DAL.Migrations
                 {
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id");
+                        .HasForeignKey("CurrentStateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CurrentState");
                 });

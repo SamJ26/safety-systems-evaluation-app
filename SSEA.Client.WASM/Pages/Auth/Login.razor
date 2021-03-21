@@ -2,11 +2,6 @@
 
 @layout AuthLayout
 
-@inject NavigationManager navigationManager
-@inject IClientService clientService
-@inject ILocalStorageService storageService
-@inject AuthenticationStateProvider authStateProviderService
-
 <div style=" margin: auto; width: 450px; margin-top: 50px;">
     <EditForm Model="@loginUserModel" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
@@ -41,9 +36,14 @@
 
 @code {
 
+    [Inject]
+    protected NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    protected AuthenticationService authenticationService { get; set; }
+
     private MudButton LoginButton { get; set; }
     private MudButton RegisterButton { get; set; }
-
 
     private LoginUserModel loginUserModel = new LoginUserModel();
 
@@ -54,24 +54,9 @@
     private async void OnValidSubmit()
     {
         isBusy = true;
-        AuthResponseModel response = await clientService.LoginUserAsync(loginUserModel);
+        AuthResponseModel response = await authenticationService.LoginUserAsync(loginUserModel);
         if (response.IsSuccess)
         {
-            // This object will be stored in local storage
-            LocalUserInfo userInfo = new LocalUserInfo()
-            {
-                ID = Int32.Parse(response.UserInfo[System.Security.Claims.ClaimTypes.NameIdentifier]),
-                FirstName = response.UserInfo["FirstName"],
-                LastName = response.UserInfo["LastName"],
-                Email = response.UserInfo["Email"],
-                AccessToken = response.Message,
-
-            };
-            await storageService.SetItemAsync("UserInfo", userInfo);
-
-            // Notifying authorized pages, that authentication state changes
-            await authStateProviderService.GetAuthenticationStateAsync();
-
             navigationManager.NavigateTo("/");
         }
         else
@@ -81,8 +66,6 @@
         }
         isBusy = false;
         StateHasChanged();
-
-        Console.WriteLine("Breakpoint!");
     }
 
     private void GoToRegister()

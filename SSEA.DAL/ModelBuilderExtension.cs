@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities.Auth;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
-using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Entities.System;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SSEA.DAL
 {
@@ -14,7 +11,7 @@ namespace SSEA.DAL
     {
         public static void SeedData(this ModelBuilder modelBuilder)
         {
-            // TODO: validated data by competent person
+            // TODO: validate data by competent person
             // TODO: add DateTimeCreated, IdCreated properties
             // TODO: replace fake data in Category
 
@@ -734,6 +731,30 @@ namespace SSEA.DAL
 
             #region Data for system tables
 
+            modelBuilder.Entity<Role>().HasData(
+                new Role()
+                {
+                    Id = 1,
+                    IsValid = true,
+                    Name = "Observer",
+                    NormalizedName = "OBSERVER",
+                },
+                new Role()
+                {
+                    Id = 2,
+                    IsValid = true,
+                    Name = "NormalUser",
+                    NormalizedName = "NORMALUSER",
+                },
+                new Role()
+                {
+                    Id = 3,
+                    IsValid = true,
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR",
+                }
+            );
+
             modelBuilder.Entity<Entity>().HasData(
                 new Entity()
                 {
@@ -829,9 +850,9 @@ namespace SSEA.DAL
                     EntityId = 3,
                 },
 
-            #endregion
+                #endregion
 
-            #region States for access points
+                #region States for access points
 
                 new State()
                 {
@@ -888,7 +909,7 @@ namespace SSEA.DAL
                     Valid = true,
                     InitialState = true,
                     FinalState = false,
-                    EntityId = 1,
+                    EntityId = 5,
                 },
                 new State()
                 {
@@ -901,7 +922,7 @@ namespace SSEA.DAL
                     Valid = true,
                     InitialState = false,
                     FinalState = false,
-                    EntityId = 1,
+                    EntityId = 5,
                 },
                 new State()
                 {
@@ -914,7 +935,7 @@ namespace SSEA.DAL
                     Valid = true,
                     InitialState = false,
                     FinalState = false,
-                    EntityId = 1,
+                    EntityId = 5,
                 },
                 new State()
                 {
@@ -927,7 +948,38 @@ namespace SSEA.DAL
                     Valid = true,
                     InitialState = false,
                     FinalState = false,
-                    EntityId = 1,
+                    EntityId = 5,
+                },
+
+                #endregion
+
+                #region States for users
+
+                new State()
+                {
+                    Id = 12,
+                    NameCZ = "Aktivní",
+                    NameEN = "Active",
+                    DescriptionCZ = null,
+                    DescriptionEN = null,
+                    StateNumber = 1,
+                    Valid = true,
+                    InitialState = true,
+                    FinalState = false,
+                    EntityId = 7,
+                },
+                new State()
+                {
+                    Id = 13,
+                    NameCZ = "Zablokovaný",
+                    NameEN = "Blocked",
+                    DescriptionCZ = null,
+                    DescriptionEN = null,
+                    StateNumber = 2,
+                    Valid = true,
+                    InitialState = false,
+                    FinalState = false,
+                    EntityId = 7,
                 }
 
                 #endregion

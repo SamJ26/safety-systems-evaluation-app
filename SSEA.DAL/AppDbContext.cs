@@ -68,7 +68,7 @@ namespace SSEA.DAL
 
         #endregion
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> CommitChangesAsync(int userId = 0)
         {
             var entries = ChangeTracker.Entries()
                                        .Where(e => e.Entity is IExtendedEntityBase && (e.State == EntityState.Added || e.State == EntityState.Modified))
@@ -80,14 +80,16 @@ namespace SSEA.DAL
                 if (entry.State.Equals(EntityState.Modified))
                 {
                     entry.Property("DateTimeUpdate").CurrentValue = DateTime.Now;
+                    entry.Property("IdUpdated").CurrentValue = userId;
                 }
                 // New entity was added
                 else
                 {
                     entry.Property("DateTimeCreated").CurrentValue = DateTime.Now;
+                    entry.Property("IdCreated").CurrentValue = userId;
                 }
             }
-            return base.SaveChangesAsync(cancellationToken);
+            return await SaveChangesAsync();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -100,12 +102,6 @@ namespace SSEA.DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            // User can have many UserClaims
-            // User can have many UserLogins
-            // User can have many UserTokens
-            // Role can have many RoleClaims
-            // User can have many Roles, one Role can be associated with many Users (UserRole = join table)
 
             builder.Entity<UserClaim>().ToTable("SY_UserClaim");
             builder.Entity<UserRole>().ToTable("SY_UserRole");

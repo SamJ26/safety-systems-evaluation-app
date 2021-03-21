@@ -2,10 +2,6 @@
 
 @layout AuthLayout
 
-@inject NavigationManager navigationManager
-@inject IClientService clientService
-@inject ILocalStorageService storageService
-
 <div style=" margin: auto; width: 450px; margin-top: 50px;">
     <EditForm Model="@registerUserModel" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
@@ -22,13 +18,9 @@
                 <MudTextField Label="Email" Class="mt-3" @bind-Value="registerUserModel.Email" For="@(() => registerUserModel.Email)" />
                 <MudTextField Label="Password" Class="mt-3" @bind-Value="registerUserModel.Password" For="@(() => registerUserModel.Password)" InputType="InputType.Password" />
                 <MudTextField Label="Confirm password" Class="mt-3" @bind-Value="registerUserModel.ConfirmPassword" For="@(() => registerUserModel.ConfirmPassword)" InputType="InputType.Password" />
-                @if (showErrorMessage == true)
+                @if (showMessage == true)
                 {
-                    <MudAlert Severity="Severity.Error" Style="margin-top: 20px;">@message</MudAlert>
-                }
-                else if(showSuccessMessage)
-                {
-                    <MudAlert Severity="Severity.Success" Style="margin-top: 20px;">@message</MudAlert>
+                    <MudAlert Severity="@messageType" Style="margin-top: 20px;">@message</MudAlert>
                 }
             </MudCardContent>
             <MudCardActions>
@@ -47,31 +39,36 @@
 
 @code {
 
+    [Inject]
+    protected NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    protected AuthenticationService authenticationService { get; set; }
+
     private RegisterUserModel registerUserModel = new RegisterUserModel();
 
     private bool isBusy = false;
-    private bool showErrorMessage = false;
-    private bool showSuccessMessage = false;
+    private bool showMessage = false;
     private string message = string.Empty;
+    private Severity messageType = Severity.Success;
 
     private async void OnValidSubmit()
     {
         isBusy = true;
-        AuthResponseModel response = await clientService.RegisterUserAsync(registerUserModel);
+        AuthResponseModel response = await authenticationService.RegisterUserAsync(registerUserModel);
         if (response.IsSuccess)
         {
             message = response.Message;
-            showSuccessMessage = true;
+            messageType = Severity.Success;
         }
         else
         {
             message = response.Errors != null ? response.Errors.FirstOrDefault() : response.Message;
-            showErrorMessage = true;
+            messageType = Severity.Error;
         }
+        showMessage = true;
         isBusy = false;
         StateHasChanged();
-
-        Console.WriteLine("Breakpoint!");
     }
 
     private void GoToLogin()

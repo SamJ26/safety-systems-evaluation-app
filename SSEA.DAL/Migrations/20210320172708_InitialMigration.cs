@@ -869,7 +869,7 @@ namespace SSEA.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CurrentState_Id = table.Column<int>(type: "int", nullable: true),
+                    CurrentState_Id = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
@@ -893,7 +893,7 @@ namespace SSEA.DAL.Migrations
                         column: x => x.CurrentState_Id,
                         principalTable: "SY_State",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1264,8 +1264,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nemožné", null, 0, null, true, (short)5 },
                     { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pradvěpodobné", null, 0, null, true, (short)1 },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nemožné", null, 0, null, true, (short)5 },
                     { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možné za určitých podmínek", null, 0, null, true, (short)3 }
                 });
 
@@ -1274,11 +1274,11 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "ForPL", "IdCreated", "IdUpdated", "IsValid", "Points", "TypeCZ", "TypeEN" },
                 values: new object[,]
                 {
-                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?", null, true, 0, null, true, 5L, "Posouzení/analýza", null },
                     { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Fyzické oddělení medzi jednotlivými dráhami signálu", null, true, 0, null, true, 15L, "Oddělení/segregace", null },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou použity osvědčené součásti", null, true, 0, null, true, 5L, "Konstrukce/použití/zkušenosti", null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy", null, true, 0, null, true, 20L, "Diverzita", null },
                     { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Ochrana proti přepětí, přetlaku, nadproudu, atd.", null, true, 0, null, true, 15L, "Konstrukce/použití/zkušenosti", null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy", null, true, 0, null, true, 20L, "Diverzita", null }
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou použity osvědčené součásti", null, true, 0, null, true, 5L, "Konstrukce/použití/zkušenosti", null },
+                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?", null, true, 0, null, true, 5L, "Posouzení/analýza", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1286,10 +1286,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "Beta", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "MaxCCF", "MinCCF" },
                 values: new object[,]
                 {
+                    { 2, 0.050000000000000003, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)65, (short)35 },
                     { 4, 0.01, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)85 },
-                    { 3, 0.02, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)85, (short)65 },
                     { 1, 0.10000000000000001, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)35, (short)0 },
-                    { 2, 0.050000000000000003, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)65, (short)35 }
+                    { 3, 0.02, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)85, (short)65 }
                 });
 
             migrationBuilder.InsertData(
@@ -1297,10 +1297,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
                 values: new object[,]
                 {
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)99, "Vysoké", null },
                     { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)99, (short)90, "Střední", null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)90, (short)60, "Nízké", null },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)60, (short)0, "Žádné", null }
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)99, "Vysoké", null },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)60, (short)0, "Žádné", null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)90, (short)60, "Nízké", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1308,8 +1308,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN", "Shortcut" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Úroveň vlastností", "Performance Level", "PL" },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Úroveň integrity bezpečnosti", "Safety Integrity Level", "SIL" }
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Úroveň integrity bezpečnosti", "Safety Integrity Level", "SIL" },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Úroveň vlastností", "Performance Level", "PL" }
                 });
 
             migrationBuilder.InsertData(
@@ -1326,11 +1326,11 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "FrequencyOfThreatCZ", "FrequencyOfThreatEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1h až <= 1 den", null, 0, null, true, (short)5 },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "<= 1h", null, 0, null, true, (short)5 },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 2 týdny až <= 1 rok", null, 0, null, true, (short)3 },
                     { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1 rok", null, 0, null, true, (short)2 },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1 den až <= 2 týdny", null, 0, null, true, (short)4 }
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 2 týdny až <= 1 rok", null, 0, null, true, (short)3 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1 den až <= 2 týdny", null, 0, null, true, (short)4 },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1h až <= 1 den", null, 0, null, true, (short)5 },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "<= 1h", null, 0, null, true, (short)5 }
                 });
 
             migrationBuilder.InsertData(
@@ -1338,9 +1338,9 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)10, (short)3, "Krátká", null },
                     { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)30, (short)10, "Střední", null },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)30, "Dlouhá", null }
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)30, "Dlouhá", null },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)10, (short)3, "Krátká", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1349,8 +1349,8 @@ namespace SSEA.DAL.Migrations
                 values: new object[,]
                 {
                     { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Montážní linka", null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Víceúčelový stroj", null },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Jednoúčelový stroj", null }
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Jednoúčelový stroj", null },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Víceúčelový stroj", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1387,8 +1387,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Label" },
                 values: new object[,]
                 {
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "d" },
                     { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "e" },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "b" },
                     { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "c" }
                 });
 
@@ -1397,7 +1397,7 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Label" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "b" },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "d" },
                     { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "a" }
                 });
 
@@ -1406,11 +1406,11 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pravděpodobná", null, 0, null, true, (short)4 },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Velmi vysoká", null, 0, null, true, (short)5 },
                     { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Zanedbatelná", null, 0, null, true, (short)1 },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Výjimečná", null, 0, null, true, (short)2 },
                     { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možná", null, 0, null, true, (short)3 },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Velmi vysoká", null, 0, null, true, (short)5 }
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Výjimečná", null, 0, null, true, (short)2 },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pravděpodobná", null, 0, null, true, (short)4 }
                 });
 
             migrationBuilder.InsertData(
@@ -1418,9 +1418,9 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "CountryOfOrigin", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Germany", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Siemens" },
+                    { 3, "USA", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Allen Bradley" },
                     { 2, "Slovakia", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Sipron" },
-                    { 3, "USA", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Allen Bradley" }
+                    { 1, "Germany", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Siemens" }
                 });
 
             migrationBuilder.InsertData(
@@ -1428,8 +1428,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Lehké", null, 0, null, true, "S1" },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Závažné", null, 0, null, true, "S2" }
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Závažné", null, 0, null, true, "S2" },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Lehké", null, 0, null, true, "S1" }
                 });
 
             migrationBuilder.InsertData(
@@ -1447,13 +1447,23 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 7, "User" },
-                    { 5, "SafetyFunction" },
-                    { 4, "Producer" },
-                    { 3, "Machine" },
                     { 2, "Element" },
+                    { 3, "Machine" },
+                    { 4, "Producer" },
+                    { 5, "SafetyFunction" },
                     { 1, "AccessPoint" },
+                    { 7, "User" },
                     { 6, "Subsystem" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SY_Role",
+                columns: new[] { "Id", "ConcurrencyStamp", "IsValid", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { 3, "28620cea-9e24-4d4c-ba21-ed3cc50ceaf3", true, "Administrator", "ADMINISTRATOR" },
+                    { 2, "e263c121-d7e5-456f-90f6-6cf7dda6568f", true, "NormalUser", "NORMALUSER" },
+                    { 1, "ed83ad5d-5901-447d-8874-79e80aef23bf", true, "Observer", "OBSERVER" }
                 });
 
             migrationBuilder.InsertData(
@@ -1461,10 +1471,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Přechodné: vyžadující ošetření na první pomoci", null, 0, null, true, (short)1 },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Přechodné: vyžadující ošetření praktickým lékařem", null, 0, null, true, (short)2 },
                     { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Trvalé: smrt, ztráta oka nebo paže", null, 0, null, true, (short)4 },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Trvalé: zlomená končetina, ztráta prstu", null, 0, null, true, (short)3 }
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Trvalé: zlomená končetina, ztráta prstu", null, 0, null, true, (short)3 },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Přechodné: vyžadující ošetření praktickým lékařem", null, 0, null, true, (short)2 },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Přechodné: vyžadující ošetření na první pomoci", null, 0, null, true, (short)1 }
                 });
 
             migrationBuilder.InsertData(
@@ -1472,9 +1482,9 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce bezpečného zastavení iniciována bezpečnostním zařízením", null },
                     { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce místního ovládaní", null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce ručního opětného nastavení", null }
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce ručního opětného nastavení", null },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce bezpečného zastavení iniciována bezpečnostním zařízením", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1516,13 +1526,19 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "Entity_Id", "FinalState", "InitialState", "NameCZ", "NameEN", "StateNumber", "Valid" },
                 values: new object[,]
                 {
-                    { 5, "Bez bezpečnostní funkce", "Without safety function", 1, false, true, "Nový", "New", 1, true },
+                    { 11, "Bezpečnostní funkce byla odstránena", "Safety function was deleted", 5, false, false, "Odstránená", "Removed", 4, true },
+                    { 10, "Určená výsledná úroveň bezpečnosti", "Determined final level of security", 5, false, false, "Dokončená", "Completed", 3, true },
+                    { 9, "Příprava subsystému", "Preparing subsystems", 5, false, false, "Rozpracovaná", "Work in progress", 2, true },
+                    { 8, "S nevyplnenými subsystémami", "Subsystems are not filled", 5, false, true, "Nová", "New", 1, true },
+                    { 4, "Mašina byla odstránená", "Machine was deleted", 3, true, false, "Odstránená", "Removed", 4, true },
                     { 6, "Přístupový bod má jednu nebo více bezpečnostních funkcí", "Access point has one or more safety functions", 1, false, false, "Ošetřený bezpečnostní funkcí", "Protected with safety function", 2, true },
-                    { 7, "Přístupový bod byl odstránený", "Access point was deleted", 1, true, false, "Odstránený", "Removed", 3, true },
-                    { 1, "Řídící jednotka není vybrána", "Conrol logic is not selected", 3, false, true, "Nová", "New", 1, true },
                     { 2, "Pracuje se na detailech", "Working on details", 3, false, false, "Rozpracovaná", "Work in progres", 2, true },
+                    { 1, "Řídící jednotka není vybrána", "Conrol logic is not selected", 3, false, true, "Nová", "New", 1, true },
+                    { 7, "Přístupový bod byl odstránený", "Access point was deleted", 1, true, false, "Odstránený", "Removed", 3, true },
+                    { 12, null, null, 7, false, true, "Aktivní", "Active", 1, true },
+                    { 5, "Bez bezpečnostní funkce", "Without safety function", 1, false, true, "Nový", "New", 1, true },
                     { 3, "Řídící jednotka byla vybrána", "Control logic was selected", 3, false, false, "Dokončená", "Completed", 3, true },
-                    { 4, "Mašina byla odstránená", "Machine was deleted", 3, true, false, "Odstránená", "Removed", 4, true }
+                    { 13, null, null, 7, false, false, "Zablokovaný", "Blocked", 2, true }
                 });
 
             migrationBuilder.InsertData(

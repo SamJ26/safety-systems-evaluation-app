@@ -91,7 +91,7 @@ namespace SSEA.BL.Facades
             return mapper.Map<SafetyFunctionDetailModelSIL>(safetyFunction);
         }
 
-        public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel)
+        public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel, int userId)
         {
             newModel.SafetyFunctionSubsystems?.Clear();
 
@@ -116,12 +116,12 @@ namespace SSEA.BL.Facades
             dbContext.Attach(entity.PLr).State = EntityState.Unchanged;
 
             await dbContext.SafetyFunctions.AddAsync(entity);
-            await dbContext.SaveChangesAsync();
+            await dbContext.CommitChangesAsync(userId);
             return entity.Id;
         }
 
         // TODO: incomplete implementation
-        public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
+        public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel, int userId)
         {
             newModel.SafetyFunctionSubsystems?.Clear();
 
@@ -145,7 +145,7 @@ namespace SSEA.BL.Facades
             dbContext.Attach(entity.SILCL).State = EntityState.Unchanged;
 
             await dbContext.SafetyFunctions.AddAsync(entity);
-            await dbContext.SaveChangesAsync();
+            await dbContext.CommitChangesAsync(userId);
             return entity.Id;
         }
 

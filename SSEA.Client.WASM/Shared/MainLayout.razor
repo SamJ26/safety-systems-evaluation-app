@@ -1,8 +1,5 @@
 ﻿@inherits LayoutComponentBase
 
-@inject AuthenticationStateProvider authenticationStateProvider
-@inject NavigationManager navigationManager
-
 <MudThemeProvider />
 <MudDialogProvider DisableBackdropClick="true"/>
 
@@ -11,6 +8,8 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudText Typo="Typo.h5" Class="ml-3">Application</MudText>
         <MudAppBarSpacer />
+        <MudText Typo="Typo.h6" Style="margin-right: 10px;">@userName</MudText>
+        <MudDivider Vertical="true" FlexItem="true" Style="margin: 15px;"/>
         <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" Edge="Edge.End" OnClick="@Logout" />
     </MudAppBar>
     <MudDrawer @bind-Open="drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
@@ -23,7 +22,17 @@
 
 @code {
 
+    [Inject]
+    protected AuthenticationService authenticationService { get; set; }
+
+    [Inject]
+    protected NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    protected AuthenticationStateProvider authStateProvider { get; set; }
+
     private bool drawerOpen = true;
+    private string userName = string.Empty;
 
     private void DrawerToggle()
     {
@@ -32,9 +41,17 @@
 
     private async void Logout()
     {
-        var authStateProviderService = (AuthStateProviderService)authenticationStateProvider;
-        await authStateProviderService.LogoutAsync();
+        await authenticationService.LogoutUserAsync();
         navigationManager.NavigateTo("/auth/login");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authStateProvider.GetAuthenticationStateAsync();
+        var claims = authState.User.Claims;
+        var firstName = claims.First(c => c.Type == "FirstName").Value;
+        var lastName = claims.First(c => c.Type == "LastName").Value;
+        userName = $"{firstName} {lastName}";
     }
 
 }

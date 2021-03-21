@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SSEA.Api.Extensions;
 using SSEA.BL.Facades;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
-using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SSEA.Api.Controllers
 {
+    [Authorize]
     [Route("api/subsystem")]
     [ApiController]
     public class SubsystemController : ControllerBase
@@ -86,7 +85,8 @@ namespace SSEA.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var id = await subsystemFacade.CreateAsync(model);
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await subsystemFacade.CreateAsync(model, userId);
             return Ok(id);
         }
 
@@ -99,7 +99,8 @@ namespace SSEA.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var id = await subsystemFacade.CreateAsync(model);
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await subsystemFacade.CreateAsync(model, userId);
             return Ok(id);
         }
     }
