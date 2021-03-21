@@ -3,11 +3,7 @@ using SSEA.DAL.Entities.Auth;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
-using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Entities.System;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SSEA.DAL
 {
@@ -15,7 +11,7 @@ namespace SSEA.DAL
     {
         public static void SeedData(this ModelBuilder modelBuilder)
         {
-            // TODO: validated data by competent person
+            // TODO: validate data by competent person
             // TODO: add DateTimeCreated, IdCreated properties
             // TODO: replace fake data in Category
 
