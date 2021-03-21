@@ -5,6 +5,7 @@ using SSEA.BL.Facades;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
+using SSEA.Api.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace SSEA.Api.Controllers
             this.machineFacade = machineFacade;
         }
 
-        // Route: api/machine
+        // GET: api/machine
         [HttpGet]
         [SwaggerOperation(OperationId = "MachineGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -34,7 +35,7 @@ namespace SSEA.Api.Controllers
             return Ok(data);
         }
 
-        // Route: api/machine/{id}
+        // GET: api/machine/{id}
         [HttpGet("{id}")]
         [SwaggerOperation(OperationId = "MachineGetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -47,13 +48,14 @@ namespace SSEA.Api.Controllers
             return Ok(data);
         }
 
-        // Route: api/machine
+        // POST: api/machine
         [HttpPost]
         [SwaggerOperation(OperationId = "MachineCreate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<int>> Create(MachineDetailModel newModel)
         {
+            var userId = this.GetUserIdFromHttpContext();
             if (!ModelState.IsValid)
                 return BadRequest();
             var id = await machineFacade.CreateAsync(newModel);
