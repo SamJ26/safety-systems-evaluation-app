@@ -20,6 +20,7 @@ using SSEA.BL.Facades;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.BL.Models;
 using SSEA.DAL.Entities.System;
+using SSEA.DAL.Repositories;
 
 namespace SSEA.Api
 {
@@ -77,6 +78,8 @@ namespace SSEA.Api
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPerformanceLevelService, PerformanceLevelService>();
+
+            services.AddScoped<MachineRepository>();
 
             services.AddScoped<MachineFacade>();
             services.AddScoped<AccessPointFacade>();

@@ -33,6 +33,7 @@ namespace SSEA.Client.WASM
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             builder.Services.AddScoped<IClientService, ClientService>();
             builder.Services.AddScoped<AuthenticationService>();
+
             builder.Services.AddScoped<CodeListFacade>();
             builder.Services.AddScoped<MachineFacade>();
             builder.Services.AddScoped<AccessPointFacade>();
