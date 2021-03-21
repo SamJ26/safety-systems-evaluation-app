@@ -91,7 +91,7 @@ namespace SSEA.BL.Tests
                     MachineType = machineTypes.ElementAt(0),
                     Producer = producers.ElementAt(0),
                 };
-                id = await machineFacade.CreateAsync(machine);
+                id = await machineFacade.CreateAsync(machine, 1);
                 Assert.True(id != 0);
             }
             using (dbContext = dbContextFactory.CreateDbContext())

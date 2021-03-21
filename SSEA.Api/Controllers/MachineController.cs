@@ -6,9 +6,7 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
 using SSEA.Api.Extensions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SSEA.Api.Controllers
@@ -50,20 +48,24 @@ namespace SSEA.Api.Controllers
 
         // POST: api/machine
         [HttpPost]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "NormalUser")]
         [SwaggerOperation(OperationId = "MachineCreate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<int>> Create(MachineDetailModel newModel)
         {
-            var userId = this.GetUserIdFromHttpContext();
             if (!ModelState.IsValid)
                 return BadRequest();
-            var id = await machineFacade.CreateAsync(newModel);
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await machineFacade.CreateAsync(newModel, userId);
             return Ok(id);
         }
 
-        // Route: api/machine
+        // PUT: api/machine
         [HttpPut]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "NormalUser")]
         [SwaggerOperation(OperationId = "MachineUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -71,18 +73,22 @@ namespace SSEA.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var id = await machineFacade.UpdateAsync(updatedModel);
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await machineFacade.UpdateAsync(updatedModel, userId);
             return Ok(id);
         }
 
-        // Route: api/machine/{id}
+        // DELETE: api/machine/{id}
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "NormalUser")]
         [SwaggerOperation(OperationId = "MachineDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Delete(int id)
         {
-            var foundId = await machineFacade.DeleteAsync(id);
+            var userId = this.GetUserIdFromHttpContext();
+            var foundId = await machineFacade.DeleteAsync(id, userId);
             if (foundId == 0)
                 return BadRequest();
             return Ok();
