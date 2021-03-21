@@ -34,6 +34,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                       .IgnoreSource(src => src.C)
                                                       .IgnoreSource(src => src.LambdaC)
                                                       .IgnoreSource(src => src.ElementSFFs)
+                                                      .IgnoreSource(src => src.CurrentStateId)
                                                       .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                       .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                       .ReverseMap();

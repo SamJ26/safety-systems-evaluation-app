@@ -13,7 +13,8 @@ namespace SSEA.DAL.Entities
         public int? IdUpdated { get; set; }
         public DateTime? DateTimeUpdated { get; set; }
 
-        [ForeignKey("CurrentState_Id")]
+        [Column("CurrentState_Id")]
+        public int CurrentStateId { get; set; }
         public State CurrentState { get; set; }
     }
 }

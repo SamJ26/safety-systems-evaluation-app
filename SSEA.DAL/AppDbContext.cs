@@ -184,13 +184,15 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasOne(m => m.CurrentState)
-                 .WithMany();
+                 .WithMany()
+                 .HasForeignKey(m => m.CurrentStateId);
             });
 
             builder.Entity<AccessPoint>(ap =>
             {
                 ap.HasOne(ap => ap.CurrentState)
-                  .WithMany();
+                  .WithMany()
+                  .HasForeignKey(ap => ap.CurrentStateId);
             });
 
             builder.Entity<SafetyFunction>(sf =>
@@ -260,7 +262,8 @@ namespace SSEA.DAL
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.CurrentState)
-                  .WithMany();
+                  .WithMany()
+                  .HasForeignKey(sf => sf.CurrentStateId);
             });
 
             builder.Entity<Subsystem>(s =>
@@ -311,7 +314,8 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.CurrentState)
-                 .WithMany();
+                 .WithMany()
+                 .HasForeignKey(s => s.CurrentStateId);
             });
 
             builder.Entity<Element>(e =>
@@ -332,7 +336,8 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(e => e.CurrentState)
-                 .WithMany();
+                 .WithMany()
+                 .HasForeignKey(e => e.CurrentStateId);
             });
 
             builder.Entity<SubsystemCCF>(sc =>

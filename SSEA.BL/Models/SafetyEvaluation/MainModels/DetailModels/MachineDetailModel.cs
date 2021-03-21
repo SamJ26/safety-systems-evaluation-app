@@ -51,6 +51,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                     .IgnoreSource(src => src.EvaluationMethodId)
                                                     .IgnoreSource(src => src.MachineTypeId)
                                                     .IgnoreSource(src => src.TypeOfLogicId)
+                                                    .IgnoreSource(src => src.CurrentStateId)
                                                     .Ignore(dest => dest.Norms)
                                                     .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                     .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
