@@ -40,7 +40,7 @@ namespace SSEA.DAL.Repositories
             return machine.Id;
         }
 
-        public async Task AddNormsToMachine(ICollection<Norm> norms, int machineId)
+        public async Task AddNormsToMachineAsync(ICollection<Norm> norms, int machineId)
         {
             foreach (var norm in norms)
             {
@@ -61,6 +61,7 @@ namespace SSEA.DAL.Repositories
                                            .Include(m => m.MachineType)
                                            .Include(m => m.Producer)
                                            .Include(m => m.TypeOfLogic)
+                                           .AsNoTracking()
                                            .ToListAsync();
         }
 
@@ -73,10 +74,11 @@ namespace SSEA.DAL.Repositories
                                            .Include(m => m.CurrentState)
                                            .Include(m => m.AccessPoints)
                                              .ThenInclude(ap => ap.CurrentState)
+                                           .AsNoTracking()
                                            .SingleOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task<ICollection<Norm>> GetNormsForMachine(int machineId)
+        public async Task<ICollection<Norm>> GetNormsForMachineAsync(int machineId)
         {
             int[] ids = await dbContext.MachineNorms.Where(mn => mn.MachineId == machineId)
                                                     .Select(mn => mn.NormId)
@@ -84,10 +86,11 @@ namespace SSEA.DAL.Repositories
 
             return await dbContext.Norms.AsNoTracking()
                                         .Where(n => ids.Contains(n.Id))
+                                        .AsNoTracking()
                                         .ToListAsync();
         }
 
-        public async Task RemoveNorm(int machineId, int normId)
+        public async Task RemoveNormAsync(int machineId, int normId)
         {
             var entity = await dbContext.MachineNorms.Where(mn => mn.MachineId == machineId && mn.NormId == normId).FirstOrDefaultAsync();
             dbContext.MachineNorms.Remove(entity);
@@ -102,7 +105,7 @@ namespace SSEA.DAL.Repositories
             dbContext.Attach(machine.CurrentState).State = EntityState.Unchanged;
             if (machine.TypeOfLogic != null)
                 dbContext.Attach(machine.TypeOfLogic).State = EntityState.Unchanged;
-            dbContext.Entry(machine).State = EntityState.Modified;
+            dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
             return machine.Id;
         }

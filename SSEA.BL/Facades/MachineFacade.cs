@@ -39,7 +39,7 @@ namespace SSEA.BL.Facades
 
             // Saving related norms
             ICollection<Norm> norms = mapper.Map<ICollection<Norm>>(newModel.Norms);
-            await repository.AddNormsToMachine(norms, id);
+            await repository.AddNormsToMachineAsync(norms, id);
         
             return id;
         }
@@ -53,22 +53,64 @@ namespace SSEA.BL.Facades
         public async Task<MachineDetailModel> GetByIdAsync(int id)
         {
             var machine = mapper.Map<MachineDetailModel>(await repository.GetByIdAsync(id));
-            machine.Norms = mapper.Map<HashSet<NormModel>>(await repository.GetNormsForMachine(id));
+            machine.Norms = mapper.Map<HashSet<NormModel>>(await repository.GetNormsForMachineAsync(id));
             return machine;
-        }
-
-        public async Task RemoveNorm(int machineId, int normId)
-        {
-            await repository.RemoveNorm(machineId, normId);
         }
 
         public async Task<int> UpdateAsync(MachineDetailModel updatedModel, int userId)
         {
-            // User is not able to update norms and access points from machine detail
-            updatedModel.Norms.Clear();
-            updatedModel.AccessPoints.Clear();
+            // Getting unchanged machine from database to compare with updated model
+            MachineDetailModel oldModel = await GetByIdAsync(updatedModel.Id);
 
+            #region Processing norms
+
+            ICollection<NormModel> addedNorms = new List<NormModel>();
+
+            // After this foreach, oldModel.Norms will contain norms which should be removed
+            foreach (var norm in updatedModel.Norms.ToList())
+            {
+                // Item was not removed / added
+                if (oldModel.Norms.Contains(norm))
+                    oldModel.Norms.Remove(norm);
+
+                // Item was added
+                else if (!oldModel.Norms.Contains(norm))
+                    addedNorms.Add(norm);
+            }
+
+            // Removing norms
+            foreach (var norm in oldModel.Norms)
+                await repository.RemoveNormAsync(updatedModel.Id, norm.Id);
+
+            // Adding new norms to machine
+            await repository.AddNormsToMachineAsync(mapper.Map<ICollection<Norm>>(addedNorms), updatedModel.Id);
+
+            // Norms are processed -> can be cleared
+            updatedModel.Norms.Clear();
+
+            #endregion
+
+            #region Processing access points
+
+            // After this foreach, oldModel.AccessPoints will contain access points which should be removed
+            foreach (var accessPoint in updatedModel.AccessPoints.ToList())
+            {
+                // Item was not removed / added
+                if (oldModel.AccessPoints.Contains(accessPoint))
+                    oldModel.AccessPoints.Remove(accessPoint);
+            }
+
+            // Removing norms
+            foreach (var accessPoint in oldModel.AccessPoints)
+            {
+                // TODO: remove access points using access point facade ??
+            }
+
+            #endregion
+
+            // Creating machine entity with machine properties and access point collection
             Machine machineEntity = mapper.Map<Machine>(updatedModel);
+
             return await repository.UpdateAsync(machineEntity, userId);
         }
 

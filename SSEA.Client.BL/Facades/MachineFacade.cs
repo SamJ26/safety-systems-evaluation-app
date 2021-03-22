@@ -41,12 +41,10 @@ namespace SSEA.Client.BL.Facades
             await clientService.MachineRemoveNormAsync(machineId, normId);
         }
 
-
         public async Task<int> UpdateAsync(MachineDetailModel updateModel)
         {
             Console.WriteLine("MachineFacade.UpdateAsync(MachineDetailModel updateModel)");
-            // return await clientService.MachineUpdateAsync(updateModel);
-            return 0;
+            return await clientService.MachineUpdateAsync(updateModel);
         }
 
         public async Task DeleteAsync(int id)
