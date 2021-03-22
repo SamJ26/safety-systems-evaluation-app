@@ -52,7 +52,11 @@ namespace SSEA.BL.Facades
 
         public async Task<MachineDetailModel> GetByIdAsync(int id)
         {
-            return mapper.Map<MachineDetailModel>(await repository.GetByIdAsync(id));
+            var machine = mapper.Map<MachineDetailModel>(await repository.GetByIdAsync(id));
+
+            // TODO: get norms related to machine
+
+            return machine;
         }
 
 

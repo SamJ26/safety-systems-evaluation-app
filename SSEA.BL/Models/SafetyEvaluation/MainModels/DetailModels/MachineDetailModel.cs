@@ -40,7 +40,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public TypeOfLogicModel TypeOfLogic { get; set; }
 
         public ICollection<AccessPointListModel> AccessPoints { get; set; }
-        public ICollection<NormModel> Norms { get; set; }
+        public HashSet<NormModel> Norms { get; set; }
     }
 
     public class MachineDetailModelMapperProfile : Profile

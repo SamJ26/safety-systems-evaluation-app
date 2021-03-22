@@ -2997,7 +2997,7 @@ namespace SSEA.Client.BL.Services
         public System.Collections.Generic.ICollection<AccessPointListModel> AccessPoints { get; set; }
 
         [Newtonsoft.Json.JsonProperty("norms", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<NormModel> Norms { get; set; }
+        public System.Collections.Generic.HashSet<NormModel> Norms { get; set; }
 
 
     }

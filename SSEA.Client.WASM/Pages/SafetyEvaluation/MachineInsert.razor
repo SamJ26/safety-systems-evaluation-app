@@ -142,7 +142,7 @@
                             <MudButton @onclick="OpenSelectNormsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable Items="@machine.MachineNorms" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable Items="@machine.Norms" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
                                     <col style="width:40%;" />
                                     <col style="width:20%;" />
@@ -158,10 +158,10 @@
                                     <MudTh>Actions</MudTh>
                                 </HeaderContent>
                                 <RowTemplate Context="tableContext">
-                                    <MudTd DataLabel="Name">@tableContext.Norm.Name</MudTd>
-                                    <MudTd DataLabel="Label">@tableContext.Norm.Label</MudTd>
-                                    <MudTd DataLabel="Category">@tableContext.Norm.NormCategory</MudTd>
-                                    <MudTd DataLabel="Up to date">@tableContext.Norm.IsValid</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.Name</MudTd>
+                                    <MudTd DataLabel="Label">@tableContext.Label</MudTd>
+                                    <MudTd DataLabel="Category">@tableContext.NormCategory</MudTd>
+                                    <MudTd DataLabel="Up to date">@tableContext.IsValid</MudTd>
                                     <MudTd DataLabel="Name">
                                         <MudIconButton @onclick="() => RemoveNorm(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
                                     </MudTd>
@@ -212,13 +212,12 @@
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
-    private ICollection<NormModel> norms = new List<NormModel>();
 
     protected override async Task OnInitializedAsync()
     {
         machine = new MachineDetailModel();
         machine.AccessPoints = new List<AccessPointListModel>();
-        machine.MachineNorms = new List<MachineNormModel>();
+        machine.Norms = new HashSet<NormModel>();
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
@@ -239,17 +238,12 @@
 
     private async void OpenSelectNormsDialog()
     {
-        norms = await codeListFacade.GetAllNormsAsync();
-        ICollection<MachineNormModel> selectedNorms = new List<MachineNormModel>();
-        var parameters = new DialogParameters() { ["Norms"] = norms, ["MachineId"] = machine.Id, ["SelectedNorms"] = selectedNorms };
+        var parameters = new DialogParameters() { ["SelectedNorms"] = machine.Norms };
         var dialog = dialogService.Show<SelectNormsDialog>("Select norms", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            foreach (var item in selectedNorms)
-            {
-                machine.MachineNorms.Add(item);
-            }
+            Console.WriteLine(machine.Norms.Count);
         }
         StateHasChanged();
     }
@@ -298,7 +292,7 @@
         machine.SecurityOfSafetyParts = false;
         machine.SafetyMasterInPlace = false;
         machine.AccessPoints.Clear();
-        machine.MachineNorms.Clear();
+        machine.Norms.Clear();
     }
 
     private void ClearAccessPoints()
@@ -321,7 +315,7 @@
         }
         else
         {
-            machine.MachineNorms.Clear();
+            machine.Norms.Clear();
         }
     }
 
@@ -340,7 +334,7 @@
         StateHasChanged();
     }
 
-    private void RemoveNorm(MachineNormModel norm)
+    private void RemoveNorm(NormModel norm)
     {
         // Mmachine is already in database -> removing item directly from DB
         if (saved)
@@ -350,7 +344,7 @@
         // Machine is not saved yet -> removing item from collection on frontend
         else
         {
-            machine.MachineNorms.Remove(norm);
+            machine.Norms.Remove(norm);
         }
         StateHasChanged();
     }

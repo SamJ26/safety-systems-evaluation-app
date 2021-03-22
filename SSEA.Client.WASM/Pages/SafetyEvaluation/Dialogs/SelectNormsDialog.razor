@@ -25,7 +25,7 @@
                 <hr />
             </MudItem>
             <MudItem xs="12">
-                <MudTable Items="@Norms" MultiSelection="true" @bind-SelectedItems="selectedItems" Height="300px" Hover="true">
+                <MudTable Items="@norms" MultiSelection="true" @bind-SelectedItems="SelectedNorms" Height="300px" Hover="true">
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>Label</MudTh>
@@ -52,45 +52,27 @@
 
 @code {
 
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public int MachineId { get; set; }
+    public HashSet<NormModel> SelectedNorms { get; set; } = new HashSet<NormModel>();
 
-    [Parameter]
-    public ICollection<NormModel> Norms { get; set; } = new List<NormModel>();
-
-    [Parameter]
-    public ICollection<MachineNormModel> SelectedNorms { get; set; } = new List<MachineNormModel>();
-
-    private HashSet<NormModel> selectedItems = new HashSet<NormModel>();
+    private ICollection<NormModel> norms { get; set; } = new List<NormModel>();
 
     private string name = string.Empty;
     private string label = string.Empty;
     private string category = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine($"Norms count: {Norms.Count}");
-        Console.WriteLine($"Machine id: {MachineId}");
+        norms = await codeListFacade.GetAllNormsAsync();
     }
 
-    void Submit()
-    {
-        foreach (var norm in selectedItems)
-        {
-            MachineNormModel model = new()
-            {
-                MachineId = MachineId,
-                NormId = norm.Id,
-                Norm = norm,
-            };
-            SelectedNorms.Add(model);
-        }
-        MudDialog.Close(DialogResult.Ok(true));
-    }
-
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
 
     // TODO: add logic
@@ -98,4 +80,5 @@
     {
 
     }
+
 }
