@@ -19,7 +19,7 @@
                 <AuthorizeView Roles="Administrator, NormalUser">
                     <Authorized>
                         <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled || tabs.ActivePanelIndex != 0)" />
-                        <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
+                        <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
                         <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled"></MudIconButton>
                     </Authorized>
                 </AuthorizeView>
@@ -113,7 +113,7 @@
                             <MudButton @onclick="OpenCreateAccessPointDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable T="AccessPointListModel" Items="@machine.AccessPoints" OnRowClick="@(args => GoToAccessPointDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable T="AccessPointListModel" Items="@machine.AccessPoints" OnRowClick="@(args => GoToAccessPointDetail(args))" Dense="true" Hover="true" Height="400px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
                                     <col style="width:40%;" />Name
                                     <col style="width:35%;" />State
@@ -146,7 +146,7 @@
                             <MudButton @onclick="OpenSelectNormsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable Items="@machine.Norms" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable Items="@machine.Norms" Dense="true" Hover="true" Height="400px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
                                     <col style="width:50%;" />Name
                                     <col style="width:25%;" />Label
@@ -261,6 +261,7 @@
         {
             messageType = Severity.Success;
             message = successMessage;
+            machine = await machineFacade.GetByIdAsync(machine.Id);
         }
         else
         {

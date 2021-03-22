@@ -99,10 +99,22 @@ namespace SSEA.DAL.Repositories
 
         public async Task<int> UpdateAsync(Machine machine, int userId)
         {
-            // Removing current state properties from access points to avoid exception with tracking many entities with the same id
-            foreach (var accessPoint in machine.AccessPoints)
+            for (int i = 0; i < machine.AccessPoints.Count; i++)
+            {
+                var accessPoint = machine.AccessPoints.ElementAt(i);
+
+                // Removing current state properties from access points to avoid exception with tracking many entities with the same id
                 accessPoint.CurrentState = null;
 
+                // For new access points assign initial state and attach to change tracker with added state
+                if (accessPoint.Id == 0)
+                {
+                    accessPoint.CurrentStateId = accessPointNewStateId;
+                    dbContext.Attach(accessPoint).State = EntityState.Added;
+                }
+                else
+                    dbContext.Attach(accessPoint).State = EntityState.Unchanged;
+            }
             dbContext.Attach(machine.EvaluationMethod).State = EntityState.Unchanged;
             dbContext.Attach(machine.MachineType).State = EntityState.Unchanged;
             dbContext.Attach(machine.Producer).State = EntityState.Unchanged;
