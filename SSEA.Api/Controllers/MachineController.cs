@@ -62,6 +62,36 @@ namespace SSEA.Api.Controllers
             return Ok(id);
         }
 
+        // DELETE: api/machine/{machineId}/{normId}
+        [HttpDelete("{machineId}/{normId}")]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "NormalUser")]
+        [SwaggerOperation(OperationId = "MachineRemoveNorm")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RemoveNormAsync(int machineId, int normId)
+        {
+            if (machineId == 0 || normId == 0)
+                return BadRequest();
+            await machineFacade.RemoveNorm(machineId, normId);
+            return Ok();
+        }
+
+        // DELETE: api/machine/{accessPointId}
+        [HttpDelete("{accessPointId}")]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "NormalUser")]
+        [SwaggerOperation(OperationId = "MachineRemoveAccessPoint")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RemoveAccessPointAsync(int accessPointId)
+        {
+            if (accessPointId == 0)
+                return BadRequest();
+            // await accessPointFacade.DeleteAsync(accessPointId);
+            return Ok();
+        }
+
         //// PUT: api/machine
         //[HttpPut]
         ////[Authorize(Roles = "Administrator")]

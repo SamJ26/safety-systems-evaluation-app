@@ -86,5 +86,12 @@ namespace SSEA.DAL.Repositories
                                         .Where(n => ids.Contains(n.Id))
                                         .ToListAsync();
         }
+
+        public async Task RemoveNorm(int machineId, int normId)
+        {
+            var entity = await dbContext.MachineNorms.Where(mn => mn.MachineId == machineId && mn.NormId == normId).FirstOrDefaultAsync();
+            dbContext.MachineNorms.Remove(entity);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

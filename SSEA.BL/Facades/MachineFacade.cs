@@ -57,6 +57,10 @@ namespace SSEA.BL.Facades
             return machine;
         }
 
+        public async Task RemoveNorm(int machineId, int normId)
+        {
+            await repository.RemoveNorm(machineId, normId);
+        }
 
         //public async Task<int> DeleteAsync(int machineId, int userId)
         //{

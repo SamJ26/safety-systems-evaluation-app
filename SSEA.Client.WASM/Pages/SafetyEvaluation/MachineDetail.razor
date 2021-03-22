@@ -132,7 +132,6 @@
                                     <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                     <MudTd DataLabel="Name">
                                         <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
-                                        <MudIconButton Icon="@Icons.Material.Filled.ImageSearch"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
@@ -168,7 +167,7 @@
                                     <MudTd DataLabel="Category">@tableContext.NormCategory</MudTd>
                                     <MudTd DataLabel="Up to date">@tableContext.IsValid</MudTd>
                                     <MudTd DataLabel="Name">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
+                                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
