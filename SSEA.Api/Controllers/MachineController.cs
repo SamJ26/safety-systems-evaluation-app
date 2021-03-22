@@ -77,36 +77,21 @@ namespace SSEA.Api.Controllers
             return Ok();
         }
 
-        // DELETE: api/machine/{accessPointId}
-        [HttpDelete("{accessPointId}")]
+        // PUT: api/machine
+        [HttpPut]
         //[Authorize(Roles = "Administrator")]
         //[Authorize(Roles = "NormalUser")]
-        [SwaggerOperation(OperationId = "MachineRemoveAccessPoint")]
+        [SwaggerOperation(OperationId = "MachineUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> RemoveAccessPointAsync(int accessPointId)
+        public async Task<ActionResult<int>> UpdateAsync(MachineDetailModel updatedModel)
         {
-            if (accessPointId == 0)
+            if (!ModelState.IsValid)
                 return BadRequest();
-            // await accessPointFacade.DeleteAsync(accessPointId);
-            return Ok();
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await machineFacade.UpdateAsync(updatedModel, userId);
+            return Ok(id);
         }
-
-        //// PUT: api/machine
-        //[HttpPut]
-        ////[Authorize(Roles = "Administrator")]
-        ////[Authorize(Roles = "NormalUser")]
-        //[SwaggerOperation(OperationId = "MachineUpdate")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<ActionResult<int>> UpdateAsync(MachineDetailModel updatedModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest();
-        //    var userId = this.GetUserIdFromHttpContext();
-        //    var id = await machineFacade.UpdateAsync(updatedModel, userId);
-        //    return Ok(id);
-        //}
 
         //// DELETE: api/machine/{id}
         //[HttpDelete("{id}")]

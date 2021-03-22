@@ -93,5 +93,18 @@ namespace SSEA.DAL.Repositories
             dbContext.MachineNorms.Remove(entity);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task<int> UpdateAsync(Machine machine, int userId)
+        {
+            dbContext.Attach(machine.EvaluationMethod).State = EntityState.Unchanged;
+            dbContext.Attach(machine.MachineType).State = EntityState.Unchanged;
+            dbContext.Attach(machine.Producer).State = EntityState.Unchanged;
+            dbContext.Attach(machine.CurrentState).State = EntityState.Unchanged;
+            if (machine.TypeOfLogic != null)
+                dbContext.Attach(machine.TypeOfLogic).State = EntityState.Unchanged;
+            dbContext.Entry(machine).State = EntityState.Modified;
+            await dbContext.CommitChangesAsync(userId);
+            return machine.Id;
+        }
     }
 }

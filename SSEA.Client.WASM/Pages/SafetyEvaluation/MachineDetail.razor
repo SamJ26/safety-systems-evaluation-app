@@ -18,7 +18,7 @@
             <CardHeaderActions>
                 <AuthorizeView Roles="Administrator, NormalUser">
                     <Authorized>
-                        <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
+                        <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled || tabs.ActivePanelIndex != 0)" />
                         <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
                         <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled"></MudIconButton>
                     </Authorized>
@@ -26,7 +26,7 @@
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Machine details">
                     <EditForm Model="@machine" OnValidSubmit="OnValidSubmit" id="formId">
@@ -167,7 +167,7 @@
                                     <MudTd DataLabel="Category">@tableContext.NormCategory</MudTd>
                                     <MudTd DataLabel="Up to date">@tableContext.IsValid</MudTd>
                                     <MudTd DataLabel="Name">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
+                                        <MudIconButton @onclick="@(() => RemoveNorm(tableContext.Id))" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
@@ -208,6 +208,7 @@
     private bool showMessage = false;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
+    private MudTabs tabs = new MudTabs();
 
     private readonly string successMessage = "Your machine was saved successfully :)";
     private readonly string errorMessage = "Saving of your machine failed :(";
@@ -260,7 +261,7 @@
         {
             messageType = Severity.Success;
             message = successMessage;
-            
+
             // TODO:
         }
         else
@@ -288,6 +289,14 @@
     {
 
         navigationManager.NavigateTo("/safetyEvaluation/machineList");
+    }
+
+    private async Task RemoveNorm(int normId)
+    {
+        var norm = machine.Norms.SingleOrDefault(n => n.Id == normId);
+        await machineFacade.RemoveNormAsync(machine.Id, normId);
+        machine.Norms.Remove(norm);
+        StateHasChanged();
     }
 
     private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)

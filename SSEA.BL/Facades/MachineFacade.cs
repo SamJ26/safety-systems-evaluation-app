@@ -62,40 +62,17 @@ namespace SSEA.BL.Facades
             await repository.RemoveNorm(machineId, normId);
         }
 
-        //public async Task<int> DeleteAsync(int machineId, int userId)
-        //{
-        //    // Getting removed state for machines from DB with EntityState.Unchanged
-        //    State removedState = await dbContext.States.SingleOrDefaultAsync(state => state.Id == machineRemovedStateId);
+        public async Task<int> UpdateAsync(MachineDetailModel updatedModel, int userId)
+        {
+            // User is not able to update norms and access points from machine detail
+            updatedModel.Norms.Clear();
+            updatedModel.AccessPoints.Clear();
 
-        //    var machineEntity = await GetMachineAsync(machineId);
-        //    if (machineEntity == null)
-        //        return 0;
+            Machine machineEntity = mapper.Map<Machine>(updatedModel);
+            return await repository.UpdateAsync(machineEntity, userId);
+        }
 
-        //    // Assigning state "removed" to existing machine and setting its state to modified
-        //    machineEntity.CurrentState = removedState;
-        //    dbContext.Entry(machineEntity).State = EntityState.Modified;
-
-        //    await dbContext.CommitChangesAsync(userId);
-        //    return machineEntity.Id;
-        //}
-
-        //public async Task<int> UpdateAsync(MachineDetailModel updatedModel, int userId)
-        //{
-        //    // TODO: do something with state of record
-
-        //    var machineEntity = mapper.Map<Machine>(updatedModel);
-
-        //    dbContext.Attach(machineEntity.EvaluationMethod).State = EntityState.Unchanged;
-        //    dbContext.Attach(machineEntity.MachineType).State = EntityState.Unchanged;
-        //    dbContext.Attach(machineEntity.Producer).State = EntityState.Unchanged;
-        //    if (machineEntity.TypeOfLogic != null)
-        //        dbContext.Attach(machineEntity.TypeOfLogic).State = EntityState.Unchanged;
-
-        //    dbContext.Entry(machineEntity).State = EntityState.Modified;
-        //    await dbContext.CommitChangesAsync(userId);
-        //    return machineEntity.Id;
-        //}
-
-        // TODO: add GetAll method with filter
+        // TODO: GetAll method with filter
+        // TODO: Delete method
     }
 }

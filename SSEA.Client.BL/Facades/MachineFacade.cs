@@ -35,6 +35,13 @@ namespace SSEA.Client.BL.Facades
             return await clientService.MachineCreateAsync(newModel);
         }
 
+        public async Task RemoveNormAsync(int machineId, int normId)
+        {
+            Console.WriteLine("MachineFacade.RemoveNormAsync(int machineId, int normId)");
+            await clientService.MachineRemoveNormAsync(machineId, normId);
+        }
+
+
         public async Task<int> UpdateAsync(MachineDetailModel updateModel)
         {
             Console.WriteLine("MachineFacade.UpdateAsync(MachineDetailModel updateModel)");
