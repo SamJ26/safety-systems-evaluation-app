@@ -2,15 +2,7 @@
 
 @layout MainLayout
 
-@inject IDialogService dialogService
-@inject MachineFacade machineFacade
-@inject CodeListFacade codeListFacade
-@inject ILocalStorageService storageService
-@inject NavigationManager navigationManager 
-
 @attribute [Authorize]
-
-@* TODO: 1. add data validation to all fields in form *@
 
 <MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
     <MudCard Elevation="3">
@@ -24,9 +16,13 @@
                 }
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="ClearAllFields" Icon="@Icons.Material.Filled.Clear" Color="Color.Primary" Disabled="@onlyForReading" />
-                <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
+                <AuthorizeView Roles="Administrator, NormalUser">
+                    <Authorized>
+                        <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
+                        <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
+                        <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled"></MudIconButton>
+                    </Authorized>
+                </AuthorizeView>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
@@ -112,20 +108,17 @@
 
                 <MudTabPanel Text="Access points">
                     <MudGrid Style="padding: 20px;">
-                        <MudItem xs="2">
-                            <MudButton @onclick="ClearAccessPoints" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
-                        </MudItem>
-                        <MudItem xs="8" />
+                        <MudItem xs="10" />
                         <MudItem xs="2">
                             <MudButton @onclick="OpenCreateAccessPointDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable T="AccessPointListModel" Items="@machine.AccessPoints"  OnRowClick="@(args => GoToAccessPointDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable T="AccessPointListModel" Items="@machine.AccessPoints" OnRowClick="@(args => GoToAccessPointDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
-                                    <col style="width:35%;" />
-                                    <col style="width:30%;" />
-                                    <col style="width:20%;" />
-                                    <col style="width:15%;" />
+                                    <col style="width:40%;" />Name
+                                    <col style="width:35%;" />State
+                                    <col style="width:20%;" />Safety functions
+                                    <col style="width:5%;" />Actions
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Name</MudTh>
@@ -149,21 +142,18 @@
 
                 <MudTabPanel Text="Used norms">
                     <MudGrid Style="padding: 20px;">
-                        <MudItem xs="2">
-                            <MudButton @onclick="ClearNorms" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
-                        </MudItem>
-                        <MudItem xs="8" />
+                        <MudItem xs="10" />
                         <MudItem xs="2">
                             <MudButton @onclick="OpenSelectNormsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
                             <MudTable Items="@machine.Norms" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
-                                    <col style="width:40%;" />
-                                    <col style="width:20%;" />
-                                    <col style="width:10%;" />
-                                    <col style="width:15%;" />
-                                    <col style="width:15%;" />
+                                    <col style="width:50%;" />Name
+                                    <col style="width:25%;" />Label
+                                    <col style="width:10%;" />Category
+                                    <col style="width:10%;" />Up to date
+                                    <col style="width:5%;" />Actions
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Name</MudTh>
@@ -197,18 +187,31 @@
 
 @code {
 
+    [Inject]
+    private IDialogService dialogService { get; set; }
+
+    [Inject]
+    private MachineFacade machineFacade { get; set; }
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
+
     [Parameter]
     public int Id { get; set; }
 
     private MachineDetailModel machine = new MachineDetailModel();
 
+    private bool disabled = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
 
     private readonly string successMessage = "Your machine was saved successfully :)";
-    private readonly string errorMessage = "Saving your machine failed :(";
+    private readonly string errorMessage = "Saving of your machine failed :(";
 
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
@@ -251,28 +254,26 @@
     // TODO: complete logic
     private async void OnValidSubmit()
     {
+        disabled = true;
         onlyForReading = true;
-        var result = await machineFacade.CreateAsync(machine);
+        var result = await machineFacade.UpdateAsync(machine);
         if (result != 0)
         {
-            Console.WriteLine("Successfull create");
             messageType = Severity.Success;
             message = successMessage;
-            // TODO: fix bug
-            // machine = await machineFacade.GetByIdAsync(result);
-            Console.WriteLine(result);
+            
+            // TODO:
         }
         else
         {
-            Console.WriteLine("Error create");
             messageType = Severity.Error;
             message = errorMessage;
         }
         showMessage = true;
+        disabled = false;
         StateHasChanged();
     }
 
-    // TODO: add logic for update after saving
     private async void Edit()
     {
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
@@ -284,26 +285,15 @@
     }
 
     // TODO: add logic
-    private void ClearAllFields()
+    private async Task Delete()
     {
 
+        navigationManager.NavigateTo("/safetyEvaluation/machineList");
     }
 
-    // TODO: add logic for removnig already saved items from DB
-    private void ClearAccessPoints()
-    {
-
-    }
-
-    // TODO: add logic for removnig already saved items from DB
-    private void ClearNorms()
-    {
-
-    }
-
-    // TODO: test functionality
     private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
     {
         navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{machine.Id}/{args.Item.Id}");
     }
+
 }

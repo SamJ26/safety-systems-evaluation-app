@@ -70,12 +70,21 @@ namespace SSEA.DAL.Repositories
                                            .Include(m => m.MachineType)
                                            .Include(m => m.Producer)
                                            .Include(m => m.TypeOfLogic)
-                                           .Include(m => m.MachineNorms)
-                                             .ThenInclude(mn => mn.Norm)
                                            .Include(m => m.CurrentState)
                                            .Include(m => m.AccessPoints)
                                              .ThenInclude(ap => ap.CurrentState)
                                            .SingleOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task<ICollection<Norm>> GetNormsForMachine(int machineId)
+        {
+            int[] ids = await dbContext.MachineNorms.Where(mn => mn.MachineId == machineId)
+                                                    .Select(mn => mn.NormId)
+                                                    .ToArrayAsync();
+
+            return await dbContext.Norms.AsNoTracking()
+                                        .Where(n => ids.Contains(n.Id))
+                                        .ToListAsync();
         }
     }
 }
