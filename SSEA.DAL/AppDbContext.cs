@@ -79,7 +79,7 @@ namespace SSEA.DAL
                 // Existing entity was modified
                 if (entry.State.Equals(EntityState.Modified))
                 {
-                    entry.Property("DateTimeUpdate").CurrentValue = DateTime.Now;
+                    entry.Property("DateTimeUpdated").CurrentValue = DateTime.Now;
                     entry.Property("IdUpdated").CurrentValue = userId;
                 }
                 // New entity was added

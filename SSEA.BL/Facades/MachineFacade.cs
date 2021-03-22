@@ -69,12 +69,14 @@ namespace SSEA.BL.Facades
             // After this foreach, oldModel.Norms will contain norms which should be removed
             foreach (var norm in updatedModel.Norms.ToList())
             {
+                NormModel foundNorm = oldModel.Norms.FirstOrDefault(n => n.Id == norm.Id);
+
                 // Item was not removed / added
-                if (oldModel.Norms.Contains(norm))
-                    oldModel.Norms.Remove(norm);
+                if (foundNorm is not null)
+                    oldModel.Norms.Remove(foundNorm);
 
                 // Item was added
-                else if (!oldModel.Norms.Contains(norm))
+                else if (foundNorm is null)
                     addedNorms.Add(norm);
             }
 
@@ -83,7 +85,8 @@ namespace SSEA.BL.Facades
                 await repository.RemoveNormAsync(updatedModel.Id, norm.Id);
 
             // Adding new norms to machine
-            await repository.AddNormsToMachineAsync(mapper.Map<ICollection<Norm>>(addedNorms), updatedModel.Id);
+            if (addedNorms.Count != 0)
+                await repository.AddNormsToMachineAsync(mapper.Map<ICollection<Norm>>(addedNorms), updatedModel.Id);
 
             // Norms are processed -> can be cleared
             updatedModel.Norms.Clear();
@@ -95,9 +98,11 @@ namespace SSEA.BL.Facades
             // After this foreach, oldModel.AccessPoints will contain access points which should be removed
             foreach (var accessPoint in updatedModel.AccessPoints.ToList())
             {
+                AccessPointListModel foundAccessPoint = oldModel.AccessPoints.FirstOrDefault(ap => ap.Id == accessPoint.Id);
+
                 // Item was not removed / added
-                if (oldModel.AccessPoints.Contains(accessPoint))
-                    oldModel.AccessPoints.Remove(accessPoint);
+                if (foundAccessPoint is not null)
+                    oldModel.AccessPoints.Remove(foundAccessPoint);
             }
 
             // Removing norms

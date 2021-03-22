@@ -131,7 +131,7 @@
                                     <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New - not saved")</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                     <MudTd DataLabel="Name">
-                                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
+                                        <MudIconButton @onclick="@(() => machine.AccessPoints.Remove(tableContext))" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
@@ -167,7 +167,7 @@
                                     <MudTd DataLabel="Category">@tableContext.NormCategory</MudTd>
                                     <MudTd DataLabel="Up to date">@tableContext.IsValid</MudTd>
                                     <MudTd DataLabel="Name">
-                                        <MudIconButton @onclick="@(() => RemoveNorm(tableContext.Id))" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
+                                        <MudIconButton @onclick="@(() => machine.Norms.Remove(tableContext))" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
@@ -287,14 +287,6 @@
     {
 
         navigationManager.NavigateTo("/safetyEvaluation/machineList");
-    }
-
-    private async Task RemoveNorm(int normId)
-    {
-        var norm = machine.Norms.SingleOrDefault(n => n.Id == normId);
-        await machineFacade.RemoveNormAsync(machine.Id, normId);
-        machine.Norms.Remove(norm);
-        StateHasChanged();
     }
 
     private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
