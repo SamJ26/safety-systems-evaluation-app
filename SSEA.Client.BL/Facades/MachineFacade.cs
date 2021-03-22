@@ -15,10 +15,10 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
-        public async Task<ICollection<MachineListModel>> GetAllAsync()
+        public async Task<ICollection<MachineListModel>> GetAllAsync(string machineName, int stateId, int machineTypeId, int evaluationMethodId, int producerId)
         {
-            Console.WriteLine("MachineFacade.GetAllAsync()");
-            return await clientService.MachineGetAllAsync();
+            Console.WriteLine("MachineFacade.GetAllAsync(string machineName, int stateId, int machineTypeId, int evaluationMethodId, int producerId)");
+            return await clientService.MachineGetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId);
         }
 
         public async Task<MachineDetailModel> GetByIdAsync(int id)

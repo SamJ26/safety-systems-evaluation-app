@@ -27,7 +27,11 @@ namespace SSEA.Api.Controllers
         [HttpGet]
         [SwaggerOperation(OperationId = "MachineGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ICollection<MachineListModel>>> GetAllAsync()
+        public async Task<ActionResult<ICollection<MachineListModel>>> GetAllAsync([FromQuery] string machineName,
+                                                                                   [FromQuery] int stateId = 0,
+                                                                                   [FromQuery] int machineTypeId = 0,
+                                                                                   [FromQuery] int evaluationMethodId = 0,
+                                                                                   [FromQuery] int producerId = 0)
         {
             var data = await machineFacade.GetAllAsync();
             return Ok(data);

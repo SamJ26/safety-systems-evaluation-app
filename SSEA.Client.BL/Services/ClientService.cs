@@ -101,12 +101,12 @@ namespace SSEA.Client.BL.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MachineListModel>> MachineGetAllAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MachineListModel>> MachineGetAllAsync(string machineName, int? stateId, int? machineTypeId, int? evaluationMethodId, int? producerId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MachineListModel>> MachineGetAllAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MachineListModel>> MachineGetAllAsync(string machineName, int? stateId, int? machineTypeId, int? evaluationMethodId, int? producerId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
@@ -134,15 +134,6 @@ namespace SSEA.Client.BL.Services
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<MachineDetailModel> MachineGetByIdAsync(int id, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task MachineRemoveNormAsync(int machineId, int normId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task MachineRemoveNormAsync(int machineId, int normId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
@@ -1068,18 +1059,39 @@ namespace SSEA.Client.BL.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MachineListModel>> MachineGetAllAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MachineListModel>> MachineGetAllAsync(string machineName, int? stateId, int? machineTypeId, int? evaluationMethodId, int? producerId)
         {
-            return MachineGetAllAsync(System.Threading.CancellationToken.None);
+            return MachineGetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MachineListModel>> MachineGetAllAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MachineListModel>> MachineGetAllAsync(string machineName, int? stateId, int? machineTypeId, int? evaluationMethodId, int? producerId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/machine");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/machine?");
+            if (machineName != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("machineName") + "=").Append(System.Uri.EscapeDataString(ConvertToString(machineName, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (stateId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("stateId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(stateId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (machineTypeId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("machineTypeId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(machineTypeId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (evaluationMethodId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("evaluationMethodId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(evaluationMethodId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (producerId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("producerId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(producerId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1387,92 +1399,6 @@ namespace SSEA.Client.BL.Services
                                 throw new ClientServiceException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             throw new ClientServiceException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ClientServiceException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <returns>Success</returns>
-        /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task MachineRemoveNormAsync(int machineId, int normId)
-        {
-            return MachineRemoveNormAsync(machineId, normId, System.Threading.CancellationToken.None);
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task MachineRemoveNormAsync(int machineId, int normId, System.Threading.CancellationToken cancellationToken)
-        {
-            if (machineId == null)
-                throw new System.ArgumentNullException("machineId");
-
-            if (normId == null)
-                throw new System.ArgumentNullException("normId");
-
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/machine/{machineId}/{normId}");
-            urlBuilder_.Replace("{machineId}", System.Uri.EscapeDataString(ConvertToString(machineId, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{normId}", System.Uri.EscapeDataString(ConvertToString(normId, System.Globalization.CultureInfo.InvariantCulture)));
-
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            return;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ClientServiceException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ClientServiceException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
