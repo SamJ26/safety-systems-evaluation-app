@@ -14,7 +14,7 @@
                         <MudTextField @bind-Value="name" Label="Safety function name" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="4">
-                        <MudSelect @bind-Value="typeOfFunctionId" T="int" Label="Type of function" Variant="Variant.Outlined" Format="F2">
+                        <MudSelect @bind-Value="typeOfFunctionId" T="int" Label="Type of function"  Strict="true" Variant="Variant.Outlined" Format="F2">
                             @foreach (var item in typeOfFunctions)
                             {
                                 <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
@@ -31,6 +31,12 @@
             </MudItem>
             <MudItem xs="12">
                 <MudTable Items="@safetyFunctions" MultiSelection="true" @bind-SelectedItems="SelectedSafetyFunctions" Height="400px" Hover="true">
+                    <ColGroup>
+                        <col style="width:25%;" /> Name
+                        <col style="width:25%;" /> State
+                        <col style="width:30%;" /> Type of function
+                        <col style="width:20%;" /> Evaluation method
+                    </ColGroup>
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>State</MudTh>
@@ -67,7 +73,7 @@
     MudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public string EvaluationMethod { get; set; } = string.Empty;
+    public string EvaluationMethod { get; set; }
 
     [Parameter]
     public HashSet<SafetyFunctionListModel> SelectedSafetyFunctions { get; set; }

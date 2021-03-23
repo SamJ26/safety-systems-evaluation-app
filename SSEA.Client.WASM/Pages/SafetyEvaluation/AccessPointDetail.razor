@@ -17,7 +17,7 @@
             </CardHeaderContent>
             <CardHeaderActions>
                 <MudIconButton @onclick="BackToMachine" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" />
-                <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled || tabs.ActivePanelIndex != 0)" />
+                <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
                 <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
                 <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
             </CardHeaderActions>
@@ -57,10 +57,10 @@
                         <MudItem xs="12" Style="padding-top: 0px;">
                             <MudTable T="SafetyFunctionListModel" Items="@accessPoint.SafetyFunctions" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
-                                    <col style="width:40%;" /> Name
+                                    <col style="width:20%;" /> Name
                                     <col style="width:25%;" /> State
                                     <col style="width:25%;" /> Type of function
-                                    <col style="width:10%;" /> Evaluation method
+                                    <col style="width:20%;" /> Evaluation method
                                     <col style="width:10%;" /> Actions
                                 </ColGroup>
                                 <HeaderContent>
@@ -72,7 +72,7 @@
                                 </HeaderContent>
                                 <RowTemplate Context="tableContext">
                                     <MudTd DataLabel="Name">@tableContext.Name</MudTd>
-                                    <MudTd DataLabel="Name">@tableContext.CurrentState.Name</MudTd>
+                                    <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New - not saved")</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.TypeOfFunction.Name</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.EvaluationMethod.Shortcut</MudTd>
                                     <MudTd DataLabel="Name">
@@ -128,6 +128,7 @@
     protected override async Task OnInitializedAsync()
     {
         accessPoint = await accessPointFacade.GetByIdAsync(AccessPointId);
+        StateHasChanged();
     }
 
     private void BackToMachine()
@@ -160,6 +161,8 @@
 
     private void Edit()
     {
+        if (accessPoint.SafetyFunctions is null)
+            accessPoint.SafetyFunctions = new List<SafetyFunctionListModel>();
         onlyForReading = false;
         showMessage = false;
     }
@@ -178,21 +181,21 @@
         StateHasChanged();
     }
 
-
-
-
-
     private async void OpenCreateSafetyFunctionDialog()
     {
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPoint.EvaluationMethod, ["AccessPointId"] = accessPoint.Id };
+        var safetyFunction = new SafetyFunctionListModel();
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPoint.EvaluationMethod, ["SafetyFunction"] = safetyFunction };
         var dialog = dialogService.Show<CreateSafetyFunctionDialog>("Create safety function", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-
+            accessPoint.SafetyFunctions.Add(safetyFunction);
         }
         StateHasChanged();
     }
+
+
+
 
     // TODO: change BE logic if upadte method - do not update collection
     private async void OnValidSubmit()
