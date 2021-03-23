@@ -49,32 +49,36 @@ namespace SSEA.Api.Controllers
             return Ok(data);
         }
 
-        //// PUT: api/accessPoint
-        //[HttpPut]
-        //[SwaggerOperation(OperationId = "AccessPointUpdate")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<ActionResult<int>> UpdateAsync(AccessPointDetailModel updatedModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest();
-        //    var userId = this.GetUserIdFromHttpContext();
-        //    // var id = await accessPointFacade.UpdateAsync(updatedModel, userId);
-        //    return Ok(1);
-        //}
+        // PUT: api/accessPoint
+        [HttpPut]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "NormalUser")]
+        [SwaggerOperation(OperationId = "AccessPointUpdate")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> UpdateAsync(AccessPointDetailModel updatedModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await accessPointFacade.UpdateAsync(updatedModel, userId);
+            return Ok(id);
+        }
 
-        //// DELETE: api/accessPoint/{id}
-        //[HttpDelete("{id}")]
-        //[SwaggerOperation(OperationId = "AccessPointDelete")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<ActionResult> DeleteAsync(int id, bool softDelete = true)
-        //{
-        //    var userId = this.GetUserIdFromHttpContext();
-        //    var foundId = await accessPointFacade.DeleteAsync(id, softDelete);
-        //    if (foundId == 0)
-        //        return BadRequest();
-        //    return Ok();
-        //}
+        // DELETE: api/accessPoint/{id}
+        [HttpDelete("{id}")]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "NormalUser")]
+        [SwaggerOperation(OperationId = "AccessPointDelete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            await accessPointFacade.DeleteAsync(id, userId);
+            return Ok();
+        }
     }
 }

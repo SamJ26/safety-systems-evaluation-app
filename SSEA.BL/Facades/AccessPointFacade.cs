@@ -39,7 +39,16 @@ namespace SSEA.BL.Facades
             return accessPoint;
         }
 
-        // TODO: update method
-        // TODO: delete method
+        // TODO: add implementation
+        public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel, int userId)
+        {
+            return 0;
+        }
+
+        // TODO: add implementation
+        public async Task DeleteAsync(int accessPointId, int userId)
+        {
+
+        }
     }
 }
