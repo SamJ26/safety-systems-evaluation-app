@@ -33,6 +33,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public AccessPointDetailModelMapperProfile()
         {
             CreateMap<AccessPoint, AccessPointDetailModel>().IgnoreSource(src => src.MachineId)
+                                                            .IgnoreSource(src => src.CurrentStateId)
                                                             .MapMember(dest => dest.MachineName, src => src.Machine.Name)
                                                             .MapMember(dest => dest.EvaluationMethod, src => src.Machine.EvaluationMethod.Shortcut)
                                                             .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())

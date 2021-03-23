@@ -1,0 +1,32 @@
+﻿
+<MudDialog Style="width: 400px;">
+    <TitleContent>
+        <MudText Typo="Typo.h5">
+            <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Class="mr-3 mb-n1" />
+            Delete @ItemToDelte?
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText>This process cannot be undone</MudText>
+        <MudText>Name of the @ItemToDelte: @NameOfItem</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="Submit">Delete</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string ItemToDelte { get; set; }
+
+    [Parameter]
+    public string NameOfItem{ get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

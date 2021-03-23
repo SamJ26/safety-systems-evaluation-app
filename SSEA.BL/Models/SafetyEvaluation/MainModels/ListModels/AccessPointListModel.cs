@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
 {
@@ -21,6 +17,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
         {
             CreateMap<AccessPoint, AccessPointListModel>().IgnoreSource(src => src.Machine)
                                                           .IgnoreSource(src => src.MachineId)
+                                                          .IgnoreSource(src => src.CurrentStateId)
                                                           .MapMember(dest => dest.SafetyFunctionsCount, src => src.AccessPointSafetyFunctions != null ? src.AccessPointSafetyFunctions.Count : 0)
                                                           .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                           .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())

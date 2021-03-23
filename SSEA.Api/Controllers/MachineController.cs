@@ -27,9 +27,13 @@ namespace SSEA.Api.Controllers
         [HttpGet]
         [SwaggerOperation(OperationId = "MachineGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ICollection<MachineListModel>>> GetAllAsync()
+        public async Task<ActionResult<ICollection<MachineListModel>>> GetAllAsync([FromQuery] string machineName,
+                                                                                   [FromQuery] int stateId = 0,
+                                                                                   [FromQuery] int machineTypeId = 0,
+                                                                                   [FromQuery] int evaluationMethodId = 0,
+                                                                                   [FromQuery] int producerId = 0)
         {
-            var data = await machineFacade.GetAllAsync();
+            var data = await machineFacade.GetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId);
             return Ok(data);
         }
 
@@ -87,10 +91,10 @@ namespace SSEA.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            var userId = this.GetUserIdFromHttpContext();
-            var foundId = await machineFacade.DeleteAsync(id, userId);
-            if (foundId == 0)
+            if (id == 0)
                 return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            await machineFacade.DeleteAsync(id, userId);
             return Ok();
         }
     }
