@@ -6,6 +6,7 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +17,26 @@ namespace SSEA.BL.Facades
 {
     public class AccessPointFacade
     {
-        private readonly int accessPointRemovedStateId = 7;
+        
 
         private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
+        private readonly AccessPointRepository repository;
 
-        public AccessPointFacade(AppDbContext dbContext, IMapper mapper)
+        public AccessPointFacade(AppDbContext dbContext, IMapper mapper, AccessPointRepository repository)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
+            this.repository = repository;
         }
 
-        // TODO: add GetAll method with filter
+        public async Task<ICollection<AccessPointListModel>> GetAllAsync()
+        {
+            var data = await repository.GetAllAsync();
+            return mapper.Map<ICollection<AccessPointListModel>>(data);
+        }
+
+
 
         public Task<int> CreateAsync(AccessPointDetailModel newModel, int userId)
         {
@@ -49,10 +58,7 @@ namespace SSEA.BL.Facades
             return accessPoint.Id;
         }
 
-        public Task<ICollection<AccessPointListModel>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
+    
 
         public async Task<AccessPointDetailModel> GetByIdAsync(int id)
         {
