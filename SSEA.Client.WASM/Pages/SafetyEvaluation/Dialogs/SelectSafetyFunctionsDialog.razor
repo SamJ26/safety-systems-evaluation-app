@@ -85,10 +85,6 @@
 
     private async void Submit()
     {
-        foreach (var item in selectedItems)
-        {
-            var result = await accessPointFacade.AddSafetyFunctionAsync(AccessPointId, item.Id);
-        }
         MudDialog.Close(DialogResult.Ok(true));
     }
 

@@ -126,16 +126,6 @@
 
     private async void Submit()
     {
-        int id = 0;
-        if (EvaluationMethod.Equals("PL"))
-        {
-           id = await safetyFunctionFacade.CreateAsync(safetyFunctionPL);
-        }
-        else
-        {
-            id = await safetyFunctionFacade.CreateAsync(safetyFunctionSIL);
-        }
-        var result = await accessPointFacade.AddSafetyFunctionAsync(AccessPointId, id);
         MudDialog.Close(DialogResult.Ok(true));
     }
 
