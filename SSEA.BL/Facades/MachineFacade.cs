@@ -44,9 +44,9 @@ namespace SSEA.BL.Facades
             return id;
         }
 
-        public async Task<ICollection<MachineListModel>> GetAllAsync()
+        public async Task<ICollection<MachineListModel>> GetAllAsync(string machineName, int stateId, int machineTypeId, int evaluationMethodId, int producerId)
         {
-            var machines = await repository.GetAllAsync();
+            var machines = await repository.GetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId);
             return mapper.Map<ICollection<MachineListModel>>(machines);
         }
 

@@ -33,7 +33,7 @@ namespace SSEA.Api.Controllers
                                                                                    [FromQuery] int evaluationMethodId = 0,
                                                                                    [FromQuery] int producerId = 0)
         {
-            var data = await machineFacade.GetAllAsync();
+            var data = await machineFacade.GetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId);
             return Ok(data);
         }
 

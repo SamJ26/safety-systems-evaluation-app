@@ -17,7 +17,6 @@ namespace SSEA.DAL.Repositories
         private readonly int machineNewStateId = 1;
         private readonly int machineRemovedStateId = 4;
         private readonly int accessPointNewStateId = 5;
-        private readonly int accessPointRemovedStateId = 7;
 
         public MachineRepository(AppDbContext dbContext)
         {
@@ -54,15 +53,28 @@ namespace SSEA.DAL.Repositories
             await dbContext.CommitChangesAsync();
         }
 
-        public async Task<ICollection<Machine>> GetAllAsync()
+        public async Task<ICollection<Machine>> GetAllAsync(string machineName, int stateId, int machineTypeId, int evaluationMethodId, int producerId)
         {
-            return await dbContext.Machines.Include(m => m.CurrentState)
-                                           .Include(m => m.EvaluationMethod)
-                                           .Include(m => m.MachineType)
-                                           .Include(m => m.Producer)
-                                           .Include(m => m.TypeOfLogic)
-                                           .AsNoTracking()
-                                           .ToListAsync();
+            IQueryable<Machine> query = dbContext.Machines.Include(m => m.CurrentState)
+                                                          .Include(m => m.EvaluationMethod)
+                                                          .Include(m => m.MachineType)
+                                                          .Include(m => m.Producer)
+                                                          .Include(m => m.TypeOfLogic)
+                                                          .AsNoTracking();
+            if (!string.IsNullOrEmpty(machineName))
+            {
+                machineName = machineName.ToLower();
+                query = query.Where(m => m.Name.ToLower().Contains(machineName));
+            }
+            if (stateId != 0)
+                query = query.Where(m => m.CurrentStateId == stateId);
+            if (machineTypeId != 0)
+                query = query.Where(m => m.MachineTypeId == machineTypeId);
+            if (evaluationMethodId != 0)
+                query = query.Where(m => m.EvaluationMethodId == evaluationMethodId);
+            if (producerId != 0)
+                query = query.Where(m => m.ProducerId == producerId);
+            return await query.ToListAsync();
         }
 
         public async Task<Machine> GetByIdAsync(int id)
