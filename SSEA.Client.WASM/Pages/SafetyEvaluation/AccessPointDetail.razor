@@ -142,8 +142,14 @@
 
     private async Task Delete()
     {
-        await accessPointFacade.DeleteAsync(accessPoint.Id);
-        BackToMachine();
+        var parameters = new DialogParameters() { ["ItemToDelte"] = "access point", ["NameOfItem"] = accessPoint.Name };
+        var dialog = dialogService.Show<ApproveDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await accessPointFacade.DeleteAsync(accessPoint.Id);
+            BackToMachine();
+        }
     }
 
     private void RemoveSafetyFunction(SafetyFunctionListModel safetyFunction)
@@ -158,21 +164,23 @@
         showMessage = false;
     }
 
-
-
-
-    
     private async void OpenSelectSafetyFunctionsDialog()
     {
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPoint.EvaluationMethod, ["AccessPointId"] = accessPoint.Id };
+        ICollection<SafetyFunctionListModel> selectedSafetyFunctions = new HashSet<SafetyFunctionListModel>();
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPoint.EvaluationMethod, ["SelectedSafetyFunctions"] = selectedSafetyFunctions };
         var dialog = dialogService.Show<SelectSafetyFunctionsDialog>("Select safety functions", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-
+            foreach (var item in selectedSafetyFunctions)
+                accessPoint.SafetyFunctions.Add(item);
         }
         StateHasChanged();
     }
+
+
+
+
 
     private async void OpenCreateSafetyFunctionDialog()
     {

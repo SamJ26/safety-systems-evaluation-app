@@ -241,12 +241,14 @@
 
     private async void OpenSelectNormsDialog()
     {
-        var parameters = new DialogParameters() { ["SelectedNorms"] = machine.Norms };
+        HashSet<NormModel> selectedNorms = new HashSet<NormModel>();
+        var parameters = new DialogParameters() { ["SelectedNorms"] = selectedNorms };
         var dialog = dialogService.Show<SelectNormsDialog>("Select norms", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            Console.WriteLine(machine.Norms.Count);
+            foreach (var norm in selectedNorms)
+                machine.Norms.Add(norm);
         }
         StateHasChanged();
     }
