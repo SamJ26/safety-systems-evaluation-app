@@ -157,8 +157,7 @@
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            // TODO: delete machine
-
+            await machineFacade.DeleteAsync(machine.Id);
             machines.Remove(machine);
         }
     }

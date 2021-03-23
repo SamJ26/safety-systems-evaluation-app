@@ -39,10 +39,10 @@ namespace SSEA.Client.BL.Facades
             return await clientService.MachineUpdateAsync(updateModel);
         }
 
-        //public async Task DeleteAsync(int id)
-        //{
-        //    Console.WriteLine("MachineFacade.DeleteAsync(int id)");
-        //    // await clientService.MachineDeleteAsync(id);
-        //}
+        public async Task DeleteAsync(int id)
+        {
+            Console.WriteLine("MachineFacade.DeleteAsync(int id)");
+            await clientService.MachineDeleteAsync(id);
+        }
     }
 }
