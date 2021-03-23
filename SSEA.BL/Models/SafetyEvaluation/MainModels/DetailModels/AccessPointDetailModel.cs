@@ -25,7 +25,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [Required]
         public string EvaluationMethod { get; set; }
 
-        public ICollection<AccessPointSafetyFunctionModel> AccessPointSafetyFunctions { get; set; }
+        public ICollection<SafetyFunctionListModel> SafetyFunctions { get; set; }
     }
 
     public class AccessPointDetailModelMapperProfile : Profile
@@ -34,6 +34,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         {
             CreateMap<AccessPoint, AccessPointDetailModel>().IgnoreSource(src => src.MachineId)
                                                             .IgnoreSource(src => src.CurrentStateId)
+                                                            .IgnoreSource(src => src.AccessPointSafetyFunctions)
+                                                            .Ignore(dest => dest.SafetyFunctions)
                                                             .MapMember(dest => dest.MachineName, src => src.Machine.Name)
                                                             .MapMember(dest => dest.EvaluationMethod, src => src.Machine.EvaluationMethod.Shortcut)
                                                             .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())

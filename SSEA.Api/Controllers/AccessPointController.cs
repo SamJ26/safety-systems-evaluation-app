@@ -49,59 +49,32 @@ namespace SSEA.Api.Controllers
             return Ok(data);
         }
 
-        // POST: api/accessPoint
-        [HttpPost]
-        [SwaggerOperation(OperationId = "AccessPointCreate")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CreateAsync(AccessPointDetailModel newModel)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest();
-            var userId = this.GetUserIdFromHttpContext();
-            var id = await accessPointFacade.CreateAsync(newModel, userId);
-            return Ok(id);
-        }
+        //// PUT: api/accessPoint
+        //[HttpPut]
+        //[SwaggerOperation(OperationId = "AccessPointUpdate")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<ActionResult<int>> UpdateAsync(AccessPointDetailModel updatedModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest();
+        //    var userId = this.GetUserIdFromHttpContext();
+        //    // var id = await accessPointFacade.UpdateAsync(updatedModel, userId);
+        //    return Ok(1);
+        //}
 
-        // PUT: api/accessPoint
-        [HttpPut]
-        [SwaggerOperation(OperationId = "AccessPointUpdate")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> UpdateAsync(AccessPointDetailModel updatedModel)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest();
-            var userId = this.GetUserIdFromHttpContext();
-            // var id = await accessPointFacade.UpdateAsync(updatedModel, userId);
-            return Ok(1);
-        }
-
-        // DELETE: api/accessPoint/{id}
-        [HttpDelete("{id}")]
-        [SwaggerOperation(OperationId = "AccessPointDelete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeleteAsync(int id, bool softDelete = true)
-        {
-            var userId = this.GetUserIdFromHttpContext();
-            var foundId = await accessPointFacade.DeleteAsync(id, softDelete);
-            if (foundId == 0)
-                return BadRequest();
-            return Ok();
-        }
-
-        // POST: api/accessPoint/addSafetyFunction
-        [HttpPost("addSafetyFunction")]
-        [SwaggerOperation(OperationId = "AccessPointAddSafetyFunctionAsync")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> AddSafetyFunctionAsync(AccessPointSafetyFunctionModel model)
-        {
-            if (model.AccessPointId == 0 || model.SafetyFunctionId == 0)
-                return BadRequest();
-            var result = await accessPointFacade.AddSafetyFunctionAsync(model);
-            return Ok(result);
-        }
+        //// DELETE: api/accessPoint/{id}
+        //[HttpDelete("{id}")]
+        //[SwaggerOperation(OperationId = "AccessPointDelete")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<ActionResult> DeleteAsync(int id, bool softDelete = true)
+        //{
+        //    var userId = this.GetUserIdFromHttpContext();
+        //    var foundId = await accessPointFacade.DeleteAsync(id, softDelete);
+        //    if (foundId == 0)
+        //        return BadRequest();
+        //    return Ok();
+        //}
     }
 }

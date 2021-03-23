@@ -96,8 +96,7 @@ namespace SSEA.DAL.Repositories
                                                     .Select(mn => mn.NormId)
                                                     .ToArrayAsync();
 
-            return await dbContext.Norms.AsNoTracking()
-                                        .Where(n => ids.Contains(n.Id))
+            return await dbContext.Norms.Where(n => ids.Contains(n.Id))
                                         .AsNoTracking()
                                         .ToListAsync();
         }
