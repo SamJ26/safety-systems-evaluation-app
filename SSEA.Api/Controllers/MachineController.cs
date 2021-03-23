@@ -82,20 +82,20 @@ namespace SSEA.Api.Controllers
             return Ok(id);
         }
 
-        //// DELETE: api/machine/{id}
-        //[HttpDelete("{id}")]
-        ////[Authorize(Roles = "Administrator")]
-        ////[Authorize(Roles = "NormalUser")]
-        //[SwaggerOperation(OperationId = "MachineDelete")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<ActionResult> DeleteAsync(int id)
-        //{
-        //    var userId = this.GetUserIdFromHttpContext();
-        //    var foundId = await machineFacade.DeleteAsync(id, userId);
-        //    if (foundId == 0)
-        //        return BadRequest();
-        //    return Ok();
-        //}
+        // DELETE: api/machine/{id}
+        [HttpDelete("{id}")]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "NormalUser")]
+        [SwaggerOperation(OperationId = "MachineDelete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            await machineFacade.DeleteAsync(id, userId);
+            return Ok();
+        }
     }
 }

@@ -120,7 +120,10 @@ namespace SSEA.BL.Facades
             return await repository.UpdateAsync(machineEntity, userId);
         }
 
-        // TODO: GetAll method with filter
-        // TODO: Delete method
+        // TODO: add logic after preparing methods for removing access points
+        public async Task DeleteAsync(int id, int userId)
+        {
+
+        }
     }
 }
