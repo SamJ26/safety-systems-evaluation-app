@@ -2,12 +2,6 @@
 
 @layout MainLayout
 
-@inject IDialogService dialogService
-@inject NavigationManager navigationManager
-@inject AccessPointFacade accessPointFacade
-@inject CodeListFacade codeListFacade
-@inject SafetyFunctionFacade safetyFunctionFacade
-
 @attribute [Authorize]
 
 <MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
@@ -15,36 +9,37 @@
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h6">Detail of access point</MudText>
-                <MudText Typo="Typo.body2">Created - user ID: @accessPointModel.IdCreated, time: @accessPointModel.DateTimeCreated</MudText>
-                @if (accessPointModel.IdUpdated != null)
+                <MudText Typo="Typo.body2">Created - user ID: @accessPoint.IdCreated, time: @accessPoint.DateTimeCreated</MudText>
+                @if (accessPoint.IdUpdated != null)
                 {
-                    <MudText Typo="Typo.body2">Updated - user ID: @accessPointModel.IdUpdated, time: @accessPointModel.DateTimeUpdated</MudText>
+                    <MudText Typo="Typo.body2">Updated - user ID: @accessPoint.IdUpdated, time: @accessPoint.DateTimeUpdated</MudText>
                 }
             </CardHeaderContent>
             <CardHeaderActions>
                 <MudIconButton @onclick="BackToMachine" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" />
-                <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
+                <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled || tabs.ActivePanelIndex != 0)" />
+                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
+                <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Access point details">
-                    <EditForm Model="@accessPointModel" OnValidSubmit="OnValidSubmit" id="formId">
+                    <EditForm Model="@accessPoint" OnValidSubmit="OnValidSubmit" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="accessPointModel.Name" ReadOnly="@onlyForReading" Label="Access point name" Variant="Variant.Outlined" />
+                                <MudTextField @bind-Value="accessPoint.Name" ReadOnly="@onlyForReading" Label="Access point name *" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="accessPointModel.MachineName" Label="Machine name" Variant="Variant.Outlined" />
+                                <MudTextField @bind-Value="accessPoint.MachineName" Label="Machine name" Variant="Variant.Outlined" ReadOnly="true"/>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="accessPointModel.EvaluationMethod" Label="Evaluation method" Variant="Variant.Outlined" />
+                                <MudTextField @bind-Value="accessPoint.EvaluationMethod" Label="Evaluation method" Variant="Variant.Outlined" ReadOnly="true"/>
                             </MudItem>
                             <MudItem xs="12">
-                                <MudTextField @bind-Value="accessPointModel.Description" ReadOnly="@onlyForReading" T="string" Label="Access point description" Variant="Variant.Outlined" Lines="3" />
+                                <MudTextField @bind-Value="accessPoint.Description" ReadOnly="@onlyForReading" T="string" Label="Access point description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
                         </MudGrid>
                     </EditForm>
@@ -52,10 +47,7 @@
 
                 <MudTabPanel Text="Safety functions">
                     <MudGrid Style="padding: 20px;">
-                        <MudItem xs="2">
-                            <MudButton @onclick="RemoveAllSafetyFunctions" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Remove all</MudButton>
-                        </MudItem>
-                        <MudItem xs="6" />
+                        <MudItem xs="8" />
                         <MudItem xs="2">
                             <MudButton @onclick="OpenSelectSafetyFunctionsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add existing</MudButton>
                         </MudItem>
@@ -63,13 +55,13 @@
                             <MudButton @onclick="OpenCreateSafetyFunctionDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Create" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Create new</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable T="SafetyFunctionListModel" Items="@safetyFunctions" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable T="SafetyFunctionListModel" Items="@accessPoint.SafetyFunctions" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
-                                    <col style="width:40%;" /> Name 
-                                    <col style="width:25%;" /> State 
-                                    <col style="width:25%;" /> Type of function 
-                                    <col style="width:10%;" /> Evaluation method 
-                                    <col style="width:10%;" /> Actions 
+                                    <col style="width:40%;" /> Name
+                                    <col style="width:25%;" /> State
+                                    <col style="width:25%;" /> Type of function
+                                    <col style="width:10%;" /> Evaluation method
+                                    <col style="width:10%;" /> Actions
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Name</MudTh>
@@ -103,58 +95,39 @@
 
 @code {
 
+    [Inject]
+    private IDialogService dialogService { get; set; }
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    private AccessPointFacade accessPointFacade { get; set; }
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
     [Parameter]
     public int AccessPointId { get; set; }
 
     [Parameter]
     public int MachineId { get; set; }
 
-    private AccessPointDetailModel accessPointModel = new AccessPointDetailModel();
-    private ICollection<SafetyFunctionListModel> safetyFunctions = new List<SafetyFunctionListModel>();
+    private AccessPointDetailModel accessPoint = new AccessPointDetailModel();
 
+    private bool disabled = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
+    private MudTabs tabs = new MudTabs();
 
     private readonly string successMessage = "Access point was saved successfully :)";
     private readonly string errorMessage = "Saving failed :(";
 
     protected override async Task OnInitializedAsync()
     {
-        accessPointModel = await accessPointFacade.GetByIdAsync(AccessPointId);
-        safetyFunctions = await safetyFunctionFacade.GetAllAsync(AccessPointId);
-        StateHasChanged();
-    }
-
-    private async void OpenSelectSafetyFunctionsDialog()
-    {
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPointModel.EvaluationMethod, ["AccessPointId"] = accessPointModel.Id };
-        var dialog = dialogService.Show<SelectSafetyFunctionsDialog>("Select safety functions", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
-        var result = await dialog.Result;
-        if (!result.Cancelled)
-        {
-            safetyFunctions = await safetyFunctionFacade.GetAllAsync(AccessPointId);
-        }
-        StateHasChanged();
-    }
-
-    private async void OpenCreateSafetyFunctionDialog()
-    {
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPointModel.EvaluationMethod, ["AccessPointId"] = accessPointModel.Id };
-        var dialog = dialogService.Show<CreateSafetyFunctionDialog>("Create safety function", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
-        var result = await dialog.Result;
-        if (!result.Cancelled)
-        {
-            safetyFunctions = await safetyFunctionFacade.GetAllAsync(AccessPointId);
-        }
-        StateHasChanged();
-    }
-
-    private void Edit()
-    {
-        onlyForReading = false;
-        showMessage = false;
+        accessPoint = await accessPointFacade.GetByIdAsync(AccessPointId);
     }
 
     private void BackToMachine()
@@ -164,31 +137,65 @@
 
     private void GoToSafetyFunctionDetail(TableRowClickEventArgs<SafetyFunctionListModel> args)
     {
-        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{MachineId}/{AccessPointId}/{args.Item.Id}");
+        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/{accessPoint.EvaluationMethod}/{MachineId}/{AccessPointId}/{args.Item.Id}");
     }
 
-    // TODO: add logic
-    private void RemoveAllSafetyFunctions()
+    private async Task Delete()
     {
+        await accessPointFacade.DeleteAsync(accessPoint.Id);
+        BackToMachine();
+    }
+
+    private void RemoveSafetyFunction(SafetyFunctionListModel safetyFunction)
+    {
+        accessPoint.SafetyFunctions.Remove(safetyFunction);
         StateHasChanged();
     }
 
-    // TODO: add logic for removing saved items from DB
-    private void RemoveSafetyFunction(SafetyFunctionListModel model)
+    private void Edit()
     {
-        // accessPointModel.AccessPointSafetyFunctions.Remove(model);
+        onlyForReading = false;
+        showMessage = false;
+    }
+
+
+
+
+    
+    private async void OpenSelectSafetyFunctionsDialog()
+    {
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPoint.EvaluationMethod, ["AccessPointId"] = accessPoint.Id };
+        var dialog = dialogService.Show<SelectSafetyFunctionsDialog>("Select safety functions", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+
+        }
+        StateHasChanged();
+    }
+
+    private async void OpenCreateSafetyFunctionDialog()
+    {
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPoint.EvaluationMethod, ["AccessPointId"] = accessPoint.Id };
+        var dialog = dialogService.Show<CreateSafetyFunctionDialog>("Create safety function", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+
+        }
+        StateHasChanged();
     }
 
     // TODO: change BE logic if upadte method - do not update collection
     private async void OnValidSubmit()
     {
         Console.WriteLine("Hello");
-        var result = await accessPointFacade.UpdateAsync(accessPointModel);
+        var result = await accessPointFacade.UpdateAsync(accessPoint);
         if (result != 0)
         {
             messageType = Severity.Success;
             message = successMessage;
-            accessPointModel = await accessPointFacade.GetByIdAsync(result);
+            accessPoint = await accessPointFacade.GetByIdAsync(result);
         }
         else
         {
