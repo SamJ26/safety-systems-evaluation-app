@@ -42,7 +42,42 @@ namespace SSEA.BL.Facades
         // TODO: add implementation
         public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel, int userId)
         {
-            return 0;
+            // Getting unchanged access point model from database to compare with updated model
+            AccessPointDetailModel oldModel = await GetByIdAsync(updatedModel.Id);
+
+            #region Processing safety functions
+
+            // Collection of newly created safety functions
+            List<SafetyFunctionListModel> createdSafetyFunctions = new();
+
+            // Collection of existing safety functions added to this access point
+            List<SafetyFunctionListModel> addedSafetyFunctions = new();
+
+            // After this foreach, oldModel.SafetyFunctions will contain safety functions which should be removed
+            foreach (var safetyFunction in updatedModel.SafetyFunctions.ToList())
+            {
+                SafetyFunctionListModel foundSafetyFunction = oldModel.SafetyFunctions.FirstOrDefault(sf => sf.Id == safetyFunction.Id);
+
+                // Item was not removed / added
+                if (foundSafetyFunction is not null)
+                    oldModel.SafetyFunctions.Remove(foundSafetyFunction);
+
+                // Item was added to safety function and already exist in database
+                if (foundSafetyFunction is null && safetyFunction.Id != 0)
+                    addedSafetyFunctions.Add(safetyFunction);
+
+                // Item was added to safety function and does not exist in database yet
+                else if (foundSafetyFunction is null && safetyFunction.Id == 0)
+                    createdSafetyFunctions.Add(safetyFunction);
+            }
+
+            // TODO: create new safety functions + join tables
+            // TOOD: create join tables for existing safety functions
+
+            #endregion
+
+            AccessPoint accessPoint = mapper.Map<AccessPoint>(updatedModel);
+            return await repository.UpdateAsync(accessPoint, userId);
         }
 
         // TODO: add implementation

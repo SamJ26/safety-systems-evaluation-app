@@ -42,5 +42,11 @@ namespace SSEA.DAL.Repositories
                                                   .AsNoTracking()
                                                   .ToListAsync();
         }
+
+        // TODO: add implementation
+        public async Task<int> UpdateAsync(AccessPoint accessPoint, int userId)
+        {
+            return 0;
+        }
     }
 }
