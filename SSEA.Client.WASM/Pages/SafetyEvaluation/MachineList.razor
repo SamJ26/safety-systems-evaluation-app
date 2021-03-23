@@ -90,7 +90,7 @@
                     <MudTd DataLabel="Evaluation method">@context.EvaluationMethod</MudTd>
                     <MudTd DataLabel="Communication">@context.Communication</MudTd>
                     <MudTd DataLabel="Actions">
-                        <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
+                        <MudIconButton @onclick="@(() => Delete(context))" Icon="@Icons.Material.Filled.Delete"></MudIconButton>
                     </MudTd>
                 </RowTemplate>
                 <PagerContent>
@@ -111,6 +111,9 @@
 
     [Inject]
     private NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    private IDialogService dialogService { get; set; }
 
     private ICollection<MachineListModel> machines = new List<MachineListModel>();
 
@@ -145,6 +148,19 @@
     private void GoToMachineDetail(TableRowClickEventArgs<MachineListModel> args)
     {
         navigationManager.NavigateTo($"/safetyEvaluation/machineDetail/{args.Item.Id}");
+    }
+
+    private async Task Delete(MachineListModel machine)
+    {
+        var parameters = new DialogParameters() { ["ItemToDelte"] = "machine", ["NameOfItem"] = machine.Name };
+        var dialog = dialogService.Show<ApproveDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            // TODO: delete machine
+
+            machines.Remove(machine);
+        }
     }
 
 }

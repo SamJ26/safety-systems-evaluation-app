@@ -282,10 +282,17 @@
         StateHasChanged();
     }
 
-    // TODO: add logic
     private async Task Delete()
     {
-        navigationManager.NavigateTo("/safetyEvaluation/machineList");
+        var parameters = new DialogParameters() { ["ItemToDelte"] = "machine", ["NameOfItem"] = machine.Name };
+        var dialog = dialogService.Show<ApproveDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            // TODO: delete machine
+
+            navigationManager.NavigateTo("/safetyEvaluation/machineList");
+        }
     }
 
     private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
