@@ -194,13 +194,10 @@
         StateHasChanged();
     }
 
-
-
-
-    // TODO: change BE logic if upadte method - do not update collection
     private async void OnValidSubmit()
     {
-        Console.WriteLine("Hello");
+        disabled = true;
+        onlyForReading = true;
         var result = await accessPointFacade.UpdateAsync(accessPoint);
         if (result != 0)
         {
@@ -214,6 +211,7 @@
             message = errorMessage;
         }
         showMessage = true;
+        disabled = false;
         StateHasChanged();
     }
 
