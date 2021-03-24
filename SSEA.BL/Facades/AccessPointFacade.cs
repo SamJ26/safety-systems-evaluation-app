@@ -39,7 +39,7 @@ namespace SSEA.BL.Facades
             return accessPoint;
         }
 
-        // TODO: add implementation
+        // TODO: test removing of safety functions
         public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel, int userId)
         {
             // Getting unchanged access point model from database to compare with updated model
@@ -71,12 +71,39 @@ namespace SSEA.BL.Facades
                     createdSafetyFunctions.Add(safetyFunction);
             }
 
-            // TODO: create new safety functions + join tables
-            // TOOD: create join tables for existing safety functions
+            // Collection of join entities which should be inserted to database
+            List<AccessPointSafetyFunction> joinEntites = new();
+
+            // Preparing join entites between updated access point and existing safety functions
+            foreach (var safetyFunction in addedSafetyFunctions)
+            {
+                joinEntites.Add(new AccessPointSafetyFunction()
+                {
+                    AccessPointId = updatedModel.Id,
+                    SafetyFunctionId = safetyFunction.Id,
+                });
+            }
+
+            // Inserting new records to AccessPointSafetyFunction join table
+            if (joinEntites.Count != 0)
+                await repository.AddExistingSafetyFunctions(joinEntites);
+
+            // Inserting newly created safety functions + created entites in join table
+            if (createdSafetyFunctions.Count != 0)
+                await repository.AddNewSafetyFunctions(mapper.Map<ICollection<SafetyFunction>>(createdSafetyFunctions), updatedModel.Id, userId);
+
+            // Removing records from AccessPointSafetyFunction join table
+            if (oldModel.SafetyFunctions.Count != 0)
+                await repository.RemoveSafetyFunctions(mapper.Map<ICollection<SafetyFunction>>(oldModel.SafetyFunctions), updatedModel.Id);
+
+            // Safety functions are processed -> collection can be cleared
+            updatedModel.SafetyFunctions.Clear();
 
             #endregion
 
+            // Updating access point
             AccessPoint accessPoint = mapper.Map<AccessPoint>(updatedModel);
+            accessPoint.MachineId = oldModel.MachineId;
             return await repository.UpdateAsync(accessPoint, userId);
         }
 

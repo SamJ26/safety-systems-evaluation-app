@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace SSEA.DAL.Repositories
             return await dbContext.AccessPoints.Include(ap => ap.CurrentState)
                                                .Include(ap => ap.Machine)
                                                   .ThenInclude(m => m.EvaluationMethod)
+                                               .AsNoTracking()
                                                .SingleOrDefaultAsync(ap => ap.Id == id);
         }
 
@@ -38,15 +40,58 @@ namespace SSEA.DAL.Repositories
                                                                   .Select(apsf => apsf.SafetyFunctionId)
                                                                   .ToArrayAsync();
 
-            return await dbContext.SafetyFunctions.Where(sf => ids.Contains(sf.Id))
+            return await dbContext.SafetyFunctions.Include(sf => sf.EvaluationMethod)
+                                                  .Include(sf => sf.TypeOfFunction)
+                                                  .Include(sf => sf.CurrentState)
+                                                  .Where(sf => ids.Contains(sf.Id))
                                                   .AsNoTracking()
                                                   .ToListAsync();
         }
 
-        // TODO: add implementation
         public async Task<int> UpdateAsync(AccessPoint accessPoint, int userId)
         {
-            return 0;
+            accessPoint.Machine = null;
+            dbContext.Attach(accessPoint.CurrentState).State = EntityState.Unchanged;
+            dbContext.Update(accessPoint);
+            await dbContext.CommitChangesAsync();
+            return accessPoint.Id;
+        }
+
+        public async Task AddExistingSafetyFunctions(ICollection<AccessPointSafetyFunction> joinEntities)
+        {
+            dbContext.AddRange(joinEntities);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task AddNewSafetyFunctions(ICollection<SafetyFunction> safetyFunctions, int accessPointId, int userId)
+        {
+            foreach (var safetyFunction in safetyFunctions)
+            {
+                safetyFunction.CurrentStateId = 8;
+
+                // Explicitly setting up ids of navigation properties to avoid exception with tracking same entity more than ones
+                safetyFunction.EvaluationMethodId = safetyFunction.EvaluationMethod.Id;
+                safetyFunction.EvaluationMethod = null;
+                safetyFunction.TypeOfFunctionId = safetyFunction.TypeOfFunction.Id;
+                safetyFunction.TypeOfFunction = null;
+
+                await dbContext.AddAsync(safetyFunction);
+                await dbContext.CommitChangesAsync(userId);
+                var joinEntity = new AccessPointSafetyFunction()
+                {
+                    AccessPointId = accessPointId,
+                    SafetyFunctionId = safetyFunction.Id
+                };
+                await dbContext.AddAsync(joinEntity);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveSafetyFunctions(ICollection<SafetyFunction> safetyFunctions, int accessPointId)
+        {
+            var entites = await dbContext.AccessPointSafetyFunctions.Where(apsf => apsf.AccessPointId == accessPointId && safetyFunctions.Select(sf => sf.Id).Contains(apsf.SafetyFunctionId)).ToListAsync();
+            dbContext.RemoveRange(entites);
+            await dbContext.SaveChangesAsync();
         }
     }
 }
