@@ -51,8 +51,7 @@ namespace SSEA.Api.Controllers
 
         // PUT: api/accessPoint
         [HttpPut]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
+        [Authorize(Roles = "Administrator, NormalUser")]
         [SwaggerOperation(OperationId = "AccessPointUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,8 +66,7 @@ namespace SSEA.Api.Controllers
 
         // DELETE: api/accessPoint/{id}
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
+        [Authorize(Roles = "Administrator, NormalUser")]
         [SwaggerOperation(OperationId = "AccessPointDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
