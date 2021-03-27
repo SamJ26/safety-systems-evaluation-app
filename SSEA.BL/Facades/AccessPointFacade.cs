@@ -39,7 +39,6 @@ namespace SSEA.BL.Facades
             return accessPoint;
         }
 
-        // TODO: test removing of safety functions
         public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel, int userId)
         {
             // Getting unchanged access point model from database to compare with updated model

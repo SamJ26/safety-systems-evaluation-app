@@ -51,7 +51,6 @@ namespace SSEA.BL.Facades
             return machine;
         }
 
-        // TODO: test logic for removing of access points
         public async Task<int> UpdateAsync(MachineDetailModel updatedModel, int userId)
         {
             // Getting unchanged machine from database to compare with updated model
