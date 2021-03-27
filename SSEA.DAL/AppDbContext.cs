@@ -109,6 +109,9 @@ namespace SSEA.DAL
             builder.Entity<RoleClaim>().ToTable("SY_RoleClaim");
             builder.Entity<UserToken>().ToTable("SY_UserToken");
 
+            builder.Entity<Machine>().HasQueryFilter(m => m.CurrentStateId != 4);
+            builder.Entity<AccessPoint>().HasQueryFilter(ap => ap.CurrentStateId != 7);
+
             builder.Entity<Role>(r =>
             {
                 r.ToTable("SY_Role");

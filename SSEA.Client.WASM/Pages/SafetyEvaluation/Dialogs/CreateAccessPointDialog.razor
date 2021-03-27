@@ -27,7 +27,7 @@
     MudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public AccessPointListModel AccessPoint { get; set; } = new AccessPointListModel();
+    public AccessPointListModel AccessPoint { get; set; }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();

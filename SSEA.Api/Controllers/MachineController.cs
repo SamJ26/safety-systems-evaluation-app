@@ -52,8 +52,7 @@ namespace SSEA.Api.Controllers
 
         // POST: api/machine
         [HttpPost]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
+        [Authorize(Roles = "Administrator, NormalUser")]
         [SwaggerOperation(OperationId = "MachineCreate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,8 +67,7 @@ namespace SSEA.Api.Controllers
 
         // PUT: api/machine
         [HttpPut]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
+        [Authorize(Roles = "Administrator, NormalUser")]
         [SwaggerOperation(OperationId = "MachineUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -84,8 +82,7 @@ namespace SSEA.Api.Controllers
 
         // DELETE: api/machine/{id}
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
+        [Authorize(Roles = "Administrator, NormalUser")]
         [SwaggerOperation(OperationId = "MachineDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

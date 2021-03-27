@@ -1,19 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using SSEA.BL.Models;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
-using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.DAL;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades

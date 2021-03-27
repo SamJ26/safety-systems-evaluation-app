@@ -17,6 +17,7 @@ namespace SSEA.DAL.Repositories
         private readonly int machineNewStateId = 1;
         private readonly int machineRemovedStateId = 4;
         private readonly int accessPointNewStateId = 5;
+        private readonly int accessPointRemovedStateId = 7;
 
         public MachineRepository(AppDbContext dbContext)
         {
@@ -96,8 +97,7 @@ namespace SSEA.DAL.Repositories
                                                     .Select(mn => mn.NormId)
                                                     .ToArrayAsync();
 
-            return await dbContext.Norms.AsNoTracking()
-                                        .Where(n => ids.Contains(n.Id))
+            return await dbContext.Norms.Where(n => ids.Contains(n.Id))
                                         .AsNoTracking()
                                         .ToListAsync();
         }
@@ -136,6 +136,18 @@ namespace SSEA.DAL.Repositories
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
             return machine.Id;
+        }
+
+        public async Task DeleteAsync(int machineId, int userId)
+        {
+            Machine machine = await dbContext.Machines.Include(m => m.AccessPoints).AsNoTracking().SingleOrDefaultAsync(m => m.Id == machineId);
+            machine.CurrentStateId = machineRemovedStateId;
+            foreach (var accessPoint in machine.AccessPoints)
+            {
+                accessPoint.CurrentStateId = accessPointRemovedStateId;
+            }
+            dbContext.Update(machine);
+            await dbContext.CommitChangesAsync(userId);
         }
     }
 }

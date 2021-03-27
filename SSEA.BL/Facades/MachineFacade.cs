@@ -1,20 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using SSEA.BL.Models;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
-using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
-using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using SSEA.DAL.Entities.System;
 using SSEA.DAL.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
@@ -22,12 +14,14 @@ namespace SSEA.BL.Facades
     public class MachineFacade
     {
         private readonly IMapper mapper;
-        private readonly MachineRepository repository;
+        private readonly MachineRepository machineRepository;
+        private readonly AccessPointRepository accessPointRepository;
 
-        public MachineFacade(IMapper mapper, MachineRepository repository)
+        public MachineFacade(IMapper mapper, MachineRepository machineRepository, AccessPointRepository accessPointRepository)
         {
             this.mapper = mapper;
-            this.repository = repository;
+            this.machineRepository = machineRepository;
+            this.accessPointRepository = accessPointRepository;
         }
 
         public async Task<int> CreateAsync(MachineDetailModel newModel, int userId)
@@ -35,29 +29,28 @@ namespace SSEA.BL.Facades
             Machine machineEntity = mapper.Map<Machine>(newModel);
 
             // Saving machine with AccessPoints
-            int id = await repository.CreateAsync(machineEntity, userId);
+            int id = await machineRepository.CreateAsync(machineEntity, userId);
 
             // Saving related norms
             ICollection<Norm> norms = mapper.Map<ICollection<Norm>>(newModel.Norms);
-            await repository.AddNormsToMachineAsync(norms, id);
+            await machineRepository.AddNormsToMachineAsync(norms, id);
         
             return id;
         }
 
         public async Task<ICollection<MachineListModel>> GetAllAsync(string machineName, int stateId, int machineTypeId, int evaluationMethodId, int producerId)
         {
-            var machines = await repository.GetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId);
+            var machines = await machineRepository.GetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId);
             return mapper.Map<ICollection<MachineListModel>>(machines);
         }
 
         public async Task<MachineDetailModel> GetByIdAsync(int id)
         {
-            var machine = mapper.Map<MachineDetailModel>(await repository.GetByIdAsync(id));
-            machine.Norms = mapper.Map<HashSet<NormModel>>(await repository.GetNormsForMachineAsync(id));
+            var machine = mapper.Map<MachineDetailModel>(await machineRepository.GetByIdAsync(id));
+            machine.Norms = mapper.Map<HashSet<NormModel>>(await machineRepository.GetNormsForMachineAsync(id));
             return machine;
         }
 
-        // TODO: add logic for removing access points
         public async Task<int> UpdateAsync(MachineDetailModel updatedModel, int userId)
         {
             // Getting unchanged machine from database to compare with updated model
@@ -83,11 +76,11 @@ namespace SSEA.BL.Facades
 
             // Removing norms
             foreach (var norm in oldModel.Norms)
-                await repository.RemoveNormAsync(updatedModel.Id, norm.Id);
+                await machineRepository.RemoveNormAsync(updatedModel.Id, norm.Id);
 
             // Adding new norms to machine
             if (addedNorms.Count != 0)
-                await repository.AddNormsToMachineAsync(mapper.Map<ICollection<Norm>>(addedNorms), updatedModel.Id);
+                await machineRepository.AddNormsToMachineAsync(mapper.Map<ICollection<Norm>>(addedNorms), updatedModel.Id);
 
             // Norms are processed -> can be cleared
             updatedModel.Norms.Clear();
@@ -106,10 +99,10 @@ namespace SSEA.BL.Facades
                     oldModel.AccessPoints.Remove(foundAccessPoint);
             }
 
-            // Removing norms
+            // Removing access points
             foreach (var accessPoint in oldModel.AccessPoints)
             {
-                // TODO: remove access points using access point facade ??
+                await accessPointRepository.DeleteAsync(accessPoint.Id, userId);
             }
 
             #endregion
@@ -117,13 +110,12 @@ namespace SSEA.BL.Facades
             // Creating machine entity with machine properties and access point collection
             Machine machineEntity = mapper.Map<Machine>(updatedModel);
 
-            return await repository.UpdateAsync(machineEntity, userId);
+            return await machineRepository.UpdateAsync(machineEntity, userId);
         }
 
-        // TODO: add logic after preparing methods for removing access points
-        public async Task DeleteAsync(int id, int userId)
+        public async Task DeleteAsync(int machineId, int userId)
         {
-
+            await machineRepository.DeleteAsync(machineId, userId);
         }
     }
 }

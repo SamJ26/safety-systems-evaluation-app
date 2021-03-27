@@ -6,6 +6,7 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,113 +17,98 @@ namespace SSEA.BL.Facades
 {
     public class AccessPointFacade
     {
-        private readonly int accessPointRemovedStateId = 7;
-
-        private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
+        private readonly AccessPointRepository repository;
 
-        public AccessPointFacade(AppDbContext dbContext, IMapper mapper)
+        public AccessPointFacade(IMapper mapper, AccessPointRepository repository)
         {
-            this.dbContext = dbContext;
             this.mapper = mapper;
+            this.repository = repository;
         }
 
-        // TODO: add GetAll method with filter
-
-        public Task<int> CreateAsync(AccessPointDetailModel newModel, int userId)
+        public async Task<ICollection<AccessPointListModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<int> DeleteAsync(int id, bool softDelelte = true)
-        {
-            var accessPoint = await GetAccessPointById(id);
-            if (softDelelte)
-            {
-                // TODO: set up removed state to all records
-            }
-            else
-            {
-                dbContext.AccessPoints.Remove(accessPoint);
-            }
-            await dbContext.SaveChangesAsync();
-            return accessPoint.Id;
-        }
-
-        public Task<ICollection<AccessPointListModel>> GetAllAsync()
-        {
-            throw new NotImplementedException();
+            var data = await repository.GetAllAsync();
+            return mapper.Map<ICollection<AccessPointListModel>>(data);
         }
 
         public async Task<AccessPointDetailModel> GetByIdAsync(int id)
         {
-            AccessPoint data = await GetAccessPointById(id);
-            return mapper.Map<AccessPointDetailModel>(data);
+            AccessPointDetailModel accessPoint = mapper.Map<AccessPointDetailModel>(await repository.GetByIdAsync(id));
+            accessPoint.SafetyFunctions = mapper.Map<ICollection<SafetyFunctionListModel>>(await repository.GetSafetyFunctionsForAccessPointAsync(accessPoint.Id));
+            return accessPoint;
         }
 
-        //public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel)
-        //{
-        //    // Items which have set Id are already in database and so can be removed for upcoming processing
-        //    foreach (var item in updatedModel.AccessPointSafetyFunctions.ToList())
-        //    {
-        //        // Item is already in database -> no operation with item
-        //        if (item.Id != 0)
-        //            updatedModel.AccessPointSafetyFunctions.Remove(item);
-
-        //        // Safety function is already in database -> creating new record in join table
-        //        else if (item.SafetyFunctionId != 0)
-        //            item.SafetyFunction = null;
-
-        //        // Safety function is new -> creating new safety function + record in join table
-        //        else if (item.SafetyFunctionId == 0 && item.SafetyFunction != null)
-        //        {
-        //            // TODO: add initial state to safety function
-
-        //            // Inserting new safety function to database
-        //            var safetyFunctionEntity = mapper.Map<SafetyFunction>(item.SafetyFunction);
-        //            dbContext.Attach(safetyFunctionEntity.EvaluationMethod).State = EntityState.Unchanged;
-        //            dbContext.Attach(safetyFunctionEntity.TypeOfFunction).State = EntityState.Unchanged;
-        //            dbContext.SafetyFunctions.Add(safetyFunctionEntity);
-        //            await dbContext.SaveChangesAsync();
-
-        //            // Creating new record in join table in database
-        //            var newJoinTable = new AccessPointSafetyFunction()
-        //            {
-        //                AccessPointId = item.AccessPointId,
-        //                SafetyFunctionId = safetyFunctionEntity.Id,
-        //            };
-        //            dbContext.AccessPointSafetyFunctions.Add(newJoinTable);
-        //            await dbContext.SaveChangesAsync();
-
-        //            // When item is processed it can be removed from collection
-        //            updatedModel.AccessPointSafetyFunctions.Remove(item);
-        //        }
-        //    }
-
-        //    // In collection remain just items with AccessPointId and SafetyFunctionId
-        //    var entity = mapper.Map<AccessPoint>(updatedModel);
-        //    dbContext.AccessPoints.Update(entity);
-        //    await dbContext.SaveChangesAsync();
-
-        //    return entity.Id;
-        //}
-
-        public async Task<int> AddSafetyFunctionAsync(AccessPointSafetyFunctionModel model)
+        public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel, int userId)
         {
-            var entity = mapper.Map<AccessPointSafetyFunction>(model);
-            await dbContext.AccessPointSafetyFunctions.AddAsync(entity);
-            await dbContext.SaveChangesAsync();
-            return entity.Id;
+            // Getting unchanged access point model from database to compare with updated model
+            AccessPointDetailModel oldModel = await GetByIdAsync(updatedModel.Id);
+
+            #region Processing safety functions
+
+            // Collection of newly created safety functions
+            List<SafetyFunctionListModel> createdSafetyFunctions = new();
+
+            // Collection of existing safety functions added to this access point
+            List<SafetyFunctionListModel> addedSafetyFunctions = new();
+
+            // After this foreach, oldModel.SafetyFunctions will contain safety functions which should be removed
+            foreach (var safetyFunction in updatedModel.SafetyFunctions.ToList())
+            {
+                SafetyFunctionListModel foundSafetyFunction = oldModel.SafetyFunctions.FirstOrDefault(sf => sf.Id == safetyFunction.Id);
+
+                // Item was not removed / added
+                if (foundSafetyFunction is not null)
+                    oldModel.SafetyFunctions.Remove(foundSafetyFunction);
+
+                // Item was added to safety function and already exist in database
+                if (foundSafetyFunction is null && safetyFunction.Id != 0)
+                    addedSafetyFunctions.Add(safetyFunction);
+
+                // Item was added to safety function and does not exist in database yet
+                else if (foundSafetyFunction is null && safetyFunction.Id == 0)
+                    createdSafetyFunctions.Add(safetyFunction);
+            }
+
+            // Collection of join entities which should be inserted to database
+            List<AccessPointSafetyFunction> joinEntites = new();
+
+            // Preparing join entites between updated access point and existing safety functions
+            foreach (var safetyFunction in addedSafetyFunctions)
+            {
+                joinEntites.Add(new AccessPointSafetyFunction()
+                {
+                    AccessPointId = updatedModel.Id,
+                    SafetyFunctionId = safetyFunction.Id,
+                });
+            }
+
+            // Inserting new records to AccessPointSafetyFunction join table
+            if (joinEntites.Count != 0)
+                await repository.AddExistingSafetyFunctions(joinEntites);
+
+            // Inserting newly created safety functions + created entites in join table
+            if (createdSafetyFunctions.Count != 0)
+                await repository.AddNewSafetyFunctions(mapper.Map<ICollection<SafetyFunction>>(createdSafetyFunctions), updatedModel.Id, userId);
+
+            // Removing records from AccessPointSafetyFunction join table
+            if (oldModel.SafetyFunctions.Count != 0)
+                await repository.RemoveSafetyFunctions(mapper.Map<ICollection<SafetyFunction>>(oldModel.SafetyFunctions), updatedModel.Id);
+
+            // Safety functions are processed -> collection can be cleared
+            updatedModel.SafetyFunctions.Clear();
+
+            #endregion
+
+            // Updating access point
+            AccessPoint accessPoint = mapper.Map<AccessPoint>(updatedModel);
+            accessPoint.MachineId = oldModel.MachineId;
+            return await repository.UpdateAsync(accessPoint, userId);
         }
 
-        private async Task<AccessPoint> GetAccessPointById(int id)
+        public async Task DeleteAsync(int accessPointId, int userId)
         {
-            return await dbContext.AccessPoints.Include(ap => ap.CurrentState)
-                                               .Include(ap => ap.Machine)
-                                                  .ThenInclude(m => m.EvaluationMethod)
-                                               .Include(ap => ap.AccessPointSafetyFunctions)
-                                                  .ThenInclude(apsf => apsf.SafetyFunction)
-                                               .SingleOrDefaultAsync(ap => ap.Id == id);
+            await repository.DeleteAsync(accessPointId, userId);
         }
     }
 }

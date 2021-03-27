@@ -18,9 +18,9 @@
             <CardHeaderActions>
                 <AuthorizeView Roles="Administrator, NormalUser">
                     <Authorized>
-                        <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled || tabs.ActivePanelIndex != 0)" />
+                        <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
                         <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
-                        <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled"></MudIconButton>
+                        <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
@@ -241,12 +241,14 @@
 
     private async void OpenSelectNormsDialog()
     {
-        var parameters = new DialogParameters() { ["SelectedNorms"] = machine.Norms };
+        HashSet<NormModel> selectedNorms = new HashSet<NormModel>();
+        var parameters = new DialogParameters() { ["SelectedNorms"] = selectedNorms };
         var dialog = dialogService.Show<SelectNormsDialog>("Select norms", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            Console.WriteLine(machine.Norms.Count);
+            foreach (var norm in selectedNorms)
+                machine.Norms.Add(norm);
         }
         StateHasChanged();
     }

@@ -80,12 +80,13 @@ namespace SSEA.Api
             services.AddScoped<IPerformanceLevelService, PerformanceLevelService>();
 
             services.AddScoped<MachineRepository>();
+            services.AddScoped<AccessPointRepository>();
 
+            services.AddScoped<CodeListFacade>();
             services.AddScoped<MachineFacade>();
             services.AddScoped<AccessPointFacade>();
             services.AddScoped<SafetyFunctionFacade>();
             services.AddScoped<SubsystemFacade>();
-            services.AddScoped<CodeListFacade>();
 
             services.AddAutoMapper(typeof(ModelBase).Assembly);
         }
