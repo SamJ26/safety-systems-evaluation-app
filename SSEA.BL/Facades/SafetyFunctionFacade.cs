@@ -93,7 +93,7 @@ namespace SSEA.BL.Facades
 
         public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel, int userId)
         {
-            newModel.SafetyFunctionSubsystems?.Clear();
+            // newModel.SafetyFunctionSubsystems?.Clear();
 
             // Creating entity without collection
             var entity = mapper.Map<SafetyFunction>(newModel);

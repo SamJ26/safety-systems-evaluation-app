@@ -32,7 +32,11 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public FModel F { get; set; }
         public PModel P { get; set; }
 
-        public ICollection<SafetyFunctionSubsystemModel> SafetyFunctionSubsystems { get; set; }
+        public SubsystemDetailModelPL InputSubsystem { get; set; }
+        public SubsystemDetailModelPL Communication1Subsystem { get; set; }
+        public SubsystemDetailModelPL LogicSubsystem { get; set; }
+        public SubsystemDetailModelPL Communication2Subsystem { get; set; }
+        public SubsystemDetailModelPL OutputSubsystem { get; set; }
     }
 
     public class SafetyFunctionDetailModelPLMapperProfile : Profile
@@ -60,6 +64,11 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                                     .IgnoreSource(src => src.Av)
                                                                     .IgnoreSource(src => src.AvId)
                                                                     .IgnoreSource(src => src.CurrentStateId)
+                                                                    .Ignore(dest => dest.InputSubsystem)
+                                                                    .Ignore(dest => dest.Communication1Subsystem)
+                                                                    .Ignore(dest => dest.LogicSubsystem)
+                                                                    .Ignore(dest => dest.Communication2Subsystem)
+                                                                    .Ignore(dest => dest.OutputSubsystem)
                                                                     .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                                     .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                                     .ReverseMap();
