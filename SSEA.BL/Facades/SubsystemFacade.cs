@@ -58,45 +58,6 @@ namespace SSEA.BL.Facades
             return mapper.Map<ICollection<SubsystemDetailModelSIL>>(subsystems);
         }
 
-        public async Task<ICollection<SubsystemDetailModelPL>> GetAllPLAsync(int safetyFunctionId)
-        {
-            // Getting all subsystems for PL which are related to selected safety function specified by safetyFunctionId
-            int[] subsystems = await dbContext.SafetyFunctionSubsystems.Where(a => a.SafetyFunctionId == safetyFunctionId)
-                                                                       .Select(a => a.SubsystemId)
-                                                                       .ToArrayAsync();
-
-            var data = await dbContext.Subsystems.Where(s => s.CategoryId != null && subsystems.Contains(s.Id))
-                                                 .Include(s => s.TypeOfSubsystem)
-                                                 .Include(s => s.Category)
-                                                 .Include(s => s.DCresult)
-                                                 .Include(s => s.MTTFdResult)
-                                                 .Include(s => s.PLresult)
-                                                 .Include(s => s.CurrentState)
-                                                 .AsNoTracking()
-                                                 .ToListAsync();
-
-            return mapper.Map<ICollection<SubsystemDetailModelPL>>(data);
-        }
-
-        public async Task<ICollection<SubsystemDetailModelSIL>> GetAllSILAsync(int safetyFunctionId)
-        {
-            // Getting all subsystems for SIL which are related to selected safety function specified by safetyFunctionId
-            int[] subsystems = await dbContext.SafetyFunctionSubsystems.Where(a => a.SafetyFunctionId == safetyFunctionId)
-                                                                       .Select(a => a.SubsystemId)
-                                                                       .ToArrayAsync();
-
-            var data = await dbContext.Subsystems.Where(s => s.ArchitectureId != null && subsystems.Contains(s.Id))
-                                                 .Include(s => s.TypeOfSubsystem)
-                                                 .Include(s => s.Architecture)
-                                                 .Include(s => s.PFHdResult)
-                                                 .Include(s => s.CFF)
-                                                 .Include(s => s.CurrentState)
-                                                 .AsNoTracking()
-                                                 .ToListAsync();
-
-            return mapper.Map<ICollection<SubsystemDetailModelSIL>>(data);
-        }
-
         public async Task<SubsystemDetailModelPL> GetByIdPLAsync(int id)
         {
             var subsystem = await dbContext.Subsystems.Where(s => s.CategoryId != null)
