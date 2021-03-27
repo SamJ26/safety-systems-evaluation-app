@@ -39,16 +39,16 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionGetByIdSILAsync(id);
         }
 
-        public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel)
-        {
-            Console.WriteLine("SafetyFunctionFacade.CreateAsync(SafetyFunctionDetailModelPL newModel)");
-            return await clientService.SafetyFunctionCreatePLAsync(newModel);
-        }
+        //public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel)
+        //{
+        //    Console.WriteLine("SafetyFunctionFacade.CreateAsync(SafetyFunctionDetailModelPL newModel)");
+        //    return await clientService.SafetyFunctionCreatePLAsync(newModel);
+        //}
 
-        public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
-        {
-            Console.WriteLine("SafetyFunctionFacade.CreateAsync(SafetyFunctionDetailModelSIL newModel)");
-            return await clientService.SafetyFunctionCreateSILAsync(newModel);
-        }
+        //public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
+        //{
+        //    Console.WriteLine("SafetyFunctionFacade.CreateAsync(SafetyFunctionDetailModelSIL newModel)");
+        //    return await clientService.SafetyFunctionCreateSILAsync(newModel);
+        //}
     }
 }
