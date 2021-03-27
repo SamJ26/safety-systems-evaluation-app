@@ -107,10 +107,9 @@ namespace SSEA.BL.Facades
             return await repository.UpdateAsync(accessPoint, userId);
         }
 
-        // TODO: add implementation
         public async Task DeleteAsync(int accessPointId, int userId)
         {
-
+            await repository.DeleteAsync(accessPointId, userId);
         }
     }
 }

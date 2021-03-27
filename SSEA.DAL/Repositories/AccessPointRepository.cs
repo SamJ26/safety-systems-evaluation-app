@@ -93,5 +93,13 @@ namespace SSEA.DAL.Repositories
             dbContext.RemoveRange(entites);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(int id, int userId)
+        {
+            AccessPoint acessPoint = await dbContext.AccessPoints.Where(ap => ap.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            acessPoint.CurrentStateId = accessPointRemovedStateId;
+            dbContext.Update(acessPoint);
+            await dbContext.CommitChangesAsync(userId);
+        }
     }
 }
