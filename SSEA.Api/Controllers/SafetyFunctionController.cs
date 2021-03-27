@@ -29,9 +29,12 @@ namespace SSEA.Api.Controllers
         [HttpGet]
         [SwaggerOperation(OperationId = "SafetyFunctionGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ICollection<SafetyFunctionListModel>>> GetAllAsync()
+        public async Task<ActionResult<ICollection<SafetyFunctionListModel>>> GetAllAsync([FromQuery] string name,
+                                                                                          [FromQuery] int stateId = 0,
+                                                                                          [FromQuery] int typeOfFunctionId = 0,
+                                                                                          [FromQuery] int evaluationMethodId = 0)
         {
-            var data = await safetyFunctionFacade.GetAllAsync();
+            var data = await safetyFunctionFacade.GetAllAsync(name, stateId, typeOfFunctionId, evaluationMethodId);
             return Ok(data);
         }
 

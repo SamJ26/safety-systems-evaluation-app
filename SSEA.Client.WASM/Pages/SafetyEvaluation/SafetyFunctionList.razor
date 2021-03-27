@@ -8,7 +8,7 @@
     <MudCard Elevation="3">
         <MudCardHeader Style="padding-bottom: 0px;">
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Machine list</MudText>
+                <MudText Typo="Typo.h6">Safety function list</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
                 <MudButton @onclick="@(() => CreateNew("PL"))" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Create" Color="Color.Primary" Style="margin-top:5px; margin-right:8px;">New (PL)</MudButton>
@@ -22,35 +22,37 @@
                     <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;">Search</MudButton>
                 </MudItem>
                 <MudItem xs="11">
-                    <MudItem xs="4">
-                        <MudTextField @bind-Value="safetyFunctionName" Label="Safety function name" Variant="Variant.Outlined"></MudTextField>
-                    </MudItem>
-                    <MudItem xs="2">
-                        <MudSelect @bind-Value="stateId" T="int" Label="State of record" Strict="true" Variant="Variant.Outlined" Format="F2">
-                            <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                            <MudSelectItem T="int" Value="@(8)">Nová</MudSelectItem>
-                            <MudSelectItem T="int" Value="@(9)">Rozpracovaná</MudSelectItem>
-                            <MudSelectItem T="int" Value="@(10)">Dokončená</MudSelectItem>
-                        </MudSelect>
-                    </MudItem>
-                    <MudItem xs="4">
-                        <MudSelect @bind-Value="typeOfFunctionId" T="int" Label="Type of function" Strict="true" Variant="Variant.Outlined" Format="F2">
-                            <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                            @foreach (var item in typeOfFunctions)
-                            {
-                                <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
-                            }
-                        </MudSelect>
-                    </MudItem>
-                    <MudItem xs="2">
-                        <MudSelect @bind-Value="evaluationMethodId" T="int" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
-                            <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                            @foreach (var item in evaluationMethods)
-                            {
-                                <MudSelectItem T="int" Value="@(item.Id)">@item.Shortcut</MudSelectItem>
-                            }
-                        </MudSelect>
-                    </MudItem>
+                    <MudGrid>
+                        <MudItem xs="4">
+                            <MudTextField @bind-Value="safetyFunctionName" Label="Safety function name" Variant="Variant.Outlined"></MudTextField>
+                        </MudItem>
+                        <MudItem xs="2">
+                            <MudSelect @bind-Value="stateId" T="int" Label="State of record" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(8)">Nová</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(9)">Rozpracovaná</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(10)">Dokončená</MudSelectItem>
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="4">
+                            <MudSelect @bind-Value="typeOfFunctionId" T="int" Label="Type of function" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                                @foreach (var item in typeOfFunctions)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="2">
+                            <MudSelect @bind-Value="evaluationMethodId" T="int" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                                @foreach (var item in evaluationMethods)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Shortcut</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    </MudGrid>
                 </MudItem>
             </MudGrid>
             <hr style="margin-top:16px;" />

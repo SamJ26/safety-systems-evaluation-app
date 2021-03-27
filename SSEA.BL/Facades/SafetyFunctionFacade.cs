@@ -22,9 +22,9 @@ namespace SSEA.BL.Facades
             this.PLService = PLService;
         }
 
-        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync()
+        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
         {
-            var safetyFunctions = await safetyFunctionRepository.GetAllAsync();
+            var safetyFunctions = await safetyFunctionRepository.GetAllAsync(name, stateId, typeOfFunctionId, evaluationMethodId);
             return mapper.Map<ICollection<SafetyFunctionListModel>>(safetyFunctions);
         }
 

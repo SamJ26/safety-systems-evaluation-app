@@ -19,13 +19,24 @@ namespace SSEA.DAL.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<ICollection<SafetyFunction>> GetAllAsync()
+        public async Task<ICollection<SafetyFunction>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
         {
-            return await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
-                                                  .Include(sf => sf.EvaluationMethod)
-                                                  .Include(sf => sf.TypeOfFunction)
-                                                  .AsNoTracking()
-                                                  .ToListAsync();
+            IQueryable<SafetyFunction> query = dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
+                                                                        .Include(sf => sf.EvaluationMethod)
+                                                                        .Include(sf => sf.TypeOfFunction)
+                                                                        .AsNoTracking();
+            if (!string.IsNullOrEmpty(name))
+            {
+                name = name.ToLower();
+                query = query.Where(sf => sf.Name.ToLower().Contains(name));
+            }
+            if (stateId != 0)
+                query = query.Where(sf => sf.CurrentStateId == stateId);
+            if (typeOfFunctionId != 0)
+                query = query.Where(sf => sf.TypeOfFunctionId == typeOfFunctionId);
+            if (evaluationMethodId != 0)
+                query = query.Where(m => m.EvaluationMethodId == evaluationMethodId);
+            return await query.ToListAsync();
         }
 
         public async Task<SafetyFunction> GetByIdPLAsync(int id)
