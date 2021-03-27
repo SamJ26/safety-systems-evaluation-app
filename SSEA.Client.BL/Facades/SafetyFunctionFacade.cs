@@ -15,10 +15,10 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
-        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync()
+        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
         {
-            Console.WriteLine("SafetyFunctionFacade.GetAllAsync()");
-            return await clientService.SafetyFunctionGetAllAsync();
+            Console.WriteLine("SafetyFunctionFacade.GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)");
+            return await clientService.SafetyFunctionGetAllAsync(name, stateId, typeOfFunctionId, evaluationMethodId);
         }
 
         public async Task<SafetyFunctionDetailModelPL> GetByIdPLAsync(int id)

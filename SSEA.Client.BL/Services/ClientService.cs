@@ -128,12 +128,12 @@ namespace SSEA.Client.BL.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SafetyFunctionListModel>> SafetyFunctionGetAllAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SafetyFunctionListModel>> SafetyFunctionGetAllAsync(string name, int? stateId, int? typeOfFunctionId, int? evaluationMethodId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SafetyFunctionListModel>> SafetyFunctionGetAllAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SafetyFunctionListModel>> SafetyFunctionGetAllAsync(string name, int? stateId, int? typeOfFunctionId, int? evaluationMethodId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
@@ -1238,18 +1238,35 @@ namespace SSEA.Client.BL.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SafetyFunctionListModel>> SafetyFunctionGetAllAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SafetyFunctionListModel>> SafetyFunctionGetAllAsync(string name, int? stateId, int? typeOfFunctionId, int? evaluationMethodId)
         {
-            return SafetyFunctionGetAllAsync(System.Threading.CancellationToken.None);
+            return SafetyFunctionGetAllAsync(name, stateId, typeOfFunctionId, evaluationMethodId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SafetyFunctionListModel>> SafetyFunctionGetAllAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SafetyFunctionListModel>> SafetyFunctionGetAllAsync(string name, int? stateId, int? typeOfFunctionId, int? evaluationMethodId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/safetyFunction");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/safetyFunction?");
+            if (name != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("name") + "=").Append(System.Uri.EscapeDataString(ConvertToString(name, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (stateId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("stateId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(stateId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (typeOfFunctionId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("typeOfFunctionId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(typeOfFunctionId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (evaluationMethodId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("evaluationMethodId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(evaluationMethodId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
 
             var client_ = _httpClient;
             var disposeClient_ = false;

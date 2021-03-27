@@ -125,7 +125,7 @@
 
     private async void Search()
     {
-        // TODO: call API
+        safetyFunctions = await safetyFunctionFacade.GetAllAsync(safetyFunctionName, stateId, typeOfFunctionId, evaluationMethodId);
         StateHasChanged();
     }
 
