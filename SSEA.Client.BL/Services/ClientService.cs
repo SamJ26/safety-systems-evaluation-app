@@ -1692,18 +1692,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -1761,18 +1749,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -1790,18 +1766,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -1848,18 +1812,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -1880,18 +1832,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -1925,18 +1865,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -2061,18 +1989,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -2091,18 +2007,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -2120,18 +2024,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -2284,18 +2176,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -2313,18 +2193,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -2347,18 +2215,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -2378,22 +2234,28 @@ namespace SSEA.Client.BL.Services
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.3.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class PFHdModel
+    public partial class OperationPrincipleModel
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
+        [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsValid { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Description { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.3.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class PFHdModel
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Id { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -2416,18 +2278,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -2442,18 +2292,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -2472,18 +2310,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -2532,18 +2358,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -2772,18 +2586,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -2801,18 +2603,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -2875,6 +2665,10 @@ namespace SSEA.Client.BL.Services
         [System.ComponentModel.DataAnnotations.Required]
         public TypeOfSubsystemModel TypeOfSubsystem { get; set; } = new TypeOfSubsystemModel();
 
+        [Newtonsoft.Json.JsonProperty("operationPrinciple", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public OperationPrincipleModel OperationPrinciple { get; set; } = new OperationPrincipleModel();
+
         [Newtonsoft.Json.JsonProperty("category", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         public CategoryModel Category { get; set; } = new CategoryModel();
@@ -2931,6 +2725,10 @@ namespace SSEA.Client.BL.Services
         [System.ComponentModel.DataAnnotations.Required]
         public TypeOfSubsystemModel TypeOfSubsystem { get; set; } = new TypeOfSubsystemModel();
 
+        [Newtonsoft.Json.JsonProperty("operationPrinciple", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public OperationPrincipleModel OperationPrinciple { get; set; } = new OperationPrincipleModel();
+
         [Newtonsoft.Json.JsonProperty("architecture", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         public ArchitectureModel Architecture { get; set; } = new ArchitectureModel();
@@ -2959,18 +2757,6 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
-
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
 
@@ -2988,18 +2774,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
@@ -3045,18 +2819,6 @@ namespace SSEA.Client.BL.Services
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int IdCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeCreated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeCreated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("idUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? IdUpdated { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("dateTimeUpdated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateTimeUpdated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsValid { get; set; }
