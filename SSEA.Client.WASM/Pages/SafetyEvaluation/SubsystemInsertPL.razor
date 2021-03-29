@@ -1,22 +1,18 @@
-﻿@page "/safetyEvaluation/subsystemInsert/PL/{machineId:int}/{accessPointId:int}/{safetyFunctionId:int}/{typeOfSubsystem}"
+﻿@page "/safetyEvaluation/subsystemInsert/PL"
 
 @layout MainLayout
 
-@inject NavigationManager navigationManager
-@inject CodeListFacade codeListFacade
-@inject SubsystemFacade subsystemFacade
-
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Administrator, NormalUser")]
 
 <MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Subsystem insert</MudText>
+                <MudText Typo="Typo.h6">Create new subsystem</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" />
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" />
+                <MudIconButton @onclick="@BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(safetyFunctionId == 0 || disabled)" />
+                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="disabled" />
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
@@ -26,14 +22,24 @@
                     <EditForm Model="@subsystem" OnValidSubmit="OnValidSubmit" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="4">
-                                <MudField Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined">@subsystem.TypeOfSubsystem.Name</MudField>
+                            <MudItem xs="12">
+                                <MudField Label="Type of subsystem *" ReadOnly="true" Variant="Variant.Outlined">@typeOfSubsytem</MudField>
                             </MudItem>
-                            <MudItem xs="4">
-                                <MudField Label="Druh subsystemu" Variant="Variant.Outlined">Mechanicky</MudField>
+                            <MudItem xs="12">
+                                <MudSelect @bind-Value="subsystem.OperationPrinciple" T="OperationPrincipleModel" Label="Operation principle *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@operationPrincipleToString">
+                                    @foreach (var item in operationPrinciples)
+                                    {
+                                        <MudSelectItem T="OperationPrincipleModel" Value="@(item)" />
+                                    }
+                                </MudSelect>
                             </MudItem>
-                            <MudItem xs="4">
-                                <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@subsystem.Category.Label</MudField>
+                            <MudItem xs="12">
+                                <MudSelect @bind-Value="subsystem.Category" T="CategoryModel" Label="Category *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@categoryToString">
+                                    @foreach (var item in categories)
+                                    {
+                                        <MudSelectItem T="CategoryModel" Value="@(item)" />
+                                    }
+                                </MudSelect>
                             </MudItem>
                             <MudItem xs="12">
                                 <hr />
@@ -61,8 +67,8 @@
                                 <ColGroup>
                                     <col style="width:5%;" /> Checkbox
                                     <col style="width:15%;" /> Type
-                                    <col style="width:65%;" /> Description
-                                    <col style="width:15%;" /> Points
+                                    <col style="width:75%;" /> Description
+                                    <col style="width:5%;" /> Points
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Type</MudTh>
@@ -86,7 +92,7 @@
                             <MudItem xs="3" />
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
                             </MudItem>
                             <MudItem xs="3" />
                         }
@@ -99,144 +105,91 @@
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                <ElementPL Model="subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="@(equalElements == true ? element1 : element2)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
                             </MudItem>
                         }
                     </MudGrid>
                 </MudTabPanel>
 
             </MudTabs>
-            @if (showMessage)
-            {
-                <MudAlert Severity="@messageType" Style="margin-top: 20px;">@message</MudAlert>
-            }
         </MudCardContent>
     </MudCard>
 </MudContainer>
 
-<MudDialog @bind-IsVisible="dialogVisible">
-    <TitleContent>
-        <MudText Align="Align.Center" Typo="Typo.h5">Select category</MudText>
-    </TitleContent>
-    <DialogContent>
-        <MudGrid>
-            <MudItem xs="12">
-                <MudField Disabled="true" Label="Type of subsystem" Variant="Variant.Outlined">@subsystem.TypeOfSubsystem.Name</MudField>
-            </MudItem>
-            <MudItem xs="12">
-                <MudField Label="Druh subsystemu" Variant="Variant.Outlined"></MudField>
-            </MudItem>
-            <MudItem xs="12">
-                <MudSelect @bind-Value="subsystem.Category" T="CategoryModel" Label="Category *" Variant="Variant.Outlined">
-                    @foreach (var item in categories)
-                    {
-                        <MudSelectItem T="CategoryModel" Value="@(item)">@item.Label</MudSelectItem>
-                    }
-                </MudSelect>
-            </MudItem>
-            <MudItem xs="12">
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Continue</MudButton>
-            </MudItem>
-        </MudGrid>
-    </DialogContent>
-</MudDialog>
-
 @code {
 
-    [Parameter]
-    public string TypeOfSubsystem { get; set; }
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
 
-    [Parameter]
-    public int SafetyFunctionId { get; set; }
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
 
-    [Parameter]
-    public int AccessPointId { get; set; }
+    private Func<CategoryModel, string> categoryToString = cat => cat.Label;
+    private Func<OperationPrincipleModel, string> operationPrincipleToString = op => op.Name;
 
-    [Parameter]
-    public int MachineId { get; set; }
+    private bool equalElements = true;
+    private bool disabled = false;
 
-    private SubsystemDetailModelPL subsystem = new SubsystemDetailModelPL();
+    private SubsystemDetailModelPL subsystem = new();
 
-    private ICollection<CategoryModel> categories = new List<CategoryModel>();
+    private ElementDetailModelPL element1 = new();
+    private ElementDetailModelPL element2 = new();
+
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
     private ICollection<DCModel> DCs = new List<DCModel>();
     private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
     private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
+    private ICollection<CategoryModel> categories = new List<CategoryModel>();
     private ICollection<CCFModel> CCFs = new List<CCFModel>();
+    private ICollection<OperationPrincipleModel> operationPrinciples = new List<OperationPrincipleModel>();
 
-    private bool dialogVisible = false;
-    private bool onlyForReading = true;
-    private bool showMessage = false;
-    private string message = string.Empty;
-    private Severity messageType = Severity.Success;
-    private bool equalElements = false;
-
-    private readonly string successMessage = "Safety function was saved successfully :)";
-    private readonly string errorMessage = "Saving failed :(";
-
-    private void OpenDialog() => dialogVisible = true;
-
-    void Submit()
-    {
-        dialogVisible = false;
-        subsystem.Elements = new List<ElementDetailModelPL>();
-        if (subsystem.Category.Channels == 1)
-        {
-            subsystem.Elements.Add(new ElementDetailModelPL());
-        }
-        else
-        {
-            subsystem.Elements.Add(new ElementDetailModelPL());
-            subsystem.Elements.Add(new ElementDetailModelPL());
-        }
-    }
+    private string typeOfSubsytem;
+    private int machineId;
+    private int accessPointId;
+    private int safetyFunctionId;
 
     protected override async Task OnInitializedAsync()
     {
         typeOfSubsystems = await codeListFacade.GetAllTypeOfSubsystemsAsync();
-        categories = await codeListFacade.GetAllCategoriesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
         MTTFds = await codeListFacade.GetAllMTTFdsAsync();
         DCs = await codeListFacade.GetAllDCsAsync();
+        categories = await codeListFacade.GetAllCategoriesAsync();
         CCFs = await codeListFacade.GetAllCCFsAsync();
+        operationPrinciples = await codeListFacade.GetAllOperationPrinciplesAsync();
 
-        subsystem.Category = categories.FirstOrDefault(c => c.Channels == 2);
-        subsystem.TypeOfSubsystem = (TypeOfSubsystem.ToLower()) switch
-        {
-            "input" => typeOfSubsystems.FirstOrDefault(t => t.Id == 1),
-            "output" => typeOfSubsystems.FirstOrDefault(t => t.Id == 2),
-            "communication" => typeOfSubsystems.FirstOrDefault(t => t.Id == 4),
-            _ => typeOfSubsystems.FirstOrDefault(t => t.Id == 3)
-        };
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("typeOfSubsystem", out var _typeOfSubsystem))
+            typeOfSubsytem = _typeOfSubsystem;
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("machineId", out var _machineId))
+            machineId = Convert.ToInt32(_machineId);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("accessPointId", out var _accessPointId))
+            accessPointId = Convert.ToInt32(_accessPointId);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("safetyFunctionId", out var _safetyFunctionId))
+            safetyFunctionId = Convert.ToInt32(_safetyFunctionId);
 
-        StateHasChanged();
-        OpenDialog();
-    }
-
-    private void Edit()
-    {
-        onlyForReading = false;
-        showMessage = false;
+        Console.WriteLine(typeOfSubsytem);
+        Console.WriteLine(machineId);
+        Console.WriteLine(accessPointId);
+        Console.WriteLine(safetyFunctionId);
     }
 
     private void BackToSafetyFunction()
     {
-        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
+        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{machineId}/{accessPointId}/{safetyFunctionId}");
     }
 
-    // TODO
-    private async void OnValidSubmit()
+
+
+
+
+    private void OnValidSubmit()
     {
-        if (equalElements)
-        {
-            subsystem.Elements.Remove(subsystem.Elements.ElementAt(1));
-            subsystem.Elements.Add(subsystem.Elements.ElementAt(0));
-        }
-        // var result = await subsystemFacade.CreateAsync(subsystem);
+
     }
 
 }

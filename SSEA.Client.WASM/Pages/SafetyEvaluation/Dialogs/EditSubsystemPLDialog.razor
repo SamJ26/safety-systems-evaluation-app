@@ -4,9 +4,9 @@
         <MudText Typo="Typo.h5" Align="Align.Center">Edit subsystem's data</MudText>
     </TitleContent>
     <DialogContent>
-        <MudContainer Style="max-height: 700px; overflow-y: scroll">
-            <MudGrid>
-                <MudItem xs="12">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudContainer Style="max-height: 700px; overflow-y: scroll">
                     <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                         <MudTabPanel Text="Subsystem details">
@@ -107,15 +107,15 @@
                         </MudTabPanel>
 
                     </MudTabs>
-                </MudItem>
-                <MudItem xs="6">
-                    <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
-                </MudItem>
-                <MudItem xs="6">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
-                </MudItem>
-            </MudGrid>
-        </MudContainer>
+                </MudContainer>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
+            </MudItem>
+        </MudGrid>
     </DialogContent>
 </MudDialog>
 
