@@ -26,6 +26,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [Required]
         public EvaluationMethodModel EvaluationMethod { get; set; }
 
+        // public bool SupportForSafetyCommunication { get; set; }
+
         public PLModel PLr { get; set; }
         public PLModel PLresult { get; set; }
         public SModel S { get; set; }
