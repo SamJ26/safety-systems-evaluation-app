@@ -100,10 +100,8 @@
                             <MudCard>
                                 <MudCardHeader Style="padding-bottom: 0px;">
                                     <CardHeaderContent>
-                                        <MudText Align="Align.Center">
-                                            <MudIcon Icon="@Icons.Material.Filled.Done" Color="Color.Success" />
-                                        </MudText> 
                                         <MudText Typo="Typo.h6" Align="Align.Center">Input</MudText>
+                                        <MudAlert Severity="@inputSubsystemMessageSeverity" Style="margin-top: 10px;">@inputSubsystemMessage</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -288,6 +286,21 @@
     private readonly string successMessage = "Safety function was saved successfully :)";
     private readonly string errorMessage = "Saving failed :(";
 
+    private Severity inputSubsystemMessageSeverity = Severity.Info;
+    private string inputSubsystemMessage = "Without data";
+
+    private Severity com1SubsystemMessageSeverity = Severity.Info;
+    private string com1SubsystemMessage = "Without data";
+
+    private Severity logicSubsystemMessageSeverity = Severity.Info;
+    private string logicSubsystemMessage = "Without data";
+
+    private Severity com2SubsystemMessageSeverity = Severity.Info;
+    private string com2SubsystemMessage = "Without data";
+
+    private Severity outputSubsystemMessageSeverity = Severity.Info;
+    private string outputSubsystemMessage = "Without data";
+
     protected override async Task OnInitializedAsync()
     {
         Console.WriteLine("I am here");
@@ -320,6 +333,19 @@
     private void CreateSubsystem(string typeOfSubsystem)
     {
         navigationManager.NavigateTo($"/safetyEvaluation/subsystemInsert/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}/{typeOfSubsystem}");
+    }
+
+    private async Task EditSubsystem(string typeOfSubsystem)
+    {
+        SubsystemDetailModelPL subsystem = new();
+        var parameters = new DialogParameters() { ["Subsystem"] = subsystem, ["TypeOfSubsystem"] = typeOfSubsystem };
+        var dialog = dialogService.Show<EditSubsystemPLDialog>("Edit subsystem", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            Console.WriteLine("Boom");
+        }
+        StateHasChanged();
     }
 
 }
