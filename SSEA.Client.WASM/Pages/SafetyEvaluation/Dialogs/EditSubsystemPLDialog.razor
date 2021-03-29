@@ -1,0 +1,133 @@
+﻿
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h5">Edit subsystem's info</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudCard Elevation="3">
+                    <MudCardContent>
+                        <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+
+                            <MudTabPanel Text="Subsystem details">
+                                <EditForm Model="@Subsystem" OnValidSubmit="OnValidSubmit" id="formId">
+                                    <DataAnnotationsValidator />
+                                    <MudGrid Style="padding: 20px;">
+                                        <MudItem xs="12">
+                                            <MudTextField @bind-value="TypeOfSubsystem" T="string" Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined" />
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <MudField Label="Druh subsystemu" Variant="Variant.Outlined">Mechanicky</MudField>
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.Category</MudField>
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <hr />
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <MudField Label="PL result" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.PLresult</MudField>
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <MudField Label="CCF valid" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.ValidCCF</MudField>
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <MudField Label="MTTFd result" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.MttFdResult</MudField>
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <MudField Label="DC result" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.DCresult</MudField>
+                                        </MudItem>
+                                    </MudGrid>
+                                </EditForm>
+                            </MudTabPanel>
+
+                            <MudTabPanel Text="CCF">
+                                <MudGrid Style="padding: 20px;">
+                                    @*<MudItem xs="12">
+                                        <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" FixedHeader="true" Outlined="true">
+                                            <ColGroup>
+                                                <col style="width:5%;" /> Checkbox
+                                                <col style="width:15%;" /> Type
+                                                <col style="width:65%;" /> Description
+                                                <col style="width:15%;" /> Points
+                                            </ColGroup>
+                                            <HeaderContent>
+                                                <MudTh>Type</MudTh>
+                                                <MudTh>Description</MudTh>
+                                                <MudTh>Points</MudTh>
+                                            </HeaderContent>
+                                            <RowTemplate Context="tableContext">
+                                                <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                                <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                                <MudTd DataLabel="Name">@tableContext.Points</MudTd>
+                                            </RowTemplate>
+                                        </MudTable>
+                                    </MudItem>*@
+                                </MudGrid>
+                            </MudTabPanel>
+
+                            <MudTabPanel Text="Elements">
+                                @*<MudGrid Style="padding: 20px;">
+                                    @if (subsystem.Category.Channels == 1)
+                                    {
+                                        <MudItem xs="3" />
+                                        <MudItem xs="6">
+                                            <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                            <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                        </MudItem>
+                                        <MudItem xs="3" />
+                                    }
+                                    else
+                                    {
+                                        <MudItem xs="12">
+                                            <MudText Align="Align.Center">
+                                                <MudCheckBox @bind-Checked="equalElements" Color="Color.Primary" Style="padding: 0px;">Both elements are the same</MudCheckBox>
+                                            </MudText>
+                                        </MudItem>
+                                        <MudItem xs="6">
+                                            <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                            <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                        </MudItem>
+                                        <MudItem xs="6">
+                                            <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
+                                            <ElementPL Model="subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                        </MudItem>
+                                    }
+                                </MudGrid>*@
+                            </MudTabPanel>
+
+                        </MudTabs>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
+            </MudItem>
+        </MudGrid>   
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public SubsystemDetailModelPL Subsystem { get; set; }
+
+    [Parameter]
+    public string TypeOfSubsystem { get; set; }
+
+    private void OnValidSubmit()
+    {
+        Submit();
+    }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+}

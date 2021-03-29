@@ -2,7 +2,7 @@
 
 @layout MainLayout
 
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Administrator, NormalUser")]
 
 <MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
     <MudCard Elevation="3">
@@ -11,7 +11,6 @@
                 <MudText Typo="Typo.h6">Create new safety function</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="ClearData" Icon="@Icons.Material.Filled.Clear" Color="Color.Primary" Disabled="@(tabs.ActivePanelIndex != 0 || disabled)" />
                 <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(tabs.ActivePanelIndex != 0 || disabled)" />
             </CardHeaderActions>
         </MudCardHeader>
@@ -26,7 +25,7 @@
                                 <MudTextField @bind-Value="safetyFunction.Name" Label="Safety function name *" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="12">
-                                <MudField Readonly="true" Label="Evaluation method" Variant="Variant.Outlined" >Performance Level (PL)</MudField>
+                                <MudField Readonly="true" Label="Evaluation method" Variant="Variant.Outlined">Performance Level (PL)</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudSelect @bind-Value="safetyFunction.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@typeOfFunctionToString">
@@ -51,7 +50,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="6">
-                                <MudField Label="Resultant PL" Variant="Variant.Outlined" >@(safetyFunction.PLr != null ? safetyFunction.PLr.Label : "Not evaluated")</MudField>
+                                <MudField Label="Resultant PL" Variant="Variant.Outlined">@(safetyFunction.PLresult != null ? safetyFunction.PLresult.Label : "Not evaluated")</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudExpansionPanels MultiExpansion="true" Elevation="1">
@@ -110,7 +109,7 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton @onclick="@(() => CreateSubsystem("Input"))" DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton @onclick="@(() => EditSubsystem("Input"))" DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Edit</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
@@ -141,7 +140,7 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Edit</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
@@ -200,7 +199,7 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Edit</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
@@ -231,7 +230,7 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Edit</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton DisableElevation="true" Disabled="@disabled" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
@@ -265,6 +264,9 @@
 
     [Inject]
     private CodeListFacade codeListFacade { get; set; }
+
+    [Inject]
+    private IDialogService dialogService { get; set; }
 
     private SafetyFunctionDetailModelPL safetyFunction = new();
 
@@ -315,21 +317,23 @@
 
 
 
-
-    private void ClearData()
-    {
-
-    }
-
     // TODO
     private async void OnValidSubmit()
     {
 
     }
 
-    private void CreateSubsystem(string typeOfSubsystem)
+    private async Task EditSubsystem(string typeOfSubsystem)
     {
-        // navigationManager.NavigateTo($"/safetyEvaluation/subsystemInsert/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}/{typeOfSubsystem}");
+        SubsystemDetailModelPL subsystem = new();
+        var parameters = new DialogParameters() { ["Subsystem"] = subsystem, ["TypeOfSubsystem"] = typeOfSubsystem };
+        var dialog = dialogService.Show<EditSubsystemPLDialog>("Edit subsystem", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            Console.WriteLine("Boom");
+        }
+        StateHasChanged();
     }
 
 }
