@@ -1,7 +1,7 @@
 ﻿
 <MudDialog>
     <TitleContent>
-        <MudText Typo="Typo.h5">Edit subsystem's info</MudText>
+        <MudText Typo="Typo.h5" Align="Align.Center">Edit subsystem's data</MudText>
     </TitleContent>
     <DialogContent>
         <MudGrid>
@@ -13,10 +13,15 @@
                             <DataAnnotationsValidator />
                             <MudGrid Style="padding: 20px;">
                                 <MudItem xs="12">
-                                    <MudField Label="Type of subsystem *" ReadOnly="true" Variant="Variant.Outlined">@typeOfSubsystems</MudField>
+                                    <MudField Label="Type of subsystem *" ReadOnly="true" Variant="Variant.Outlined">@TypeOfSubsystem</MudField>
                                 </MudItem>
                                 <MudItem xs="12">
-                                    <MudField Label="Druh subsystemu *" Variant="Variant.Outlined">Mechanicky</MudField>
+                                    <MudSelect @bind-Value="Subsystem.OperationPrinciple" T="OperationPrincipleModel" Label="Operation principle *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@operationPrincipleToString">
+                                        @foreach (var item in operationPrinciples)
+                                        {
+                                            <MudSelectItem T="OperationPrincipleModel" Value="@(item)" />
+                                        }
+                                    </MudSelect>
                                 </MudItem>
                                 <MudItem xs="12">
                                     <MudSelect @bind-Value="Subsystem.Category" T="CategoryModel" Label="Category *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@categoryToString">
@@ -127,6 +132,7 @@
     public string TypeOfSubsystem { get; set; }
 
     private Func<CategoryModel, string> categoryToString = cat => cat.Label;
+    private Func<OperationPrincipleModel, string> operationPrincipleToString = op => op.Name;
 
     private bool equalElements = true;
 
@@ -139,6 +145,7 @@
     private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
     private ICollection<CategoryModel> categories = new List<CategoryModel>();
     private ICollection<CCFModel> CCFs = new List<CCFModel>();
+    private ICollection<OperationPrincipleModel> operationPrinciples = new List<OperationPrincipleModel>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -148,6 +155,7 @@
         DCs = await codeListFacade.GetAllDCsAsync();
         categories = await codeListFacade.GetAllCategoriesAsync();
         CCFs = await codeListFacade.GetAllCCFsAsync();
+        operationPrinciples = await codeListFacade.GetAllOperationPrinciplesAsync();
     }
 
     private void OnValidSubmit()

@@ -25,7 +25,7 @@ namespace SSEA.BL.Services.Implementations
             this.mapper = mapper;
         }
 
-        public async Task<PerformanceLevel> GetRequiredPLAsync(S s, F f, P p)
+        public async Task<int> GetRequiredPLAsync(S s, F f, P p)
         {
             string pl = (s.Value, f.Value, p.Value) switch
             {
@@ -38,7 +38,7 @@ namespace SSEA.BL.Services.Implementations
                 ("S2", "F2", "P1") => "d",
                 _ => "e",
             };
-            return await dbContext.PerformanceLevels.SingleOrDefaultAsync(i => i.Label == pl);
+            return await dbContext.PerformanceLevels.Where(i => i.Label == pl).Select(i => i.Id).FirstOrDefaultAsync();
         }
 
         public bool IsCCFValid(HashSet<CCFModel> items)

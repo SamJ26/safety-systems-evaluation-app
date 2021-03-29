@@ -105,5 +105,24 @@ namespace SSEA.DAL.Repositories
                                                        .ToListAsync();
             return subsystems;
         }
+
+        public async Task<int> CreateAsync(SafetyFunction safetyFunction, int userId)
+        {
+            safetyFunction.CurrentStateId = safetyFunctionNewStateId;
+            dbContext.Attach(safetyFunction.TypeOfFunction).State = EntityState.Unchanged;
+            dbContext.Attach(safetyFunction.EvaluationMethod).State = EntityState.Unchanged;
+            if (safetyFunction.S != null && safetyFunction.F != null && safetyFunction.P != null)
+            {
+                dbContext.Attach(safetyFunction.S).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.F).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.P).State = EntityState.Unchanged;
+            }
+            if (safetyFunction.PLr is not null)
+                dbContext.Attach(safetyFunction.PLr).State = EntityState.Unchanged;
+
+            await dbContext.AddAsync(safetyFunction);
+            await dbContext.CommitChangesAsync(userId);
+            return safetyFunction.Id;
+        }
     }
 }

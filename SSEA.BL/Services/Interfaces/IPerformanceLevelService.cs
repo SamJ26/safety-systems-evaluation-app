@@ -11,7 +11,7 @@ namespace SSEA.BL.Services.Interfaces
 {
     public interface IPerformanceLevelService
     {
-        Task<PerformanceLevel> GetRequiredPLAsync(S s, F f, P p);
+        Task<int> GetRequiredPLAsync(S s, F f, P p);
         bool IsCCFValid(HashSet<CCFModel> items);
         bool IsSubsystemValid(SubsystemDetailModelPL subsystem);
         Task EvaluateSubsystem(SubsystemDetailModelPL subsystem);

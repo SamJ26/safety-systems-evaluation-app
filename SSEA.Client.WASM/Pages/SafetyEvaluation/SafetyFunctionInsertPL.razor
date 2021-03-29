@@ -11,7 +11,7 @@
                 <MudText Typo="Typo.h6">Create new safety function</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(tabs.ActivePanelIndex != 0 || disabled)" />
+                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(saved || disabled)" />
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
@@ -88,7 +88,7 @@
                     </EditForm>
                 </MudTabPanel>
 
-                <MudTabPanel Text="Subsystems">
+                <MudTabPanel Text="Subsystems" Disabled="@(!saved)">
                     <MudGrid Style="padding: 20px;">
                         <!-- Input subsystem -->
                         <MudItem Style="width: 20%">
@@ -100,7 +100,7 @@
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined"></MudField>
+                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem != null ? safetyFunction.InputSubsystem.Category : "")</MudField>
                                     <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined"></MudField>
                                     <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined"></MudField>
                                     <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined"></MudField>
@@ -277,6 +277,7 @@
     private ICollection<FModel> frequencies { get; set; } = new List<FModel>();
     private ICollection<PModel> probabilities { get; set; } = new List<PModel>();
 
+    private bool saved = false;
     private bool disabled = false;
     private bool showMessage = false;
     private string message = string.Empty;
@@ -315,12 +316,14 @@
         StateHasChanged();
     }
 
-
-
     // TODO
     private async void OnValidSubmit()
     {
-
+        int id = await safetyFunctionFacade.CreateAsync(safetyFunction);
+        if (id != 0)
+        {
+            // TODO: navigate to detail
+        }
     }
 
     private async Task EditSubsystem(string typeOfSubsystem)

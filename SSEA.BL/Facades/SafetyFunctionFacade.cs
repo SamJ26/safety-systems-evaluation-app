@@ -2,6 +2,7 @@
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.BL.Services.Interfaces;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Repositories;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,36 +59,15 @@ namespace SSEA.BL.Facades
             return safetyFunction;
         }
 
+        public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel, int userId)
+        {
+            var safetyFunction = mapper.Map<SafetyFunction>(newModel);
 
+            if (safetyFunction.PLr is null)
+                safetyFunction.PLrId = await PLService.GetRequiredPLAsync(safetyFunction.S, safetyFunction.F, safetyFunction.P);
 
-        //public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel, int userId)
-        //{
-        //    // newModel.SafetyFunctionSubsystems?.Clear();
-
-        //    // Creating entity without collection
-        //    var entity = mapper.Map<SafetyFunction>(newModel);
-
-        //    // Assigning inital state to new record
-        //    entity.CurrentState = await GetState(safetyFunctionNewStateId);
-
-        //    // Assigning evaluation method
-        //    entity.EvaluationMethod = await dbContext.EvaluationMethods.SingleOrDefaultAsync(e => e.Shortcut.Equals("PL"));
-
-        //    dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
-        //    dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
-        //    if (entity.S != null && entity.F != null && entity.P != null)
-        //    {
-        //        dbContext.Attach(entity.S).State = EntityState.Unchanged;
-        //        dbContext.Attach(entity.F).State = EntityState.Unchanged;
-        //        dbContext.Attach(entity.P).State = EntityState.Unchanged;
-        //        entity.PLr = await PLService.GetRequiredPLAsync(entity.S, entity.F, entity.P);
-        //    }
-        //    dbContext.Attach(entity.PLr).State = EntityState.Unchanged;
-
-        //    await dbContext.SafetyFunctions.AddAsync(entity);
-        //    await dbContext.CommitChangesAsync(userId);
-        //    return entity.Id;
-        //}
+            return await safetyFunctionRepository.CreateAsync(safetyFunction, userId);
+        }
 
         //// TODO: incomplete implementation
         //public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel, int userId)

@@ -47,11 +47,18 @@ namespace SSEA.BL.Facades
                 "Se" => await GetAllSeModels(),
                 "SFF" => await GetAllSFFModels(),
                 "Producer" => await GetAllProducerModels(),
+                "OperationPrinciple" => await GetAllOperationPrinciplesAsync(),
                 _ => null,
             };
         }
 
         #region GetAll methods for specific types
+
+        private async Task<ICollection<OperationPrincipleModel>> GetAllOperationPrinciplesAsync()
+        {
+            var data = await dbContext.OperationPrinciples.AsNoTracking().ToListAsync();
+            return mapper.Map<ICollection<OperationPrincipleModel>>(data);
+        }
 
         private async Task<ICollection<CCFModel>> GetAllCCFModels()
         {
