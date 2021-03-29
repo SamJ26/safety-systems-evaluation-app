@@ -12,7 +12,6 @@ namespace SSEA.DAL
         public static void SeedData(this ModelBuilder modelBuilder)
         {
             // TODO: validate data by competent person
-            // TODO: add DateTimeCreated, IdCreated properties
             // TODO: replace fake data in Category
 
             #region Data for SIL methodics
@@ -467,6 +466,29 @@ namespace SSEA.DAL
                 {
                     Id = 4,
                     NameCZ = "Komunikační",
+                }
+            );
+
+            modelBuilder.Entity<OperationPrinciple>().HasData(
+                new OperationPrinciple()
+                {
+                    Id = 1,
+                    NameCZ = "mechanický",
+                },
+                new OperationPrinciple()
+                {
+                    Id = 2,
+                    NameCZ = "elektrický",
+                },
+                new OperationPrinciple()
+                {
+                    Id = 1,
+                    NameCZ = "pneumatický",
+                },
+                new OperationPrinciple()
+                {
+                    Id = 1,
+                    NameCZ = "elektromechanický",
                 }
             );
 

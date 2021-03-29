@@ -18,6 +18,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public int TypeOfSubsystemId { get; set; }
         public TypeOfSubsystem TypeOfSubsystem { get; set; }
 
+        [Column("OperationPrinciple_Id")]
+        public int OperationPrincipleId { get; set; }
+        public OperationPrinciple OperationPrinciple { get; set; }
+
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
         public ICollection<Element> Elements { get; set; }
         public ICollection<SubsystemCCF> SubsystemCCFs { get; set; }

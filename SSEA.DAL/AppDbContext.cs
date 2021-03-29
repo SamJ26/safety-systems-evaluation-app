@@ -44,6 +44,7 @@ namespace SSEA.DAL
         public DbSet<EvaluationMethod> EvaluationMethods { get; set; }
         public DbSet<MachineType> MachineTypes { get; set; }
         public DbSet<Norm> Norms { get; set; }
+        public DbSet<OperationPrinciple> OperationPrinciples { get; set; }
         public DbSet<TypeOfFunction> TypeOfFunctions { get; set; }
         public DbSet<TypeOfLogic> TypeOfLogics { get; set; }
         public DbSet<TypeOfSubsystem> TypeOfSubsystems { get; set; }
@@ -279,6 +280,11 @@ namespace SSEA.DAL
                 s.HasOne(s => s.TypeOfSubsystem)
                  .WithMany()
                  .HasForeignKey(s => s.TypeOfSubsystemId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+                s.HasOne(s => s.OperationPrinciple)
+                 .WithMany()
+                 .HasForeignKey(s => s.OperationPrincipleId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.MTTFdResult)
