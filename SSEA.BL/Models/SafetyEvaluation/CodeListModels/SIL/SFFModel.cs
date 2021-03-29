@@ -24,8 +24,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
                                       .IgnoreSource(src => src.ElementSFFs)
                                       .MapMember(dest => dest.ComponentName, src => src.ComponentNameCZ)
                                       .MapMember(dest => dest.FailureMode, src => src.FailureModeCZ)
-                                      .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                      .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                       .ReverseMap();
         }
     }

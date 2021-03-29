@@ -20,8 +20,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
         {
             CreateMap<P, PModel>().IgnoreSource(src => src.DescriptionEN)
                                   .MapMember(dest => dest.Description, src => src.DescriptionCZ)
-                                  .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                  .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                   .ReverseMap();
         }
     }

@@ -20,8 +20,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
         {
             CreateMap<Fr, FrModel>().IgnoreSource(src => src.FrequencyOfThreatEN)
                                     .MapMember(dest => dest.FrequencyOfThreat, src => src.FrequencyOfThreatCZ)
-                                    .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                    .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                     .ReverseMap();
         }
     }

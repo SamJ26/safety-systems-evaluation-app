@@ -17,9 +17,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
     {
         public ProducerModelMapperProfile()
         {
-            CreateMap<Producer, ProducerModel>().MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                                .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
-                                                .ReverseMap();
+            CreateMap<Producer, ProducerModel>().ReverseMap();
         }
     }
 }

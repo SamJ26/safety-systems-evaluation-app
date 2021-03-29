@@ -17,9 +17,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
     {
         public PLModelMapperProfile()
         {
-            CreateMap<PerformanceLevel, PLModel>().MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                                  .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
-                                                  .ReverseMap();
+            CreateMap<PerformanceLevel, PLModel>().ReverseMap();
         }
     }
 }

@@ -19,9 +19,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
     {
         public PFHdModelMapperProfile()
         {
-            CreateMap<PFHd, PFHdModel>().MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                        .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
-                                        .ReverseMap();
+            CreateMap<PFHd, PFHdModel>().ReverseMap();
         }
     }
 }
