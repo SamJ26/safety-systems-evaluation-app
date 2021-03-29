@@ -3,10 +3,10 @@
 
 <MudGrid>
     <MudItem xs="12">
-        <MudTextField @bind-Value="Model.CatalogNumber" Label="Catalog number" Variant="Variant.Outlined" />
+        <MudTextField @bind-Value="Model.CatalogNumber" Label="Catalog number" Variant="Variant.Outlined"  Immediate="true"/>
     </MudItem>
     <MudItem xs="12">
-        <MudSelect @bind-Value="Model.Producer" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined">
+        <MudSelect @bind-Value="Model.Producer" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined"  Immediate="true">
             @foreach (var item in Producers)
             {
                 <MudSelectItem T="ProducerModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -14,7 +14,7 @@
         </MudSelect>
     </MudItem>
     <MudItem xs="12">
-        <MudSelect @bind-Value="Model.Dc" T="DCModel" Label="DC *" Variant="Variant.Outlined">
+        <MudSelect @bind-Value="Model.Dc" T="DCModel" Label="DC *" Variant="Variant.Outlined" Immediate="true">
             @foreach (var item in DCs)
             {
                 <MudSelectItem T="DCModel" Value="@(item)">@item.Value</MudSelectItem>
@@ -22,7 +22,7 @@
         </MudSelect>
     </MudItem>
     <MudItem xs="12">
-        <MudSelect @bind-Value="Model.MttFdResult" T="MTTFdModel" Label="MTTFd *" Variant="Variant.Outlined">
+        <MudSelect @bind-Value="Model.MttFdResult" T="MTTFdModel" Label="MTTFd *" Variant="Variant.Outlined" Immediate="true">
             @foreach (var item in MTTFds)
             {
                 <MudSelectItem T="MTTFdModel" Value="@(item)">@item.Value</MudSelectItem>
@@ -35,9 +35,6 @@
                 <MudGrid>
                     <MudItem xs="12" Style="padding: 5px; margin-top: 10px;">
                         <MudField Label="B10d" Variant="Variant.Outlined">@Model.B10d</MudField>
-                    </MudItem>
-                    <MudItem xs="12" Style="padding: 5px;">
-                        <MudField Label="Nop" Variant="Variant.Outlined">@Model.Nop</MudField>
                     </MudItem>
                     <MudItem xs="12" Style="padding: 5px;">
                         <MudField Label="Hop" Variant="Variant.Outlined">@Model.Hop</MudField>

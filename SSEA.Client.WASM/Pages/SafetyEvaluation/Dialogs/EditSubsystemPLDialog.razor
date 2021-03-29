@@ -6,100 +6,101 @@
     <DialogContent>
         <MudGrid>
             <MudItem xs="12">
-                <MudCard Elevation="3">
-                    <MudCardContent>
-                        <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+                <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
-                            <MudTabPanel Text="Subsystem details">
-                                <EditForm Model="@Subsystem" OnValidSubmit="OnValidSubmit" id="formId">
-                                    <DataAnnotationsValidator />
-                                    <MudGrid Style="padding: 20px;">
-                                        <MudItem xs="12">
-                                            <MudTextField @bind-value="TypeOfSubsystem" T="string" Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined" />
-                                        </MudItem>
-                                        <MudItem xs="12">
-                                            <MudField Label="Druh subsystemu" Variant="Variant.Outlined">Mechanicky</MudField>
-                                        </MudItem>
-                                        <MudItem xs="12">
-                                            <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.Category</MudField>
-                                        </MudItem>
-                                        <MudItem xs="12">
-                                            <hr />
-                                        </MudItem>
-                                        <MudItem xs="12">
-                                            <MudField Label="PL result" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.PLresult</MudField>
-                                        </MudItem>
-                                        <MudItem xs="12">
-                                            <MudField Label="CCF valid" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.ValidCCF</MudField>
-                                        </MudItem>
-                                        <MudItem xs="12">
-                                            <MudField Label="MTTFd result" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.MttFdResult</MudField>
-                                        </MudItem>
-                                        <MudItem xs="12">
-                                            <MudField Label="DC result" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.DCresult</MudField>
-                                        </MudItem>
-                                    </MudGrid>
-                                </EditForm>
-                            </MudTabPanel>
+                    <MudTabPanel Text="Subsystem details">
+                        <EditForm Model="@Subsystem" OnValidSubmit="OnValidSubmit" id="formId">
+                            <DataAnnotationsValidator />
+                            <MudGrid Style="padding: 20px;">
+                                <MudItem xs="12">
+                                    <MudField Label="Type of subsystem *" ReadOnly="true" Variant="Variant.Outlined">@typeOfSubsystems</MudField>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudField Label="Druh subsystemu *" Variant="Variant.Outlined">Mechanicky</MudField>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudSelect @bind-Value="Subsystem.Category" T="CategoryModel" Label="Category *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@categoryToString">
+                                        @foreach (var item in categories)
+                                        {
+                                            <MudSelectItem T="CategoryModel" Value="@(item)" />
+                                        }
+                                    </MudSelect>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <hr />
+                                </MudItem>
+                                <MudItem xs="3">
+                                    <MudField Label="PL result" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.PLresult</MudField>
+                                </MudItem>
+                                <MudItem xs="3">
+                                    <MudField Label="CCF valid" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.ValidCCF</MudField>
+                                </MudItem>
+                                <MudItem xs="3">
+                                    <MudField Label="MTTFd result" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.MttFdResult</MudField>
+                                </MudItem>
+                                <MudItem xs="3">
+                                    <MudField Label="DC result" ReadOnly="true" Variant="Variant.Outlined">@Subsystem.DCresult</MudField>
+                                </MudItem>
+                            </MudGrid>
+                        </EditForm>
+                    </MudTabPanel>
 
-                            <MudTabPanel Text="CCF">
-                                <MudGrid Style="padding: 20px;">
-                                    @*<MudItem xs="12">
-                                        <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" FixedHeader="true" Outlined="true">
-                                            <ColGroup>
-                                                <col style="width:5%;" /> Checkbox
-                                                <col style="width:15%;" /> Type
-                                                <col style="width:65%;" /> Description
-                                                <col style="width:15%;" /> Points
-                                            </ColGroup>
-                                            <HeaderContent>
-                                                <MudTh>Type</MudTh>
-                                                <MudTh>Description</MudTh>
-                                                <MudTh>Points</MudTh>
-                                            </HeaderContent>
-                                            <RowTemplate Context="tableContext">
-                                                <MudTd DataLabel="Name">@tableContext.Type</MudTd>
-                                                <MudTd DataLabel="Name">@tableContext.Description</MudTd>
-                                                <MudTd DataLabel="Name">@tableContext.Points</MudTd>
-                                            </RowTemplate>
-                                        </MudTable>
-                                    </MudItem>*@
-                                </MudGrid>
-                            </MudTabPanel>
+                    <MudTabPanel Text="CCF">
+                        <MudGrid Style="padding: 20px;">
+                            <MudItem xs="12">
+                                <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@Subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" FixedHeader="true" Outlined="true">
+                                    <ColGroup>
+                                        <col style="width:5%;" /> Checkbox
+                                        <col style="width:15%;" /> Type
+                                        <col style="width:75%;" /> Description
+                                        <col style="width:5%;" /> Points
+                                    </ColGroup>
+                                    <HeaderContent>
+                                        <MudTh>Type</MudTh>
+                                        <MudTh>Description</MudTh>
+                                        <MudTh>Points</MudTh>
+                                    </HeaderContent>
+                                    <RowTemplate Context="tableContext">
+                                        <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                        <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                        <MudTd DataLabel="Name">@tableContext.Points</MudTd>
+                                    </RowTemplate>
+                                </MudTable>
+                            </MudItem>
+                        </MudGrid>
+                    </MudTabPanel>
 
-                            <MudTabPanel Text="Elements">
-                                @*<MudGrid Style="padding: 20px;">
-                                    @if (subsystem.Category.Channels == 1)
-                                    {
-                                        <MudItem xs="3" />
-                                        <MudItem xs="6">
-                                            <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                            <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
-                                        </MudItem>
-                                        <MudItem xs="3" />
-                                    }
-                                    else
-                                    {
-                                        <MudItem xs="12">
-                                            <MudText Align="Align.Center">
-                                                <MudCheckBox @bind-Checked="equalElements" Color="Color.Primary" Style="padding: 0px;">Both elements are the same</MudCheckBox>
-                                            </MudText>
-                                        </MudItem>
-                                        <MudItem xs="6">
-                                            <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                            <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
-                                        </MudItem>
-                                        <MudItem xs="6">
-                                            <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                            <ElementPL Model="subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
-                                        </MudItem>
-                                    }
-                                </MudGrid>*@
-                            </MudTabPanel>
+                    <MudTabPanel Text="Elements">
+                        <MudGrid Style="padding: 20px;">
+                            @if (Subsystem.Category.Channels == 1)
+                            {
+                                <MudItem xs="3" />
+                                <MudItem xs="6">
+                                    <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                    <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                </MudItem>
+                                <MudItem xs="3" />
+                            }
+                            else
+                            {
+                                <MudItem xs="12">
+                                    <MudText Align="Align.Center">
+                                        <MudCheckBox @bind-Checked="equalElements" Color="Color.Primary" Style="padding: 0px;">Both elements are the same</MudCheckBox>
+                                    </MudText>
+                                </MudItem>
+                                <MudItem xs="6">
+                                    <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                    <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                </MudItem>
+                                <MudItem xs="6">
+                                    <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
+                                    <ElementPL Model="@(equalElements == true ? element1 : element2)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                </MudItem>
+                            }
+                        </MudGrid>
+                    </MudTabPanel>
 
-                        </MudTabs>
-                    </MudCardContent>
-                </MudCard>
+                </MudTabs>
             </MudItem>
             <MudItem xs="6">
                 <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
@@ -113,6 +114,9 @@
 
 @code {
 
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; }
 
@@ -122,8 +126,36 @@
     [Parameter]
     public string TypeOfSubsystem { get; set; }
 
+    private Func<CategoryModel, string> categoryToString = cat => cat.Label;
+
+    private bool equalElements = true;
+
+    private ElementDetailModelPL element1 = new();
+    private ElementDetailModelPL element2 = new();
+
+    private ICollection<ProducerModel> producers = new List<ProducerModel>();
+    private ICollection<DCModel> DCs = new List<DCModel>();
+    private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
+    private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
+    private ICollection<CategoryModel> categories = new List<CategoryModel>();
+    private ICollection<CCFModel> CCFs = new List<CCFModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        typeOfSubsystems = await codeListFacade.GetAllTypeOfSubsystemsAsync();
+        producers = await codeListFacade.GetAllProducersAsync();
+        MTTFds = await codeListFacade.GetAllMTTFdsAsync();
+        DCs = await codeListFacade.GetAllDCsAsync();
+        categories = await codeListFacade.GetAllCategoriesAsync();
+        CCFs = await codeListFacade.GetAllCCFsAsync();
+    }
+
     private void OnValidSubmit()
     {
+        // TODO: priradit typ subsystemu
+        // TODO: ak su elementy rovnake tak nakopirovat element1 do element2
+
+
         Submit();
     }
 
