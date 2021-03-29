@@ -482,12 +482,12 @@ namespace SSEA.DAL
                 },
                 new OperationPrinciple()
                 {
-                    Id = 1,
+                    Id = 3,
                     NameCZ = "pneumatický",
                 },
                 new OperationPrinciple()
                 {
-                    Id = 1,
+                    Id = 4,
                     NameCZ = "elektromechanický",
                 }
             );

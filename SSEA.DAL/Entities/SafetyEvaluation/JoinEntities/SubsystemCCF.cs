@@ -10,6 +10,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     [Table("SubsystemCCF")]
     public class SubsystemCCF : EntityBase
     {
+        public bool IsRemoved { get; set; } = false;
+
         [Column("Subsystem_Id")]
         public int SubsystemId { get; set; }
 

@@ -10,6 +10,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     [Table("ElementSFF")]
     public class ElementSFF : EntityBase
     {
+        public bool IsRemoved { get; set; } = false;
+
         [Column("Element_Id")]
         public int ElementId { get; set; }
 

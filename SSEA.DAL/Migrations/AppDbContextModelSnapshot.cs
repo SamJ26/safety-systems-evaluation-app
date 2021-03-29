@@ -55,7 +55,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "ed83ad5d-5901-447d-8874-79e80aef23bf",
+                            ConcurrencyStamp = "edfd2649-c179-4bb4-8577-8b53c09cbfb1",
                             IsValid = true,
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
@@ -63,7 +63,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "e263c121-d7e5-456f-90f6-6cf7dda6568f",
+                            ConcurrencyStamp = "c8fb8ae5-acb7-425b-86bf-3b3c1cf12b43",
                             IsValid = true,
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
@@ -71,7 +71,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "28620cea-9e24-4d4c-ba21-ed3cc50ceaf3",
+                            ConcurrencyStamp = "6497f786-f5bc-4652-984d-d3e7375ed003",
                             IsValid = true,
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -270,12 +270,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -287,12 +281,6 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<bool>("ForPL")
                         .HasColumnType("bit");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -317,10 +305,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Fyzické oddělení medzi jednotlivými dráhami signálu",
                             ForPL = true,
-                            IdCreated = 0,
                             IsValid = true,
                             Points = 15L,
                             TypeCZ = "Oddělení/segregace"
@@ -328,10 +314,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy",
                             ForPL = true,
-                            IdCreated = 0,
                             IsValid = true,
                             Points = 20L,
                             TypeCZ = "Diverzita"
@@ -339,10 +323,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Ochrana proti přepětí, přetlaku, nadproudu, atd.",
                             ForPL = true,
-                            IdCreated = 0,
                             IsValid = true,
                             Points = 15L,
                             TypeCZ = "Konstrukce/použití/zkušenosti"
@@ -350,10 +332,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Jsou použity osvědčené součásti",
                             ForPL = true,
-                            IdCreated = 0,
                             IsValid = true,
                             Points = 5L,
                             TypeCZ = "Konstrukce/použití/zkušenosti"
@@ -361,10 +341,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 5,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?",
                             ForPL = true,
-                            IdCreated = 0,
                             IsValid = true,
                             Points = 5L,
                             TypeCZ = "Posouzení/analýza"
@@ -377,18 +355,6 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -416,8 +382,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Max = (short)60,
                             Min = (short)0,
@@ -426,8 +390,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Max = (short)90,
                             Min = (short)60,
@@ -436,8 +398,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Max = (short)99,
                             Min = (short)90,
@@ -446,8 +406,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Max = (short)100,
                             Min = (short)99,
@@ -461,18 +419,6 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -499,8 +445,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Úroveň vlastností",
                             NameEN = "Performance Level",
@@ -509,8 +453,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Úroveň integrity bezpečnosti",
                             NameEN = "Safety Integrity Level",
@@ -525,12 +467,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -539,12 +475,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -566,27 +496,21 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Nějaký popis",
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Jednoúčelový stroj"
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Nějaký popis",
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Víceúčelový stroj"
                         },
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Nějaký popis",
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Montážní linka"
                         });
@@ -603,18 +527,6 @@ namespace SSEA.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -647,8 +559,6 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             CatalogNumber = "15296296",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "ČSN EN ISO 13849-1",
                             NameCZ = "Bezpečnost strojních zařízení - Bezpečnostné části ovládacích systému - Část 1: Všeobecné zásady pro konstrukci",
@@ -658,8 +568,6 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             CatalogNumber = "15296296",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "ČSN EN ISO 12100",
                             NameCZ = "Popis tejto normy",
@@ -669,12 +577,68 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             CatalogNumber = "15296296",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "ČSN EN 62061",
                             NameCZ = "Popis tejto normy",
                             NormCategory = "B1"
+                        });
+                });
+
+            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.OperationPrinciple", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("DescriptionCZ")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("DescriptionEN")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NameCZ")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("NameEN")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OperationPrinciples");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsValid = true,
+                            NameCZ = "mechanický"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsValid = true,
+                            NameCZ = "elektrický"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsValid = true,
+                            NameCZ = "pneumatický"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsValid = true,
+                            NameCZ = "elektromechanický"
                         });
                 });
 
@@ -688,18 +652,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("CountryOfOrigin")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -718,8 +670,6 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             CountryOfOrigin = "Germany",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Name = "Siemens"
                         },
@@ -727,8 +677,6 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             CountryOfOrigin = "Slovakia",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Name = "Sipron"
                         },
@@ -736,8 +684,6 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             CountryOfOrigin = "USA",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Name = "Allen Bradley"
                         });
@@ -750,12 +696,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
@@ -763,12 +703,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -790,24 +724,18 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Funkce bezpečného zastavení iniciována bezpečnostním zařízením"
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Funkce ručního opětného nastavení"
                         },
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Funkce místního ovládaní"
                         });
@@ -826,12 +754,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("Communication")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
@@ -842,12 +764,6 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<long?>("EthernetAdressesMaxCount")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -901,9 +817,7 @@ namespace SSEA.DAL.Migrations
                             Id = 1,
                             AccessPointsMaxCount = 2,
                             Communication = false,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EthernetAdressesMaxCount = 0L,
-                            IdCreated = 0,
                             IsValid = true,
                             MaxArchitectureId = 4,
                             MaxCategoryId = 5,
@@ -919,9 +833,7 @@ namespace SSEA.DAL.Migrations
                             Id = 2,
                             AccessPointsMaxCount = 5,
                             Communication = false,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EthernetAdressesMaxCount = 0L,
-                            IdCreated = 0,
                             IsValid = true,
                             MaxArchitectureId = 4,
                             MaxCategoryId = 5,
@@ -936,9 +848,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             Communication = true,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EthernetAdressesMaxCount = 48L,
-                            IdCreated = 0,
                             IsValid = true,
                             MaxArchitectureId = 4,
                             MaxCategoryId = 5,
@@ -953,9 +863,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             Communication = true,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EthernetAdressesMaxCount = 256L,
-                            IdCreated = 0,
                             IsValid = true,
                             MaxArchitectureId = 4,
                             MaxCategoryId = 5,
@@ -974,18 +882,6 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1007,32 +903,24 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Vstupní"
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Výstupní"
                         },
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Logický"
                         },
                         new
                         {
                             Id = 4,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             NameCZ = "Komunikační"
                         });
@@ -1047,12 +935,6 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<short>("Channels")
                         .HasColumnType("smallint");
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("DescriptionCZ")
                         .HasMaxLength(250)
@@ -1069,12 +951,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("FailureBehaviorEN")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1131,10 +1007,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             Channels = (short)1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Random text",
                             FailureBehaviorCZ = "Random text",
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "B",
                             Logic = true,
@@ -1149,10 +1023,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             Channels = (short)1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Random text",
                             FailureBehaviorCZ = "Random text",
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "1",
                             Logic = true,
@@ -1167,10 +1039,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             Channels = (short)1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Random text",
                             FailureBehaviorCZ = "Random text",
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "2",
                             Logic = true,
@@ -1185,10 +1055,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             Channels = (short)2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Random text",
                             FailureBehaviorCZ = "Random text",
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "3",
                             Logic = true,
@@ -1203,10 +1071,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 5,
                             Channels = (short)2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Random text",
                             FailureBehaviorCZ = "Random text",
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "4",
                             Logic = true,
@@ -1226,12 +1092,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
@@ -1239,12 +1099,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1261,18 +1115,14 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Řídká až málo častá",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = "F1"
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Častá až nepřetržitá",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = "F2"
                         });
@@ -1284,18 +1134,6 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1323,8 +1161,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Max = (short)10,
                             Min = (short)3,
@@ -1333,8 +1169,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Max = (short)30,
                             Min = (short)10,
@@ -1343,8 +1177,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Max = (short)100,
                             Min = (short)30,
@@ -1359,12 +1191,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
@@ -1372,12 +1198,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1394,18 +1214,14 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Možné za určitých podmínek",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = "P1"
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Sotva možné",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = "P2"
                         });
@@ -1417,18 +1233,6 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1446,40 +1250,30 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "a"
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "b"
                         },
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "c"
                         },
                         new
                         {
                             Id = 4,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "d"
                         },
                         new
                         {
                             Id = 5,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "e"
                         });
@@ -1492,12 +1286,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
@@ -1505,12 +1293,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1527,18 +1309,14 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Lehké",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = "S1"
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Závažné",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = "S2"
                         });
@@ -1554,12 +1332,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<short>("Channels")
                         .HasColumnType("smallint");
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
@@ -1573,12 +1345,6 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<short>("HFT")
                         .HasColumnType("smallint");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1612,10 +1378,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             Channels = (short)1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Diagnostic = false,
                             HFT = (short)0,
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "A",
                             Logic = true,
@@ -1627,10 +1391,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             Channels = (short)2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Diagnostic = false,
                             HFT = (short)1,
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "B",
                             Logic = true,
@@ -1642,10 +1404,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             Channels = (short)1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Diagnostic = true,
                             HFT = (short)0,
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "C",
                             Logic = true,
@@ -1657,10 +1417,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             Channels = (short)2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Diagnostic = true,
                             HFT = (short)1,
-                            IdCreated = 0,
                             IsValid = true,
                             Label = "D",
                             Logic = true,
@@ -1677,12 +1435,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1691,12 +1443,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1712,27 +1458,21 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Nemožné",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)5
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Možné za určitých podmínek",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)3
                         },
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Pradvěpodobné",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)1
                         });
@@ -1747,18 +1487,6 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<double>("Beta")
                         .HasColumnType("float");
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1778,8 +1506,6 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             Beta = 0.10000000000000001,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             MaxCCF = (short)35,
                             MinCCF = (short)0
@@ -1788,8 +1514,6 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             Beta = 0.050000000000000003,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             MaxCCF = (short)65,
                             MinCCF = (short)35
@@ -1798,8 +1522,6 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             Beta = 0.02,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             MaxCCF = (short)85,
                             MinCCF = (short)65
@@ -1808,8 +1530,6 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             Beta = 0.01,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             MaxCCF = (short)100,
                             MinCCF = (short)85
@@ -1823,12 +1543,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FrequencyOfThreatCZ")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1837,12 +1551,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("FrequencyOfThreatEN")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1858,45 +1566,35 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FrequencyOfThreatCZ = "<= 1h",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)5
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FrequencyOfThreatCZ = "> 1h až <= 1 den",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)5
                         },
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FrequencyOfThreatCZ = "> 1 den až <= 2 týdny",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)4
                         },
                         new
                         {
                             Id = 4,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FrequencyOfThreatCZ = "> 2 týdny až <= 1 rok",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)3
                         },
                         new
                         {
                             Id = 5,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FrequencyOfThreatCZ = "> 1 rok",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)2
                         });
@@ -1908,18 +1606,6 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1941,8 +1627,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             MaxPFHd = 1E-06f,
                             MinPFHd = 1E-07f,
@@ -1951,8 +1635,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             MaxPFHd = 1E-05f,
                             MinPFHd = 1E-06f,
@@ -1961,8 +1643,6 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdCreated = 0,
                             IsValid = true,
                             MaxPFHd = 0.0001f,
                             MinPFHd = 1E-05f,
@@ -1977,12 +1657,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1991,12 +1665,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -2012,45 +1680,35 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Velmi vysoká",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)5
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Pravděpodobná",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)4
                         },
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Možná",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)3
                         },
                         new
                         {
                             Id = 4,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Výjimečná",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)2
                         },
                         new
                         {
                             Id = 5,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Zanedbatelná",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)1
                         });
@@ -2072,12 +1730,6 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FailureModeCZ")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -2086,12 +1738,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("FailureModeEN")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -2108,9 +1754,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             ComponentNameCZ = "Relé",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FailureModeCZ = "Kontakty nelze rozepnout",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = 10L
                         },
@@ -2118,9 +1762,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             ComponentNameCZ = "Relé",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FailureModeCZ = "Kontakty nelze sepnout",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = 10L
                         },
@@ -2128,9 +1770,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             ComponentNameCZ = "Relé",
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FailureModeCZ = "Současný zkrat mezi třemi kontakty přepínacího spínače",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = 10L
                         });
@@ -2143,12 +1783,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("DateTimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateTimeUpdated")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DescriptionCZ")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -2157,12 +1791,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("IdCreated")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdUpdated")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -2178,36 +1806,28 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Trvalé: smrt, ztráta oka nebo paže",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)4
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Trvalé: zlomená končetina, ztráta prstu",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)3
                         },
                         new
                         {
                             Id = 3,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Přechodné: vyžadující ošetření praktickým lékařem",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)2
                         },
                         new
                         {
                             Id = 4,
-                            DateTimeCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DescriptionCZ = "Přechodné: vyžadující ošetření na první pomoci",
-                            IdCreated = 0,
                             IsValid = true,
                             Value = (short)1
                         });
@@ -2225,6 +1845,9 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<int>("Id")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.HasKey("AccessPointId", "SafetyFunctionId");
 
@@ -2246,6 +1869,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.HasKey("ElementId", "SFFId");
 
                     b.HasIndex("SFFId");
@@ -2265,6 +1891,9 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<int>("Id")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.HasKey("MachineId", "NormId");
 
@@ -2286,6 +1915,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.HasKey("SafetyFunctionId", "SubsystemId");
 
                     b.HasIndex("SubsystemId");
@@ -2306,6 +1938,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.HasKey("SubsystemId", "CCFId");
 
                     b.HasIndex("CCFId");
@@ -2320,8 +1955,9 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CurrentState_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("CurrentStateId")
+                        .HasColumnType("int")
+                        .HasColumnName("CurrentState_Id");
 
                     b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
@@ -2350,7 +1986,7 @@ namespace SSEA.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrentState_Id");
+                    b.HasIndex("CurrentStateId");
 
                     b.HasIndex("MachineId");
 
@@ -2374,8 +2010,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("CurrentState_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("CurrentStateId")
+                        .HasColumnType("int")
+                        .HasColumnName("CurrentState_Id");
 
                     b.Property<int>("DCId")
                         .HasColumnType("int")
@@ -2428,7 +2065,7 @@ namespace SSEA.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrentState_Id");
+                    b.HasIndex("CurrentStateId");
 
                     b.HasIndex("DCId");
 
@@ -2454,8 +2091,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("Communication")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("CurrentState_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("CurrentStateId")
+                        .HasColumnType("int")
+                        .HasColumnName("CurrentState_Id");
 
                     b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
@@ -2511,7 +2149,7 @@ namespace SSEA.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrentState_Id");
+                    b.HasIndex("CurrentStateId");
 
                     b.HasIndex("EvaluationMethodId");
 
@@ -2535,8 +2173,9 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Av_Id");
 
-                    b.Property<int?>("CurrentState_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("CurrentStateId")
+                        .HasColumnType("int")
+                        .HasColumnName("CurrentState_Id");
 
                     b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
@@ -2611,7 +2250,7 @@ namespace SSEA.DAL.Migrations
 
                     b.HasIndex("AvId");
 
-                    b.HasIndex("CurrentState_Id");
+                    b.HasIndex("CurrentStateId");
 
                     b.HasIndex("EvaluationMethodId");
 
@@ -2659,8 +2298,9 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Category_Id");
 
-                    b.Property<int?>("CurrentState_Id")
-                        .HasColumnType("int");
+                    b.Property<int>("CurrentStateId")
+                        .HasColumnType("int")
+                        .HasColumnName("CurrentState_Id");
 
                     b.Property<int?>("DCresultId")
                         .HasColumnType("int")
@@ -2684,6 +2324,10 @@ namespace SSEA.DAL.Migrations
                     b.Property<int?>("MTTFdResultId")
                         .HasColumnType("int")
                         .HasColumnName("MTTFdResult_Id");
+
+                    b.Property<int>("OperationPrincipleId")
+                        .HasColumnType("int")
+                        .HasColumnName("OperationPrinciple_Id");
 
                     b.Property<int?>("PFHdResultId")
                         .HasColumnType("int")
@@ -2717,11 +2361,13 @@ namespace SSEA.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CurrentState_Id");
+                    b.HasIndex("CurrentStateId");
 
                     b.HasIndex("DCresultId");
 
                     b.HasIndex("MTTFdResultId");
+
+                    b.HasIndex("OperationPrincipleId");
 
                     b.HasIndex("PFHdResultId");
 
@@ -2997,6 +2643,28 @@ namespace SSEA.DAL.Migrations
                             NameEN = "Blocked",
                             StateNumber = 2,
                             Valid = true
+                        },
+                        new
+                        {
+                            Id = 14,
+                            EntityId = 6,
+                            FinalState = false,
+                            InitialState = true,
+                            NameCZ = "Nový",
+                            NameEN = "New",
+                            StateNumber = 1,
+                            Valid = true
+                        },
+                        new
+                        {
+                            Id = 15,
+                            EntityId = 2,
+                            FinalState = false,
+                            InitialState = true,
+                            NameCZ = "Nový",
+                            NameEN = "New",
+                            StateNumber = 1,
+                            Valid = true
                         });
                 });
 
@@ -3179,13 +2847,13 @@ namespace SSEA.DAL.Migrations
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.AccessPoint", "AccessPoint")
                         .WithMany("AccessPointSafetyFunctions")
                         .HasForeignKey("AccessPointId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.SafetyFunction", "SafetyFunction")
                         .WithMany("AccessPointSafetyFunctions")
                         .HasForeignKey("SafetyFunctionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("AccessPoint");
@@ -3198,13 +2866,13 @@ namespace SSEA.DAL.Migrations
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Element", "Element")
                         .WithMany("ElementSFFs")
                         .HasForeignKey("ElementId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.SFF", "SFF")
                         .WithMany("ElementSFFs")
                         .HasForeignKey("SFFId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Element");
@@ -3217,13 +2885,13 @@ namespace SSEA.DAL.Migrations
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Machine", "Machine")
                         .WithMany("MachineNorms")
                         .HasForeignKey("MachineId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Norm", "Norm")
                         .WithMany("MachineNorms")
                         .HasForeignKey("NormId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Machine");
@@ -3236,13 +2904,13 @@ namespace SSEA.DAL.Migrations
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.SafetyFunction", "SafetyFunction")
                         .WithMany("SafetyFunctionSubsystems")
                         .HasForeignKey("SafetyFunctionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Subsystem", "Subsystem")
                         .WithMany("SafetyFunctionSubsystems")
                         .HasForeignKey("SubsystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("SafetyFunction");
@@ -3255,13 +2923,13 @@ namespace SSEA.DAL.Migrations
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.CCF", "CCF")
                         .WithMany("SubsystemCCFs")
                         .HasForeignKey("CCFId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Subsystem", "Subsystem")
                         .WithMany("SubsystemCCFs")
                         .HasForeignKey("SubsystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CCF");
@@ -3273,12 +2941,14 @@ namespace SSEA.DAL.Migrations
                 {
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id");
+                        .HasForeignKey("CurrentStateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Machine", "Machine")
                         .WithMany("AccessPoints")
                         .HasForeignKey("MachineId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CurrentState");
@@ -3290,7 +2960,9 @@ namespace SSEA.DAL.Migrations
                 {
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id");
+                        .HasForeignKey("CurrentStateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "DC")
                         .WithMany()
@@ -3312,7 +2984,7 @@ namespace SSEA.DAL.Migrations
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Subsystem", "Subsystem")
                         .WithMany("Elements")
                         .HasForeignKey("SubsystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CurrentState");
@@ -3330,7 +3002,9 @@ namespace SSEA.DAL.Migrations
                 {
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id");
+                        .HasForeignKey("CurrentStateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.EvaluationMethod", "EvaluationMethod")
                         .WithMany()
@@ -3375,7 +3049,9 @@ namespace SSEA.DAL.Migrations
 
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id");
+                        .HasForeignKey("CurrentStateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.EvaluationMethod", "EvaluationMethod")
                         .WithMany()
@@ -3487,7 +3163,9 @@ namespace SSEA.DAL.Migrations
 
                     b.HasOne("SSEA.DAL.Entities.System.State", "CurrentState")
                         .WithMany()
-                        .HasForeignKey("CurrentState_Id");
+                        .HasForeignKey("CurrentStateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "DCresult")
                         .WithMany()
@@ -3498,6 +3176,12 @@ namespace SSEA.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("MTTFdResultId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.OperationPrinciple", "OperationPrinciple")
+                        .WithMany()
+                        .HasForeignKey("OperationPrincipleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "PFHdResult")
                         .WithMany()
@@ -3526,6 +3210,8 @@ namespace SSEA.DAL.Migrations
                     b.Navigation("DCresult");
 
                     b.Navigation("MTTFdResult");
+
+                    b.Navigation("OperationPrinciple");
 
                     b.Navigation("PFHdResult");
 
