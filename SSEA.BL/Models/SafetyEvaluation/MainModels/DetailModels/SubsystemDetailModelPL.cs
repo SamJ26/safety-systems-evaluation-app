@@ -19,6 +19,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public TypeOfSubsystemModel TypeOfSubsystem { get; set; }
 
         [Required]
+        public OperationPrincipleModel OperationPrinciple { get; set; }
+
+        [Required]
         public CategoryModel Category { get; set; }
 
         public MTTFdModel MTTFdResult { get; set; }
@@ -34,6 +37,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public SubsystemDetailModelPLMapperProfile()
         {
             CreateMap<Subsystem, SubsystemDetailModelPL>().IgnoreSource(src => src.TypeOfSubsystemId)
+                                                          .IgnoreSource(src => src.OperationPrincipleId)
                                                           .IgnoreSource(src => src.SafetyFunctionSubsystems)
                                                           .IgnoreSource(src => src.SubsystemCCFs)
                                                           .IgnoreSource(src => src.CategoryId)

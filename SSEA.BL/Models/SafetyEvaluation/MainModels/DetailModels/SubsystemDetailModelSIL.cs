@@ -2,12 +2,9 @@
 using SSEA.BL.Extensions;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
@@ -19,6 +16,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 
         [Required]
         public TypeOfSubsystemModel TypeOfSubsystem { get; set; }
+
+        [Required]
+        public OperationPrincipleModel OperationPrinciple { get; set; }
 
         [Required]
         public ArchitectureModel Architecture { get; set; }
@@ -36,6 +36,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public SubsystemDetailModelSILMapperProfile()
         {
             CreateMap<Subsystem, SubsystemDetailModelSIL>().IgnoreSource(src => src.TypeOfSubsystemId)
+                                                           .IgnoreSource(src => src.OperationPrincipleId)
                                                            .IgnoreSource(src => src.SafetyFunctionSubsystems)
                                                            .IgnoreSource(src => src.SubsystemCCFs)
                                                            .IgnoreSource(src => src.ValidCCF)

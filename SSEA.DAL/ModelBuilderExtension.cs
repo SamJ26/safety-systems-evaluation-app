@@ -1002,9 +1002,46 @@ namespace SSEA.DAL
                     InitialState = false,
                     FinalState = false,
                     EntityId = 7,
+                },
+
+                #endregion
+
+                #region States for subsystems
+
+                new State()
+                {
+                    Id = 14,
+                    NameCZ = "Nový",
+                    NameEN = "New",
+                    DescriptionCZ = null,
+                    DescriptionEN = null,
+                    StateNumber = 1,
+                    Valid = true,
+                    InitialState = true,
+                    FinalState = false,
+                    EntityId = 6,
+                },
+
+                #endregion
+
+                #region State for elements
+
+                new State()
+                {
+                    Id = 15,
+                    NameCZ = "Nový",
+                    NameEN = "New",
+                    DescriptionCZ = null,
+                    DescriptionEN = null,
+                    StateNumber = 1,
+                    Valid = true,
+                    InitialState = true,
+                    FinalState = false,
+                    EntityId = 2,
                 }
 
                 #endregion
+
             );
 
             // TODO: add seeds for StateTransition ??
