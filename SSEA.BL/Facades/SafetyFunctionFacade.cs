@@ -68,39 +68,5 @@ namespace SSEA.BL.Facades
 
             return await safetyFunctionRepository.CreateAsync(safetyFunction, userId);
         }
-
-        //// TODO: incomplete implementation
-        //public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel, int userId)
-        //{
-        //    newModel.SafetyFunctionSubsystems?.Clear();
-
-        //    // Creating entity without collection
-        //    var entity = mapper.Map<SafetyFunction>(newModel);
-
-        //    // Assigning inital state to new record
-        //    entity.CurrentState = await GetState(safetyFunctionNewStateId);
-
-        //    dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
-        //    dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
-        //    if (entity.Se != null && entity.Fr != null && entity.Pr != null && entity.Av != null)
-        //    {
-        //        dbContext.Attach(entity.Se).State = EntityState.Unchanged;
-        //        dbContext.Attach(entity.Fr).State = EntityState.Unchanged;
-        //        dbContext.Attach(entity.Pr).State = EntityState.Unchanged;
-        //        dbContext.Attach(entity.Av).State = EntityState.Unchanged;
-
-        //        // TODO: get SILCL by calling SafetyIntegrityLevelService
-        //    }
-        //    dbContext.Attach(entity.SILCL).State = EntityState.Unchanged;
-
-        //    await dbContext.SafetyFunctions.AddAsync(entity);
-        //    await dbContext.CommitChangesAsync(userId);
-        //    return entity.Id;
-        //}
-
-        //private async Task<State> GetState(int stateId)
-        //{
-        //    return await dbContext.States.SingleOrDefaultAsync(s => s.Id == stateId);
-        //}
     }
 }

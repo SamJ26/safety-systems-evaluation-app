@@ -49,7 +49,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="6">
-                                <MudField Label="Resultant PL" Variant="Variant.Outlined">@(safetyFunction.PLresult != null ? safetyFunction.PLresult.Label : "Not evaluated")</MudField>
+                                <MudField Label="Resultant PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.PLresult != null ? safetyFunction.PLresult.Label : "Not evaluated")</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudExpansionPanels MultiExpansion="true" Elevation="1">

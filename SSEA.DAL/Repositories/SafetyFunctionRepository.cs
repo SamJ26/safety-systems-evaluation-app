@@ -10,7 +10,7 @@ namespace SSEA.DAL.Repositories
 {
     public class SafetyFunctionRepository
     {
-        private AppDbContext dbContext;
+        private readonly AppDbContext dbContext;
 
         private readonly int safetyFunctionNewStateId = 8;
 
