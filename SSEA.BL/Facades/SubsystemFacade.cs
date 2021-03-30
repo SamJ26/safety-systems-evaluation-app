@@ -42,88 +42,18 @@ namespace SSEA.BL.Facades
             return mapper.Map<ICollection<SubsystemListModelSIL>>(subsystems);
         }
 
-        //public async Task<SubsystemDetailModelPL> GetByIdPLAsync(int id)
-        //{
-        //    var subsystem = await dbContext.Subsystems.Where(s => s.CategoryId != null)
-        //                                              .Include(s => s.TypeOfSubsystem)
-        //                                              .Include(s => s.Category)
-        //                                              .Include(s => s.DCresult)
-        //                                              .Include(s => s.MTTFdResult)
-        //                                              .Include(s => s.PLresult)
-        //                                              .Include(s => s.CurrentState)
-        //                                              .AsNoTracking()
-        //                                              .SingleOrDefaultAsync(s => s.Id == id);
+        public async Task<SubsystemDetailModelPL> GetByIdPLAsync(int id)
+        {
+            SubsystemDetailModelPL subsystem = mapper.Map<SubsystemDetailModelPL>(await subsystemRepository.GetByIdPLAsync(id));
+            subsystem.SelectedCCFs = mapper.Map<HashSet<CCFModel>>(await subsystemRepository.GetCCFsForSubsystemAsync(id));
+            return subsystem;
+        }
 
-        //    var model = mapper.Map<SubsystemDetailModelPL>(subsystem);
-
-        //    // Getting all CCFs related to selected subsystem
-        //    int[] foundIds = await dbContext.SubsystemCCFs.Where(a => a.SubsystemId == id)
-        //                                                  .Select(a => a.CCFId)
-        //                                                  .ToArrayAsync();
-        //    if (foundIds.Count() != 0)
-        //    {
-        //        var foundCCFs = await dbContext.CCFs.Where(c => foundIds.Contains(c.Id)).ToListAsync();
-        //        model.SelectedCCFs = mapper.Map<HashSet<CCFModel>>(foundCCFs);
-        //    }
-        //    return model;
-        //}
-
-        //public async Task<SubsystemDetailModelSIL> GetByIdSILAsync(int id)
-        //{
-        //    var subsystem = await dbContext.Subsystems.Where(s => s.ArchitectureId != null)
-        //                                              .Include(s => s.TypeOfSubsystem)
-        //                                              .Include(s => s.Architecture)
-        //                                              .Include(s => s.PFHdResult)
-        //                                              .Include(s => s.CFF)
-        //                                              .Include(s => s.CurrentState)
-        //                                              .AsNoTracking()
-        //                                              .SingleOrDefaultAsync(s => s.Id == id);
-
-        //    var model = mapper.Map<SubsystemDetailModelSIL>(subsystem);
-
-        //    // Getting all CCFs related to selected subsystem
-        //    int[] foundIds = await dbContext.SubsystemCCFs.Where(a => a.SubsystemId == id)
-        //                                                  .Select(a => a.CCFId)
-        //                                                  .ToArrayAsync();
-        //    if (foundIds.Count() != 0)
-        //    {
-        //        var foundCCFs = await dbContext.CCFs.Where(c => foundIds.Contains(c.Id)).ToListAsync();
-        //        model.SelectedCCFs = mapper.Map<HashSet<CCFModel>>(foundCCFs);
-        //    }
-        //    return model;
-        //}
-
-        //// TODO: add logic
-        //public async Task<int> CreateAsync(SubsystemDetailModelPL model, int userId)
-        //{
-        //    // Number of elements must be equal to number of channels of given category
-        //    if (model.Category.Channels != model.Elements.Count)
-        //        return 0;
-
-        //    // Evaluation of all imporatant properties of subsystem (couting MTTFd, DC, checking CCF ...)
-        //    await PLService.EvaluateSubsystem(model);
-
-        //    // Creating subsystem entity from model
-        //    var entity = mapper.Map<Subsystem>(model);
-
-        //    // Validation of subsystem before calling SaveChanges
-        //    if (PLService.IsSubsystemValid(model))
-        //    {
-        //        await dbContext.AddAsync(entity);
-        //        await dbContext.SaveChangesAsync();
-        //        return entity.Id;
-        //    }
-        //    return 0;
-        //}
-
-        //// TODO: add logic
-        //public async Task<int> CreateAsync(SubsystemDetailModelSIL model, int userId)
-        //{
-        //    // Number of elements must be equal to number of channels of given category
-        //    if (model.Architecture.Channels != model.Elements.Count)
-        //        return 0;
-
-        //    return 0;
-        //}
+        public async Task<SubsystemDetailModelSIL> GetByIdSILAsync(int id)
+        {
+            SubsystemDetailModelSIL subsystem = mapper.Map<SubsystemDetailModelSIL>(await subsystemRepository.GetByIdSILAsync(id));
+            subsystem.SelectedCCFs = mapper.Map<HashSet<CCFModel>>(await subsystemRepository.GetCCFsForSubsystemAsync(id));
+            return subsystem;
+        }
     }
 }
