@@ -125,6 +125,9 @@
     // -- after saving create record in SafetyFunctionSubsystem join table
 
     [Inject]
+    private SubsystemFacade subsystemFacade { get; set; }
+
+    [Inject]
     private CodeListFacade codeListFacade { get; set; }
 
     [Inject]
@@ -206,8 +209,11 @@
     {
         disabled = true;
         int id = 0;
-        // TODO: id = await subsystemFacade.CreateAsync(subsystem);
-        if (id != 0)
+
+        // TODO: assing elements to subsystem
+
+        SubsystemCreationResponseModel response = await subsystemFacade.CreateAsync(subsystem);
+        if (response.IsSuccess)
         {
             messageType = Severity.Success;
             message = successMessage;
@@ -225,6 +231,8 @@
         }
         else
         {
+            // TODO: show bugs from response object
+
             messageType = Severity.Error;
             message = errorMessage;
             showMessage = true;
