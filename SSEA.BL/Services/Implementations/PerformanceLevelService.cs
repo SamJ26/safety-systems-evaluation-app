@@ -6,6 +6,7 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Services.Interfaces;
 using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,6 +47,11 @@ namespace SSEA.BL.Services.Implementations
             return await dbContext.PerformanceLevels.Where(i => i.Label == pl).Select(i => i.Id).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Method for evaluation of subsystem's properties using data of elements
+        /// </summary>
+        /// <param name="subsystem"> Subsystem for evaluation </param>
+        /// <returns> Method interacts with database so it returns async task </returns>
         public async Task EvaluateSubsystem(SubsystemDetailModelPL subsystem)
         {
             // Evaluation of CCF
@@ -57,14 +63,40 @@ namespace SSEA.BL.Services.Implementations
             // Evaluation of DC
             subsystem.DCresult = GetDCForSubsystem(subsystem.Elements);
 
+            try
+            {
+                ValidateSubsystem(subsystem);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
             // Evaluation of PL
             subsystem.PLresult = await GetPLAsync(subsystem.Category, subsystem.MTTFdResult, subsystem.DCresult);
         }
 
-        public bool IsSubsystemValid(SubsystemDetailModelPL subsystem)
+        /// <summary>
+        /// Method which validates subsystem by comparing evaluated values with allowed ones
+        /// </summary>
+        /// <param name="subsystem"> Validated subsystem </param>
+        private void ValidateSubsystem(SubsystemDetailModelPL subsystem)
         {
+            // Comparing number of elements (must be the same)
+            if (subsystem.Elements.Count != subsystem.Category.Channels)
+                throw new Exception("Number of elements must be equal to number of channels in given category!");
 
-            return false;
+            // Validation of CCF
+            if (subsystem.ValidCCF == false && subsystem.Category.RelevantCCF)
+                throw new Exception("CCF is not valid!");
+
+            // Validation of MTTFd
+            if (subsystem.Category.MinMTTFd.Min > subsystem.MTTFdResult.Min)
+                throw new Exception("Resultant value of MTTFd is not valid for given category");
+
+            // Validation of DC
+            if (subsystem.Category.MinDC.Min > subsystem.DCresult.Min)
+                throw new Exception("Resultant value of DC is not valid for given category");
         }
 
 

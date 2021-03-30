@@ -59,10 +59,14 @@ namespace SSEA.BL.Facades
         // TODO
         public async Task<int> CreateAsync(SubsystemDetailModelPL subsystem, int userId)
         {
-            await PLService.EvaluateSubsystem(subsystem);
-            bool valid = PLService.IsSubsystemValid(subsystem);
-
-            // TODO: do some stuff according to valid var
+            try
+            {
+                await PLService.EvaluateSubsystem(subsystem);
+            }
+            catch (Exception exception)
+            {
+                // TODO: return response object with error message
+            }
 
             Subsystem entity = mapper.Map<Subsystem>(subsystem);
             return await subsystemRepository.CreateAsync(entity, userId);
