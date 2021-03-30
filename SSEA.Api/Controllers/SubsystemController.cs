@@ -38,8 +38,8 @@ namespace SSEA.Api.Controllers
             return Ok(data);
         }
 
-        // GET: api/subsystem/pl
-        [HttpGet("pl/{id}")]
+        // GET: api/subsystem/sil
+        [HttpGet("sil/{id}")]
         [SwaggerOperation(OperationId = "SubsystemGetAllSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ICollection<SubsystemListModelSIL>>> GetAllSILAsync([FromQuery] int stateId,
@@ -52,8 +52,8 @@ namespace SSEA.Api.Controllers
             return Ok(data);
         }
 
-        // GET: api/subsystem/pl/{id}
-        [HttpGet("pl/{id}")]
+        // GET: api/subsystem/pl/detail/{id}
+        [HttpGet("pl/detail/{id}")]
         [SwaggerOperation(OperationId = "SubsystemGetByIdPL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -65,8 +65,8 @@ namespace SSEA.Api.Controllers
             return Ok(data);
         }
 
-        // GET: api/subsystem/sil/{id}
-        [HttpGet("sil/{id}")]
+        // GET: api/subsystem/sil/detail/{id}
+        [HttpGet("sil/detail/{id}")]
         [SwaggerOperation(OperationId = "SubsystemGetByIdSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
