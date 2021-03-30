@@ -56,34 +56,43 @@
                 </MudItem>
             </MudGrid>
             <hr style="margin-top:16px;" />
-            <MudTable T="SafetyFunctionListModel" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Items="@safetyFunctions" Hover="true" Elevation="5" Style="margin-top: 20px;" Dense="true">
-                <HeaderContent>
-                    <MudTh>Name</MudTh>
-                    <MudTh>State</MudTh>
-                    <MudTh>Type of function</MudTh>
-                    <MudTh>Evaluation method</MudTh>
-                    <MudTh>Actions</MudTh>
-                </HeaderContent>
-                <ColGroup>
-                    <col style="width:30%;" />Name
-                    <col style="width:15%;" />State
-                    <col style="width:35%;" />Type of function
-                    <col style="width:10%;" />Evaluation method
-                    <col style="width:5%;" />Actions
-                </ColGroup>
-                <RowTemplate>
-                    <MudTd DataLabel="Name">@context.Name</MudTd>
-                    <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
-                    <MudTd DataLabel="Type of function">@context.TypeOfFunction.Name</MudTd>
-                    <MudTd DataLabel="Evaluation method">@context.EvaluationMethod.Shortcut</MudTd>
-                    <MudTd DataLabel="Actions">
-                        <MudIconButton @onclick="@(() => Delete(context))" Icon="@Icons.Material.Filled.Delete"></MudIconButton>
-                    </MudTd>
-                </RowTemplate>
-                <PagerContent>
-                    <MudTablePager PageSizeOptions="new int[]{10, 50}" />
-                </PagerContent>
-            </MudTable>
+            @if (searching == true)
+            {
+                <MudText Align="Align.Center" Style="margin: 50px;">
+                    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+                </MudText>
+            }
+            else
+            {
+                <MudTable T="SafetyFunctionListModel" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Items="@safetyFunctions" Hover="true" Elevation="5" Style="margin-top: 20px;" Dense="true">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>State</MudTh>
+                        <MudTh>Type of function</MudTh>
+                        <MudTh>Evaluation method</MudTh>
+                        <MudTh>Actions</MudTh>
+                    </HeaderContent>
+                    <ColGroup>
+                        <col style="width:30%;" />Name
+                        <col style="width:15%;" />State
+                        <col style="width:35%;" />Type of function
+                        <col style="width:10%;" />Evaluation method
+                        <col style="width:5%;" />Actions
+                    </ColGroup>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
+                        <MudTd DataLabel="Type of function">@context.TypeOfFunction.Name</MudTd>
+                        <MudTd DataLabel="Evaluation method">@context.EvaluationMethod.Shortcut</MudTd>
+                        <MudTd DataLabel="Actions">
+                            <MudIconButton @onclick="@(() => Delete(context))" Icon="@Icons.Material.Filled.Delete"></MudIconButton>
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager PageSizeOptions="new int[]{10, 50}" />
+                    </PagerContent>
+                </MudTable>
+            }
         </MudCardContent>
     </MudCard>
 </MudContainer>
@@ -108,6 +117,7 @@
     private int stateId;
     private int evaluationMethodId;
     private int typeOfFunctionId;
+    private bool searching = false;
 
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<TypeOfFunctionModel> typeOfFunctions = new List<TypeOfFunctionModel>();
@@ -125,7 +135,9 @@
 
     private async void Search()
     {
+        searching = true;
         safetyFunctions = await safetyFunctionFacade.GetAllAsync(safetyFunctionName, stateId, typeOfFunctionId, evaluationMethodId);
+        searching = false;
         StateHasChanged();
     }
 
