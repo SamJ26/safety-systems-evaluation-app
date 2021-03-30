@@ -55,5 +55,17 @@ namespace SSEA.BL.Facades
             subsystem.SelectedCCFs = mapper.Map<HashSet<CCFModel>>(await subsystemRepository.GetCCFsForSubsystemAsync(id));
             return subsystem;
         }
+
+        // TODO
+        public async Task<int> CreateAsync(SubsystemDetailModelPL subsystem, int userId)
+        {
+            await PLService.EvaluateSubsystem(subsystem);
+            bool valid = PLService.IsSubsystemValid(subsystem);
+
+            // TODO: do some stuff according to valid var
+
+            Subsystem entity = mapper.Map<Subsystem>(subsystem);
+            return await subsystemRepository.CreateAsync(entity, userId);
+        }
     }
 }

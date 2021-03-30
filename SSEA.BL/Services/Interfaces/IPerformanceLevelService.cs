@@ -1,10 +1,5 @@
-﻿using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
-using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
-using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Services.Interfaces
@@ -12,8 +7,13 @@ namespace SSEA.BL.Services.Interfaces
     public interface IPerformanceLevelService
     {
         Task<int> GetRequiredPLAsync(S s, F f, P p);
-        bool IsCCFValid(HashSet<CCFModel> items);
-        bool IsSubsystemValid(SubsystemDetailModelPL subsystem);
-        Task EvaluateSubsystem(SubsystemDetailModelPL subsystem);
+        Task<bool> EvaluateSubsystem(Subsystem subsystem);
+        bool IsSubsystemValid(Subsystem subsystem);
+
+
+
+        //bool IsCCFValid(HashSet<CCFModel> items);
+        //int GetMTTFdForSubsystem(MTTFd mttfd1, MTTFd mttf2 = null);
+
     }
 }

@@ -66,6 +66,7 @@ namespace SSEA.Api.Controllers
 
         // POST: api/safetyFunction/pl
         [HttpPost("pl")]
+        [Authorize(Roles = "Administrator, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionCreatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

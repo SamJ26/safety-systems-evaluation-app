@@ -77,19 +77,19 @@ namespace SSEA.Api.Controllers
             return Ok(data);
         }
 
-        //// POST: api/subsystem/pl
-        //[HttpPost("pl")]
-        //[SwaggerOperation(OperationId = "SubsystemCreatePL")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<ActionResult<int>> CreateAsync(SubsystemDetailModelPL model)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest();
-        //    var userId = this.GetUserIdFromHttpContext();
-        //    var id = await subsystemFacade.CreateAsync(model, userId);
-        //    return Ok(id);
-        //}
+        // POST: api/subsystem/pl
+        [HttpPost("pl")]
+        [SwaggerOperation(OperationId = "SubsystemCreatePL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> CreateAsync(SubsystemDetailModelPL model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await subsystemFacade.CreateAsync(model, userId);
+            return Ok(id);
+        }
 
         //// POST: api/subsystem/sil
         //[HttpPost("sil")]

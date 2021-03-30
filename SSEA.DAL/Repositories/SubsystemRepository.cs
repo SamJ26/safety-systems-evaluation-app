@@ -97,5 +97,12 @@ namespace SSEA.DAL.Repositories
                 foundCCFs = await dbContext.CCFs.Where(c => foundIds.Contains(c.Id)).ToListAsync();
             return foundCCFs;
         }
+
+        // TODO
+        public async Task<int> CreateAsync(Subsystem subsystem, int userId)
+        {
+
+            return 0;
+        }
     }
 }
