@@ -4,7 +4,7 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
 {
-    class SubsystemListModelSIL : ExtendedModelBase
+    public class SubsystemListModelSIL : ExtendedModelBase
     {
         public string TypeOfSubsystem { get; set; }
         public string OperationPrinciple { get; set; }

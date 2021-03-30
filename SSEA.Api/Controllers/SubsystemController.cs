@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SSEA.Api.Extensions;
 using SSEA.BL.Facades;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
+using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,19 +23,33 @@ namespace SSEA.Api.Controllers
             this.subsystemFacade = subsystemFacade;
         }
 
-        //// GET: api/subsystem/pl/{id}
-        //[HttpGet("pl/{id}")]
-        //[SwaggerOperation(OperationId = "SubsystemGetAllPL")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //public async Task<ActionResult<ICollection<SubsystemDetailModelPL>>> GetAllPLAsync(int safetyFunctionId = 0)
-        //{
-        //    ICollection<SubsystemDetailModelPL> data;
-        //    if (safetyFunctionId == 0)
-        //        data = await subsystemFacade.GetAllPLAsync();
-        //    else
-        //        data = await subsystemFacade.GetAllPLAsync(safetyFunctionId);
-        //    return Ok(data);
-        //}
+        // GET: api/subsystem/pl
+        [HttpGet("pl/{id}")]
+        [SwaggerOperation(OperationId = "SubsystemGetAllPL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<SubsystemListModelPL>>> GetAllPLAsync([FromQuery] int stateId,
+                                                                                         [FromQuery] int typeOfSubsystemId,
+                                                                                         [FromQuery] int operationPrincipleId,
+                                                                                         [FromQuery] int categoryId,
+                                                                                         [FromQuery] int performanceLevelId)
+        {
+            var data = await subsystemFacade.GetAllPLAsync(stateId, typeOfSubsystemId, operationPrincipleId, categoryId, performanceLevelId);
+            return Ok(data);
+        }
+
+        // GET: api/subsystem/pl
+        [HttpGet("pl/{id}")]
+        [SwaggerOperation(OperationId = "SubsystemGetAllSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<SubsystemListModelSIL>>> GetAllSILAsync([FromQuery] int stateId,
+                                                                                           [FromQuery] int typeOfSubsystemId,
+                                                                                           [FromQuery] int operationPrincipleId,
+                                                                                           [FromQuery] int architectureId,
+                                                                                           [FromQuery] int silId)
+        {
+            var data = await subsystemFacade.GetAllSILAsync(stateId, typeOfSubsystemId, operationPrincipleId, architectureId, silId);
+            return Ok(data);
+        }
 
         //// GET: api/subsystem/sil/{id}
         //[HttpGet("sil/{id}")]
