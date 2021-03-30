@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SSEA.Api.Extensions;
 using SSEA.BL.Facades;
+using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
@@ -82,13 +83,13 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SubsystemCreatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CreateAsync(SubsystemDetailModelPL model)
+        public async Task<ActionResult<SubsystemCreationResponseModel>> CreateAsync(SubsystemDetailModelPL model)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var id = await subsystemFacade.CreateAsync(model, userId);
-            return Ok(id);
+            SubsystemCreationResponseModel response = await subsystemFacade.CreateAsync(model, userId);
+            return Ok(response);
         }
 
         //// POST: api/subsystem/sil

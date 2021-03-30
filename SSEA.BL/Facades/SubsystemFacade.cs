@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.JoinModels;
+using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.BL.Services.Interfaces;
@@ -57,7 +58,7 @@ namespace SSEA.BL.Facades
         }
 
         // TODO
-        public async Task<int> CreateAsync(SubsystemDetailModelPL subsystem, int userId)
+        public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelPL subsystem, int userId)
         {
             try
             {
@@ -65,11 +66,21 @@ namespace SSEA.BL.Facades
             }
             catch (Exception exception)
             {
-                // TODO: return response object with error message
+                return new SubsystemCreationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = exception.Message,
+                    SubsystemId = 0,
+                };
             }
-
             Subsystem entity = mapper.Map<Subsystem>(subsystem);
-            return await subsystemRepository.CreateAsync(entity, userId);
+            int id = await subsystemRepository.CreateAsync(entity, userId);
+            return new SubsystemCreationResponseModel()
+            {
+                IsSuccess = true,
+                Message = "Subsystem created successfully :)",
+                SubsystemId = id,
+            };
         }
     }
 }
