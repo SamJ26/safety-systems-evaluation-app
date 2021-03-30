@@ -339,17 +339,8 @@
         navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{MachineId}/{AccessPointId}");
     }
 
-    private async Task CreateSubsystem(string typeOfSubsystem)
+    private void CreateSubsystem(string typeOfSubsystem)
     {
-        //SubsystemDetailModelPL subsystem = new();
-        //var parameters = new DialogParameters() { ["Subsystem"] = subsystem, ["TypeOfSubsystem"] = typeOfSubsystem };
-        //var dialog = dialogService.Show<EditSubsystemPLDialog>("Edit subsystem", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
-        //var result = await dialog.Result;
-        //if (!result.Cancelled)
-        //{
-        //    Console.WriteLine("Boom");
-        //}
-        //StateHasChanged();
         navigationManager.NavigateTo($"/safetyEvaluation/subsystemInsert/PL?typeOfSubsystem={typeOfSubsystem}&machineId={MachineId}&accessPointId={AccessPointId}&safetyFunctionId={SafetyFunctionId}");
     }
 
