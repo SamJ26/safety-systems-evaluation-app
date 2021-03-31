@@ -10,48 +10,118 @@
             </MudItem>
             <MudItem xs="11">
                 <MudGrid>
-                    <MudItem xs="4">
-                        <MudTextField @bind-Value="name" Label="Safety function name" Variant="Variant.Outlined"></MudTextField>
+                    <MudItem xs="3">
+                        <MudField Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined">@TypeOfSubsystem</MudField>
                     </MudItem>
-                    <MudItem xs="4">
-                        @*<MudSelect @bind-Value="typeOfFunctionId" T="int" Label="Type of function" Strict="true" Variant="Variant.Outlined" Format="F2">
-                            @foreach (var item in typeOfFunctions)
+                    <MudItem xs="3">
+                        <MudSelect @bind-Value="operationPrincipleId" T="int" Label="Operation principle" Strict="true" Variant="Variant.Outlined" Format="F2">
+                            @foreach (var item in operationPrinciples)
                             {
                                 <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
                             }
-                        </MudSelect>*@
+                        </MudSelect>
                     </MudItem>
-                    <MudItem xs="4">
-                        <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@EvaluationMethod</MudField>
-                    </MudItem>
+                    @if (EvaluationMethod.Equals("PL"))
+                    {
+                        <MudItem xs="3">
+                            <MudSelect @bind-Value="@categoryId" T="int" Label="Category" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                @foreach (var item in categories)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Label</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudSelect @bind-Value="performanceLevelId" T="int" Label="PL" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                @foreach (var item in pls)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Label</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    }
+                    else
+                    {
+                        <MudItem xs="3">
+                            <MudSelect @bind-Value="architectureId" T="int" Label="Architecture" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                @foreach (var item in architectures)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Label</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudSelect @bind-Value="silId" T="int" Label="SIL" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                @foreach (var item in sils)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.ValueSIL</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    }
                 </MudGrid>
             </MudItem>
             <MudItem xs="12">
                 <hr />
             </MudItem>
-            <MudItem xs="12">
-                @*<MudTable Items="@safetyFunctions" MultiSelection="true" @bind-SelectedItems="SelectedSafetyFunctions" Height="400px" Hover="true">
-                    <ColGroup>
-                        <col style="width:5%;" />
-                        <col style="width:20%;" /> Name
-                        <col style="width:25%;" /> State
-                        <col style="width:30%;" /> Type of function
-                        <col style="width:20%;" /> Evaluation method
-                    </ColGroup>
-                    <HeaderContent>
-                        <MudTh>Name</MudTh>
-                        <MudTh>State</MudTh>
-                        <MudTh>Type of function</MudTh>
-                        <MudTh>Evaluation method</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                        <MudTd DataLabel="Name">@context.Name</MudTd>
-                        <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
-                        <MudTd DataLabel="Type of function">@context.EvaluationMethod.Name</MudTd>
-                        <MudTd DataLabel="Evaluation method">@context.TypeOfFunction.Name</MudTd>
-                    </RowTemplate>
-                </MudTable>*@
-            </MudItem>
+            @if (EvaluationMethod.Equals("PL"))
+            {
+                <MudItem xs="12">
+                    <MudTable Items="@subsystemsPL" Height="400px" Hover="true">
+                        <ColGroup>
+                            <col style="width:25%;" /> Type of subsystem
+                            <col style="width:25%;" /> Operation principle
+                            <col style="width:20%;" /> Category
+                            <col style="width:10%;" /> MTTFd
+                            <col style="width:10%;" /> DC
+                            <col style="width:10%;" /> PL
+                        </ColGroup>
+                        <HeaderContent>
+                            <MudTh>Type of subsystem</MudTh>
+                            <MudTh>Operation principle</MudTh>
+                            <MudTh>MTTFd</MudTh>
+                            <MudTh>DC</MudTh>
+                            <MudTh>PL</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
+                            <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
+                            <MudTd DataLabel="MTTFd">@context.MttFd</MudTd>
+                            <MudTd DataLabel="DC">@context.Dc</MudTd>
+                            <MudTd DataLabel="PL">@context.Pl</MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudItem>
+            }
+            else
+            {
+                <MudItem xs="12">
+                    <MudTable Items="@subsystemsSIL" Height="400px" Hover="true">
+                        <ColGroup>
+                            <col style="width:25%;" /> Type of subsystem
+                            <col style="width:25%;" /> Operation principle
+                            <col style="width:20%;" /> Architecture
+                            <col style="width:10%;" /> HFT
+                            <col style="width:10%;" /> SFF
+                            <col style="width:10%;" /> SIL
+                        </ColGroup>
+                        <HeaderContent>
+                            <MudTh>Type of subsystem</MudTh>
+                            <MudTh>Operation principle</MudTh>
+                            <MudTh>HFT</MudTh>
+                            <MudTh>SFF</MudTh>
+                            <MudTh>SIL</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
+                            <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
+                            <MudTd DataLabel="HFT">@context.Hft</MudTd>
+                            <MudTd DataLabel="SFF">@context.Sff</MudTd>
+                            <MudTd DataLabel="SIL">@context.Sil</MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudItem>
+            }
             <MudItem xs="6">
                 <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
             </MudItem>
@@ -77,23 +147,51 @@
     public string EvaluationMethod { get; set; }
 
     [Parameter]
-    public int IdOfSelectedSubsystem { get; set; }
+    public string TypeOfSubsystem { get; set; }
+
+    [Parameter]
+    public int SelectedSubsystemId { get; set; }
 
     private ICollection<SubsystemListModelPL> subsystemsPL = new List<SubsystemListModelPL>();
     private ICollection<SubsystemListModelSIL> subsystemsSIL = new List<SubsystemListModelSIL>();
 
+    private ICollection<PLModel> pls = new List<PLModel>();
+    private ICollection<PFHdModel> sils = new List<PFHdModel>();
+    private ICollection<CategoryModel> categories = new List<CategoryModel>();
+    private ICollection<ArchitectureModel> architectures = new List<ArchitectureModel>();
+    private ICollection<OperationPrincipleModel> operationPrinciples = new List<OperationPrincipleModel>();
+
     private string name = string.Empty;
     private int stateId;
-    private int typeOfFunctionId;
-    private int evaluationMethodId;
+    private int typeOfSubsystemId;
+    private int operationPrincipleId;
+    private int categoryId;
+    private int performanceLevelId;
+    private int architectureId;
+    private int silId;
 
     protected override async Task OnInitializedAsync()
     {
-        //TODO
+        if (EvaluationMethod.Equals("PL"))
+        {
+            pls = await codeListFacade.GetAllPLsAsync();
+            categories = await codeListFacade.GetAllCategoriesAsync();
+        }
+        else
+        {
+            sils = await codeListFacade.GetAllPFHdsAsync();
+            architectures = await codeListFacade.GetAllArchitecturesAsync();
+        }
+        operationPrinciples = await codeListFacade.GetAllOperationPrinciplesAsync();
     }
 
-    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
     private void Cancel() => MudDialog.Cancel();
+
+    // TODO
+    private void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
 
     // TODO: add logic
     private async void Search()
