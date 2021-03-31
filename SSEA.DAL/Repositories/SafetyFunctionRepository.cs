@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
@@ -123,6 +124,17 @@ namespace SSEA.DAL.Repositories
             await dbContext.AddAsync(safetyFunction);
             await dbContext.CommitChangesAsync(userId);
             return safetyFunction.Id;
+        }
+
+        public async Task AddSubsystemToSafetyFunctionAsync(int safetyFunctionId, int subsystemId)
+        {
+            var entity = new SafetyFunctionSubsystem()
+            {
+                SafetyFunctionId = safetyFunctionId,
+                SubsystemId = subsystemId,
+            };
+            await dbContext.AddAsync(entity);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

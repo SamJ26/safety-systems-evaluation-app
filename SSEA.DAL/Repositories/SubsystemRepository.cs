@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
+using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,7 +102,7 @@ namespace SSEA.DAL.Repositories
             return foundCCFs;
         }
 
-        // TODO
+        // TODO: test for SIL methodics
         public async Task<int> CreateAsync(Subsystem subsystem, int userId)
         {
             subsystem.CurrentStateId = subsystemNewStateId;
@@ -132,6 +133,20 @@ namespace SSEA.DAL.Repositories
             await dbContext.AddAsync(subsystem);
             await dbContext.CommitChangesAsync(userId);
             return subsystem.Id;
+        }
+
+        public async Task AddCCFsToSubsystemAsync(ICollection<CCF> CCFs, int subsystemId)
+        {
+            foreach (var item in CCFs)
+            {
+                var record = new SubsystemCCF()
+                {
+                    SubsystemId = subsystemId,
+                    CCFId = item.Id,
+                };
+                await dbContext.AddAsync(record);
+            }
+            await dbContext.CommitChangesAsync();
         }
     }
 }

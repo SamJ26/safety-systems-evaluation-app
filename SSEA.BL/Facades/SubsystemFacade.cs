@@ -1,19 +1,14 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.BL.Services.Interfaces;
-using SSEA.DAL;
-using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
+using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
@@ -22,12 +17,14 @@ namespace SSEA.BL.Facades
     {
         private readonly IMapper mapper;
         private readonly SubsystemRepository subsystemRepository;
+        private readonly SafetyFunctionRepository safetyFunctionRepository;
         private readonly IPerformanceLevelService PLService;
 
-        public SubsystemFacade(IMapper mapper, SubsystemRepository subsystemRepository, IPerformanceLevelService PLService)
+        public SubsystemFacade(IMapper mapper, SubsystemRepository subsystemRepository, SafetyFunctionRepository safetyFunctionRepository, IPerformanceLevelService PLService)
         {
             this.mapper = mapper;
             this.subsystemRepository = subsystemRepository;
+            this.safetyFunctionRepository = safetyFunctionRepository;
             this.PLService = PLService;
         }
 
@@ -57,7 +54,6 @@ namespace SSEA.BL.Facades
             return subsystem;
         }
 
-        // TODO
         public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelPL subsystem, int userId, int safetyFunctionId = 0)
         {
             try
@@ -75,12 +71,22 @@ namespace SSEA.BL.Facades
             }
             Subsystem entity = mapper.Map<Subsystem>(subsystem);
             int subsystemId = await subsystemRepository.CreateAsync(entity, userId);
-
-            // When safetyFunctionId is not 0 than create record in join table
-            if (safetyFunctionId != 0)
+            if (subsystemId == 0)
             {
-                // TODO
+                return new SubsystemCreationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = "Saving of subsystem failed :(",
+                    SubsystemId = subsystemId,
+                };
             }
+
+            // If subsystem has been saved successfully than also selected CCFs need to be saved
+            await subsystemRepository.AddCCFsToSubsystemAsync(mapper.Map<ICollection<CCF>>(subsystem.SelectedCCFs), subsystemId);
+
+            // If safetyFunctionId is not 0 than create record in join table
+            if (safetyFunctionId != 0)
+                await safetyFunctionRepository.AddSubsystemToSafetyFunctionAsync(safetyFunctionId, subsystemId);
 
             return new SubsystemCreationResponseModel()
             {
