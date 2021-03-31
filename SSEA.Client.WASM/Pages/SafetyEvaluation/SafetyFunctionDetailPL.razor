@@ -121,10 +121,10 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Detail</MudButton>      
+                                            <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.InputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Detail</MudButton>      
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Remove</MudButton>      
+                                            <MudButton @onclick="@(() => ShowDialog(safetyFunction.InputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Remove</MudButton>      
                                         </MudItem>
                                         <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
                                             <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is not null)">Select</MudButton>
@@ -155,10 +155,10 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is null)">Detail</MudButton>
+                                            <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.Communication1Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is null)">Detail</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is null)">Remove</MudButton>
+                                            <MudButton @onclick="@(() => ShowDialog(safetyFunction.Communication1Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is null)">Remove</MudButton>
                                         </MudItem>
                                         <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
                                             <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null)">Select</MudButton>
@@ -189,10 +189,10 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null)">Detail</MudButton>
+                                            <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.LogicSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null)">Detail</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null)">Remove</MudButton>
+                                            <MudButton @onclick="@(() => ShowDialog(safetyFunction.LogicSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null)">Remove</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;  margin-bottom: 15px;">
                                             <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is not null)">Select</MudButton>
@@ -220,10 +220,10 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is null)">Detail</MudButton>
+                                            <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.Communication2Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is null)">Detail</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is null)">Remove</MudButton>
+                                            <MudButton @onclick="@(() => ShowDialog(safetyFunction.Communication2Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is null)">Remove</MudButton>
                                         </MudItem>
                                         <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
                                             <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null)">Select</MudButton>
@@ -254,10 +254,10 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is null)">Detail</MudButton>
+                                            <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.OutputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is null)">Detail</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is null)">Remove</MudButton>
+                                            <MudButton @onclick="@(() => ShowDialog(safetyFunction.OutputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is null)">Remove</MudButton>
                                         </MudItem>
                                         <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
                                             <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is not null)">Select</MudButton>
@@ -280,6 +280,19 @@
         </MudCardContent>
     </MudCard>
 </MudContainer>
+
+<MudDialog @bind-IsVisible="showDialog">
+    <DialogContent>
+        <MudText Typo="Typo.h5">
+            <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Class="mr-3 mb-n1" />
+            Are you sure ?
+        </MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@(() => showDialog = false)">Cancel</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="RemoveSubsystem">Delete</MudButton>
+    </DialogActions>
+</MudDialog>
 
 @code {
 
@@ -330,9 +343,11 @@
     private Severity outputSubsystemMessageSeverity = Severity.Success;
     private string outputSubsystemMessage = "Completed";
 
+    private bool showDialog = false;
     private bool disabled = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
+    private string removedSubsystem;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
     private MudTabs tabs = new MudTabs();
@@ -397,6 +412,23 @@
         navigationManager.NavigateTo($"/safetyEvaluation/subsystemInsert/PL?typeOfSubsystem={typeOfSubsystem}&machineId={MachineId}&accessPointId={AccessPointId}&safetyFunctionId={SafetyFunctionId}");
     }
 
+    private void GoToSubsystemDetail(SubsystemDetailModelPL subsystem)
+    {
+        // TODO navigate to SubsystemDetailPL
+    }
+
+    private void ShowDialog(SubsystemDetailModelPL subsystem)
+    {
+        removedSubsystem = subsystem.TypeOfSubsystem.Name;
+        showDialog = true;
+    }
+
+    void RemoveSubsystem()
+    {
+        showDialog = false;
+
+        // TODO: call API and reload component
+    }
 
 
 
@@ -407,6 +439,7 @@
 
     }
 
+    // TODO
     private void Delete()
     {
 
