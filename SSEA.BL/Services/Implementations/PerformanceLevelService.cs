@@ -124,7 +124,7 @@ namespace SSEA.BL.Services.Implementations
         private MTTFdModel GetMTTFdForSubsystem(ICollection<ElementDetailModelPL> elements)
         {
             // There is just one element
-            if (elements.Count == 1)
+            if (elements.Count == 1 || elements is null)
                 return elements.ElementAt(0).MTTFdResult;
             
             // There are two same elements

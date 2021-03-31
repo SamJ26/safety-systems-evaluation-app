@@ -162,9 +162,6 @@
     private Severity messageType = Severity.Success;
     private MudTabs tabs = new MudTabs();
 
-    private readonly string successMessage = "Subsystem was saved successfully :)";
-    private readonly string errorMessage = "Saving failed :(";
-
     protected override async Task OnInitializedAsync()
     {
         typeOfSubsystems = await codeListFacade.GetAllTypeOfSubsystemsAsync();
@@ -210,13 +207,18 @@
         disabled = true;
         int id = 0;
 
-        // TODO: assing elements to subsystem
+        subsystem.Elements = new List<ElementDetailModelPL>();
+        subsystem.Elements.Add(element1);
+        if (subsystem.Category.Channels == 2 && equalElements)
+            subsystem.Elements.Add(element1);
+        if (subsystem.Category.Channels == 2 && equalElements == false)
+            subsystem.Elements.Add(element2);
 
         SubsystemCreationResponseModel response = await subsystemFacade.CreateAsync(subsystem);
         if (response.IsSuccess)
         {
             messageType = Severity.Success;
-            message = successMessage;
+            message = response.Message;
             showMessage = true;
             StateHasChanged();
             await Task.Delay(2000);
@@ -231,10 +233,8 @@
         }
         else
         {
-            // TODO: show bugs from response object
-
             messageType = Severity.Error;
-            message = errorMessage;
+            message = response.Message;
             showMessage = true;
             disabled = false;
             StateHasChanged();
