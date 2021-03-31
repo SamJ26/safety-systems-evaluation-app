@@ -58,7 +58,7 @@ namespace SSEA.BL.Facades
         }
 
         // TODO
-        public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelPL subsystem, int userId)
+        public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelPL subsystem, int userId, int safetyFunctionId = 0)
         {
             try
             {
@@ -74,12 +74,19 @@ namespace SSEA.BL.Facades
                 };
             }
             Subsystem entity = mapper.Map<Subsystem>(subsystem);
-            int id = await subsystemRepository.CreateAsync(entity, userId);
+            int subsystemId = await subsystemRepository.CreateAsync(entity, userId);
+
+            // When safetyFunctionId is not 0 than create record in join table
+            if (safetyFunctionId != 0)
+            {
+                // TODO
+            }
+
             return new SubsystemCreationResponseModel()
             {
                 IsSuccess = true,
                 Message = "Subsystem created successfully :)",
-                SubsystemId = id,
+                SubsystemId = subsystemId,
             };
         }
     }

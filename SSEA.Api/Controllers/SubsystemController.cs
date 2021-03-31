@@ -83,12 +83,12 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SubsystemCreatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<SubsystemCreationResponseModel>> CreateAsync(SubsystemDetailModelPL model)
+        public async Task<ActionResult<SubsystemCreationResponseModel>> CreateAsync(SubsystemDetailModelPL model, int safetyFunctionId = 0)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            SubsystemCreationResponseModel response = await subsystemFacade.CreateAsync(model, userId);
+            SubsystemCreationResponseModel response = await subsystemFacade.CreateAsync(model, userId, safetyFunctionId);
             return Ok(response);
         }
 
