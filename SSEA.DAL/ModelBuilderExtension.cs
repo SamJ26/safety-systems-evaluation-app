@@ -630,14 +630,35 @@ namespace SSEA.DAL
                 new CCF()
                 {
                     Id = 5,
-                    DescriptionCZ = "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?",
+                    DescriptionCZ = "Jsou k vyloučení poruch se společnou příčinou v konstrukci uvažovány výsledky režimu poruchy a analýza účinku?",
                     TypeCZ = "Posouzení/analýza",
                     Points = 5,
                     ForPL = true,
+                },
+                new CCF()
+                {
+                    Id = 6,
+                    DescriptionCZ = "Byli konstruktéři/údržbáři zacvičení k pochopení příčin a následkú poruch se společnou příčinou ?",
+                    TypeCZ = "Zpusobilost/zácvik",
+                    Points = 5,
+                    ForPL = true,
+                },
+                new CCF()
+                {
+                    Id = 7,
+                    DescriptionCZ = "Zamezení kontaminace a elektromagnetická kompatibilita (EMC) proti CCF podle příslušných norem",
+                    TypeCZ = "Prostředí",
+                    Points = 25,
+                    ForPL = true,
+                },
+                new CCF()
+                {
+                    Id = 8,
+                    DescriptionCZ = "Byly uvažováni požadavky na odolnost proti všem relevantním vlivum prostředí, např. teplota, vibrace, vlhkost ?",
+                    TypeCZ = "Prostředí",
+                    Points = 10,
+                    ForPL = true,
                 }
-
-                // TODO: supply all data from table in norm EN ISO 13849-1 on page 74
-
             );
 
             modelBuilder.Entity<TypeOfFunction>().HasData(
