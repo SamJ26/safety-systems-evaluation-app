@@ -1,12 +1,20 @@
 ﻿
 <MudDialog>
     <TitleContent>
-        <MudText Align="Align.Center" Typo="Typo.h5">Select subsystem</MudText>
+        <MudGrid>
+            <MudItem Style="width: 5%;"/>
+            <MudItem Style="width: 90%;">
+                <MudText Align="Align.Center" Typo="Typo.h5">Select subsystem</MudText>
+            </MudItem>
+            <MudItem Style="width: 5%;">
+                <MudIconButton @onclick="@Cancel" Icon="@Icons.Material.Filled.Clear" Color="Color.Error" Disabled="@disabled"></MudIconButton>
+            </MudItem>
+        </MudGrid>
     </TitleContent>
     <DialogContent>
-        <MudGrid>
+        <MudGrid Style="margin-bottom: 10px;">
             <MudItem xs="1" Style="padding-bottom: 14px; padding-top: 18px;">
-                <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;"></MudButton>
+                <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%; padding-left: 35px;" Disabled="@disabled"></MudButton>
             </MudItem>
             <MudItem xs="11">
                 <MudGrid>
@@ -15,6 +23,7 @@
                     </MudItem>
                     <MudItem xs="3">
                         <MudSelect @bind-Value="operationPrincipleId" T="int" Label="Operation principle" Strict="true" Variant="Variant.Outlined" Format="F2">
+                            <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
                             @foreach (var item in operationPrinciples)
                             {
                                 <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
@@ -25,6 +34,7 @@
                     {
                         <MudItem xs="3">
                             <MudSelect @bind-Value="@categoryId" T="int" Label="Category" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
                                 @foreach (var item in categories)
                                 {
                                     <MudSelectItem T="int" Value="@(item.Id)">@item.Label</MudSelectItem>
@@ -33,6 +43,7 @@
                         </MudItem>
                         <MudItem xs="3">
                             <MudSelect @bind-Value="performanceLevelId" T="int" Label="PL" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
                                 @foreach (var item in pls)
                                 {
                                     <MudSelectItem T="int" Value="@(item.Id)">@item.Label</MudSelectItem>
@@ -67,7 +78,7 @@
             @if (EvaluationMethod.Equals("PL"))
             {
                 <MudItem xs="12">
-                    <MudTable Items="@subsystemsPL" Height="400px" Hover="true">
+                    <MudTable T="SubsystemListModelPL" OnRowClick="@(args => AddSubsystem(args))" Items="@subsystemsPL" Height="400px" Hover="true">
                         <ColGroup>
                             <col style="width:25%;" /> Type of subsystem
                             <col style="width:25%;" /> Operation principle
@@ -96,7 +107,7 @@
             else
             {
                 <MudItem xs="12">
-                    <MudTable Items="@subsystemsSIL" Height="400px" Hover="true">
+                    <MudTable T="SubsystemListModelSIL" OnRowClick="@(args => AddSubsystem(args))" Items="@subsystemsSIL" Height="400px" Hover="true">
                         <ColGroup>
                             <col style="width:25%;" /> Type of subsystem
                             <col style="width:25%;" /> Operation principle
@@ -122,12 +133,6 @@
                     </MudTable>
                 </MudItem>
             }
-            <MudItem xs="6">
-                <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
-            </MudItem>
-            <MudItem xs="6">
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
-            </MudItem>
         </MudGrid>
     </DialogContent>
 </MudDialog>
@@ -161,6 +166,8 @@
     private ICollection<ArchitectureModel> architectures = new List<ArchitectureModel>();
     private ICollection<OperationPrincipleModel> operationPrinciples = new List<OperationPrincipleModel>();
 
+    private bool disabled = false;
+
     private string name = string.Empty;
     private int stateId;
     private int typeOfSubsystemId;
@@ -187,16 +194,34 @@
 
     private void Cancel() => MudDialog.Cancel();
 
-    // TODO
-    private void Submit()
+    private void AddSubsystem(TableRowClickEventArgs<SubsystemListModelPL> args)
     {
+        SelectedSubsystemId = args.Item.Id;
         MudDialog.Close(DialogResult.Ok(true));
     }
 
-    // TODO: add logic
+    private void AddSubsystem(TableRowClickEventArgs<SubsystemListModelSIL> args)
+    {
+        SelectedSubsystemId = args.Item.Id;
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
     private async void Search()
     {
-
+        disabled = true;
+        typeOfSubsystemId = (TypeOfSubsystem.ToLower()) switch
+        {
+            "input" => 1,
+            "output" => 2,
+            "communication" => 4,
+            _ => 3,
+        };
+        if (EvaluationMethod.Equals("PL"))
+            subsystemsPL = await subsystemFacade.GetAllPLAsync(stateId, typeOfSubsystemId, operationPrincipleId, categoryId, performanceLevelId);
+        else
+            subsystemsSIL = await subsystemFacade.GetAllSILAsync(stateId, typeOfSubsystemId, operationPrincipleId, architectureId, silId);
+        disabled = false;
+        StateHasChanged();
     }
 
 }
