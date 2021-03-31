@@ -38,5 +38,20 @@ namespace SSEA.Client.BL.Facades
             Console.WriteLine("SafetyFunctionFacade.CreateAsync(SafetyFunctionDetailModelPL newModel)");
             return await clientService.SafetyFunctionCreatePLAsync(newModel);
         }
+
+        // TODO
+        public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updateModel)
+        {
+            Console.WriteLine("SafetyFunctionFacade.UpdateAsync(SafetyFunctionDetailModelPL updateModel)");
+            // return await clientService.SafetyFunctionUpdatePLAsync(updateModel);
+            return 0;
+        }
+
+        // TODO
+        public async Task DeleteAsync(int id)
+        {
+            Console.WriteLine("SafetyFunctionFacade.DeleteAsync(int id)");
+            // await clientService.SafetyFunctionDeleteAsync(id);
+        }
     }
 }

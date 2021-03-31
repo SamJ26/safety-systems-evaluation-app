@@ -430,19 +430,42 @@
         // TODO: call API and reload component
     }
 
-
-
-
-    // TODO
     private async void OnValidSubmit()
     {
-
+        disabled = true;
+        onlyForReading = true;
+        int result = await safetyFunctionFacade.UpdateAsync(safetyFunction);
+        if (result != 0)
+        {
+            messageType = Severity.Success;
+            message = successMessage;
+            safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(result);
+        }
+        else
+        {
+            messageType = Severity.Error;
+            message = errorMessage;
+        }
+        showMessage = true;
+        disabled = false;
+        StateHasChanged();
     }
 
-    // TODO
-    private void Delete()
+    private async Task Delete()
     {
-
+        var parameters = new DialogParameters() { ["ItemToDelte"] = "safety function", ["NameOfItem"] = safetyFunction.Name };
+        var dialog = dialogService.Show<ApproveDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await safetyFunctionFacade.DeleteAsync(safetyFunction.Id);
+            if (AccessPointId == 0)
+                navigationManager.NavigateTo("/safetyEvaluation/safetyFunctionList");
+            else
+                navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{MachineId}/{AccessPointId}");
+        }
     }
+
+    // TODO: selecting from existing safety functions
 
 }
