@@ -36,7 +36,9 @@ namespace SSEA.BL.Facades
 
             // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
             safetyFunction.InputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 1);
-            safetyFunction.Communication1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
+            var com1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
+            safetyFunction.Communication1Subsystem = com1Subsystem;
+            subsystems.Remove(com1Subsystem);
             safetyFunction.LogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 3);
             safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
             safetyFunction.OutputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 2);
