@@ -16,9 +16,9 @@
                 }
             </CardHeaderContent>
             <CardHeaderActions>
+                <MudIconButton @onclick="@BackToAccessPoint" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(MachineId == 0 || AccessPointId == 0)" />
                 <AuthorizeView Roles="Administrator, NormalUser">
                     <Authorized>
-                        <MudIconButton @onclick="@BackToAccessPoint" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(MachineId == 0 || AccessPointId == 0)" />
                         <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
                         <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
                         <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
@@ -105,29 +105,29 @@
                         <!-- Input subsystem -->
                         <MudItem Style="width: 20%">
                             <MudCard>
-                                <MudCardHeader Style="padding-bottom: 0px;">
+                                <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Input</MudText>
                                         <MudAlert Severity="@inputSubsystemMessageSeverity" Style="margin-top: 10px;">@inputSubsystemMessage</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined"></MudField>
+                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.Category.Label : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.MttFdResult.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.ValidCCF : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.PLresult.Label : "")</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton @onclick="@(() => CreateSubsystem("Input"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Detail</MudButton>      
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is not null)">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px; margin-bottom: 15px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
+                                            <MudButton @onclick="@(() => CreateSubsystem("Input"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is not null)">Create</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -136,29 +136,29 @@
                         <!-- Communication 1 subsystem -->
                         <MudItem Style="width: 20%">
                             <MudCard>
-                                <MudCardHeader Style="padding-bottom: 0px;">
+                                <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Communication 1</MudText>
                                         <MudAlert Severity="@com1SubsystemMessageSeverity" Style="margin-top: 10px;">@com1SubsystemMessage</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined"></MudField>
+                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.Category.Label : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.MttFdResult.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.ValidCCF : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.PLresult.Label : "")</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is null)">Detail</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null)">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px; margin-bottom: 15px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
+                                            <MudButton @onclick="@(() => CreateSubsystem("Communication"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null)">Create</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -167,47 +167,57 @@
                         <!-- Logical subsystem -->
                         <MudItem Style="width: 20%">
                             <MudCard>
-                                <MudCardHeader Style="padding-bottom: 0px;">
+                                <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Logic</MudText>
                                         <MudAlert Severity="@logicSubsystemMessageSeverity" Style="margin-top: 10px;">@logicSubsystemMessage</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined"></MudField>
+                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.Category.Label : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.MttFdResult.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.ValidCCF : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.PLresult.Label : "")</MudField>
                                 </MudCardContent>
+                                <MudCardActions>
+                                    <MudGrid>
+                                        <MudItem xs="12" Style="padding: 5px 14px;">
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null)">Detail</MudButton>
+                                        </MudItem>
+                                        <MudItem xs="12" Style="padding: 5px 14px;  margin-bottom: 15px;">
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is not null)">Select</MudButton>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudCardActions>
                             </MudCard>
                         </MudItem>
                         <!-- Communication 2 subsystem -->
                         <MudItem Style="width: 20%">
                             <MudCard>
-                                <MudCardHeader Style="padding-bottom: 0px;">
+                                <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Communication 2</MudText>
                                         <MudAlert Severity="@com2SubsystemMessageSeverity" Style="margin-top: 10px;">@com2SubsystemMessage</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined"></MudField>
+                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.Category.Label : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.MttFdResult.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.ValidCCF : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.PLresult.Label : "")</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is null)">Detail</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null)">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px; margin-bottom: 15px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
+                                            <MudButton @onclick="@(() => CreateSubsystem("Communication"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null)">Create</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -216,29 +226,29 @@
                         <!-- Output subsystem -->
                         <MudItem Style="width: 20%">
                             <MudCard>
-                                <MudCardHeader Style="padding-bottom: 0px;">
+                                <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Output</MudText>
                                         <MudAlert Severity="@outputSubsystemMessageSeverity" Style="margin-top: 10px;">@outputSubsystemMessage</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined"></MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined"></MudField>
+                                    <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.Category.Label : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.MttFdResult.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.ValidCCF : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.PLresult.Label : "")</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Create</MudButton>
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is null)">Detail</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
+                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is not null)">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px; margin-bottom: 15px;">
-                                            <MudButton DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true">Delete</MudButton>
+                                            <MudButton @onclick="@(() => CreateSubsystem("Output"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is not null)">Create</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -290,20 +300,20 @@
     private readonly string successMessage = "Safety function was saved successfully :)";
     private readonly string errorMessage = "Saving failed :(";
 
-    private Severity inputSubsystemMessageSeverity = Severity.Info;
-    private string inputSubsystemMessage = "Without data";
+    private Severity inputSubsystemMessageSeverity = Severity.Success;
+    private string inputSubsystemMessage = "Completed";
 
-    private Severity com1SubsystemMessageSeverity = Severity.Info;
-    private string com1SubsystemMessage = "Without data";
+    private Severity com1SubsystemMessageSeverity = Severity.Success;
+    private string com1SubsystemMessage = "Completed";
 
-    private Severity logicSubsystemMessageSeverity = Severity.Info;
-    private string logicSubsystemMessage = "Without data";
+    private Severity logicSubsystemMessageSeverity = Severity.Success;
+    private string logicSubsystemMessage = "Completed";
 
-    private Severity com2SubsystemMessageSeverity = Severity.Info;
-    private string com2SubsystemMessage = "Without data";
+    private Severity com2SubsystemMessageSeverity = Severity.Success;
+    private string com2SubsystemMessage = "Completed";
 
-    private Severity outputSubsystemMessageSeverity = Severity.Info;
-    private string outputSubsystemMessage = "Without data";
+    private Severity outputSubsystemMessageSeverity = Severity.Success;
+    private string outputSubsystemMessage = "Completed";
 
     private bool disabled = false;
     private bool onlyForReading = true;
@@ -318,9 +328,37 @@
     protected override async Task OnInitializedAsync()
     {
         safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(SafetyFunctionId);
-        Console.WriteLine(MachineId);
-        Console.WriteLine(AccessPointId);
+        GetInfoAboutSubsystems();
         StateHasChanged();
+    }
+
+    private void GetInfoAboutSubsystems()
+    {
+        if (safetyFunction.InputSubsystem is null)
+        {
+            inputSubsystemMessageSeverity = Severity.Error;
+            inputSubsystemMessage = "Without data";
+        }
+        if (safetyFunction.Communication1Subsystem is null)
+        {
+            com1SubsystemMessageSeverity = Severity.Error;
+            com1SubsystemMessage = "Without data";
+        }
+        if (safetyFunction.LogicSubsystem is null)
+        {
+            logicSubsystemMessageSeverity = Severity.Error;
+            logicSubsystemMessage = "Without data";
+        }
+        if (safetyFunction.Communication2Subsystem is null)
+        {
+            com2SubsystemMessageSeverity = Severity.Error;
+            com2SubsystemMessage = "Without data";
+        }
+        if (safetyFunction.OutputSubsystem is null)
+        {
+            outputSubsystemMessageSeverity = Severity.Error;
+            outputSubsystemMessage = "Without data";
+        }
     }
 
     private async void Edit()

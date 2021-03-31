@@ -79,6 +79,7 @@ namespace SSEA.DAL.Repositories
 
             var subsystems = await dbContext.Subsystems.Where(s => s.CategoryId != null && subsystemIds.Contains(s.Id))
                                                        .Include(s => s.TypeOfSubsystem)
+                                                       .Include(s => s.OperationPrinciple)
                                                        .Include(s => s.Category)
                                                        .Include(s => s.DCresult)
                                                        .Include(s => s.MTTFdResult)
@@ -98,6 +99,7 @@ namespace SSEA.DAL.Repositories
 
             var subsystems = await dbContext.Subsystems.Where(s => s.ArchitectureId != null && subsystemIds.Contains(s.Id))
                                                        .Include(s => s.TypeOfSubsystem)
+                                                       .Include(s => s.OperationPrinciple)
                                                        .Include(s => s.Architecture)
                                                        .Include(s => s.PFHdResult)
                                                        .Include(s => s.CFF)
