@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SSEA.DAL.Entities;
@@ -56,7 +52,6 @@ namespace SSEA.DAL
         public DbSet<PerformanceLevel> PerformanceLevels { get; set; }
         public DbSet<Architecture> Architectures { get; set; }
         public DbSet<Av> Avs { get; set; }
-        public DbSet<CFF> CFFs { get; set; }
         public DbSet<Fr> Frs { get; set; }
         public DbSet<PFHd> PFHds { get; set; }
         public DbSet<Pr> Prs { get; set; }
@@ -313,11 +308,6 @@ namespace SSEA.DAL
                 s.HasOne(s => s.PFHdResult)
                  .WithMany()
                  .HasForeignKey(s => s.PFHdResultId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
-                s.HasOne(s => s.CFF)
-                 .WithMany()
-                 .HasForeignKey(s => s.CFFId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.Category)

@@ -40,7 +40,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
                                                         .IgnoreSource(src => src.Architecture)
                                                         .IgnoreSource(src => src.PFHdResultId)
                                                         .IgnoreSource(src => src.PFHdResult)
-                                                        .IgnoreSource(src => src.CFFId)
                                                         .IgnoreSource(src => src.CFF)
                                                         .IgnoreSource(src => src.CurrentStateId)
                                                         .MapMember(dest => dest.TypeOfSubsystem, src => src.TypeOfSubsystem.NameCZ)

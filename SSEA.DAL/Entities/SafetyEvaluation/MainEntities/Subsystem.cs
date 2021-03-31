@@ -49,6 +49,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         // Properties for SIL methodics:
 
+        public double CFF { get; set; }
         public double? T1 { get; set; }
         public double? T2 { get; set; }
         public double? HFT { get; set; }
@@ -61,9 +62,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [Column("PFHdResult_Id")]
         public int? PFHdResultId { get; set; }
         public PFHd PFHdResult { get; set; }
-
-        [Column("CFF_Id")]
-        public int? CFFId { get; set; }
-        public CFF CFF { get; set; }
     }
 }

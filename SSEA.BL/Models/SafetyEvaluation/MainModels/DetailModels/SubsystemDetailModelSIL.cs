@@ -24,8 +24,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public ArchitectureModel Architecture { get; set; }
 
         public short HFT { get; set; }
+        public double CFF { get; set; }
         public PFHdModel PFHdResult { get; set; }
-        public CFFModel CFF { get; set; }
 
         public HashSet<CCFModel> SelectedCCFs { get; set; }
         public ICollection<ElementDetailModelSIL> Elements { get; set; }
@@ -50,7 +50,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                            .IgnoreSource(src => src.PLresultId)
                                                            .IgnoreSource(src => src.ArchitectureId)
                                                            .IgnoreSource(src => src.PFHdResultId)
-                                                           .IgnoreSource(src => src.CFFId)
                                                            .Ignore(dest => dest.SelectedCCFs)
                                                            .IgnoreSource(src => src.CurrentStateId)
                                                            .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())

@@ -136,13 +136,6 @@ namespace SSEA.Client.BL.Facades
             return JsonConvert.DeserializeObject<ICollection<AvModel>>(response.Data);
         }
 
-        public async Task<ICollection<CFFModel>> GetAllCFFsAsync()
-        {
-            var response = await clientService.CodeListGetAllAsync("CFF");
-            Console.WriteLine($"Fetching data - CFF - Count: {response.Count}");
-            return JsonConvert.DeserializeObject<ICollection<CFFModel>>(response.Data);
-        }
-
         public async Task<ICollection<FrModel>> GetAllFrsAsync()
         {
             var response = await clientService.CodeListGetAllAsync("Fr");

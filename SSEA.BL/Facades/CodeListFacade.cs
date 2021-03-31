@@ -40,7 +40,6 @@ namespace SSEA.BL.Facades
                 "S" => await GetAllSModels(),
                 "Architecture" => await GetAllArchitectureModels(),
                 "Av" => await GetAllAvModels(),
-                "CFF" => await GetAllCFFModels(),
                 "Fr" => await GetAllFrModels(),
                 "PFHd" => await GetAllPFHdModels(),
                 "Pr" => await GetAllPrModels(),
@@ -166,12 +165,6 @@ namespace SSEA.BL.Facades
         {
             var data = await dbContext.Avs.AsNoTracking().ToListAsync();
             return mapper.Map<ICollection<AvModel>>(data);
-        }
-
-        private async Task<ICollection<CFFModel>> GetAllCFFModels()
-        {
-            var data = await dbContext.CFFs.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<CFFModel>>(data);
         }
 
         private async Task<ICollection<FrModel>> GetAllFrModels()

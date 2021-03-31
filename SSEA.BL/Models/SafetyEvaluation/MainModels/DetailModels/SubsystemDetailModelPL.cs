@@ -52,7 +52,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                           .IgnoreSource(src => src.Architecture)
                                                           .IgnoreSource(src => src.PFHdResultId)
                                                           .IgnoreSource(src => src.PFHdResult)
-                                                          .IgnoreSource(src => src.CFFId)
                                                           .IgnoreSource(src => src.CFF)
                                                           .Ignore(dest => dest.SelectedCCFs)
                                                           .IgnoreSource(src => src.CurrentStateId)

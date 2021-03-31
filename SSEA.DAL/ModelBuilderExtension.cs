@@ -130,37 +130,6 @@ namespace SSEA.DAL
                 }
             );
 
-            modelBuilder.Entity<CFF>().HasData(
-                new CFF()
-                {
-                    Id = 1,
-                    MinCCF = 0,
-                    MaxCCF = 35,
-                    Beta = 0.1,
-                },
-                new CFF()
-                {
-                    Id = 2,
-                    MinCCF = 35,
-                    MaxCCF = 65,
-                    Beta = 0.05,
-                },
-                new CFF()
-                {
-                    Id = 3,
-                    MinCCF = 65,
-                    MaxCCF = 85,
-                    Beta = 0.02,
-                },
-                new CFF()
-                {
-                    Id = 4,
-                    MinCCF = 85,
-                    MaxCCF = 100,
-                    Beta = 0.01,
-                }
-            );
-
             modelBuilder.Entity<PFHd>().HasData(
                 new PFHd()
                 {
