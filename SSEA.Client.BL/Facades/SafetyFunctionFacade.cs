@@ -53,5 +53,11 @@ namespace SSEA.Client.BL.Facades
             Console.WriteLine("SafetyFunctionFacade.DeleteAsync(int id)");
             // await clientService.SafetyFunctionDeleteAsync(id);
         }
+
+        public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            Console.WriteLine("SafetyFunctionFacade.RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)");
+            // await clientSevice.SafetyFunctionRemoveSubsystemAsync(safetyFunctionId, subsystemId);
+        }
     }
 }

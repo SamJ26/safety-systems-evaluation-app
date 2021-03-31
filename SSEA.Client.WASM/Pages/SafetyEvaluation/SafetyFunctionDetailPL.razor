@@ -347,10 +347,10 @@
     private bool disabled = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
-    private string removedSubsystem;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
     private MudTabs tabs = new MudTabs();
+    private SubsystemDetailModelPL removedSubsystem;
 
     private Func<TypeOfFunctionModel, string> typeOfFunctionToString = tof => tof.Name;
     private Func<PLModel, string> plToString = pl => pl.Label;
@@ -419,15 +419,17 @@
 
     private void ShowDialog(SubsystemDetailModelPL subsystem)
     {
-        removedSubsystem = subsystem.TypeOfSubsystem.Name;
+        removedSubsystem = subsystem;
         showDialog = true;
     }
 
-    void RemoveSubsystem()
+    private async Task RemoveSubsystem()
     {
         showDialog = false;
-
-        // TODO: call API and reload component
+        await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunction.Id, removedSubsystem.Id);
+        removedSubsystem = null;
+        safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
+        StateHasChanged();
     }
 
     private async void OnValidSubmit()

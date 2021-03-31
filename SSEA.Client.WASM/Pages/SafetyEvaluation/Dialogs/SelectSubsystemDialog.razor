@@ -1,0 +1,104 @@
+﻿
+<MudDialog>
+    <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h5">Select subsystem</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="1" Style="padding-bottom: 14px; padding-top: 18px;">
+                <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;"></MudButton>
+            </MudItem>
+            <MudItem xs="11">
+                <MudGrid>
+                    <MudItem xs="4">
+                        <MudTextField @bind-Value="name" Label="Safety function name" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="4">
+                        @*<MudSelect @bind-Value="typeOfFunctionId" T="int" Label="Type of function" Strict="true" Variant="Variant.Outlined" Format="F2">
+                            @foreach (var item in typeOfFunctions)
+                            {
+                                <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
+                            }
+                        </MudSelect>*@
+                    </MudItem>
+                    <MudItem xs="4">
+                        <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@EvaluationMethod</MudField>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+            <MudItem xs="12">
+                <hr />
+            </MudItem>
+            <MudItem xs="12">
+                @*<MudTable Items="@safetyFunctions" MultiSelection="true" @bind-SelectedItems="SelectedSafetyFunctions" Height="400px" Hover="true">
+                    <ColGroup>
+                        <col style="width:5%;" />
+                        <col style="width:20%;" /> Name
+                        <col style="width:25%;" /> State
+                        <col style="width:30%;" /> Type of function
+                        <col style="width:20%;" /> Evaluation method
+                    </ColGroup>
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>State</MudTh>
+                        <MudTh>Type of function</MudTh>
+                        <MudTh>Evaluation method</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
+                        <MudTd DataLabel="Type of function">@context.EvaluationMethod.Name</MudTd>
+                        <MudTd DataLabel="Evaluation method">@context.TypeOfFunction.Name</MudTd>
+                    </RowTemplate>
+                </MudTable>*@
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [Inject]
+    private SubsystemFacade subsystemFacade { get; set; }
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string EvaluationMethod { get; set; }
+
+    [Parameter]
+    public int IdOfSelectedSubsystem { get; set; }
+
+    private ICollection<SubsystemListModelPL> subsystemsPL = new List<SubsystemListModelPL>();
+    private ICollection<SubsystemListModelSIL> subsystemsSIL = new List<SubsystemListModelSIL>();
+
+    private string name = string.Empty;
+    private int stateId;
+    private int typeOfFunctionId;
+    private int evaluationMethodId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //TODO
+    }
+
+    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    private void Cancel() => MudDialog.Cancel();
+
+    // TODO: add logic
+    private async void Search()
+    {
+
+    }
+
+}
