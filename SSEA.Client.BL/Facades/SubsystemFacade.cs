@@ -15,10 +15,10 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
-        public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelPL newModel)
+        public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelPL newModel, int safetyFunctionId = 0)
         {
-            Console.WriteLine("SubsystemFacade.CreateAsync(SubsystemDetailModelPL newModel)");
-            return await clientService.SubsystemCreatePLAsync(newModel);
+            Console.WriteLine("SubsystemFacade.CreateAsync(SubsystemDetailModelPL newModel, int safetyFunctionId = 0)");
+            return await clientService.SubsystemCreatePLAsync(safetyFunctionId, newModel);
         }
     }
 }

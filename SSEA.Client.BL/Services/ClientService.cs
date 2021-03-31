@@ -200,12 +200,12 @@ namespace SSEA.Client.BL.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SubsystemCreationResponseModel> SubsystemCreatePLAsync(SubsystemDetailModelPL body);
+        System.Threading.Tasks.Task<SubsystemCreationResponseModel> SubsystemCreatePLAsync(int? safetyFunctionId, SubsystemDetailModelPL body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SubsystemCreationResponseModel> SubsystemCreatePLAsync(SubsystemDetailModelPL body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<SubsystemCreationResponseModel> SubsystemCreatePLAsync(int? safetyFunctionId, SubsystemDetailModelPL body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -2023,21 +2023,26 @@ namespace SSEA.Client.BL.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<SubsystemCreationResponseModel> SubsystemCreatePLAsync(SubsystemDetailModelPL body)
+        public System.Threading.Tasks.Task<SubsystemCreationResponseModel> SubsystemCreatePLAsync(int? safetyFunctionId, SubsystemDetailModelPL body)
         {
-            return SubsystemCreatePLAsync(body, System.Threading.CancellationToken.None);
+            return SubsystemCreatePLAsync(safetyFunctionId, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<SubsystemCreationResponseModel> SubsystemCreatePLAsync(SubsystemDetailModelPL body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<SubsystemCreationResponseModel> SubsystemCreatePLAsync(int? safetyFunctionId, SubsystemDetailModelPL body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/subsystem/pl");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/subsystem/pl?");
+            if (safetyFunctionId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("safetyFunctionId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(safetyFunctionId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -2431,27 +2436,6 @@ namespace SSEA.Client.BL.Services
 
         [Newtonsoft.Json.JsonProperty("points", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Points { get; set; }
-
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.3.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class CFFModel
-    {
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("isValid", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsValid { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("minCCF", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int MinCCF { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("maxCCF", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int MaxCCF { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("beta", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Beta { get; set; }
 
 
     }
@@ -3359,11 +3343,11 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("hft", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Hft { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("cff", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double Cff { get; set; }
+
         [Newtonsoft.Json.JsonProperty("pfHdResult", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PFHdModel PfHdResult { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("cff", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public CFFModel Cff { get; set; }
 
         [Newtonsoft.Json.JsonProperty("selectedCCFs", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.HashSet<CCFModel> SelectedCCFs { get; set; }
