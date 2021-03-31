@@ -183,67 +183,67 @@ namespace SSEA.BL.Services.Implementations
 
             ICollection<PLModel> performanceLevels = mapper.Map<ICollection<PLModel>>(await dbContext.PerformanceLevels.AsNoTracking().ToListAsync());
 
-            if (category.Label.Equals('B') && dc.Id == 1)
+            if (category.Label.Equals("B") && dc.Id == 1)
             {
                 switch (mttfd.Id)
                 {
-                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('a'));
-                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('b'));
+                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("a"));
+                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("b"));
                     case 3: return null;
                 }
             }
-            if (category.Label.Equals('1') && dc.Id == 1)
+            if (category.Label.Equals("1") && dc.Id == 1)
             {
                 switch (mttfd.Id)
                 {
                     case 1: return null;
                     case 2: return null;
-                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('c'));
+                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
                 }
             }
-            if (category.Label.Equals('2') && dc.Id == 2)
+            if (category.Label.Equals("2") && dc.Id == 2)
             {
                 switch (mttfd.Id)
                 {
-                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('a'));
-                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('b'));
-                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('c'));
+                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("a"));
+                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("b"));
+                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
                 }
             }
-            if (category.Label.Equals('2') && dc.Id == 3)
+            if (category.Label.Equals("2") && dc.Id == 3)
             {
                 switch (mttfd.Id)
                 {
-                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('b'));
-                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('c'));
-                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('d'));
+                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("b"));
+                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
+                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("d"));
                 }
             }
-            if (category.Label.Equals('3') && dc.Id == 2)
+            if (category.Label.Equals("3") && dc.Id == 2)
             {
                 switch (mttfd.Id)
                 {
-                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('b'));
-                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('c'));
-                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('d'));
+                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("b"));
+                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
+                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("d"));
                 }
             }
-            if (category.Label.Equals('3') && dc.Id == 3)
+            if (category.Label.Equals("3") && dc.Id == 3)
             {
                 switch (mttfd.Id)
                 {
-                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('c'));
-                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('d'));
-                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('d'));
+                    case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
+                    case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("d"));
+                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("d"));
                 }
             }
-            if (category.Label.Equals('4') && dc.Id == 4)
+            if (category.Label.Equals("4") && dc.Id == 4)
             {
                 switch (mttfd.Id)
                 {
                     case 1: return null;
                     case 2: return null;
-                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals('e'));
+                    case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("e"));
                 }
             }
             return null;

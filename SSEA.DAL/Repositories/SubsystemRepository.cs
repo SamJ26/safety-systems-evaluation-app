@@ -11,6 +11,9 @@ namespace SSEA.DAL.Repositories
     {
         private readonly AppDbContext dbContext;
 
+        private readonly int subsystemNewStateId = 14;
+        private readonly int elementNewStateId = 15;
+
         public SubsystemRepository(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
@@ -101,8 +104,34 @@ namespace SSEA.DAL.Repositories
         // TODO
         public async Task<int> CreateAsync(Subsystem subsystem, int userId)
         {
+            subsystem.CurrentStateId = subsystemNewStateId;
 
-            return 0;
+            dbContext.Attach(subsystem.TypeOfSubsystem).State = EntityState.Unchanged;
+            dbContext.Attach(subsystem.OperationPrinciple).State = EntityState.Unchanged;
+
+            subsystem.SafetyFunctionSubsystems = null;
+            subsystem.SubsystemCCFs = null;
+
+            // Setting navigation properties to avoid change tracking excpetion with trackig multiple entities with same id
+            subsystem.DCresult = null;
+            subsystem.Category = null;
+            subsystem.MTTFdResult = null;
+            subsystem.PLresult = null;
+            subsystem.Architecture = null;
+            subsystem.PFHdResult = null;
+            foreach (var element in subsystem.Elements)
+            {
+                element.CurrentStateId = elementNewStateId;
+                element.MTTFdResult = null;
+                element.DC = null;
+                element.Producer = null;
+                element.Subsystem = null;
+                element.ElementSFFs = null;
+            }
+
+            await dbContext.AddAsync(subsystem);
+            await dbContext.CommitChangesAsync(userId);
+            return subsystem.Id;
         }
     }
 }
