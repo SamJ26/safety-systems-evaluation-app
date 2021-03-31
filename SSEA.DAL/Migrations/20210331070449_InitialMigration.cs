@@ -43,22 +43,6 @@ namespace SSEA.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CFF",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MinCCF = table.Column<short>(type: "smallint", nullable: false),
-                    MaxCCF = table.Column<short>(type: "smallint", nullable: false),
-                    Beta = table.Column<double>(type: "float", nullable: false),
-                    IsValid = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CFF", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DC",
                 columns: table => new
                 {
@@ -687,13 +671,13 @@ namespace SSEA.DAL.Migrations
                     MTTFdResult_Id = table.Column<int>(type: "int", nullable: true),
                     DCresult_Id = table.Column<int>(type: "int", nullable: true),
                     PLresult_Id = table.Column<int>(type: "int", nullable: true),
+                    CFF = table.Column<double>(type: "float", nullable: false),
                     T1 = table.Column<double>(type: "float", nullable: true),
                     T2 = table.Column<double>(type: "float", nullable: true),
                     HFT = table.Column<double>(type: "float", nullable: true),
                     SFFresult = table.Column<short>(type: "smallint", nullable: false),
                     Architecture_Id = table.Column<int>(type: "int", nullable: true),
                     PFHdResult_Id = table.Column<int>(type: "int", nullable: true),
-                    CFF_Id = table.Column<int>(type: "int", nullable: true),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
@@ -713,12 +697,6 @@ namespace SSEA.DAL.Migrations
                         name: "FK_Subsystem_Category_Category_Id",
                         column: x => x.Category_Id,
                         principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Subsystem_CFF_CFF_Id",
-                        column: x => x.CFF_Id,
-                        principalTable: "CFF",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1202,8 +1180,8 @@ namespace SSEA.DAL.Migrations
                 values: new object[,]
                 {
                     { 1, "Nemožné", null, true, (short)5 },
-                    { 3, "Pradvěpodobné", null, true, (short)1 },
-                    { 2, "Možné za určitých podmínek", null, true, (short)3 }
+                    { 2, "Možné za určitých podmínek", null, true, (short)3 },
+                    { 3, "Pradvěpodobné", null, true, (short)1 }
                 });
 
             migrationBuilder.InsertData(
@@ -1211,22 +1189,14 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "ForPL", "IsValid", "Points", "TypeCZ", "TypeEN" },
                 values: new object[,]
                 {
+                    { 8, "Byly uvažováni požadavky na odolnost proti všem relevantním vlivum prostředí, např. teplota, vibrace, vlhkost ?", null, true, true, 10L, "Prostředí", null },
                     { 1, "Fyzické oddělení medzi jednotlivými dráhami signálu", null, true, true, 15L, "Oddělení/segregace", null },
                     { 2, "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy", null, true, true, 20L, "Diverzita", null },
                     { 3, "Ochrana proti přepětí, přetlaku, nadproudu, atd.", null, true, true, 15L, "Konstrukce/použití/zkušenosti", null },
                     { 4, "Jsou použity osvědčené součásti", null, true, true, 5L, "Konstrukce/použití/zkušenosti", null },
-                    { 5, "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?", null, true, true, 5L, "Posouzení/analýza", null }
-                });
-
-            migrationBuilder.InsertData(
-                table: "CFF",
-                columns: new[] { "Id", "Beta", "IsValid", "MaxCCF", "MinCCF" },
-                values: new object[,]
-                {
-                    { 1, 0.10000000000000001, true, (short)35, (short)0 },
-                    { 4, 0.01, true, (short)100, (short)85 },
-                    { 3, 0.02, true, (short)85, (short)65 },
-                    { 2, 0.050000000000000003, true, (short)65, (short)35 }
+                    { 5, "Jsou k vyloučení poruch se společnou příčinou v konstrukci uvažovány výsledky režimu poruchy a analýza účinku?", null, true, true, 5L, "Posouzení/analýza", null },
+                    { 6, "Byli konstruktéři/údržbáři zacvičení k pochopení příčin a následkú poruch se společnou příčinou ?", null, true, true, 5L, "Zpusobilost/zácvik", null },
+                    { 7, "Zamezení kontaminace a elektromagnetická kompatibilita (EMC) proti CCF podle příslušných norem", null, true, true, 25L, "Prostředí", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1245,8 +1215,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "IsValid", "NameCZ", "NameEN", "Shortcut" },
                 values: new object[,]
                 {
-                    { 1, true, "Úroveň vlastností", "Performance Level", "PL" },
-                    { 2, true, "Úroveň integrity bezpečnosti", "Safety Integrity Level", "SIL" }
+                    { 2, true, "Úroveň integrity bezpečnosti", "Safety Integrity Level", "SIL" },
+                    { 1, true, "Úroveň vlastností", "Performance Level", "PL" }
                 });
 
             migrationBuilder.InsertData(
@@ -1254,8 +1224,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 2, "Častá až nepřetržitá", null, true, "F2" },
-                    { 1, "Řídká až málo častá", null, true, "F1" }
+                    { 1, "Řídká až málo častá", null, true, "F1" },
+                    { 2, "Častá až nepřetržitá", null, true, "F2" }
                 });
 
             migrationBuilder.InsertData(
@@ -1264,10 +1234,10 @@ namespace SSEA.DAL.Migrations
                 values: new object[,]
                 {
                     { 1, "<= 1h", null, true, (short)5 },
-                    { 2, "> 1h až <= 1 den", null, true, (short)5 },
-                    { 3, "> 1 den až <= 2 týdny", null, true, (short)4 },
+                    { 5, "> 1 rok", null, true, (short)2 },
                     { 4, "> 2 týdny až <= 1 rok", null, true, (short)3 },
-                    { 5, "> 1 rok", null, true, (short)2 }
+                    { 2, "> 1h až <= 1 den", null, true, (short)5 },
+                    { 3, "> 1 den až <= 2 týdny", null, true, (short)4 }
                 });
 
             migrationBuilder.InsertData(
@@ -1305,10 +1275,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
+                    { 1, null, null, true, "mechanický", null },
                     { 4, null, null, true, "elektromechanický", null },
                     { 3, null, null, true, "pneumatický", null },
-                    { 2, null, null, true, "elektrický", null },
-                    { 1, null, null, true, "mechanický", null }
+                    { 2, null, null, true, "elektrický", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1325,25 +1295,21 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "IsValid", "MaxPFHd", "MinPFHd", "ValueSIL" },
                 values: new object[,]
                 {
+                    { 2, true, 1E-05f, 1E-06f, (short)2 },
                     { 3, true, 0.0001f, 1E-05f, (short)1 },
                     { 1, true, 1E-06f, 1E-07f, (short)3 }
                 });
-
-            migrationBuilder.InsertData(
-                table: "PFHd",
-                columns: new[] { "Id", "IsValid", "MaxPFHd", "MinPFHd", "ValueSIL" },
-                values: new object[] { 2, true, 1E-05f, 1E-06f, (short)2 });
 
             migrationBuilder.InsertData(
                 table: "PL",
                 columns: new[] { "Id", "IsValid", "Label" },
                 values: new object[,]
                 {
+                    { 3, true, "c" },
+                    { 5, true, "e" },
                     { 1, true, "a" },
                     { 2, true, "b" },
-                    { 3, true, "c" },
-                    { 4, true, "d" },
-                    { 5, true, "e" }
+                    { 4, true, "d" }
                 });
 
             migrationBuilder.InsertData(
@@ -1353,9 +1319,9 @@ namespace SSEA.DAL.Migrations
                 {
                     { 1, "Velmi vysoká", null, true, (short)5 },
                     { 3, "Možná", null, true, (short)3 },
-                    { 4, "Výjimečná", null, true, (short)2 },
                     { 5, "Zanedbatelná", null, true, (short)1 },
-                    { 2, "Pravděpodobná", null, true, (short)4 }
+                    { 2, "Pravděpodobná", null, true, (short)4 },
+                    { 4, "Výjimečná", null, true, (short)2 }
                 });
 
             migrationBuilder.InsertData(
@@ -1382,9 +1348,9 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "ComponentNameCZ", "ComponentNameEN", "FailureModeCZ", "FailureModeEN", "IsValid", "Value" },
                 values: new object[,]
                 {
+                    { 1, "Relé", null, "Kontakty nelze rozepnout", null, true, 10L },
                     { 2, "Relé", null, "Kontakty nelze sepnout", null, true, 10L },
-                    { 3, "Relé", null, "Současný zkrat mezi třemi kontakty přepínacího spínače", null, true, 10L },
-                    { 1, "Relé", null, "Kontakty nelze rozepnout", null, true, 10L }
+                    { 3, "Relé", null, "Současný zkrat mezi třemi kontakty přepínacího spínače", null, true, 10L }
                 });
 
             migrationBuilder.InsertData(
@@ -1392,11 +1358,11 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "AccessPoint" },
                     { 2, "Element" },
                     { 3, "Machine" },
                     { 4, "Producer" },
                     { 5, "SafetyFunction" },
+                    { 1, "AccessPoint" },
                     { 7, "User" },
                     { 6, "Subsystem" }
                 });
@@ -1406,9 +1372,9 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "IsValid", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 3, "6497f786-f5bc-4652-984d-d3e7375ed003", true, "Administrator", "ADMINISTRATOR" },
-                    { 2, "c8fb8ae5-acb7-425b-86bf-3b3c1cf12b43", true, "NormalUser", "NORMALUSER" },
-                    { 1, "edfd2649-c179-4bb4-8577-8b53c09cbfb1", true, "Observer", "OBSERVER" }
+                    { 3, "a4704db0-8a48-4688-b2a2-19eb81cb81d0", true, "Administrator", "ADMINISTRATOR" },
+                    { 2, "c81a3a5d-3ee9-4f77-b255-7737b44cfea6", true, "NormalUser", "NORMALUSER" },
+                    { 1, "5224d643-603a-4872-8812-9a93815e4646", true, "Observer", "OBSERVER" }
                 });
 
             migrationBuilder.InsertData(
@@ -1685,11 +1651,6 @@ namespace SSEA.DAL.Migrations
                 column: "Category_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subsystem_CFF_Id",
-                table: "Subsystem",
-                column: "CFF_Id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Subsystem_CurrentState_Id",
                 table: "Subsystem",
                 column: "CurrentState_Id");
@@ -1909,9 +1870,6 @@ namespace SSEA.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "TypeOfLogic");
-
-            migrationBuilder.DropTable(
-                name: "CFF");
 
             migrationBuilder.DropTable(
                 name: "OperationPrinciples");

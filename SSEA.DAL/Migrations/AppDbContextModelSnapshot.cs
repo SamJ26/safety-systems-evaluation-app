@@ -55,7 +55,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "edfd2649-c179-4bb4-8577-8b53c09cbfb1",
+                            ConcurrencyStamp = "5224d643-603a-4872-8812-9a93815e4646",
                             IsValid = true,
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
@@ -63,7 +63,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "c8fb8ae5-acb7-425b-86bf-3b3c1cf12b43",
+                            ConcurrencyStamp = "c81a3a5d-3ee9-4f77-b255-7737b44cfea6",
                             IsValid = true,
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
@@ -71,7 +71,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "6497f786-f5bc-4652-984d-d3e7375ed003",
+                            ConcurrencyStamp = "a4704db0-8a48-4688-b2a2-19eb81cb81d0",
                             IsValid = true,
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -341,11 +341,38 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 5,
-                            DescriptionCZ = "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?",
+                            DescriptionCZ = "Jsou k vyloučení poruch se společnou příčinou v konstrukci uvažovány výsledky režimu poruchy a analýza účinku?",
                             ForPL = true,
                             IsValid = true,
                             Points = 5L,
                             TypeCZ = "Posouzení/analýza"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DescriptionCZ = "Byli konstruktéři/údržbáři zacvičení k pochopení příčin a následkú poruch se společnou příčinou ?",
+                            ForPL = true,
+                            IsValid = true,
+                            Points = 5L,
+                            TypeCZ = "Zpusobilost/zácvik"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DescriptionCZ = "Zamezení kontaminace a elektromagnetická kompatibilita (EMC) proti CCF podle příslušných norem",
+                            ForPL = true,
+                            IsValid = true,
+                            Points = 25L,
+                            TypeCZ = "Prostředí"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DescriptionCZ = "Byly uvažováni požadavky na odolnost proti všem relevantním vlivum prostředí, např. teplota, vibrace, vlhkost ?",
+                            ForPL = true,
+                            IsValid = true,
+                            Points = 10L,
+                            TypeCZ = "Prostředí"
                         });
                 });
 
@@ -1478,64 +1505,6 @@ namespace SSEA.DAL.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.CFF", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<double>("Beta")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("IsValid")
-                        .HasColumnType("bit");
-
-                    b.Property<short>("MaxCCF")
-                        .HasColumnType("smallint");
-
-                    b.Property<short>("MinCCF")
-                        .HasColumnType("smallint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CFF");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Beta = 0.10000000000000001,
-                            IsValid = true,
-                            MaxCCF = (short)35,
-                            MinCCF = (short)0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Beta = 0.050000000000000003,
-                            IsValid = true,
-                            MaxCCF = (short)65,
-                            MinCCF = (short)35
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Beta = 0.02,
-                            IsValid = true,
-                            MaxCCF = (short)85,
-                            MinCCF = (short)65
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Beta = 0.01,
-                            IsValid = true,
-                            MaxCCF = (short)100,
-                            MinCCF = (short)85
-                        });
-                });
-
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Fr", b =>
                 {
                     b.Property<int>("Id")
@@ -2290,9 +2259,8 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Architecture_Id");
 
-                    b.Property<int?>("CFFId")
-                        .HasColumnType("int")
-                        .HasColumnName("CFF_Id");
+                    b.Property<double>("CFF")
+                        .HasColumnType("float");
 
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int")
@@ -2356,8 +2324,6 @@ namespace SSEA.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ArchitectureId");
-
-                    b.HasIndex("CFFId");
 
                     b.HasIndex("CategoryId");
 
@@ -3151,11 +3117,6 @@ namespace SSEA.DAL.Migrations
                         .HasForeignKey("ArchitectureId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.CFF", "CFF")
-                        .WithMany()
-                        .HasForeignKey("CFFId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
@@ -3202,8 +3163,6 @@ namespace SSEA.DAL.Migrations
                     b.Navigation("Architecture");
 
                     b.Navigation("Category");
-
-                    b.Navigation("CFF");
 
                     b.Navigation("CurrentState");
 
