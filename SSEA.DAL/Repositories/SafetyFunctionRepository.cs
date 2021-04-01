@@ -128,7 +128,13 @@ namespace SSEA.DAL.Repositories
             return safetyFunction.Id;
         }
 
-        public async Task AddSubsystemToSafetyFunctionAsync(int safetyFunctionId, int subsystemId)
+        // TODO: Create SF SIL
+
+        // TODO: Update SF PL
+
+        // TODO: Update SF SIL
+
+        public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
             var entity = new SafetyFunctionSubsystem()
             {
@@ -136,6 +142,13 @@ namespace SSEA.DAL.Repositories
                 SubsystemId = subsystemId,
             };
             await dbContext.AddAsync(entity);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            var entity = await dbContext.SafetyFunctionSubsystems.AsNoTracking().FirstOrDefaultAsync(i => i.SafetyFunctionId == safetyFunctionId && i.SubsystemId == subsystemId);
+            dbContext.Remove(entity);
             await dbContext.SaveChangesAsync();
         }
     }

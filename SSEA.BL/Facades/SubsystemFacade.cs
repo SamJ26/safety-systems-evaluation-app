@@ -86,7 +86,7 @@ namespace SSEA.BL.Facades
 
             // If safetyFunctionId is not 0 than create record in join table
             if (safetyFunctionId != 0)
-                await safetyFunctionRepository.AddSubsystemToSafetyFunctionAsync(safetyFunctionId, subsystemId);
+                await safetyFunctionRepository.AddSubsystemAsync(safetyFunctionId, subsystemId);
 
             return new SubsystemCreationResponseModel()
             {

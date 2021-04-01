@@ -78,5 +78,39 @@ namespace SSEA.Api.Controllers
             var id = await safetyFunctionFacade.CreateAsync(newModel, userId);
             return Ok(id);
         }
+
+        // TODO: Create SF SIL
+
+        // TODO: Update SF PL
+
+        // TODO: Update SF SIL
+
+        // POST: api/safetyFunction/addSubsystem/{safetyFunctionId}/{subsystemId}
+        [HttpPost("addSubsystem/{safetyFunctionId}/{subsystemId}")]
+        [Authorize(Roles = "Administrator, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionAddSubsystem")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> AddSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            if (safetyFunctionId == 0 || subsystemId == 0)
+                return BadRequest();
+            await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId);
+            return Ok();
+        }
+
+        // DELETE: api/safetyFunction/removeSubsystem/{safetyFunctionId}/{subsystemId}
+        [HttpDelete("removeSubsystem/{safetyFunctionId}/{subsystemId}")]
+        [Authorize(Roles = "Administrator, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionRemoveSubsystem")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            if (safetyFunctionId == 0 || subsystemId == 0)
+                return BadRequest();
+            await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
+            return Ok();
+        }
     }
 }

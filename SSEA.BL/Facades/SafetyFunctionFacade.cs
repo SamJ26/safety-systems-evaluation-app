@@ -53,7 +53,9 @@ namespace SSEA.BL.Facades
 
             // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelSIL
             safetyFunction.InputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 1);
-            safetyFunction.Communication1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
+            var com1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
+            safetyFunction.Communication1Subsystem = com1Subsystem;
+            subsystems.Remove(com1Subsystem);
             safetyFunction.LogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 3);
             safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
             safetyFunction.OutputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 2);
@@ -69,6 +71,22 @@ namespace SSEA.BL.Facades
                 safetyFunction.PLrId = await PLService.GetRequiredPLAsync(safetyFunction.S, safetyFunction.F, safetyFunction.P);
 
             return await safetyFunctionRepository.CreateAsync(safetyFunction, userId);
+        }
+
+        // TODO: Create SF SIL
+
+        // TODO: Update SF PL
+
+        // TODO: Update SF SIL
+
+        public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            await safetyFunctionRepository.AddSubsystemAsync(safetyFunctionId, subsystemId);
+        }
+
+        public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            await safetyFunctionRepository.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
         }
     }
 }
