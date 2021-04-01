@@ -154,9 +154,6 @@
     [Parameter]
     public string TypeOfSubsystem { get; set; }
 
-    [Parameter]
-    public int SelectedSubsystemId { get; set; }
-
     private ICollection<SubsystemListModelPL> subsystemsPL = new List<SubsystemListModelPL>();
     private ICollection<SubsystemListModelSIL> subsystemsSIL = new List<SubsystemListModelSIL>();
 
@@ -194,17 +191,9 @@
 
     private void Cancel() => MudDialog.Cancel();
 
-    private void AddSubsystem(TableRowClickEventArgs<SubsystemListModelPL> args)
-    {
-        SelectedSubsystemId = args.Item.Id;
-        MudDialog.Close(DialogResult.Ok(true));
-    }
+    private void AddSubsystem(TableRowClickEventArgs<SubsystemListModelPL> args) => MudDialog.Close(DialogResult.Ok(args.Item.Id));
 
-    private void AddSubsystem(TableRowClickEventArgs<SubsystemListModelSIL> args)
-    {
-        SelectedSubsystemId = args.Item.Id;
-        MudDialog.Close(DialogResult.Ok(true));
-    }
+    private void AddSubsystem(TableRowClickEventArgs<SubsystemListModelSIL> args) => MudDialog.Close(DialogResult.Ok(args.Item.Id));
 
     private async void Search()
     {

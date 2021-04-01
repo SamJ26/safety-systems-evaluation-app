@@ -470,15 +470,14 @@
 
     private async void OpenSelectSubsystemDialog(string typeOfSubsystem)
     {
-        int selectedSubsystemId = 0;
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = "PL", ["TypeOfSubsystem"] = typeOfSubsystem, ["SelectedSubsystemId"] = selectedSubsystemId};
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = "PL", ["TypeOfSubsystem"] = typeOfSubsystem };
         var dialog = dialogService.Show<SelectSubsystemDialog>("Select subsystem", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
             // TODO: create record in join table and reload safety function
             // TODO: fix bug with returning of id of record
-            Console.WriteLine(selectedSubsystemId);
+            Console.WriteLine(result.Data.ToString());
         }
         StateHasChanged();
     }
