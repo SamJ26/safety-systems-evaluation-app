@@ -108,7 +108,7 @@
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Input</MudText>
-                                        <MudAlert Severity="@inputSubsystemMessageSeverity" Style="margin-top: 10px;">@inputSubsystemMessage</MudAlert>
+                                        <MudAlert Severity="@inputSubsystemInfo.Severity" Style="margin-top: 10px;">@inputSubsystemInfo.Message</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -142,7 +142,7 @@
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Communication 1</MudText>
-                                        <MudAlert Severity="@com1SubsystemMessageSeverity" Style="margin-top: 10px;">@com1SubsystemMessage</MudAlert>
+                                        <MudAlert Severity="@com1SubsystemInfo.Severity" Style="margin-top: 10px;">@com1SubsystemInfo.Message</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -176,7 +176,7 @@
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Logic</MudText>
-                                        <MudAlert Severity="@logicSubsystemMessageSeverity" Style="margin-top: 10px;">@logicSubsystemMessage</MudAlert>
+                                        <MudAlert Severity="@logicSubsystemInfo.Severity" Style="margin-top: 10px;">@logicSubsystemInfo.Message</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -207,7 +207,7 @@
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Communication 2</MudText>
-                                        <MudAlert Severity="@com2SubsystemMessageSeverity" Style="margin-top: 10px;">@com2SubsystemMessage</MudAlert>
+                                        <MudAlert Severity="@com2SubsystemInfo.Severity" Style="margin-top: 10px;">@com2SubsystemInfo.Message</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -241,7 +241,7 @@
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Output</MudText>
-                                        <MudAlert Severity="@outputSubsystemMessageSeverity" Style="margin-top: 10px;">@outputSubsystemMessage</MudAlert>
+                                        <MudAlert Severity="@outputSubsystemInfo.Severity" Style="margin-top: 10px;">@outputSubsystemInfo.Message</MudAlert>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
@@ -290,7 +290,7 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="@(() => showDialog = false)">Cancel</MudButton>
-        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="RemoveSubsystem">Delete</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Text" OnClick="RemoveSubsystem">Delete</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -325,23 +325,32 @@
     private ICollection<FModel> frequencies { get; set; } = new List<FModel>();
     private ICollection<PModel> probabilities { get; set; } = new List<PModel>();
 
+    struct SubsystemInfo
+    {
+        public void SetValid()
+        {
+            Message = "Completed";
+            Severity = Severity.Success;
+        }
+
+        public void SetInvalid()
+        {
+            Message = "No data";
+            Severity = Severity.Error;
+        }
+
+        public string Message { get; set; }
+        public Severity Severity { get; set; }
+    }
+
+    private SubsystemInfo inputSubsystemInfo = new();
+    private SubsystemInfo com1SubsystemInfo = new();
+    private SubsystemInfo logicSubsystemInfo = new();
+    private SubsystemInfo com2SubsystemInfo = new();
+    private SubsystemInfo outputSubsystemInfo = new();
+
     private readonly string successMessage = "Safety function was saved successfully :)";
     private readonly string errorMessage = "Saving failed :(";
-
-    private Severity inputSubsystemMessageSeverity = Severity.Success;
-    private string inputSubsystemMessage = "Completed";
-
-    private Severity com1SubsystemMessageSeverity = Severity.Success;
-    private string com1SubsystemMessage = "Completed";
-
-    private Severity logicSubsystemMessageSeverity = Severity.Success;
-    private string logicSubsystemMessage = "Completed";
-
-    private Severity com2SubsystemMessageSeverity = Severity.Success;
-    private string com2SubsystemMessage = "Completed";
-
-    private Severity outputSubsystemMessageSeverity = Severity.Success;
-    private string outputSubsystemMessage = "Completed";
 
     private bool showDialog = false;
     private bool disabled = false;
@@ -365,30 +374,29 @@
     private void GetInfoAboutSubsystems()
     {
         if (safetyFunction.InputSubsystem is null)
-        {
-            inputSubsystemMessageSeverity = Severity.Error;
-            inputSubsystemMessage = "Without data";
-        }
+            inputSubsystemInfo.SetInvalid();
+        else
+            inputSubsystemInfo.SetValid();
+
         if (safetyFunction.Communication1Subsystem is null)
-        {
-            com1SubsystemMessageSeverity = Severity.Error;
-            com1SubsystemMessage = "Without data";
-        }
+            com1SubsystemInfo.SetInvalid();
+        else
+            com1SubsystemInfo.SetValid();
+
         if (safetyFunction.LogicSubsystem is null)
-        {
-            logicSubsystemMessageSeverity = Severity.Error;
-            logicSubsystemMessage = "Without data";
-        }
+            logicSubsystemInfo.SetInvalid();
+        else
+            logicSubsystemInfo.SetValid();
+
         if (safetyFunction.Communication2Subsystem is null)
-        {
-            com2SubsystemMessageSeverity = Severity.Error;
-            com2SubsystemMessage = "Without data";
-        }
+            com2SubsystemInfo.SetInvalid();
+        else
+            com2SubsystemInfo.SetValid();
+
         if (safetyFunction.OutputSubsystem is null)
-        {
-            outputSubsystemMessageSeverity = Severity.Error;
-            outputSubsystemMessage = "Without data";
-        }
+            outputSubsystemInfo.SetInvalid();
+        else
+            outputSubsystemInfo.SetValid();
     }
 
     private async void Edit()
@@ -429,6 +437,7 @@
         await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunction.Id, removedSubsystem.Id);
         removedSubsystem = null;
         safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
+        GetInfoAboutSubsystems();
         StateHasChanged();
     }
 
@@ -478,6 +487,8 @@
             int subsystemId = Convert.ToInt32(result.Data);
             Console.WriteLine(subsystemId);
             await safetyFunctionFacade.AddSubsystemAsync(safetyFunction.Id, subsystemId);
+            safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
+            GetInfoAboutSubsystems();
         }
         StateHasChanged();
     }
