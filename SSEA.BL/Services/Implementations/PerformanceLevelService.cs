@@ -5,7 +5,6 @@ using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Services.Interfaces;
 using SSEA.DAL;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +51,7 @@ namespace SSEA.BL.Services.Implementations
         /// </summary>
         /// <param name="subsystem"> Subsystem for evaluation </param>
         /// <returns> Method interacts with database so it returns async task </returns>
-        public async Task EvaluateSubsystem(SubsystemDetailModelPL subsystem)
+        public async Task EvaluateSubsystemAsync(SubsystemDetailModelPL subsystem)
         {
             // Evaluation of CCF
             subsystem.ValidCCF = IsCCFValid(subsystem.SelectedCCFs);
@@ -74,6 +73,30 @@ namespace SSEA.BL.Services.Implementations
 
             // Evaluation of PL
             subsystem.PLresult = await GetPLAsync(subsystem.Category, subsystem.MTTFdResult, subsystem.DCresult);
+        }
+
+        // TODO: complete implementation
+        /// <summary>
+        /// Method for evaluation of whole safety function
+        /// </summary>
+        /// <param name="safetyFunction"> Safety function for evaluation </param>
+        /// <returns> Method interacts with database so it returns async task </returns>
+        public async Task EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction)
+        {
+            if (safetyFunction.InputSubsystem is null)
+                throw new Exception("Missing input subsystem");
+            if (safetyFunction.LogicSubsystem is null)
+                throw new Exception("Missing logical subsystem");
+            if (safetyFunction.OutputSubsystem is null)
+                throw new Exception("Missing output subsystem");
+
+            // Evaluation of MTTFd for whole safety function
+
+            // Evaluation of DC average for whole safety function
+
+            // Evaluation of PL result
+
+            // Check if PL result is bigger or equal to required PL
         }
 
         /// <summary>
@@ -98,7 +121,6 @@ namespace SSEA.BL.Services.Implementations
             if (subsystem.Category.MinDC.Min > subsystem.DCresult.Min)
                 throw new Exception("Resultant value of DC is not valid for given category");
         }
-
 
         /// <summary>
         /// Method for validation of CCF (common caused failure)

@@ -58,7 +58,7 @@ namespace SSEA.BL.Facades
         {
             try
             {
-                await PLService.EvaluateSubsystem(subsystem);
+                await PLService.EvaluateSubsystemAsync(subsystem);
             }
             catch (Exception exception)
             {

@@ -20,6 +20,13 @@ namespace SSEA.BL.Services.Interfaces
         /// </summary>
         /// <param name="subsystem"> Subsystem for evaluation </param>
         /// <returns> Method interacts with database so it returns async task </returns>
-        Task EvaluateSubsystem(SubsystemDetailModelPL subsystem);
+        Task EvaluateSubsystemAsync(SubsystemDetailModelPL subsystem);
+
+        /// <summary>
+        /// Method for evaluation of whole safety function
+        /// </summary>
+        /// <param name="safetyFunction"> Safety function for evaluation </param>
+        /// <returns> Method interacts with database so it returns async task </returns>
+        Task EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction);
     }
 }
