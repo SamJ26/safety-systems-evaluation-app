@@ -134,6 +134,8 @@ namespace SSEA.DAL.Repositories
 
         // TODO: Update SF SIL
 
+        // TODO: Delete SF
+
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
             var entity = new SafetyFunctionSubsystem()

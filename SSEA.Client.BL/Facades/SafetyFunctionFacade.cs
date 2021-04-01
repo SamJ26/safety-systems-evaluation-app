@@ -39,6 +39,8 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionCreatePLAsync(newModel);
         }
 
+        // TODO: Create SF SIL
+
         // TODO
         public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updateModel)
         {
@@ -47,6 +49,8 @@ namespace SSEA.Client.BL.Facades
             return 0;
         }
 
+        // TODO: Update SF SIL
+
         // TODO
         public async Task DeleteAsync(int id)
         {
@@ -54,10 +58,16 @@ namespace SSEA.Client.BL.Facades
             // await clientService.SafetyFunctionDeleteAsync(id);
         }
 
+        public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            Console.WriteLine("SafetyFunctionFacade.AddSubsystemAsync(int safetyFunctionId, int subsystemId)");
+            await clientService.SafetyFunctionAddSubsystemAsync(safetyFunctionId, subsystemId);
+        }
+
         public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
             Console.WriteLine("SafetyFunctionFacade.RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)");
-            // await clientSevice.SafetyFunctionRemoveSubsystemAsync(safetyFunctionId, subsystemId);
+            await clientService.SafetyFunctionRemoveSubsystemAsync(safetyFunctionId, subsystemId);
         }
     }
 }

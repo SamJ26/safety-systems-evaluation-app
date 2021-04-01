@@ -475,8 +475,9 @@
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            // TODO: create record in join table and reload safety function
-            Console.WriteLine(result.Data.ToString());
+            int subsystemId = Convert.ToInt32(result.Data);
+            Console.WriteLine(subsystemId);
+            await safetyFunctionFacade.AddSubsystemAsync(safetyFunction.Id, subsystemId);
         }
         StateHasChanged();
     }

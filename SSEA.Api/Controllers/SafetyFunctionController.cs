@@ -85,13 +85,15 @@ namespace SSEA.Api.Controllers
 
         // TODO: Update SF SIL
 
+        // TODO: Delete SF
+
         // POST: api/safetyFunction/addSubsystem/{safetyFunctionId}/{subsystemId}
         [HttpPost("addSubsystem/{safetyFunctionId}/{subsystemId}")]
         [Authorize(Roles = "Administrator, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionAddSubsystem")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> AddSubsystemAsync(int safetyFunctionId, int subsystemId)
+        public async Task<ActionResult> AddSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
             if (safetyFunctionId == 0 || subsystemId == 0)
                 return BadRequest();
@@ -105,7 +107,7 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionRemoveSubsystem")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
+        public async Task<ActionResult> RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
             if (safetyFunctionId == 0 || subsystemId == 0)
                 return BadRequest();

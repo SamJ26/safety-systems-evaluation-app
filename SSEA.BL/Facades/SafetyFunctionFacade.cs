@@ -79,6 +79,8 @@ namespace SSEA.BL.Facades
 
         // TODO: Update SF SIL
 
+        // TODO: Delete SF
+
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
             await safetyFunctionRepository.AddSubsystemAsync(safetyFunctionId, subsystemId);
