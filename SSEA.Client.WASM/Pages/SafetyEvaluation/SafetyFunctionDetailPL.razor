@@ -69,26 +69,26 @@
                                     <MudExpansionPanel Text="I do not know required PL">
                                         <MudGrid>
                                             <MudItem xs="4" Style="padding: 5px;">
-                                                <MudSelect @bind-Value="safetyFunction.S" T="SModel" Label="Severity" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading">
+                                                <MudSelect @bind-Value="safetyFunction.S" T="SModel" Label="Severity" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading" ToStringFunc="@severityToString">
                                                     @foreach (var item in severities)
                                                     {
-                                                        <MudSelectItem T="SModel" Value="@(item)">@item.Value</MudSelectItem>
+                                                        <MudSelectItem T="SModel" Value="@(item)" />
                                                     }
                                                 </MudSelect>
                                             </MudItem>
                                             <MudItem xs="4" Style="padding: 5px;">
-                                                <MudSelect @bind-Value="safetyFunction.F" T="FModel" Label="Frequency" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading">
+                                                <MudSelect @bind-Value="safetyFunction.F" T="FModel" Label="Frequency" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading" ToStringFunc="@frequencyToString">
                                                     @foreach (var item in frequencies)
                                                     {
-                                                        <MudSelectItem T="FModel" Value="@(item)">@item.Value</MudSelectItem>
+                                                        <MudSelectItem T="FModel" Value="@(item)" />
                                                     }
                                                 </MudSelect>
                                             </MudItem>
                                             <MudItem xs="4" Style="padding: 5px;">
-                                                <MudSelect @bind-Value="safetyFunction.P" T="PModel" Label="Probability" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading">
+                                                <MudSelect @bind-Value="safetyFunction.P" T="PModel" Label="Probability" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading" ToStringFunc="@probabilityToString">
                                                     @foreach (var item in probabilities)
                                                     {
-                                                        <MudSelectItem T="PModel" Value="@(item)">@item.Value</MudSelectItem>
+                                                        <MudSelectItem T="PModel" Value="@(item)" />
                                                     }
                                                 </MudSelect>
                                             </MudItem>
@@ -363,6 +363,9 @@
 
     private Func<TypeOfFunctionModel, string> typeOfFunctionToString = tof => tof.Name;
     private Func<PLModel, string> plToString = pl => pl.Label;
+    private Func<SModel, string> severityToString = s => s.Value;
+    private Func<FModel, string> frequencyToString = f => f.Value;
+    private Func<PModel, string> probabilityToString = p => p.Value;
 
     protected override async Task OnInitializedAsync()
     {

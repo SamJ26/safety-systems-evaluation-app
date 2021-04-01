@@ -65,25 +65,23 @@ namespace SSEA.BL.Facades
 
         public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel, int userId)
         {
-            var safetyFunction = mapper.Map<SafetyFunction>(newModel);
-
             // Evaluating required PL
-            if (safetyFunction.PLr is null && safetyFunction.P is not null && safetyFunction.S is not null && safetyFunction.F is not null)
-                safetyFunction.PLrId = await PLService.GetRequiredPLAsync(safetyFunction.S, safetyFunction.F, safetyFunction.P);
+            if (newModel.S is not null && newModel.F is not null && newModel.P is not null)
+                newModel.PLr = await PLService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
 
-            return await safetyFunctionRepository.CreateAsync(safetyFunction, userId);
+            var entity = mapper.Map<SafetyFunction>(newModel);
+            return await safetyFunctionRepository.CreateAsync(entity, userId);
         }
 
         // TODO: Create SF SIL
 
-        public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL safetyFunction, int userId)
+        public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updatedModel, int userId)
         {
-            SafetyFunction entity = mapper.Map<SafetyFunction>(safetyFunction);
-
             // Evaluating required PL
-            if (entity.P is not null && entity.S is not null && entity.F is not null)
-                entity.PLrId = await PLService.GetRequiredPLAsync(entity.S, entity.F, entity.P);
+            if (updatedModel.S is not null && updatedModel.F is not null && updatedModel.P is not null)
+                updatedModel.PLr = await PLService.GetRequiredPLAsync(updatedModel.S, updatedModel.F, updatedModel.P);
 
+            SafetyFunction entity = mapper.Map<SafetyFunction>(updatedModel);
             return await safetyFunctionRepository.UpdateAsync(entity, userId);
         }
 

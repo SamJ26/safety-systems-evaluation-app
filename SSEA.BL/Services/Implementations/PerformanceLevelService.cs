@@ -25,13 +25,13 @@ namespace SSEA.BL.Services.Implementations
         }
 
         /// <summary>
-        /// Method for determination of required performance level
+        /// Method for evaluation of required performance level
         /// </summary>
         /// <param name="s"> Selected severity of injury </param>
         /// <param name="f"> Selected frequency of exposure </param>
         /// <param name="p"> Selected probability of avoiding injury </param>
-        /// <returns> Id of record which represents determined value </returns>
-        public async Task<int> GetRequiredPLAsync(S s, F f, P p)
+        /// <returns> Determined performance level </returns>
+        public async Task<PLModel> GetRequiredPLAsync(SModel s, FModel f, PModel p)
         {
             string pl = (s.Value, f.Value, p.Value) switch
             {
@@ -44,7 +44,7 @@ namespace SSEA.BL.Services.Implementations
                 ("S2", "F2", "P1") => "d",
                 _ => "e",
             };
-            return await dbContext.PerformanceLevels.Where(i => i.Label == pl).Select(i => i.Id).FirstOrDefaultAsync();
+            return mapper.Map<PLModel>(await dbContext.PerformanceLevels.Where(i => i.Label == pl).AsNoTracking().FirstOrDefaultAsync());
         }
 
         /// <summary>

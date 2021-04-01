@@ -1,6 +1,5 @@
-﻿using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
-using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+﻿using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
+using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Services.Interfaces
@@ -14,7 +13,7 @@ namespace SSEA.BL.Services.Interfaces
         /// <param name="f"> Selected frequency of exposure </param>
         /// <param name="p"> Selected probability of avoiding injury </param>
         /// <returns> Id of record which represents determined value </returns>
-        Task<int> GetRequiredPLAsync(S s, F f, P p);
+        Task<PLModel> GetRequiredPLAsync(SModel s, FModel f, PModel p);
 
         /// <summary>
         /// Method for evaluation of subsystem's properties using data of elements
