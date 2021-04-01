@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SSEA.Api.Extensions;
 using SSEA.BL.Facades;
+using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
@@ -126,6 +127,21 @@ namespace SSEA.Api.Controllers
                 return BadRequest();
             await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
             return Ok();
+        }
+
+        // GET: api/safetyFunction/evaluateSafetyFunction/{id}
+        [HttpGet("evaluateSafetyFunction/{id}")]
+        [Authorize(Roles = "Administrator, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionEvaluate")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<SafetyFunctionEvaluationResponseModel>> EvaluateSafetyFunctionAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var response = await safetyFunctionFacade.EvaluateSafetyFunctionAsync(id, userId);
+            return Ok(response);
         }
     }
 }

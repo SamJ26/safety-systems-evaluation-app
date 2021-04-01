@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.BL.Services.Interfaces;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -97,6 +99,39 @@ namespace SSEA.BL.Facades
         public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
             await safetyFunctionRepository.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
+        }
+
+        public async Task<SafetyFunctionEvaluationResponseModel> EvaluateSafetyFunctionAsync(int safetyFunctionId, int userId)
+        {
+            SafetyFunctionDetailModelPL safetyFunction = mapper.Map<SafetyFunctionDetailModelPL>(await safetyFunctionRepository.GetByIdPLAsync(safetyFunctionId));
+            try
+            {
+                await PLService.EvaluateSafetyFunctionAsync(safetyFunction);
+            }
+            catch (Exception exception)
+            {
+                return new SafetyFunctionEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = exception.Message,
+                };
+            }
+
+            // Updating record after its successful evaluation
+            int id = await safetyFunctionRepository.UpdateAsync(mapper.Map<SafetyFunction>(safetyFunction), userId);
+            if (id == 0)
+            {
+                return new SafetyFunctionEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = "Saving of evaluated safety function failed!",
+                };
+            }
+            return new SafetyFunctionEvaluationResponseModel()
+            {
+                IsSuccess = true,
+                Message = "Saving was successful :)",
+            };
         }
     }
 }

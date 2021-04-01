@@ -113,7 +113,7 @@ namespace SSEA.DAL.Repositories
             subsystem.SafetyFunctionSubsystems = null;
             subsystem.SubsystemCCFs = null;
 
-            // Setting navigation properties to avoid change tracking excpetion with trackig multiple entities with same id
+            // Setting navigation properties to null to avoid change tracking excpetion with trackig multiple entities with same id
             subsystem.DCresult = null;
             subsystem.Category = null;
             subsystem.MTTFdResult = null;

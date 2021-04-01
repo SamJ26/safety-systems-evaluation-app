@@ -93,18 +93,12 @@ namespace SSEA.Api.Controllers
             return Ok(response);
         }
 
-        //// POST: api/subsystem/sil
-        //[HttpPost("sil")]
-        //[SwaggerOperation(OperationId = "SubsystemCreateSIL")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<ActionResult<int>> CreateAsync(SubsystemDetailModelSIL model)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest();
-        //    var userId = this.GetUserIdFromHttpContext();
-        //    var id = await subsystemFacade.CreateAsync(model, userId);
-        //    return Ok(id);
-        //}
+        // TODO: Create Subsystem SIL
+
+        // TODO: Update Subsystem PL
+
+        // TODO: Update Subsystem SIL
+
+        // TODO: Delete Subsystem
     }
 }
