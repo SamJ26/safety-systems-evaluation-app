@@ -408,6 +408,7 @@
         performanceLevels = await codeListFacade.GetAllPLsAsync();
         onlyForReading = false;
         showMessage = false;
+        StateHasChanged();
     }
 
     private void BackToAccessPoint()

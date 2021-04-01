@@ -67,7 +67,8 @@ namespace SSEA.BL.Facades
         {
             var safetyFunction = mapper.Map<SafetyFunction>(newModel);
 
-            if (safetyFunction.PLr is null)
+            // Evaluating required PL
+            if (safetyFunction.PLr is null && safetyFunction.P is not null && safetyFunction.S is not null && safetyFunction.F is not null)
                 safetyFunction.PLrId = await PLService.GetRequiredPLAsync(safetyFunction.S, safetyFunction.F, safetyFunction.P);
 
             return await safetyFunctionRepository.CreateAsync(safetyFunction, userId);
@@ -75,7 +76,16 @@ namespace SSEA.BL.Facades
 
         // TODO: Create SF SIL
 
-        // TODO: Update SF PL
+        public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL safetyFunction, int userId)
+        {
+            SafetyFunction entity = mapper.Map<SafetyFunction>(safetyFunction);
+
+            // Evaluating required PL
+            if (entity.P is not null && entity.S is not null && entity.F is not null)
+                entity.PLrId = await PLService.GetRequiredPLAsync(entity.S, entity.F, entity.P);
+
+            return await safetyFunctionRepository.UpdateAsync(entity, userId);
+        }
 
         // TODO: Update SF SIL
 

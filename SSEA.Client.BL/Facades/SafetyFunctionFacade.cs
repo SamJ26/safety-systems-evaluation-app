@@ -41,12 +41,10 @@ namespace SSEA.Client.BL.Facades
 
         // TODO: Create SF SIL
 
-        // TODO
         public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updateModel)
         {
             Console.WriteLine("SafetyFunctionFacade.UpdateAsync(SafetyFunctionDetailModelPL updateModel)");
-            // return await clientService.SafetyFunctionUpdatePLAsync(updateModel);
-            return 0;
+            return await clientService.SafetyFunctionUpdatePLAsync(updateModel);
         }
 
         // TODO: Update SF SIL

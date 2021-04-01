@@ -109,6 +109,7 @@ namespace SSEA.DAL.Repositories
             return subsystems;
         }
 
+        // TODO: edit to work also with SF SIL
         public async Task<int> CreateAsync(SafetyFunction safetyFunction, int userId)
         {
             safetyFunction.CurrentStateId = safetyFunctionNewStateId;
@@ -128,11 +129,27 @@ namespace SSEA.DAL.Repositories
             return safetyFunction.Id;
         }
 
-        // TODO: Create SF SIL
+        // TODO: edit to work also with SF SIL
+        public async Task<int> UpdateAsync(SafetyFunction safetyFunction, int userId)
+        {
+            dbContext.Attach(safetyFunction.CurrentState).State = EntityState.Unchanged;
+            dbContext.Attach(safetyFunction.TypeOfFunction).State = EntityState.Unchanged;
+            dbContext.Attach(safetyFunction.EvaluationMethod).State = EntityState.Unchanged;
+            if (safetyFunction.S is not null && safetyFunction.F is not null && safetyFunction.P is not null)
+            {
+                dbContext.Attach(safetyFunction.S).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.F).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.P).State = EntityState.Unchanged;
+            }
+            if (safetyFunction.PLr is not null)
+                dbContext.Attach(safetyFunction.PLr).State = EntityState.Unchanged;
+            if (safetyFunction.PLresult is not null)
+                dbContext.Attach(safetyFunction.PLresult).State = EntityState.Unchanged;
 
-        // TODO: Update SF PL
-
-        // TODO: Update SF SIL
+            dbContext.Update(safetyFunction);
+            await dbContext.CommitChangesAsync(userId);
+            return safetyFunction.Id;
+        }
 
         // TODO: Delete SF
 
