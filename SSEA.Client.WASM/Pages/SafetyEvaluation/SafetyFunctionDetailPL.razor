@@ -427,7 +427,7 @@
 
     private void GoToSubsystemDetail(SubsystemDetailModelPL subsystem)
     {
-        // TODO navigate to SubsystemDetailPL
+        navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}/{subsystem.Id}");
     }
 
     private void ShowDialog(SubsystemDetailModelPL subsystem)

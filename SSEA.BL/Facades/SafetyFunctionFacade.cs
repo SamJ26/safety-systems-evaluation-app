@@ -101,6 +101,7 @@ namespace SSEA.BL.Facades
             await safetyFunctionRepository.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
         }
 
+        // TODO: test this method
         public async Task<SafetyFunctionEvaluationResponseModel> EvaluateSafetyFunctionAsync(int safetyFunctionId, int userId)
         {
             SafetyFunctionDetailModelPL safetyFunction = mapper.Map<SafetyFunctionDetailModelPL>(await safetyFunctionRepository.GetByIdPLAsync(safetyFunctionId));
