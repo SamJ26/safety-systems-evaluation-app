@@ -37,10 +37,11 @@
                             <MudItem xs="12">
                                 <MudTextField @bind-Value="safetyFunction.Description" T="string" Label="Safety function description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
-                            <MudItem xs="12">
+                            <MudItem xs="12" Style="padding-bottom: 0px;">
+                                <MudText Typo="Typo.subtitle1" Style="margin-bottom: 5px;">Select required PL or supply data for its evaluation (S, F, P)</MudText>
                                 <hr />
                             </MudItem>
-                            <MudItem xs="6">
+                            <MudItem xs="3">
                                 <MudSelect @bind-Value="safetyFunction.PLr" T="PLModel" Label="Required PL" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in performanceLevels)
                                     {
@@ -48,40 +49,30 @@
                                     }
                                 </MudSelect>
                             </MudItem>
-                            <MudItem xs="6">
-                                <MudField Label="Resultant PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.PLresult != null ? safetyFunction.PLresult.Label : "Not evaluated")</MudField>
+                            <MudItem xs="3" />
+                            <MudItem xs="2">
+                                <MudSelect @bind-Value="safetyFunction.S" T="SModel" Label="Severity" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in severities)
+                                    {
+                                        <MudSelectItem T="SModel" Value="@(item)">@item.Value</MudSelectItem>
+                                    }
+                                </MudSelect>
                             </MudItem>
-                            <MudItem xs="12">
-                                <MudExpansionPanels MultiExpansion="true" Elevation="1">
-                                    <MudExpansionPanel Text="I do not know required PL">
-                                        <MudGrid>
-                                            <MudItem xs="4" Style="padding: 5px;">
-                                                <MudSelect @bind-Value="safetyFunction.S" T="SModel" Label="Severity" Variant="Variant.Outlined" Format="F2">
-                                                    @foreach (var item in severities)
-                                                    {
-                                                        <MudSelectItem T="SModel" Value="@(item)">@item.Value</MudSelectItem>
-                                                    }
-                                                </MudSelect>
-                                            </MudItem>
-                                            <MudItem xs="4" Style="padding: 5px;">
-                                                <MudSelect @bind-Value="safetyFunction.F" T="FModel" Label="Frequency" Variant="Variant.Outlined" Format="F2">
-                                                    @foreach (var item in frequencies)
-                                                    {
-                                                        <MudSelectItem T="FModel" Value="@(item)">@item.Value</MudSelectItem>
-                                                    }
-                                                </MudSelect>
-                                            </MudItem>
-                                            <MudItem xs="4" Style="padding: 5px;">
-                                                <MudSelect @bind-Value="safetyFunction.P" T="PModel" Label="Probability" Variant="Variant.Outlined" Format="F2">
-                                                    @foreach (var item in probabilities)
-                                                    {
-                                                        <MudSelectItem T="PModel" Value="@(item)">@item.Value</MudSelectItem>
-                                                    }
-                                                </MudSelect>
-                                            </MudItem>
-                                        </MudGrid>
-                                    </MudExpansionPanel>
-                                </MudExpansionPanels>
+                            <MudItem xs="2">
+                                <MudSelect @bind-Value="safetyFunction.F" T="FModel" Label="Frequency" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in frequencies)
+                                    {
+                                        <MudSelectItem T="FModel" Value="@(item)">@item.Value</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="2">
+                                <MudSelect @bind-Value="safetyFunction.P" T="PModel" Label="Probability" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in probabilities)
+                                    {
+                                        <MudSelectItem T="PModel" Value="@(item)">@item.Value</MudSelectItem>
+                                    }
+                                </MudSelect>
                             </MudItem>
                         </MudGrid>
                     </EditForm>
