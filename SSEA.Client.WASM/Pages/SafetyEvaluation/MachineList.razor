@@ -11,7 +11,11 @@
                 <MudText Typo="Typo.h6">Machine list</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudButton @onclick="CreateNew" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Create" Color="Color.Primary" Style="margin-top:5px; margin-right:8px;">Create new machine</MudButton>
+                <AuthorizeView Roles="Administrator, NormalUser">
+                    <Authorized>
+                        <MudButton @onclick="CreateNew" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Create" Color="Color.Primary" Style="margin-top:5px; margin-right:8px;">Create new machine</MudButton>
+                    </Authorized>
+                </AuthorizeView>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
