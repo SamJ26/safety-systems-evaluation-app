@@ -116,61 +116,67 @@
             {
                 @if (evaluationMethodId == 1)
                 {
-                    <MudItem xs="12">
-                        <MudTable T="SubsystemListModelPL" OnRowClick="@(args => GoToSubsystemDetail(args))" Items="@subsystemsPL" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
-                            <ColGroup>
-                                <col style="width:25%;" /> Type of subsystem
-                                <col style="width:25%;" /> Operation principle
-                                <col style="width:21%;" /> Category
-                                <col style="width:12%;" /> MTTFd
-                                <col style="width:12%;" /> DC
-                                <col style="width:5%;" /> PL
-                            </ColGroup>
-                            <HeaderContent>
-                                <MudTh>Type of subsystem</MudTh>
-                                <MudTh>Operation principle</MudTh>
-                                <MudTh>MTTFd</MudTh>
-                                <MudTh>DC</MudTh>
-                                <MudTh>PL</MudTh>
-                            </HeaderContent>
-                            <RowTemplate>
-                                <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
-                                <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
-                                <MudTd DataLabel="MTTFd">@context.MttFd</MudTd>
-                                <MudTd DataLabel="DC">@context.Dc</MudTd>
-                                <MudTd DataLabel="PL">@context.Pl</MudTd>
-                            </RowTemplate>
-                        </MudTable>
-                    </MudItem>
+                    <MudTable T="SubsystemListModelPL" OnRowClick="@(args => GoToSubsystemDetail(args))" Items="@subsystemsPL" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
+                        <ColGroup>
+                            <col style="width:25%;" /> Type of subsystem
+                            <col style="width:25%;" /> Operation principle
+                            <col style="width:21%;" /> Category
+                            <col style="width:12%;" /> MTTFd
+                            <col style="width:12%;" /> DC
+                            <col style="width:5%;" /> PL
+                        </ColGroup>
+                        <HeaderContent>
+                            <MudTh>Type of subsystem</MudTh>
+                            <MudTh>Operation principle</MudTh>
+                            <MudTh>Category</MudTh>
+                            <MudTh>MTTFd</MudTh>
+                            <MudTh>DC</MudTh>
+                            <MudTh>PL</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
+                            <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
+                            <MudTd DataLabel="Category">@context.Category</MudTd>
+                            <MudTd DataLabel="MTTFd">@context.MttFd</MudTd>
+                            <MudTd DataLabel="DC">@context.Dc</MudTd>
+                            <MudTd DataLabel="PL">@context.Pl</MudTd>
+                        </RowTemplate>
+                    </MudTable>
                 }
-                else
+                if (evaluationMethodId == 2)
                 {
-                    <MudItem xs="12">
-                        <MudTable T="SubsystemListModelSIL" OnRowClick="@(args => GoToSubsystemDetail(args))" Items="@subsystemsSIL" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
-                            <ColGroup>
-                                <col style="width:25%;" /> Type of subsystem
-                                <col style="width:25%;" /> Operation principle
-                                <col style="width:21%;" /> Architecture
-                                <col style="width:12%;" /> HFT
-                                <col style="width:12%;" /> SFF
-                                <col style="width:5%;" /> SIL
-                            </ColGroup>
-                            <HeaderContent>
-                                <MudTh>Type of subsystem</MudTh>
-                                <MudTh>Operation principle</MudTh>
-                                <MudTh>HFT</MudTh>
-                                <MudTh>SFF</MudTh>
-                                <MudTh>SIL</MudTh>
-                            </HeaderContent>
-                            <RowTemplate>
-                                <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
-                                <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
-                                <MudTd DataLabel="HFT">@context.Hft</MudTd>
-                                <MudTd DataLabel="SFF">@context.Sff</MudTd>
-                                <MudTd DataLabel="SIL">@context.Sil</MudTd>
-                            </RowTemplate>
-                        </MudTable>
-                    </MudItem>
+                    <MudTable T="SubsystemListModelSIL" OnRowClick="@(args => GoToSubsystemDetail(args))" Items="@subsystemsSIL" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
+                        <ColGroup>
+                            <col style="width:25%;" /> Type of subsystem
+                            <col style="width:25%;" /> Operation principle
+                            <col style="width:21%;" /> Architecture
+                            <col style="width:12%;" /> HFT
+                            <col style="width:12%;" /> SFF
+                            <col style="width:5%;" /> SIL
+                        </ColGroup>
+                        <HeaderContent>
+                            <MudTh>Type of subsystem</MudTh>
+                            <MudTh>Operation principle</MudTh>
+                            <MudTh>Architecture</MudTh>
+                            <MudTh>HFT</MudTh>
+                            <MudTh>SFF</MudTh>
+                            <MudTh>SIL</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
+                            <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
+                            <MudTd DataLabel="Architecture">@context.Architecture</MudTd>
+                            <MudTd DataLabel="HFT">@context.Hft</MudTd>
+                            <MudTd DataLabel="SFF">@context.Sff</MudTd>
+                            <MudTd DataLabel="SIL">@context.Sil</MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                }
+                @if (notFound)
+                {
+                    <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
+                        Found nothing :(
+                    </MudText>
                 }
             }
         </MudCardContent>
@@ -205,6 +211,7 @@
 
     private bool searching;
     private bool disabled;
+    private bool notFound;
 
     private ICollection<PLModel> pls = new List<PLModel>();
     private ICollection<PFHdModel> sils = new List<PFHdModel>();
@@ -232,9 +239,15 @@
     {
         disabled = true;
         if (evaluationMethodId == 1)
+        {
             subsystemsPL = await subsystemFacade.GetAllPLAsync(stateId, typeOfSubsystemId, operationPrincipleId, categoryId, performanceLevelId);
+            notFound = (subsystemsPL is null || subsystemsPL.Count == 0) ? true : false;
+        }
         else
+        {
             subsystemsSIL = await subsystemFacade.GetAllSILAsync(stateId, typeOfSubsystemId, operationPrincipleId, architectureId, silId);
+            notFound = (subsystemsSIL is null || subsystemsSIL.Count == 0) ? true : false;
+        }
         disabled = false;
         StateHasChanged();
     }

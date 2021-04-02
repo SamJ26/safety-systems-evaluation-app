@@ -22,7 +22,8 @@ namespace SSEA.DAL.Repositories
 
         public async Task<ICollection<Subsystem>> GetAllPLAsync(int stateId, int typeOfSubsystemId, int operationPrincipleId, int categoryId, int performanceLevelId)
         {
-            IQueryable<Subsystem> query = dbContext.Subsystems.Include(s => s.TypeOfSubsystem)
+            IQueryable<Subsystem> query = dbContext.Subsystems.Where(s => s.Category != null)
+                                                              .Include(s => s.TypeOfSubsystem)
                                                               .Include(s => s.OperationPrinciple)
                                                               .Include(s => s.Category)
                                                               .Include(s => s.DCresult)
@@ -44,7 +45,8 @@ namespace SSEA.DAL.Repositories
 
         public async Task<ICollection<Subsystem>> GetAllSILAsync(int stateId, int typeOfSubsystemId, int operationPrincipleId, int architectureId, int silId)
         {
-            IQueryable<Subsystem> query = dbContext.Subsystems.Include(s => s.TypeOfSubsystem)
+            IQueryable<Subsystem> query = dbContext.Subsystems.Where(s => s.Architecture != null)
+                                                              .Include(s => s.TypeOfSubsystem)
                                                               .Include(s => s.OperationPrinciple)
                                                               .Include(s => s.TypeOfSubsystem)
                                                               .Include(s => s.Architecture)
