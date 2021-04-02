@@ -52,7 +52,10 @@
                                 <MudTextField @bind-Value="safetyFunction.Description" T="string" Label="Safety function description" Variant="Variant.Outlined" Lines="3" ReadOnly="@onlyForReading" />
                             </MudItem>
                             <MudItem xs="12" Style="padding-bottom: 0px;">
-                                <MudText Typo="Typo.subtitle1" Style="margin-bottom: 5px;">Select required SIL or supply data for its evaluation (Se, Fr, Pr, Av)</MudText>
+                                @if (onlyForReading == false)
+                                {
+                                    <MudText Typo="Typo.subtitle1" Style="margin-bottom: 5px;">Select required SIL or supply data for its evaluation (Se, Fr, Pr, Av)</MudText>
+                                }
                                 <hr />
                             </MudItem>
                             <MudItem xs="3">
@@ -485,7 +488,7 @@
 
     private async void OpenSelectSubsystemDialog(string typeOfSubsystem)
     {
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = "PL", ["TypeOfSubsystem"] = typeOfSubsystem };
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = "SIL", ["TypeOfSubsystem"] = typeOfSubsystem };
         var dialog = dialogService.Show<SelectSubsystemDialog>("Select subsystem", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
         var result = await dialog.Result;
         if (!result.Cancelled)

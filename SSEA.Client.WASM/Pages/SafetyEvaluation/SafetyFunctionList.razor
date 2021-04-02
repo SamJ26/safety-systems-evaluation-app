@@ -70,23 +70,18 @@
                         <MudTh>State</MudTh>
                         <MudTh>Type of function</MudTh>
                         <MudTh>Evaluation method</MudTh>
-                        <MudTh>Actions</MudTh>
                     </HeaderContent>
                     <ColGroup>
                         <col style="width:30%;" />Name
                         <col style="width:15%;" />State
                         <col style="width:35%;" />Type of function
                         <col style="width:10%;" />Evaluation method
-                        <col style="width:5%;" />Actions
                     </ColGroup>
                     <RowTemplate>
                         <MudTd DataLabel="Name">@context.Name</MudTd>
                         <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
                         <MudTd DataLabel="Type of function">@context.TypeOfFunction.Name</MudTd>
                         <MudTd DataLabel="Evaluation method">@context.EvaluationMethod.Shortcut</MudTd>
-                        <MudTd DataLabel="Actions">
-                            <MudIconButton @onclick="@(() => Delete(context))" Icon="@Icons.Material.Filled.Delete"></MudIconButton>
-                        </MudTd>
                     </RowTemplate>
                     <PagerContent>
                         <MudTablePager PageSizeOptions="new int[]{10, 50}" />
@@ -144,17 +139,6 @@
     private void GoToSafetyFunctionDetail(TableRowClickEventArgs<SafetyFunctionListModel> args)
     {
         navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/{args.Item.EvaluationMethod.Shortcut}/{0}/{0}/{args.Item.Id}");
-    }
-
-    private async Task Delete(SafetyFunctionListModel safetyFunction)
-    {
-        var parameters = new DialogParameters() { ["ItemToDelte"] = "safety function", ["NameOfItem"] = safetyFunction.Name };
-        var dialog = dialogService.Show<ApproveDeleteDialog>("Delete", parameters);
-        var result = await dialog.Result;
-        if (!result.Cancelled)
-        {
-            // TODO: add impl.
-        }
     }
 
 }
