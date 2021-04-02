@@ -90,7 +90,6 @@ namespace SSEA.DAL.Repositories
                                              .Include(s => s.TypeOfSubsystem)
                                              .Include(s => s.Architecture)
                                              .Include(s => s.PFHdResult)
-                                             .Include(s => s.CFF)
                                              .Include(s => s.CurrentState)
                                              .Include(s => s.Elements)
                                              .AsNoTracking()

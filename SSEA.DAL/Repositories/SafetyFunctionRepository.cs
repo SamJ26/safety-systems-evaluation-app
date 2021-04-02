@@ -102,7 +102,6 @@ namespace SSEA.DAL.Repositories
                                                        .Include(s => s.OperationPrinciple)
                                                        .Include(s => s.Architecture)
                                                        .Include(s => s.PFHdResult)
-                                                       .Include(s => s.CFF)
                                                        .Include(s => s.CurrentState)
                                                        .AsNoTracking()
                                                        .ToListAsync();
