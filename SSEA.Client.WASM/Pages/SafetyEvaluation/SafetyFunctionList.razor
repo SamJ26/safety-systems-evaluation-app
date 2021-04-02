@@ -64,7 +64,7 @@
             }
             else
             {
-                <MudTable T="SafetyFunctionListModel" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Items="@safetyFunctions" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="true">
+                <MudTable T="SafetyFunctionListModel" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Items="@safetyFunctions" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>State</MudTh>
