@@ -3,29 +3,29 @@
 
 <MudGrid>
     <MudItem xs="12">
-        <MudTextField @bind-Value="Model.CatalogNumber" Label="Catalog number" Variant="Variant.Outlined"  Immediate="true"/>
+        <MudTextField @bind-Value="Model.CatalogNumber" Label="Catalog number" Variant="Variant.Outlined"  Immediate="true" ReadOnly="@ReadOnly"/>
     </MudItem>
     <MudItem xs="12">
-        <MudSelect @bind-Value="Model.Producer" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined"  Immediate="true">
+        <MudSelect @bind-Value="Model.Producer" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined"  Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@producerToString">
             @foreach (var item in Producers)
             {
-                <MudSelectItem T="ProducerModel" Value="@(item)">@item.Name</MudSelectItem>
+                <MudSelectItem T="ProducerModel" Value="@(item)" />
             }
         </MudSelect>
     </MudItem>
     <MudItem xs="12">
-        <MudSelect @bind-Value="Model.Dc" T="DCModel" Label="DC *" Variant="Variant.Outlined" Immediate="true">
+        <MudSelect @bind-Value="Model.Dc" T="DCModel" Label="DC *" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@dcToString">
             @foreach (var item in DCs)
             {
-                <MudSelectItem T="DCModel" Value="@(item)">@item.Value</MudSelectItem>
+                <MudSelectItem T="DCModel" Value="@(item)" />
             }
         </MudSelect>
     </MudItem>
     <MudItem xs="12">
-        <MudSelect @bind-Value="Model.MttFdResult" T="MTTFdModel" Label="MTTFd *" Variant="Variant.Outlined" Immediate="true">
+        <MudSelect @bind-Value="Model.MttFdResult" T="MTTFdModel" Label="MTTFd *" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@mttfdToString">
             @foreach (var item in MTTFds)
             {
-                <MudSelectItem T="MTTFdModel" Value="@(item)">@item.Value</MudSelectItem>
+                <MudSelectItem T="MTTFdModel" Value="@(item)" />
             }
         </MudSelect>
     </MudItem>
@@ -34,16 +34,16 @@
             <MudExpansionPanel Text="I do not know MTTFd">
                 <MudGrid>
                     <MudItem xs="12" Style="padding: 5px; margin-top: 10px;">
-                        <MudField Label="B10d" Variant="Variant.Outlined">@Model.B10d</MudField>
+                        <MudField Label="B10d" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.B10d</MudField>
                     </MudItem>
                     <MudItem xs="12" Style="padding: 5px;">
-                        <MudField Label="Hop" Variant="Variant.Outlined">@Model.Hop</MudField>
+                        <MudField Label="Hop" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Hop</MudField>
                     </MudItem>
                     <MudItem xs="12" Style="padding: 5px;">
-                        <MudField Label="Dop" Variant="Variant.Outlined">@Model.Dop</MudField>
+                        <MudField Label="Dop" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Dop</MudField>
                     </MudItem>
                     <MudItem xs="12" Style="padding: 5px; margin-bottom: 10px;">
-                        <MudField Label="Tcycles" Variant="Variant.Outlined">@Model.Tcycles</MudField>
+                        <MudField Label="Tcycles" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Tcycles</MudField>
                     </MudItem>
                 </MudGrid>
             </MudExpansionPanel>
@@ -64,5 +64,12 @@
 
     [Parameter]
     public ICollection<DCModel> DCs { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    private Func<ProducerModel, string> producerToString = producer => producer.Name;
+    private Func<DCModel, string> dcToString = dc => dc.Value;
+    private Func<MTTFdModel, string> mttfdToString = mttfd => mttfd.Value;
 
 }

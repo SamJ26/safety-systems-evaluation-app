@@ -35,7 +35,7 @@
                         <MudGrid Style="padding: 20px;">
                             <MudGrid Style="padding: 20px;">
                                 <MudItem xs="12">
-                                    <MudField Label="Type of subsystem" Variant="Variant.Outlined" Disabled="true">@subsystem.TypeOfSubsystem.Name</MudField>
+                                    <MudField Label="Type of subsystem" Variant="Variant.Outlined" readonly="true">@subsystem.TypeOfSubsystem.Name</MudField>
                                 </MudItem>
                                 <MudItem xs="12">
                                     <MudSelect @bind-Value="subsystem.OperationPrinciple" T="OperationPrincipleModel" ReadOnly="@onlyForReading" Label="Operation principle *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@operationPrincipleToString">
@@ -90,7 +90,7 @@
                             <MudItem xs="3" />
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="@onlyForReading"/>
                             </MudItem>
                             <MudItem xs="3" />
                         }
@@ -98,11 +98,11 @@
                         {
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="@onlyForReading"/>
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                <ElementPL Model="@subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="@subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="@onlyForReading"/>
                             </MudItem>
                         }
                     </MudGrid>

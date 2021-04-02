@@ -73,6 +73,11 @@ namespace SSEA.DAL.Repositories
                                              .Include(s => s.PLresult)
                                              .Include(s => s.CurrentState)
                                              .Include(s => s.Elements)
+                                                .ThenInclude(e => e.DC)
+                                             .Include(s => s.Elements)
+                                                .ThenInclude(e => e.MTTFdResult)
+                                             .Include(s => s.Elements)
+                                                .ThenInclude(e => e.Producer)
                                              .AsNoTracking()
                                              .SingleOrDefaultAsync(s => s.Id == id);
         }
