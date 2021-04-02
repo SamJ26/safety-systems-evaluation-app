@@ -16,7 +16,7 @@
                 }
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="@BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(SafetyFunctionId == 0 || AccessPointId == 0)" />
+                <MudIconButton @onclick="@BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(SafetyFunctionId == 0)" />
                 <AuthorizeView Roles="Administrator, NormalUser">
                     <Authorized>
                         <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
@@ -46,6 +46,9 @@
                                     </MudSelect>
                                 </MudItem>
                                 <MudItem xs="12">
+                                    <MudField Label="Type of subsystem" Variant="Variant.Outlined" readonly="true">Performance Level (PL)</MudField>
+                                </MudItem>
+                                <MudItem xs="12">
                                     <MudSelect @bind-Value="subsystem.Category" T="CategoryModel" ReadOnly="@onlyForReading" Label="Category *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@categoryToString">
                                         @foreach (var item in categories)
                                         {
@@ -60,26 +63,51 @@
 
                 <MudTabPanel Text="CCF">
                     <MudGrid Style="padding: 20px;">
-                        <MudItem xs="12">
-                            <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true" ReadOnly="@onlyForReading">
-                                <ColGroup>
-                                    <col style="width:5%;" /> Checkbox
-                                    <col style="width:15%;" /> Type
-                                    <col style="width:75%;" /> Description
-                                    <col style="width:5%;" /> Points
-                                </ColGroup>
-                                <HeaderContent>
-                                    <MudTh>Type</MudTh>
-                                    <MudTh>Description</MudTh>
-                                    <MudTh>Points</MudTh>
-                                </HeaderContent>
-                                <RowTemplate Context="tableContext">
-                                    <MudTd DataLabel="Name">@tableContext.Type</MudTd>
-                                    <MudTd DataLabel="Name">@tableContext.Description</MudTd>
-                                    <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
-                                </RowTemplate>
-                            </MudTable>
-                        </MudItem>
+                        @if (onlyForReading)
+                        {
+                            <MudItem xs="12">
+                                <MudTable T="CCFModel" Items="@subsystem.SelectedCCFs" Dense="true" Hover="true" Outlined="true" ReadOnly="@onlyForReading">
+                                    <ColGroup>
+                                        <col style="width:15%;" /> Type
+                                        <col style="width:80%;" /> Description
+                                        <col style="width:5%;" /> Points
+                                    </ColGroup>
+                                    <HeaderContent>
+                                        <MudTh>Type</MudTh>
+                                        <MudTh>Description</MudTh>
+                                        <MudTh>Points</MudTh>
+                                    </HeaderContent>
+                                    <RowTemplate Context="tableContext">
+                                        <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                        <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                        <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
+                                    </RowTemplate>
+                                </MudTable>
+                            </MudItem>
+                        }
+                        else
+                        {
+                            <MudItem xs="12">
+                                <MudTable T="CCFModel" MultiSelection="true" SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true">
+                                    <ColGroup>
+                                        <col style="width:5%;" /> Checkbox
+                                        <col style="width:15%;" /> Type
+                                        <col style="width:75%;" /> Description
+                                        <col style="width:5%;" /> Points
+                                    </ColGroup>
+                                    <HeaderContent>
+                                        <MudTh>Type</MudTh>
+                                        <MudTh>Description</MudTh>
+                                        <MudTh>Points</MudTh>
+                                    </HeaderContent>
+                                    <RowTemplate Context="tableContext">
+                                        <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                        <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                        <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
+                                    </RowTemplate>
+                                </MudTable>
+                            </MudItem>
+                        }
                     </MudGrid>
                 </MudTabPanel>
 
@@ -169,6 +197,7 @@
     protected override async Task OnInitializedAsync()
     {
         subsystem = await subsystemFacade.GetByIdPLAsync(SubsystemId);
+        CCFs = await codeListFacade.GetAllCCFsAsync();
         StateHasChanged();
     }
 
@@ -184,11 +213,10 @@
         MTTFds = await codeListFacade.GetAllMTTFdsAsync();
         DCs = await codeListFacade.GetAllDCsAsync();
         categories = await codeListFacade.GetAllCategoriesAsync();
-        CCFs = await codeListFacade.GetAllCCFsAsync();
         operationPrinciples = await codeListFacade.GetAllOperationPrinciplesAsync();
-
-        // TODO
-
+        onlyForReading = false;
+        showMessage = false;
+        subsystem.SelectedCCFs.Clear();
         StateHasChanged();
     }
 

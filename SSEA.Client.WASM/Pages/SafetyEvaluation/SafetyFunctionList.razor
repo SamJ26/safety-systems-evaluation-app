@@ -5,7 +5,7 @@
 @attribute [Authorize]
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
-    <MudCard Elevation="3">
+    <MudCard Elevation="0">
         <MudCardHeader Style="padding-bottom: 0px;">
             <CardHeaderContent>
                 <MudText Typo="Typo.h6">Safety function list</MudText>
@@ -64,7 +64,7 @@
             }
             else
             {
-                <MudTable T="SafetyFunctionListModel" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Items="@safetyFunctions" Hover="true" Elevation="5" Style="margin-top: 20px;" Dense="true">
+                <MudTable T="SafetyFunctionListModel" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Items="@safetyFunctions" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="true">
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>State</MudTh>
