@@ -1,7 +1,6 @@
 ﻿using SSEA.Client.BL.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.Client.BL.Facades
@@ -39,7 +38,7 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionCreatePLAsync(newModel);
         }
 
-        // TODO
+        // TODO: test
         public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
         {
             Console.WriteLine("SafetyFunctionFacade.CreateAsync(SafetyFunctionDetailModelSIL newModel)");
@@ -53,9 +52,15 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionUpdatePLAsync(updateModel);
         }
 
-        // TODO: Update SF SIL
+        // TODO: test
+        public async Task<int> UpdateAsync(SafetyFunctionDetailModelSIL updateModel)
+        {
+            Console.WriteLine("SafetyFunctionFacade.UpdateAsync(SafetyFunctionDetailModelSIL updateModel)");
+            // return await clientService.SafetyFunctionUpdateSILAsync(updateModel);
+            return 0;
+        }
 
-        // TODO
+        // TODO: test
         public async Task DeleteAsync(int id)
         {
             Console.WriteLine("SafetyFunctionFacade.DeleteAsync(int id)");

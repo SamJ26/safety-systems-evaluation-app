@@ -103,12 +103,12 @@
 
     private SafetyFunctionDetailModelPL safetyFunction = new();
 
-    private ICollection<TypeOfFunctionModel> typeOfFunctions { get; set; } = new List<TypeOfFunctionModel>();
-    private ICollection<EvaluationMethodModel> evaluationMethods { get; set; } = new List<EvaluationMethodModel>();
-    private ICollection<PLModel> performanceLevels { get; set; } = new List<PLModel>();
-    private ICollection<SModel> severities { get; set; } = new List<SModel>();
-    private ICollection<FModel> frequencies { get; set; } = new List<FModel>();
-    private ICollection<PModel> probabilities { get; set; } = new List<PModel>();
+    private ICollection<TypeOfFunctionModel> typeOfFunctions = new List<TypeOfFunctionModel>();
+    private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
+    private ICollection<PLModel> performanceLevels = new List<PLModel>();
+    private ICollection<SModel> severities = new List<SModel>();
+    private ICollection<FModel> frequencies = new List<FModel>();
+    private ICollection<PModel> probabilities = new List<PModel>();
 
     private bool disabled = false;
     private bool showMessage = false;
