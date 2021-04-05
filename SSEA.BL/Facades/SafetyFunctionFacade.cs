@@ -101,10 +101,10 @@ namespace SSEA.BL.Facades
             await safetyFunctionRepository.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
         }
 
-        // TODO: test this method
+        // TODO: rename method to EvaluationSafetyFunctionPLAsync
         public async Task<SafetyFunctionEvaluationResponseModel> EvaluateSafetyFunctionAsync(int safetyFunctionId, int userId)
         {
-            SafetyFunctionDetailModelPL safetyFunction = mapper.Map<SafetyFunctionDetailModelPL>(await safetyFunctionRepository.GetByIdPLAsync(safetyFunctionId));
+            SafetyFunctionDetailModelPL safetyFunction = await GetByIdPLAsync(safetyFunctionId);
             try
             {
                 await PLService.EvaluateSafetyFunctionAsync(safetyFunction);
@@ -133,6 +133,8 @@ namespace SSEA.BL.Facades
                 IsSuccess = true,
                 Message = "Saving was successful :)",
             };
+
+            // TODO: EvaluationSafetyFunctionSILAsync
         }
     }
 }

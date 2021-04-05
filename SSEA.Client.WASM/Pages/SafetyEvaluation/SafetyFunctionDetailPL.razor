@@ -501,7 +501,23 @@
     // TODO: call API than show message
     private async Task EvaluateSafetyFunction()
     {
-
+        disabled = true;
+        onlyForReading = true;
+        SafetyFunctionEvaluationResponseModel response = await safetyFunctionFacade.EvaluateSafetyFunctionAsync(safetyFunction.Id);
+        if (response.IsSuccess)
+        {
+            messageType = Severity.Success;
+            message = response.Message;
+            safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
+        }
+        else
+        {
+            messageType = Severity.Error;
+            message = response.Message;
+        }
+        showMessage = true;
+        disabled = false;
+        StateHasChanged();
     }
 
 }
