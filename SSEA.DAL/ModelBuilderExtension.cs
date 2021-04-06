@@ -157,27 +157,383 @@ namespace SSEA.DAL
                 new SFF()
                 {
                     Id = 1,
+                    ComponentNameCZ = "Spínač s nuceným vypínaním",
+                    FailureModeCZ = "Kontakty nelze rozepnout",
+                    Value = 20,
+                },
+                new SFF()
+                {
+                    Id = 2,
+                    ComponentNameCZ = "Spínač s nuceným vypínaním",
+                    FailureModeCZ = "Kontakty nelze sepnout",
+                    Value = 80,
+                },
+                new SFF()
+                {
+                    Id = 3,
+                    ComponentNameCZ = "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.",
+                    FailureModeCZ = "Kontakty nelze rozepnout",
+                    Value = 50,
+                },
+                new SFF()
+                {
+                    Id = 4,
+                    ComponentNameCZ = "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.",
+                    FailureModeCZ = "Kontakty nelze sepnout",
+                    Value = 50,
+                },
+                new SFF()
+                {
+                    Id = 5,
+                    ComponentNameCZ = "Relé",
+                    FailureModeCZ = "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí",
+                    Value = 25,
+                },
+                new SFF()
+                {
+                    Id = 6,
+                    ComponentNameCZ = "Relé",
+                    FailureModeCZ = "Všechny kontakty zůstavají ve vypnuté poloze, je-li cívka pod napětím",
+                    Value = 25,
+                },
+                new SFF()
+                {
+                    Id = 7,
                     ComponentNameCZ = "Relé",
                     FailureModeCZ = "Kontakty nelze rozepnout",
                     Value = 10,
                 },
                 new SFF()
                 {
-                    Id = 2,
+                    Id = 8,
                     ComponentNameCZ = "Relé",
                     FailureModeCZ = "Kontakty nelze sepnout",
                     Value = 10,
                 },
                 new SFF()
                 {
-                    Id = 3,
+                    Id = 9,
                     ComponentNameCZ = "Relé",
                     FailureModeCZ = "Současný zkrat mezi třemi kontakty přepínacího spínače",
                     Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 10,
+                    ComponentNameCZ = "Relé",
+                    FailureModeCZ = "Současné zapnutí zapínacího a vypínacího kontaktu",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 11,
+                    ComponentNameCZ = "Relé",
+                    FailureModeCZ = "Zkrat medzi dvěma páry kontaktů a/nebo mezi kontakty a svorku cívky",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 12,
+                    ComponentNameCZ = "Jistič, proudový chránič",
+                    FailureModeCZ = "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí",
+                    Value = 25,
+                },
+                new SFF()
+                {
+                    Id = 13,
+                    ComponentNameCZ = "Jistič, proudový chránič",
+                    FailureModeCZ = "Všechny kontakty zůstavají ve vypnuté poloze, je-li cívka pod napětí",
+                    Value = 25,
+                },
+                new SFF()
+                {
+                    Id = 14,
+                    ComponentNameCZ = "Jistič, proudový chránič",
+                    FailureModeCZ = "Kontakty nelze rozepnout",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 15,
+                    ComponentNameCZ = "Jistič, proudový chránič",
+                    FailureModeCZ = "Kontakty nelze sepnou",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 16,
+                    ComponentNameCZ = "Jistič, proudový chránič",
+                    FailureModeCZ = "Současný zkrat medzi třemi kontakty přepínacího spínače",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 17,
+                    ComponentNameCZ = "Jistič, proudový chránič",
+                    FailureModeCZ = "Současné zapnutí zapínacího a vypínacího kontaktu",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 18,
+                    ComponentNameCZ = "Jistič, proudový chránič",
+                    FailureModeCZ = "Zkrat medzi dvěmi páry kontaktů a/nebo medzi kontakty a svorkou civky",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 19,
+                    ComponentNameCZ = "Stykač",
+                    FailureModeCZ = "Všechny kontakty zůstávají v zapnuté poloze, je-li cívka bez napětí",
+                    Value = 25,
+                },
+                new SFF()
+                {
+                    Id = 20,
+                    ComponentNameCZ = "Stykač",
+                    FailureModeCZ = "Všeschny Kontakty zůstávajé ve vypnuté poloze, je-li cívka pod napětím",
+                    Value = 25,
+                },
+                new SFF()
+                {
+                    Id = 21,
+                    ComponentNameCZ = "Stykač",
+                    FailureModeCZ = "Kontakty nelze rozepnout",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 22,
+                    ComponentNameCZ = "Stykač",
+                    FailureModeCZ = "Kontakty nelze sepnout",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 23,
+                    ComponentNameCZ = "Stykač",
+                    FailureModeCZ = "Současný zkrat medzi třemi kontakty přepínacího spínače",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 24,
+                    ComponentNameCZ = "Stykač",
+                    FailureModeCZ = "Současné zapnutí zapínacího a vypínacího kontaktu",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 25,
+                    ComponentNameCZ = "Stykač",
+                    FailureModeCZ = "Zkrat medzi dvěma páry kontaktů a/nebo medzi kontakty a svorku cívky",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 26,
+                    ComponentNameCZ = "Poistka",         
+                    FailureModeCZ = "Nedojde k přtavení (zkrat)",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 27,
+                    ComponentNameCZ = "Poistka",
+                    FailureModeCZ = "Přerušený obvod",
+                    Value = 90,
+                },
+                new SFF()
+                {
+                    Id = 28,
+                    ComponentNameCZ = "Bezdotykové spínače",
+                    FailureModeCZ = "Trvalé nízke rezistance na výstupu",
+                    Value = 25,
+                },
+                new SFF()
+                {
+                    Id = 29,
+                    ComponentNameCZ = "Bezdotykové spínače",
+                    FailureModeCZ = "Trvalé vysoká rezistance na výstupu",
+                    Value = 25,
+                },
+                new SFF()
+                {
+                    Id = 30,
+                    ComponentNameCZ = "Bezdotykové spínače",
+                    FailureModeCZ = "Přerušní napájaní",
+                    Value = 30,
+                },
+                new SFF()
+                {
+                    Id = 31,
+                    ComponentNameCZ = "Bezdotykové spínače",
+                    FailureModeCZ = "Selhíni spínače vlivem mechanické poruchy",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 32,
+                    ComponentNameCZ = "Bezdotykové spínače",
+                    FailureModeCZ = "Současný zkrat mezi třemi kontakty přepínacího spínače",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 33,
+                    ComponentNameCZ = "Teplotní spínač",
+                    FailureModeCZ = "Kontakty nelze rozepnout",
+                    Value = 30,
+                },
+                new SFF()
+                {
+                    Id = 34,
+                    ComponentNameCZ = "Teplotní spínač",
+                    FailureModeCZ = "Kontakty nelze sepnout",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 35,
+                    ComponentNameCZ = "Teplotní spínač",
+                    FailureModeCZ = "Zkrat medzi sousedními kontakty",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 36,
+                    ComponentNameCZ = "Teplotní spínač",
+                    FailureModeCZ = "Zkrat medzi třemi svorkami přepínacích kontaktů",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 37,
+                    ComponentNameCZ = "Teplotní spínač",
+                    FailureModeCZ = "Vada čidla",
+                    Value = 20,
+                },
+                new SFF()
+
+                {
+                    Id = 38,
+                    ComponentNameCZ = "Teplotní spínač",
+                    FailureModeCZ = "Zmena měřích nebo výstupních charakteristik",
+                    Value = 20,
+                },
+                new SFF()
+                {
+                    Id = 39,
+                    ComponentNameCZ = "Tlakový spínač",
+                    FailureModeCZ = "Kontakty nelze rozepnout",
+                    Value = 30,
+                },
+                new SFF()
+                {
+                    Id = 40,
+                    ComponentNameCZ = "Tlakový spínač",
+                    FailureModeCZ = "Kontakty nelze sepnout",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 41,
+                    ComponentNameCZ = "Tlakový spínač",
+                    FailureModeCZ = "Zkrat mezi sousedními kontakty",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 42,
+                    ComponentNameCZ = "Tlakový spínač",
+                    FailureModeCZ = "Současný zkat medzi třemi svorkami přepínacích kontaktů",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 43,
+                    ComponentNameCZ = "Tlakový spínač",
+                    FailureModeCZ = "Vada čidla",
+                    Value = 20,
+                },
+                new SFF()
+                {
+                    Id = 44,
+                    ComponentNameCZ = "Tlakový spínač",
+                    FailureModeCZ = "Změna meřícich nebo výstupních charakteristik",
+                    Value = 20,
+                },
+                new SFF()
+                {
+                    Id = 45,
+                    ComponentNameCZ = "Solenoidový ventil",
+                    FailureModeCZ = "Nelze nabudit",
+                    Value = 5,
+                },
+                new SFF()
+                {
+                    Id = 46,
+                    ComponentNameCZ = "Solenoidový ventil",
+                    FailureModeCZ = "Nelze odbudit",
+                    Value = 15,
+                },
+                new SFF()
+                {
+                    Id = 47,
+                    ComponentNameCZ = "Solenoidový ventil",
+                    FailureModeCZ = "Změna doby spínaní",
+                    Value = 5,
+                },
+                new SFF()
+                {
+                    Id = 48,
+                    ComponentNameCZ = "Solenoidový ventil",
+                    FailureModeCZ = "Netěsnost",
+                    Value = 65,
+                },
+                new SFF()
+                {
+                    Id = 49,
+                    ComponentNameCZ = "Solenoidový ventil",
+                    FailureModeCZ = "Další poruchové režimy (viz poznámka 4)",
+                    Value = 10
+                },
+                new SFF()
+                {
+                    Id = 50,
+                    ComponentNameCZ = "Vidlice a zásuvky, konektory",
+                    FailureModeCZ = "Zkrat medzi libovolnými dvěma sousedními spoji (koliky)",
+                    Value = 10,
+                },
+                new SFF()
+
+                {
+                    Id = 51,
+                    ComponentNameCZ = "Vidlice a zásuvky, konektory",
+                    FailureModeCZ = "Zkrat libovolného vodiče s neživou částí",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 52,
+                    ComponentNameCZ = "Vidlice a zásuvky, konektory",
+                    FailureModeCZ = "Rozpojený obvod libovolného spoje (koliku) konektoru",
+                    Value = 80,
+                },
+                new SFF()
+                {
+                    Id = 53,
+                    ComponentNameCZ = "Svorkovnice",
+                    FailureModeCZ = "Zkrat medzi sousedními svorkami",
+                    Value = 10,
+                },
+                new SFF()
+                {
+                    Id = 54,
+                    ComponentNameCZ = "Svorkovnice",
+                    FailureModeCZ = "Rozpojený obvod svorek",
+                    Value = 90,
                 }
-
-                // TODO: supply all data from table in norm EN ISO 62061 
-
             );
 
             modelBuilder.Entity<Architecture>().HasData(
