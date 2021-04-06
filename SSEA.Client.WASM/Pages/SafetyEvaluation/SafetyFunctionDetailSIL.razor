@@ -167,7 +167,7 @@
                                             <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Communication"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null)">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="6" Style="padding: 5px 14px 5px 5px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => CreateSubsystem("Communication"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null)">Create</MudButton>
+                                            <MudButton @onclick="@(() => CreateSubsystem("Input-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null)">Create</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -232,7 +232,7 @@
                                             <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Communication"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null)">Select</MudButton>
                                         </MudItem>
                                         <MudItem xs="6" Style="padding: 5px 14px 5px 5px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => CreateSubsystem("Communication"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null)">Create</MudButton>
+                                            <MudButton @onclick="@(() => CreateSubsystem("Output-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null)">Create</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
