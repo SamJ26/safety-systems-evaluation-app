@@ -99,14 +99,27 @@ namespace SSEA.DAL
         {
             base.OnModelCreating(builder);
 
+            #region Global query filters
+
+            builder.Entity<AccessPoint>().HasQueryFilter(ap => ap.IsRemoved != true);
+            builder.Entity<Element>().HasQueryFilter(e => e.IsRemoved != true);
+            builder.Entity<Machine>().HasQueryFilter(m => m.IsRemoved != true);
+            builder.Entity<SafetyFunction>().HasQueryFilter(sf => sf.IsRemoved != true);
+            builder.Entity<Subsystem>().HasQueryFilter(s => s.IsRemoved != true);
+
+            builder.Entity<AccessPointSafetyFunction>().HasQueryFilter(apsf => apsf.IsRemoved != true);
+            builder.Entity<ElementSFF>().HasQueryFilter(es => es.IsRemoved != true);
+            builder.Entity<MachineNorm>().HasQueryFilter(mn => mn.IsRemoved != true);
+            builder.Entity<SafetyFunctionSubsystem>().HasQueryFilter(sfs => sfs.IsRemoved != true);
+            builder.Entity<SubsystemCCF>().HasQueryFilter(sc => sc.IsRemoved != true);
+
+            #endregion
+
             builder.Entity<UserClaim>().ToTable("SY_UserClaim");
             builder.Entity<UserRole>().ToTable("SY_UserRole");
             builder.Entity<UserLogin>().ToTable("SY_UserLogin");
             builder.Entity<RoleClaim>().ToTable("SY_RoleClaim");
             builder.Entity<UserToken>().ToTable("SY_UserToken");
-
-            builder.Entity<Machine>().HasQueryFilter(m => m.CurrentStateId != 4);
-            builder.Entity<AccessPoint>().HasQueryFilter(ap => ap.CurrentStateId != 7);
 
             builder.Entity<Role>(r =>
             {
