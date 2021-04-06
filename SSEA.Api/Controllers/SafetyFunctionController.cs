@@ -67,7 +67,7 @@ namespace SSEA.Api.Controllers
 
         // POST: api/safetyFunction/pl
         [HttpPost("pl")]
-        [Authorize(Roles = "Administrator, NormalUser")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionCreatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -84,7 +84,7 @@ namespace SSEA.Api.Controllers
 
         // PUT: api/safetyFunction/pl
         [HttpPut("pl")]
-        [Authorize(Roles = "Administrator, NormalUser")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionUpdatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -103,7 +103,7 @@ namespace SSEA.Api.Controllers
 
         // POST: api/safetyFunction/addSubsystem/{safetyFunctionId}/{subsystemId}
         [HttpPost("addSubsystem/{safetyFunctionId}/{subsystemId}")]
-        [Authorize(Roles = "Administrator, NormalUser")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionAddSubsystem")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -117,7 +117,7 @@ namespace SSEA.Api.Controllers
 
         // DELETE: api/safetyFunction/removeSubsystem/{safetyFunctionId}/{subsystemId}
         [HttpDelete("removeSubsystem/{safetyFunctionId}/{subsystemId}")]
-        [Authorize(Roles = "Administrator, NormalUser")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionRemoveSubsystem")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -131,7 +131,7 @@ namespace SSEA.Api.Controllers
 
         // GET: api/safetyFunction/evaluateSafetyFunction/{id}
         [HttpGet("evaluateSafetyFunction/{id}")]
-        [Authorize(Roles = "Administrator, NormalUser")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionEvaluate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -11,7 +11,7 @@
                 <MudText Typo="Typo.h6">Safety function list</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <AuthorizeView Roles="Administrator, NormalUser">
+                <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
                         <MudButton @onclick="@(() => CreateNew("SIL"))" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Create" Color="Color.Primary" Style="margin-top:5px; margin-right:8px;">New (SIL)</MudButton>
                         <MudButton @onclick="@(() => CreateNew("PL"))" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Create" Color="Color.Primary" Style="margin-top:5px; margin-right:8px;">New (PL)</MudButton>

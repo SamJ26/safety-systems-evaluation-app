@@ -80,7 +80,7 @@ namespace SSEA.Api.Controllers
 
         // POST: api/subsystem/pl
         [HttpPost("pl")]
-        [Authorize(Roles = "Administrator, NormalUser")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "SubsystemCreatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

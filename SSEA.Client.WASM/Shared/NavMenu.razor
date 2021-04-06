@@ -9,7 +9,7 @@
                 <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/machineList">
                     List
                 </MudListItem>
-                <AuthorizeView Roles="Administrator, NormalUser">
+                <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
                         <MudListItem Icon="@Icons.Material.Filled.Add" Href="/safetyEvaluation/machineInsert">
                             Create new
@@ -23,7 +23,7 @@
                 <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/safetyFunctionList">
                     List
                 </MudListItem>
-                <AuthorizeView Roles="Administrator, NormalUser">
+                <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
                         <MudListItem Icon="@Icons.Material.Filled.Add" Text="Create new" InitiallyExpanded="true">
                             <NestedList>
@@ -44,7 +44,7 @@
                 <MudListItem Icon="@Icons.Material.Filled.List" Href="/safetyEvaluation/subsystemList">
                     List
                 </MudListItem>
-                <AuthorizeView Roles="Administrator, NormalUser">
+                <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
                         <MudListItem Icon="@Icons.Material.Filled.Add" Text="Create new" InitiallyExpanded="true">
                             <NestedList>

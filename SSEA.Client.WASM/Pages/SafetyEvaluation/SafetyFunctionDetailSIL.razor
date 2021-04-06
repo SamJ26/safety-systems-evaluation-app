@@ -17,7 +17,7 @@
             </CardHeaderContent>
             <CardHeaderActions>
                 <MudIconButton @onclick="@BackToAccessPoint" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(MachineId == 0 || AccessPointId == 0)" />
-                <AuthorizeView Roles="Administrator, NormalUser">
+                <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
                         <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
                         <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
