@@ -858,30 +858,324 @@ namespace SSEA.DAL
                 new Norm()
                 {
                     Id = 1,
-                    Label = "ČSN EN ISO 13849-1",
-                    NameCZ = "Bezpečnost strojních zařízení - Bezpečnostné části ovládacích systému - Část 1: Všeobecné zásady pro konstrukci",
-                    CatalogNumber = "15296296",
-                    NormCategory = "B1",
+                    Label = "ISO 11200",
+                    NameCZ = "Rušení - Určovaní emisních hladín akustického tlaku na stanovišti obsluhy",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
                 },
                 new Norm()
                 {
                     Id = 2,
-                    Label = "ČSN EN ISO 12100",
-                    NameCZ = "Popis tejto normy",
-                    CatalogNumber = "15296296",
-                    NormCategory = "A",
+                    Label = "ISO 3741",
+                    NameCZ = "Rušení - Určení hladín akustického výkonu a hladin akusticko energie zdroju hluku",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
                 },
                 new Norm()
                 {
                     Id = 3,
-                    Label = "ČSN EN 62061",
-                    NameCZ = "Popis tejto normy",
-                    CatalogNumber = "15296296",
-                    NormCategory = "B1",
+                    Label = "ISO 9614",
+                    NameCZ = "Rušení - Určovaní hladin akustického výkonu zdroju hluku pomocí akustické intenzity",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 4,
+                    Label = "ISO 11546",
+                    NameCZ = "Rušení - Určovaní zvkové izolace krytů",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 5,
+                    Label = "ISO 11957",
+                    NameCZ = "Rušení - Určení zvukové izolace kabin",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 6,
+                    Label = "ISO 4871",
+                    NameCZ = "Rušení - Deklarování a ověřování hodnot emise hluku",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+
+                {
+                    Id = 7,
+                    Label = "ISO 29042",
+                    NameCZ = "Obsažené látky - Hodnocení emisí nebezpečných látek přenášených vzduchem",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 8,
+                    Label = "ISO 14123-1",
+                    NameCZ = "Obsažené látky - Snižování ohroženými látkami emitovanými stojním zařízením",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 9,
+                    Label = "ISO 14159",
+                    NameCZ = "Obsažené látky - Hygienické požadavky",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 10,
+                    Label = "ISO 13732-1",
+                    NameCZ = "Tepelná rizika - Metody posuzování odezvy člověka na kontakt s horkými povrchy",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 11,
+                    Label = "ISO 19363",
+                    NameCZ = "Požarní riziká - Požarní prevence a požarní ochrana",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 12,
+                    Label = "IEC 60204-1",
+                    NameCZ = "Elektrická rizika - Ochrana proti zásahu elektrickým proudem",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 13,
+                    Label = "ISO 2631",
+                    NameCZ = "Vibrace a rázy - Expozice celkovým vibracím",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 14,
+                    Label = "ISO 13753",
+                    NameCZ = "Vibrace a rázy - Vibrace ruky a paže",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 15,
+                    Label = "ISO 20643",
+                    NameCZ = "Vibrace a rázy - Ruční a rukou vedená strojní zařizení",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 16,
+                    Label = "ISO 15534",
+                    NameCZ = "Ergonomie - Přístupové otvory",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 17,
+                    Label = "ISO 14738",
+                    NameCZ = "Ergonomie - Antropometrické požadavky na uspořádané pracovního místa u strojního zařízení",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 18,
+                    Label = "ISO 15536-1",
+                    NameCZ = "Ergonomie - Počítačové modely lidského těla a tělesné šablony",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 19,
+                    Label = "ISO 11145",
+                    NameCZ = "Radiační rizika - Lasary a laserová zařízení - obecné požadavky",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 20,
+                    Label = "ISO 13854",
+                    NameCZ = "Rozměry a vzdálenosti - Nejemenší mezery k zamezení stlačení částí lidského těla",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 21,
+                    Label = "ISO 13855",
+                    NameCZ = "Rozměry a vzdálenosti - Minimální vzdálenosti",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 22,
+                    Label = "ISO 13857",
+                    NameCZ = "Rozměry a vzdálenosti - Bezepečné vzdálenosti",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 23,
+                    Label = "ISO 14122",
+                    NameCZ = "Rozměry a vzdálenosti - Trvalé prostředky přístupu ke strojním zařízením",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 24,
+                    Label = "ISO 3864-1",
+                    NameCZ = "Alarmy a varování - Zásady navrhování bezpečnostních značek a bezpečnostního značení",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 25,
+                    Label = "ISO 7010",
+                    NameCZ = "Alarmy a varování - Registrované bezpečnostní značky",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 26,
+                    Label = "ISO 7731",
+                    NameCZ = "Alarmy a varování - Sluchové výstražní signály",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 27,
+                    Label = "IEC 61310-1",
+                    NameCZ = "Alarmy a varování - Požadavky na vizuální, akustické a taktilná signály",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 28,
+                    Label = "IEC 60204-1",
+                    NameCZ = "Napájecí zdroj - Elektrická zařízení",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 29,
+                    Label = "ISO 4414",
+                    NameCZ = "Napájecí zdroj - Pneumatická zařízení",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 30,
+                    Label = "ISO 4413",
+                    NameCZ = "Napájecí zdroj - Hydraulická zařízení",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 31,
+                    Label = "ISO 14118",
+                    NameCZ = "Řidicí systémy - Zamezení neočekávanému spuštění",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 32,
+                    Label = "ISO 13849-1",
+                    NameCZ = "Řidicí systémy - Konstrukcde bezpečnostních částí ovládacího systémů",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 33,
+                    Label = "ISO 13849-2",
+                    NameCZ = "Řidicí systémy - Ověřovani bezpečnostních častí ovládacích systémů",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 34,
+                    Label = "ISO 13850",
+                    NameCZ = "Řidicí systémy - Funkce nouzového zastavení",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 35,
+                    Label = "ISO 14120",
+                    NameCZ = "Bezpečnostní zařízení - Ochranné kryty",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 36,
+                    Label = "ISO 14119",
+                    NameCZ = "Bezpečnostní zařízení - Blokovací zařízení spojená s ochrannými kryty",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 37,
+                    Label = "ISO 13851",
+                    NameCZ = "Bezpečnostní zařízení -Dvouruční ovládací zařízení",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 38,
+                    Label = "IEC 61496",
+                    NameCZ = "Bezpečnostní zařízení - Elektrická snímací ochranná zařízení",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 39,
+                    Label = "ISO 13856",
+                    NameCZ = "Bezpečnostní zařízení - Ochranná zařízení citlivá na tlak",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
+                },
+                new Norm()
+                {
+                    Id = 40,
+                    Label = "ISO 11161",
+                    NameCZ = "Bezpečnostní zařízení - Integrované výrobní systémy",
+                    CatalogNumber = "unknown",
+                    NormCategory = "B",
                 }
-
-                // TODO: supply all data
-
             );
 
             modelBuilder.Entity<EvaluationMethod>().HasData(
@@ -1192,7 +1486,7 @@ namespace SSEA.DAL
                 },
                 new Role()
                 {
-                    Id = 3,
+                    Id = 4,
                     IsValid = true,
                     Name = "UserAdmin",
                     NormalizedName = "USERADMIN",
@@ -1465,8 +1759,6 @@ namespace SSEA.DAL
                 #endregion
 
             );
-
-            // TODO: add seeds for StateTransition ??
 
             #endregion
         }

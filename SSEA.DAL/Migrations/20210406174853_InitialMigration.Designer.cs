@@ -10,7 +10,7 @@ using SSEA.DAL;
 namespace SSEA.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210331070449_InitialMigration")]
+    [Migration("20210406174853_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "5224d643-603a-4872-8812-9a93815e4646",
+                            ConcurrencyStamp = "6ccefb5a-2af5-4920-b4fc-20689cf0f05e",
                             IsValid = true,
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
@@ -65,7 +65,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "c81a3a5d-3ee9-4f77-b255-7737b44cfea6",
+                            ConcurrencyStamp = "033b62c3-50ea-463f-ba96-d086052b0a21",
                             IsValid = true,
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
@@ -73,10 +73,18 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "a4704db0-8a48-4688-b2a2-19eb81cb81d0",
+                            ConcurrencyStamp = "94d63c8d-3524-44e3-bbc6-94e67047f984",
                             IsValid = true,
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
+                            Name = "SafetyEvaluationAdmin",
+                            NormalizedName = "SAFETYEVALUATIONADMIN"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ConcurrencyStamp = "2047496c-0c8d-49ae-bb7e-ff53108436de",
+                            IsValid = true,
+                            Name = "UserAdmin",
+                            NormalizedName = "USERADMIN"
                         });
                 });
 
@@ -284,6 +292,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("ForPL")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
@@ -309,6 +320,7 @@ namespace SSEA.DAL.Migrations
                             Id = 1,
                             DescriptionCZ = "Fyzické oddělení medzi jednotlivými dráhami signálu",
                             ForPL = true,
+                            IsRemoved = false,
                             IsValid = true,
                             Points = 15L,
                             TypeCZ = "Oddělení/segregace"
@@ -318,6 +330,7 @@ namespace SSEA.DAL.Migrations
                             Id = 2,
                             DescriptionCZ = "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy",
                             ForPL = true,
+                            IsRemoved = false,
                             IsValid = true,
                             Points = 20L,
                             TypeCZ = "Diverzita"
@@ -327,6 +340,7 @@ namespace SSEA.DAL.Migrations
                             Id = 3,
                             DescriptionCZ = "Ochrana proti přepětí, přetlaku, nadproudu, atd.",
                             ForPL = true,
+                            IsRemoved = false,
                             IsValid = true,
                             Points = 15L,
                             TypeCZ = "Konstrukce/použití/zkušenosti"
@@ -336,6 +350,7 @@ namespace SSEA.DAL.Migrations
                             Id = 4,
                             DescriptionCZ = "Jsou použity osvědčené součásti",
                             ForPL = true,
+                            IsRemoved = false,
                             IsValid = true,
                             Points = 5L,
                             TypeCZ = "Konstrukce/použití/zkušenosti"
@@ -345,6 +360,7 @@ namespace SSEA.DAL.Migrations
                             Id = 5,
                             DescriptionCZ = "Jsou k vyloučení poruch se společnou příčinou v konstrukci uvažovány výsledky režimu poruchy a analýza účinku?",
                             ForPL = true,
+                            IsRemoved = false,
                             IsValid = true,
                             Points = 5L,
                             TypeCZ = "Posouzení/analýza"
@@ -354,6 +370,7 @@ namespace SSEA.DAL.Migrations
                             Id = 6,
                             DescriptionCZ = "Byli konstruktéři/údržbáři zacvičení k pochopení příčin a následkú poruch se společnou příčinou ?",
                             ForPL = true,
+                            IsRemoved = false,
                             IsValid = true,
                             Points = 5L,
                             TypeCZ = "Zpusobilost/zácvik"
@@ -363,6 +380,7 @@ namespace SSEA.DAL.Migrations
                             Id = 7,
                             DescriptionCZ = "Zamezení kontaminace a elektromagnetická kompatibilita (EMC) proti CCF podle příslušných norem",
                             ForPL = true,
+                            IsRemoved = false,
                             IsValid = true,
                             Points = 25L,
                             TypeCZ = "Prostředí"
@@ -372,6 +390,7 @@ namespace SSEA.DAL.Migrations
                             Id = 8,
                             DescriptionCZ = "Byly uvažováni požadavky na odolnost proti všem relevantním vlivum prostředí, např. teplota, vibrace, vlhkost ?",
                             ForPL = true,
+                            IsRemoved = false,
                             IsValid = true,
                             Points = 10L,
                             TypeCZ = "Prostředí"
@@ -384,6 +403,12 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<short>("CompareValue")
+                        .HasColumnType("smallint");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -411,6 +436,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            CompareValue = (short)1,
+                            IsRemoved = false,
                             IsValid = true,
                             Max = (short)60,
                             Min = (short)0,
@@ -419,6 +446,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
+                            CompareValue = (short)2,
+                            IsRemoved = false,
                             IsValid = true,
                             Max = (short)90,
                             Min = (short)60,
@@ -427,6 +456,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
+                            CompareValue = (short)3,
+                            IsRemoved = false,
                             IsValid = true,
                             Max = (short)99,
                             Min = (short)90,
@@ -435,6 +466,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 4,
+                            CompareValue = (short)4,
+                            IsRemoved = false,
                             IsValid = true,
                             Max = (short)100,
                             Min = (short)99,
@@ -448,6 +481,9 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -474,6 +510,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Úroveň vlastností",
                             NameEN = "Performance Level",
@@ -482,6 +519,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Úroveň integrity bezpečnosti",
                             NameEN = "Safety Integrity Level",
@@ -497,13 +535,15 @@ namespace SSEA.DAL.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("DescriptionCZ")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -525,21 +565,21 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DescriptionCZ = "Nějaký popis",
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Jednoúčelový stroj"
                         },
                         new
                         {
                             Id = 2,
-                            DescriptionCZ = "Nějaký popis",
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Víceúčelový stroj"
                         },
                         new
                         {
                             Id = 3,
-                            DescriptionCZ = "Nějaký popis",
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Montážní linka"
                         });
@@ -556,6 +596,9 @@ namespace SSEA.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -587,29 +630,402 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CatalogNumber = "15296296",
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
                             IsValid = true,
-                            Label = "ČSN EN ISO 13849-1",
-                            NameCZ = "Bezpečnost strojních zařízení - Bezpečnostné části ovládacích systému - Část 1: Všeobecné zásady pro konstrukci",
-                            NormCategory = "B1"
+                            Label = "ISO 11200",
+                            NameCZ = "Rušení - Určovaní emisních hladín akustického tlaku na stanovišti obsluhy",
+                            NormCategory = "B"
                         },
                         new
                         {
                             Id = 2,
-                            CatalogNumber = "15296296",
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
                             IsValid = true,
-                            Label = "ČSN EN ISO 12100",
-                            NameCZ = "Popis tejto normy",
-                            NormCategory = "A"
+                            Label = "ISO 3741",
+                            NameCZ = "Rušení - Určení hladín akustického výkonu a hladin akusticko energie zdroju hluku",
+                            NormCategory = "B"
                         },
                         new
                         {
                             Id = 3,
-                            CatalogNumber = "15296296",
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
                             IsValid = true,
-                            Label = "ČSN EN 62061",
-                            NameCZ = "Popis tejto normy",
-                            NormCategory = "B1"
+                            Label = "ISO 9614",
+                            NameCZ = "Rušení - Určovaní hladin akustického výkonu zdroju hluku pomocí akustické intenzity",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 11546",
+                            NameCZ = "Rušení - Určovaní zvkové izolace krytů",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 11957",
+                            NameCZ = "Rušení - Určení zvukové izolace kabin",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 4871",
+                            NameCZ = "Rušení - Deklarování a ověřování hodnot emise hluku",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 29042",
+                            NameCZ = "Obsažené látky - Hodnocení emisí nebezpečných látek přenášených vzduchem",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 14123-1",
+                            NameCZ = "Obsažené látky - Snižování ohroženými látkami emitovanými stojním zařízením",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 14159",
+                            NameCZ = "Obsažené látky - Hygienické požadavky",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13732-1",
+                            NameCZ = "Tepelná rizika - Metody posuzování odezvy člověka na kontakt s horkými povrchy",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 19363",
+                            NameCZ = "Požarní riziká - Požarní prevence a požarní ochrana",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "IEC 60204-1",
+                            NameCZ = "Elektrická rizika - Ochrana proti zásahu elektrickým proudem",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 2631",
+                            NameCZ = "Vibrace a rázy - Expozice celkovým vibracím",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13753",
+                            NameCZ = "Vibrace a rázy - Vibrace ruky a paže",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 20643",
+                            NameCZ = "Vibrace a rázy - Ruční a rukou vedená strojní zařizení",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 15534",
+                            NameCZ = "Ergonomie - Přístupové otvory",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 14738",
+                            NameCZ = "Ergonomie - Antropometrické požadavky na uspořádané pracovního místa u strojního zařízení",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 15536-1",
+                            NameCZ = "Ergonomie - Počítačové modely lidského těla a tělesné šablony",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 11145",
+                            NameCZ = "Radiační rizika - Lasary a laserová zařízení - obecné požadavky",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13854",
+                            NameCZ = "Rozměry a vzdálenosti - Nejemenší mezery k zamezení stlačení částí lidského těla",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13855",
+                            NameCZ = "Rozměry a vzdálenosti - Minimální vzdálenosti",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13857",
+                            NameCZ = "Rozměry a vzdálenosti - Bezepečné vzdálenosti",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 14122",
+                            NameCZ = "Rozměry a vzdálenosti - Trvalé prostředky přístupu ke strojním zařízením",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 3864-1",
+                            NameCZ = "Alarmy a varování - Zásady navrhování bezpečnostních značek a bezpečnostního značení",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 7010",
+                            NameCZ = "Alarmy a varování - Registrované bezpečnostní značky",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 7731",
+                            NameCZ = "Alarmy a varování - Sluchové výstražní signály",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "IEC 61310-1",
+                            NameCZ = "Alarmy a varování - Požadavky na vizuální, akustické a taktilná signály",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "IEC 60204-1",
+                            NameCZ = "Napájecí zdroj - Elektrická zařízení",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 4414",
+                            NameCZ = "Napájecí zdroj - Pneumatická zařízení",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 4413",
+                            NameCZ = "Napájecí zdroj - Hydraulická zařízení",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 14118",
+                            NameCZ = "Řidicí systémy - Zamezení neočekávanému spuštění",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13849-1",
+                            NameCZ = "Řidicí systémy - Konstrukcde bezpečnostních částí ovládacího systémů",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13849-2",
+                            NameCZ = "Řidicí systémy - Ověřovani bezpečnostních častí ovládacích systémů",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13850",
+                            NameCZ = "Řidicí systémy - Funkce nouzového zastavení",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 14120",
+                            NameCZ = "Bezpečnostní zařízení - Ochranné kryty",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 14119",
+                            NameCZ = "Bezpečnostní zařízení - Blokovací zařízení spojená s ochrannými kryty",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13851",
+                            NameCZ = "Bezpečnostní zařízení -Dvouruční ovládací zařízení",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "IEC 61496",
+                            NameCZ = "Bezpečnostní zařízení - Elektrická snímací ochranná zařízení",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 13856",
+                            NameCZ = "Bezpečnostní zařízení - Ochranná zařízení citlivá na tlak",
+                            NormCategory = "B"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CatalogNumber = "unknown",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Label = "ISO 11161",
+                            NameCZ = "Bezpečnostní zařízení - Integrované výrobní systémy",
+                            NormCategory = "B"
                         });
                 });
 
@@ -627,6 +1043,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -648,26 +1067,37 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "mechanický"
                         },
                         new
                         {
                             Id = 2,
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "elektrický"
                         },
                         new
                         {
                             Id = 3,
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "pneumatický"
                         },
                         new
                         {
                             Id = 4,
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "elektromechanický"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "hydraulický"
                         });
                 });
 
@@ -681,6 +1111,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("CountryOfOrigin")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -699,6 +1132,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             CountryOfOrigin = "Germany",
+                            IsRemoved = false,
                             IsValid = true,
                             Name = "Siemens"
                         },
@@ -706,6 +1140,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             CountryOfOrigin = "Slovakia",
+                            IsRemoved = false,
                             IsValid = true,
                             Name = "Sipron"
                         },
@@ -713,6 +1148,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             CountryOfOrigin = "USA",
+                            IsRemoved = false,
                             IsValid = true,
                             Name = "Allen Bradley"
                         });
@@ -732,6 +1168,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("DescriptionEN")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -753,20 +1192,100 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Funkce bezpečného zastavení iniciována bezpečnostním zařízením"
                         },
                         new
                         {
                             Id = 2,
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Funkce ručního opětného nastavení"
                         },
                         new
                         {
                             Id = 3,
+                            IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Funkce místního ovládaní"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Funkce spuštení/opětovného spuštení"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Funkce vyřazení"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Funkce tipování"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Funkce povelového zařízení"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Funkce zamezení neočekávaného spuštění"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Únik a uvolnění zachycených osob"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Funkce odpojení a uvolnění energie"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Režimy ovládání a volba režimu"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Vzájemné púsobení rúzných bezpečnostních částí ovládacího systému"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Monitorování parametrizace hodnot bezpečnostního vstupu"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Funkce nouzového zastavení"
                         });
                 });
 
@@ -793,6 +1312,9 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<long?>("EthernetAdressesMaxCount")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -828,6 +1350,10 @@ namespace SSEA.DAL.Migrations
                     b.Property<int>("SO")
                         .HasColumnType("int");
 
+                    b.Property<int>("SubsystemId")
+                        .HasColumnType("int")
+                        .HasColumnName("Subsystem_Id");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MaxArchitectureId");
@@ -847,6 +1373,7 @@ namespace SSEA.DAL.Migrations
                             AccessPointsMaxCount = 2,
                             Communication = false,
                             EthernetAdressesMaxCount = 0L,
+                            IsRemoved = false,
                             IsValid = true,
                             MaxArchitectureId = 4,
                             MaxCategoryId = 5,
@@ -855,7 +1382,8 @@ namespace SSEA.DAL.Migrations
                             NameCZ = "Relé",
                             NameEN = "Relay",
                             SI = 4,
-                            SO = 4
+                            SO = 4,
+                            SubsystemId = 0
                         },
                         new
                         {
@@ -863,6 +1391,7 @@ namespace SSEA.DAL.Migrations
                             AccessPointsMaxCount = 5,
                             Communication = false,
                             EthernetAdressesMaxCount = 0L,
+                            IsRemoved = false,
                             IsValid = true,
                             MaxArchitectureId = 4,
                             MaxCategoryId = 5,
@@ -871,13 +1400,15 @@ namespace SSEA.DAL.Migrations
                             NameCZ = "CR30",
                             NameEN = "CR30",
                             SI = 12,
-                            SO = 10
+                            SO = 10,
+                            SubsystemId = 0
                         },
                         new
                         {
                             Id = 3,
                             Communication = true,
                             EthernetAdressesMaxCount = 48L,
+                            IsRemoved = false,
                             IsValid = true,
                             MaxArchitectureId = 4,
                             MaxCategoryId = 5,
@@ -886,13 +1417,15 @@ namespace SSEA.DAL.Migrations
                             NameCZ = "GMX",
                             NameEN = "GMX",
                             SI = 6144,
-                            SO = 6144
+                            SO = 6144,
+                            SubsystemId = 0
                         },
                         new
                         {
                             Id = 4,
                             Communication = true,
                             EthernetAdressesMaxCount = 256L,
+                            IsRemoved = false,
                             IsValid = true,
                             MaxArchitectureId = 4,
                             MaxCategoryId = 5,
@@ -901,7 +1434,8 @@ namespace SSEA.DAL.Migrations
                             NameCZ = "GLX",
                             NameEN = "GLX",
                             SI = 65536,
-                            SO = 65536
+                            SO = 65536,
+                            SubsystemId = 0
                         });
                 });
 
@@ -912,17 +1446,20 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
                     b.Property<string>("NameCZ")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NameEN")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -932,26 +1469,42 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Vstupní"
+                            NameCZ = "Vstupní",
+                            NameEN = "Input"
                         },
                         new
                         {
                             Id = 2,
+                            IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Výstupní"
+                            NameCZ = "Výstupní",
+                            NameEN = "Output"
                         },
                         new
                         {
                             Id = 3,
+                            IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Logický"
+                            NameCZ = "Logický",
+                            NameEN = "Logical"
                         },
                         new
                         {
                             Id = 4,
+                            IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Komunikační"
+                            NameCZ = "Komunikace vstup-logika",
+                            NameEN = "Input-logic comminucation"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Komunikace výstup-logika",
+                            NameEN = "Output-logic comminucation"
                         });
                 });
 
@@ -963,6 +1516,9 @@ namespace SSEA.DAL.Migrations
                         .UseIdentityColumn();
 
                     b.Property<short>("Channels")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("CompareValue")
                         .HasColumnType("smallint");
 
                     b.Property<string>("DescriptionCZ")
@@ -980,6 +1536,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("FailureBehaviorEN")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1036,8 +1595,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             Channels = (short)1,
-                            DescriptionCZ = "Random text",
-                            FailureBehaviorCZ = "Random text",
+                            CompareValue = (short)1,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "B",
                             Logic = true,
@@ -1045,15 +1604,14 @@ namespace SSEA.DAL.Migrations
                             MaxMTTFdId = 2,
                             MinDCId = 1,
                             MinMTTFdId = 1,
-                            RelevantCCF = false,
-                            RequirementsCZ = "Random text"
+                            RelevantCCF = false
                         },
                         new
                         {
                             Id = 2,
                             Channels = (short)1,
-                            DescriptionCZ = "Random text",
-                            FailureBehaviorCZ = "Random text",
+                            CompareValue = (short)2,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "1",
                             Logic = true,
@@ -1061,15 +1619,14 @@ namespace SSEA.DAL.Migrations
                             MaxMTTFdId = 3,
                             MinDCId = 1,
                             MinMTTFdId = 3,
-                            RelevantCCF = false,
-                            RequirementsCZ = "Random text"
+                            RelevantCCF = false
                         },
                         new
                         {
                             Id = 3,
                             Channels = (short)1,
-                            DescriptionCZ = "Random text",
-                            FailureBehaviorCZ = "Random text",
+                            CompareValue = (short)3,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "2",
                             Logic = true,
@@ -1077,15 +1634,14 @@ namespace SSEA.DAL.Migrations
                             MaxMTTFdId = 3,
                             MinDCId = 2,
                             MinMTTFdId = 1,
-                            RelevantCCF = true,
-                            RequirementsCZ = "Random text"
+                            RelevantCCF = true
                         },
                         new
                         {
                             Id = 4,
                             Channels = (short)2,
-                            DescriptionCZ = "Random text",
-                            FailureBehaviorCZ = "Random text",
+                            CompareValue = (short)4,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "3",
                             Logic = true,
@@ -1093,15 +1649,14 @@ namespace SSEA.DAL.Migrations
                             MaxMTTFdId = 3,
                             MinDCId = 2,
                             MinMTTFdId = 1,
-                            RelevantCCF = true,
-                            RequirementsCZ = "Random text"
+                            RelevantCCF = true
                         },
                         new
                         {
                             Id = 5,
                             Channels = (short)2,
-                            DescriptionCZ = "Random text",
-                            FailureBehaviorCZ = "Random text",
+                            CompareValue = (short)5,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "4",
                             Logic = true,
@@ -1109,8 +1664,7 @@ namespace SSEA.DAL.Migrations
                             MaxMTTFdId = 3,
                             MinDCId = 4,
                             MinMTTFdId = 3,
-                            RelevantCCF = true,
-                            RequirementsCZ = "Random text"
+                            RelevantCCF = true
                         });
                 });
 
@@ -1129,6 +1683,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
@@ -1145,6 +1702,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Řídká až málo častá",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = "F1"
                         },
@@ -1152,6 +1710,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Častá až nepřetržitá",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = "F2"
                         });
@@ -1163,6 +1722,12 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<short>("CompareValue")
+                        .HasColumnType("smallint");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1190,6 +1755,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            CompareValue = (short)1,
+                            IsRemoved = false,
                             IsValid = true,
                             Max = (short)10,
                             Min = (short)3,
@@ -1198,6 +1765,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
+                            CompareValue = (short)2,
+                            IsRemoved = false,
                             IsValid = true,
                             Max = (short)30,
                             Min = (short)10,
@@ -1206,6 +1775,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
+                            CompareValue = (short)3,
+                            IsRemoved = false,
                             IsValid = true,
                             Max = (short)100,
                             Min = (short)30,
@@ -1228,6 +1799,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
@@ -1244,6 +1818,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Možné za určitých podmínek",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = "P1"
                         },
@@ -1251,6 +1826,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Sotva možné",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = "P2"
                         });
@@ -1262,6 +1838,12 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<short>("CompareValue")
+                        .HasColumnType("smallint");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1279,30 +1861,40 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            CompareValue = (short)1,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "a"
                         },
                         new
                         {
                             Id = 2,
+                            CompareValue = (short)2,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "b"
                         },
                         new
                         {
                             Id = 3,
+                            CompareValue = (short)3,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "c"
                         },
                         new
                         {
                             Id = 4,
+                            CompareValue = (short)4,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "d"
                         },
                         new
                         {
                             Id = 5,
+                            CompareValue = (short)5,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "e"
                         });
@@ -1323,6 +1915,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
@@ -1339,6 +1934,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Lehké",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = "S1"
                         },
@@ -1346,6 +1942,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Závažné",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = "S2"
                         });
@@ -1361,6 +1958,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<short>("Channels")
                         .HasColumnType("smallint");
 
+                    b.Property<short>("CompareValue")
+                        .HasColumnType("smallint");
+
                     b.Property<string>("DescriptionCZ")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
@@ -1374,6 +1974,9 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<short>("HFT")
                         .HasColumnType("smallint");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1407,8 +2010,10 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             Channels = (short)1,
+                            CompareValue = (short)1,
                             Diagnostic = false,
                             HFT = (short)0,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "A",
                             Logic = true,
@@ -1420,8 +2025,10 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             Channels = (short)2,
+                            CompareValue = (short)2,
                             Diagnostic = false,
                             HFT = (short)1,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "B",
                             Logic = true,
@@ -1433,8 +2040,10 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             Channels = (short)1,
+                            CompareValue = (short)3,
                             Diagnostic = true,
                             HFT = (short)0,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "C",
                             Logic = true,
@@ -1446,8 +2055,10 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             Channels = (short)2,
+                            CompareValue = (short)4,
                             Diagnostic = true,
                             HFT = (short)1,
+                            IsRemoved = false,
                             IsValid = true,
                             Label = "D",
                             Logic = true,
@@ -1473,6 +2084,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
@@ -1488,6 +2102,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Nemožné",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)5
                         },
@@ -1495,6 +2110,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Možné za určitých podmínek",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)3
                         },
@@ -1502,6 +2118,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             DescriptionCZ = "Pradvěpodobné",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)1
                         });
@@ -1523,6 +2140,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
@@ -1538,6 +2158,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             FrequencyOfThreatCZ = "<= 1h",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)5
                         },
@@ -1545,6 +2166,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             FrequencyOfThreatCZ = "> 1h až <= 1 den",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)5
                         },
@@ -1552,6 +2174,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             FrequencyOfThreatCZ = "> 1 den až <= 2 týdny",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)4
                         },
@@ -1559,6 +2182,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             FrequencyOfThreatCZ = "> 2 týdny až <= 1 rok",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)3
                         },
@@ -1566,6 +2190,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 5,
                             FrequencyOfThreatCZ = "> 1 rok",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)2
                         });
@@ -1577,6 +2202,9 @@ namespace SSEA.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
@@ -1598,6 +2226,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            IsRemoved = false,
                             IsValid = true,
                             MaxPFHd = 1E-06f,
                             MinPFHd = 1E-07f,
@@ -1606,6 +2235,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
+                            IsRemoved = false,
                             IsValid = true,
                             MaxPFHd = 1E-05f,
                             MinPFHd = 1E-06f,
@@ -1614,6 +2244,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
+                            IsRemoved = false,
                             IsValid = true,
                             MaxPFHd = 0.0001f,
                             MinPFHd = 1E-05f,
@@ -1637,6 +2268,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
@@ -1652,6 +2286,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Velmi vysoká",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)5
                         },
@@ -1659,6 +2294,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Pravděpodobná",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)4
                         },
@@ -1666,6 +2302,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             DescriptionCZ = "Možná",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)3
                         },
@@ -1673,6 +2310,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             DescriptionCZ = "Výjimečná",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)2
                         },
@@ -1680,6 +2318,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 5,
                             DescriptionCZ = "Zanedbatelná",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)1
                         });
@@ -1710,6 +2349,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
@@ -1724,26 +2366,488 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ComponentNameCZ = "Relé",
+                            ComponentNameCZ = "Spínač s nuceným vypínaním",
                             FailureModeCZ = "Kontakty nelze rozepnout",
+                            IsRemoved = false,
                             IsValid = true,
-                            Value = 10L
+                            Value = 20L
                         },
                         new
                         {
                             Id = 2,
-                            ComponentNameCZ = "Relé",
+                            ComponentNameCZ = "Spínač s nuceným vypínaním",
                             FailureModeCZ = "Kontakty nelze sepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 80L
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ComponentNameCZ = "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.",
+                            FailureModeCZ = "Kontakty nelze rozepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 50L
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ComponentNameCZ = "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.",
+                            FailureModeCZ = "Kontakty nelze sepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 50L
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ComponentNameCZ = "Relé",
+                            FailureModeCZ = "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 25L
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ComponentNameCZ = "Relé",
+                            FailureModeCZ = "Všechny kontakty zůstavají ve vypnuté poloze, je-li cívka pod napětím",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 25L
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ComponentNameCZ = "Relé",
+                            FailureModeCZ = "Kontakty nelze rozepnout",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = 10L
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 8,
                             ComponentNameCZ = "Relé",
-                            FailureModeCZ = "Současný zkrat mezi třemi kontakty přepínacího spínače",
+                            FailureModeCZ = "Kontakty nelze sepnout",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = 10L
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ComponentNameCZ = "Relé",
+                            FailureModeCZ = "Současný zkrat mezi třemi kontakty přepínacího spínače",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ComponentNameCZ = "Relé",
+                            FailureModeCZ = "Současné zapnutí zapínacího a vypínacího kontaktu",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ComponentNameCZ = "Relé",
+                            FailureModeCZ = "Zkrat medzi dvěma páry kontaktů a/nebo mezi kontakty a svorku cívky",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ComponentNameCZ = "Jistič, proudový chránič",
+                            FailureModeCZ = "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 25L
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ComponentNameCZ = "Jistič, proudový chránič",
+                            FailureModeCZ = "Všechny kontakty zůstavají ve vypnuté poloze, je-li cívka pod napětí",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 25L
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ComponentNameCZ = "Jistič, proudový chránič",
+                            FailureModeCZ = "Kontakty nelze rozepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ComponentNameCZ = "Jistič, proudový chránič",
+                            FailureModeCZ = "Kontakty nelze sepnou",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 16,
+                            ComponentNameCZ = "Jistič, proudový chránič",
+                            FailureModeCZ = "Současný zkrat medzi třemi kontakty přepínacího spínače",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 17,
+                            ComponentNameCZ = "Jistič, proudový chránič",
+                            FailureModeCZ = "Současné zapnutí zapínacího a vypínacího kontaktu",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 18,
+                            ComponentNameCZ = "Jistič, proudový chránič",
+                            FailureModeCZ = "Zkrat medzi dvěmi páry kontaktů a/nebo medzi kontakty a svorkou civky",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 19,
+                            ComponentNameCZ = "Stykač",
+                            FailureModeCZ = "Všechny kontakty zůstávají v zapnuté poloze, je-li cívka bez napětí",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 25L
+                        },
+                        new
+                        {
+                            Id = 20,
+                            ComponentNameCZ = "Stykač",
+                            FailureModeCZ = "Všeschny Kontakty zůstávajé ve vypnuté poloze, je-li cívka pod napětím",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 25L
+                        },
+                        new
+                        {
+                            Id = 21,
+                            ComponentNameCZ = "Stykač",
+                            FailureModeCZ = "Kontakty nelze rozepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 22,
+                            ComponentNameCZ = "Stykač",
+                            FailureModeCZ = "Kontakty nelze sepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 23,
+                            ComponentNameCZ = "Stykač",
+                            FailureModeCZ = "Současný zkrat medzi třemi kontakty přepínacího spínače",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 24,
+                            ComponentNameCZ = "Stykač",
+                            FailureModeCZ = "Současné zapnutí zapínacího a vypínacího kontaktu",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 25,
+                            ComponentNameCZ = "Stykač",
+                            FailureModeCZ = "Zkrat medzi dvěma páry kontaktů a/nebo medzi kontakty a svorku cívky",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 26,
+                            ComponentNameCZ = "Poistka",
+                            FailureModeCZ = "Nedojde k přtavení (zkrat)",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 27,
+                            ComponentNameCZ = "Poistka",
+                            FailureModeCZ = "Přerušený obvod",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 90L
+                        },
+                        new
+                        {
+                            Id = 28,
+                            ComponentNameCZ = "Bezdotykové spínače",
+                            FailureModeCZ = "Trvalé nízke rezistance na výstupu",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 25L
+                        },
+                        new
+                        {
+                            Id = 29,
+                            ComponentNameCZ = "Bezdotykové spínače",
+                            FailureModeCZ = "Trvalé vysoká rezistance na výstupu",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 25L
+                        },
+                        new
+                        {
+                            Id = 30,
+                            ComponentNameCZ = "Bezdotykové spínače",
+                            FailureModeCZ = "Přerušní napájaní",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 30L
+                        },
+                        new
+                        {
+                            Id = 31,
+                            ComponentNameCZ = "Bezdotykové spínače",
+                            FailureModeCZ = "Selhíni spínače vlivem mechanické poruchy",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 32,
+                            ComponentNameCZ = "Bezdotykové spínače",
+                            FailureModeCZ = "Současný zkrat mezi třemi kontakty přepínacího spínače",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 33,
+                            ComponentNameCZ = "Teplotní spínač",
+                            FailureModeCZ = "Kontakty nelze rozepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 30L
+                        },
+                        new
+                        {
+                            Id = 34,
+                            ComponentNameCZ = "Teplotní spínač",
+                            FailureModeCZ = "Kontakty nelze sepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 35,
+                            ComponentNameCZ = "Teplotní spínač",
+                            FailureModeCZ = "Zkrat medzi sousedními kontakty",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 36,
+                            ComponentNameCZ = "Teplotní spínač",
+                            FailureModeCZ = "Zkrat medzi třemi svorkami přepínacích kontaktů",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 37,
+                            ComponentNameCZ = "Teplotní spínač",
+                            FailureModeCZ = "Vada čidla",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 20L
+                        },
+                        new
+                        {
+                            Id = 38,
+                            ComponentNameCZ = "Teplotní spínač",
+                            FailureModeCZ = "Zmena měřích nebo výstupních charakteristik",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 20L
+                        },
+                        new
+                        {
+                            Id = 39,
+                            ComponentNameCZ = "Tlakový spínač",
+                            FailureModeCZ = "Kontakty nelze rozepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 30L
+                        },
+                        new
+                        {
+                            Id = 40,
+                            ComponentNameCZ = "Tlakový spínač",
+                            FailureModeCZ = "Kontakty nelze sepnout",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 41,
+                            ComponentNameCZ = "Tlakový spínač",
+                            FailureModeCZ = "Zkrat mezi sousedními kontakty",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 42,
+                            ComponentNameCZ = "Tlakový spínač",
+                            FailureModeCZ = "Současný zkat medzi třemi svorkami přepínacích kontaktů",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 43,
+                            ComponentNameCZ = "Tlakový spínač",
+                            FailureModeCZ = "Vada čidla",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 20L
+                        },
+                        new
+                        {
+                            Id = 44,
+                            ComponentNameCZ = "Tlakový spínač",
+                            FailureModeCZ = "Změna meřícich nebo výstupních charakteristik",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 20L
+                        },
+                        new
+                        {
+                            Id = 45,
+                            ComponentNameCZ = "Solenoidový ventil",
+                            FailureModeCZ = "Nelze nabudit",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 5L
+                        },
+                        new
+                        {
+                            Id = 46,
+                            ComponentNameCZ = "Solenoidový ventil",
+                            FailureModeCZ = "Nelze odbudit",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 15L
+                        },
+                        new
+                        {
+                            Id = 47,
+                            ComponentNameCZ = "Solenoidový ventil",
+                            FailureModeCZ = "Změna doby spínaní",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 5L
+                        },
+                        new
+                        {
+                            Id = 48,
+                            ComponentNameCZ = "Solenoidový ventil",
+                            FailureModeCZ = "Netěsnost",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 65L
+                        },
+                        new
+                        {
+                            Id = 49,
+                            ComponentNameCZ = "Solenoidový ventil",
+                            FailureModeCZ = "Další poruchové režimy (viz poznámka 4)",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 50,
+                            ComponentNameCZ = "Vidlice a zásuvky, konektory",
+                            FailureModeCZ = "Zkrat medzi libovolnými dvěma sousedními spoji (koliky)",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 51,
+                            ComponentNameCZ = "Vidlice a zásuvky, konektory",
+                            FailureModeCZ = "Zkrat libovolného vodiče s neživou částí",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 52,
+                            ComponentNameCZ = "Vidlice a zásuvky, konektory",
+                            FailureModeCZ = "Rozpojený obvod libovolného spoje (koliku) konektoru",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 80L
+                        },
+                        new
+                        {
+                            Id = 53,
+                            ComponentNameCZ = "Svorkovnice",
+                            FailureModeCZ = "Zkrat medzi sousedními svorkami",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 10L
+                        },
+                        new
+                        {
+                            Id = 54,
+                            ComponentNameCZ = "Svorkovnice",
+                            FailureModeCZ = "Rozpojený obvod svorek",
+                            IsRemoved = false,
+                            IsValid = true,
+                            Value = 90L
                         });
                 });
 
@@ -1763,6 +2867,9 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
@@ -1778,6 +2885,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Trvalé: smrt, ztráta oka nebo paže",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)4
                         },
@@ -1785,6 +2893,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Trvalé: zlomená končetina, ztráta prstu",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)3
                         },
@@ -1792,6 +2901,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             DescriptionCZ = "Přechodné: vyžadující ošetření praktickým lékařem",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)2
                         },
@@ -1799,6 +2909,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             DescriptionCZ = "Přechodné: vyžadující ošetření na první pomoci",
+                            IsRemoved = false,
                             IsValid = true,
                             Value = (short)1
                         });
@@ -1946,6 +3057,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<int?>("IdUpdated")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MachineId")
                         .HasColumnType("int")
                         .HasColumnName("Machine_Id");
@@ -2007,6 +3121,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<int?>("IdUpdated")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<double?>("LambdaC")
                         .HasColumnType("float");
 
@@ -2019,9 +3136,6 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<double?>("Nop")
                         .HasColumnType("float");
-
-                    b.Property<short>("OrderNum")
-                        .HasColumnType("smallint");
 
                     b.Property<int>("ProducerId")
                         .HasColumnType("int")
@@ -2088,6 +3202,9 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<int?>("IdUpdated")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<bool?>("MachineHelp")
                         .HasColumnType("bit");
@@ -2175,6 +3292,9 @@ namespace SSEA.DAL.Migrations
 
                     b.Property<int?>("IdUpdated")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -2291,6 +3411,12 @@ namespace SSEA.DAL.Migrations
                     b.Property<int?>("IdUpdated")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("MTTFdResultId")
                         .HasColumnType("int")
                         .HasColumnName("MTTFdResult_Id");
@@ -2353,6 +3479,9 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -2366,36 +3495,43 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            IsRemoved = false,
                             Name = "AccessPoint"
                         },
                         new
                         {
                             Id = 2,
+                            IsRemoved = false,
                             Name = "Element"
                         },
                         new
                         {
                             Id = 3,
+                            IsRemoved = false,
                             Name = "Machine"
                         },
                         new
                         {
                             Id = 4,
+                            IsRemoved = false,
                             Name = "Producer"
                         },
                         new
                         {
                             Id = 5,
+                            IsRemoved = false,
                             Name = "SafetyFunction"
                         },
                         new
                         {
                             Id = 6,
+                            IsRemoved = false,
                             Name = "Subsystem"
                         },
                         new
                         {
                             Id = 7,
+                            IsRemoved = false,
                             Name = "User"
                         });
                 });
@@ -2423,6 +3559,9 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("InitialState")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
 
                     b.Property<string>("NameCZ")
@@ -2455,6 +3594,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 3,
                             FinalState = false,
                             InitialState = true,
+                            IsRemoved = false,
                             NameCZ = "Nová",
                             NameEN = "New",
                             StateNumber = 1,
@@ -2468,6 +3608,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 3,
                             FinalState = false,
                             InitialState = false,
+                            IsRemoved = false,
                             NameCZ = "Rozpracovaná",
                             NameEN = "Work in progres",
                             StateNumber = 2,
@@ -2481,6 +3622,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 3,
                             FinalState = false,
                             InitialState = false,
+                            IsRemoved = false,
                             NameCZ = "Dokončená",
                             NameEN = "Completed",
                             StateNumber = 3,
@@ -2494,6 +3636,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 3,
                             FinalState = true,
                             InitialState = false,
+                            IsRemoved = false,
                             NameCZ = "Odstránená",
                             NameEN = "Removed",
                             StateNumber = 4,
@@ -2507,6 +3650,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 1,
                             FinalState = false,
                             InitialState = true,
+                            IsRemoved = false,
                             NameCZ = "Nový",
                             NameEN = "New",
                             StateNumber = 1,
@@ -2520,6 +3664,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 1,
                             FinalState = false,
                             InitialState = false,
+                            IsRemoved = false,
                             NameCZ = "Ošetřený bezpečnostní funkcí",
                             NameEN = "Protected with safety function",
                             StateNumber = 2,
@@ -2533,6 +3678,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 1,
                             FinalState = true,
                             InitialState = false,
+                            IsRemoved = false,
                             NameCZ = "Odstránený",
                             NameEN = "Removed",
                             StateNumber = 3,
@@ -2546,6 +3692,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 5,
                             FinalState = false,
                             InitialState = true,
+                            IsRemoved = false,
                             NameCZ = "Nová",
                             NameEN = "New",
                             StateNumber = 1,
@@ -2559,6 +3706,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 5,
                             FinalState = false,
                             InitialState = false,
+                            IsRemoved = false,
                             NameCZ = "Rozpracovaná",
                             NameEN = "Work in progress",
                             StateNumber = 2,
@@ -2572,6 +3720,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 5,
                             FinalState = false,
                             InitialState = false,
+                            IsRemoved = false,
                             NameCZ = "Dokončená",
                             NameEN = "Completed",
                             StateNumber = 3,
@@ -2585,6 +3734,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 5,
                             FinalState = false,
                             InitialState = false,
+                            IsRemoved = false,
                             NameCZ = "Odstránená",
                             NameEN = "Removed",
                             StateNumber = 4,
@@ -2596,6 +3746,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 7,
                             FinalState = false,
                             InitialState = true,
+                            IsRemoved = false,
                             NameCZ = "Aktivní",
                             NameEN = "Active",
                             StateNumber = 1,
@@ -2607,6 +3758,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 7,
                             FinalState = false,
                             InitialState = false,
+                            IsRemoved = false,
                             NameCZ = "Zablokovaný",
                             NameEN = "Blocked",
                             StateNumber = 2,
@@ -2618,6 +3770,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 6,
                             FinalState = false,
                             InitialState = true,
+                            IsRemoved = false,
                             NameCZ = "Nový",
                             NameEN = "New",
                             StateNumber = 1,
@@ -2629,6 +3782,7 @@ namespace SSEA.DAL.Migrations
                             EntityId = 2,
                             FinalState = false,
                             InitialState = true,
+                            IsRemoved = false,
                             NameCZ = "Nový",
                             NameEN = "New",
                             StateNumber = 1,
@@ -2646,6 +3800,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<int>("CurrentStateId")
                         .HasColumnType("int")
                         .HasColumnName("CurrentState_Id");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
 
                     b.Property<int>("NextStateId")
                         .HasColumnType("int")
