@@ -77,7 +77,8 @@ namespace SSEA.BL.Services.Implementations
             subsystem.PLresult = await GetPLAsync(subsystem.Category, subsystem.MTTFdResult, subsystem.DCresult);
         }
 
-        // TODO: complete implementation
+        // TODO: remove comparing of ID EVERYWHERE in this service !!!
+
         /// <summary>
         /// Method for evaluation of whole safety function
         /// </summary>
@@ -86,11 +87,11 @@ namespace SSEA.BL.Services.Implementations
         public async Task EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction)
         {
             if (safetyFunction.InputSubsystem is null)
-                throw new Exception("Missing input subsystem");
+                throw new Exception("Input subsystem is missing");
             if (safetyFunction.LogicSubsystem is null)
-                throw new Exception("Missing logical subsystem");
+                throw new Exception("Logical subsystem is missing");
             if (safetyFunction.OutputSubsystem is null)
-                throw new Exception("Missing output subsystem");
+                throw new Exception("Output subsystem is missing");
 
             CategoryModel worstCategory = GetWorstCategory(safetyFunction);
             if (worstCategory is null)
@@ -102,26 +103,26 @@ namespace SSEA.BL.Services.Implementations
             // Evalaution with upper limit values
             mttfd = await GetMTTFdForSafetyFunctionAsync(safetyFunction, true);
             if (mttfd is null)
-                throw new Exception("Unable to determine MTTFd using upper limit value");
+                throw new Exception("Unable to determine MTTFd using upper limit values");
             dcAvg = await GetDCForSafetyFunctionAsync(safetyFunction, true);
             if (dcAvg is null)
-                throw new Exception("Unable to determine DC using upper limit value");
+                throw new Exception("Unable to determine DC using upper limit values");
 
             PLModel upperLimitPL = await GetPLAsync(worstCategory, mttfd, dcAvg);
             if (upperLimitPL is null)
-                throw new Exception("Unable to determine resultant PL using upper limit value");
+                throw new Exception("Unable to determine resultant PL using upper limit values");
 
             // Evaluation with lower limit values
             mttfd = await GetMTTFdForSafetyFunctionAsync(safetyFunction, false);
             if (mttfd is null)
-                throw new Exception("Unable to determine MTTFd using lower limit value");
+                throw new Exception("Unable to determine MTTFd using lower limit values");
             dcAvg = await GetDCForSafetyFunctionAsync(safetyFunction, false);
             if (dcAvg is null)
-                throw new Exception("Unable to determine DC using lower limit value");
+                throw new Exception("Unable to determine DC using lower limit values");
 
             PLModel lowerLimitPL = await GetPLAsync(worstCategory, mttfd, dcAvg);
             if (lowerLimitPL is null)
-                throw new Exception("Unable to determine resultant PL using lower limit value");
+                throw new Exception("Unable to determine resultant PL using lower limit values");
 
             safetyFunction.PLresult = (upperLimitPL.Id > lowerLimitPL.Id) ? upperLimitPL : lowerLimitPL;
 
@@ -134,6 +135,11 @@ namespace SSEA.BL.Services.Implementations
 
         #region Private methods
 
+        /// <summary>
+        /// Method for selection of the worst category from used subsystems
+        /// </summary>
+        /// <param name="safetyFunction"> Evaluated safety function </param>
+        /// <returns> The worst category from used subsystems </returns>
         private CategoryModel GetWorstCategory(SafetyFunctionDetailModelPL safetyFunction)
         {
             var categories = new List<CategoryModel>();
@@ -148,89 +154,74 @@ namespace SSEA.BL.Services.Implementations
             return categories.First(c => c.Id == minId);
         }
 
+        /// <summary>
+        /// Method for calculation of MTTFd for whole safety function
+        /// </summary>
+        /// <param name="safetyFunction"> Evaluated safety function </param>
+        /// <param name="upperLimit"> Information, if upper or lower limit of MTTFd range should be used for calculation </param>
+        /// <returns> Calculated MTTFd </returns>
         private async Task<MTTFdModel> GetMTTFdForSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction, bool upperLimit)
         {
+            var inputMttfd = (upperLimit == true) ? safetyFunction.InputSubsystem.MTTFdResult.Max : safetyFunction.InputSubsystem.MTTFdResult.Min;
+            var logicMttfd = (upperLimit == true) ? safetyFunction.LogicSubsystem.MTTFdResult.Max : safetyFunction.LogicSubsystem.MTTFdResult.Min;
+            var outputMttfd = (upperLimit == true) ? safetyFunction.OutputSubsystem.MTTFdResult.Max : safetyFunction.OutputSubsystem.MTTFdResult.Min;
+            var com1Mttfd = (upperLimit == true) ? safetyFunction.Communication1Subsystem?.MTTFdResult.Max : safetyFunction.Communication1Subsystem?.MTTFdResult.Min;
+            var com2Mttfd = (upperLimit == true) ? safetyFunction.Communication2Subsystem?.MTTFdResult.Max : safetyFunction.Communication2Subsystem?.MTTFdResult.Min;
+
             double temp = 0;
-            if (upperLimit)
-            {
-                temp += 1 / safetyFunction.InputSubsystem.MTTFdResult.Max;
-                temp += 1 / safetyFunction.LogicSubsystem.MTTFdResult.Max;
-                temp += 1 / safetyFunction.OutputSubsystem.MTTFdResult.Max;
+            temp += 1 / inputMttfd;
+            temp += 1 / logicMttfd;
+            temp += 1 / outputMttfd;
+            if (com1Mttfd is not null)
+                temp += 1 / (double)com1Mttfd;
+            if (com2Mttfd is not null)
+                temp += 1 / (double)com2Mttfd;
 
-                var com1MTTFd = safetyFunction.Communication1Subsystem?.MTTFdResult.Max;
-                if (com1MTTFd is not null)
-                    temp += 1 / (double)com1MTTFd;
-
-                var com2MTTFd = safetyFunction.Communication2Subsystem?.MTTFdResult.Max;
-                if (com2MTTFd is not null)
-                    temp += 1 / (double)com2MTTFd;
-            }
-            else
-            {
-                temp += 1 / safetyFunction.InputSubsystem.MTTFdResult.Min;
-                temp += 1 / safetyFunction.LogicSubsystem.MTTFdResult.Min;
-                temp += 1 / safetyFunction.OutputSubsystem.MTTFdResult.Min;
-
-                var com1MTTFd = safetyFunction.Communication1Subsystem?.MTTFdResult.Min;
-                if (com1MTTFd is not null)
-                    temp += 1 / (double)com1MTTFd;
-
-                var com2MTTFd = safetyFunction.Communication2Subsystem?.MTTFdResult.Min;
-                if (com2MTTFd is not null)
-                    temp += 1 / (double)com2MTTFd;
-            }
             var mttfdResult =  1 / temp;
             return mapper.Map<MTTFdModel>(await dbContext.MTTFds.AsNoTracking().FirstOrDefaultAsync(m => m.Max >= mttfdResult && m.Min <= mttfdResult));
         }
 
+        /// <summary>
+        /// Method for calculation of DC for whole safety function
+        /// </summary>
+        /// <param name="safetyFunction"> Evaluated safety function </param>
+        /// <param name="upperLimit"> Information, if upper or lower limit of DC range should be used for calculation </param>
+        /// <returns> Calculated DC </returns>
         private async Task<DCModel> GetDCForSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction, bool upperLimit = true)
         {
+            var inputMttfd = (upperLimit == true) ? safetyFunction.InputSubsystem.MTTFdResult.Max : safetyFunction.InputSubsystem.MTTFdResult.Min;
+            var logicMttfd = (upperLimit == true) ? safetyFunction.LogicSubsystem.MTTFdResult.Max : safetyFunction.LogicSubsystem.MTTFdResult.Min;
+            var outputMttfd = (upperLimit == true) ? safetyFunction.OutputSubsystem.MTTFdResult.Max : safetyFunction.OutputSubsystem.MTTFdResult.Min;
+            var com1Mttfd = (upperLimit == true) ? safetyFunction.Communication1Subsystem?.MTTFdResult.Max : safetyFunction.Communication1Subsystem?.MTTFdResult.Min;
+            var com2Mttfd = (upperLimit == true) ? safetyFunction.Communication2Subsystem?.MTTFdResult.Max : safetyFunction.Communication2Subsystem?.MTTFdResult.Min;
+
+            var inputDc = (upperLimit == true) ? safetyFunction.InputSubsystem.DCresult.Max : safetyFunction.InputSubsystem.DCresult.Min;
+            var logicDc = (upperLimit == true) ? safetyFunction.LogicSubsystem.DCresult.Max : safetyFunction.LogicSubsystem.DCresult.Min;
+            var outputDc = (upperLimit == true) ? safetyFunction.OutputSubsystem.DCresult.Max : safetyFunction.OutputSubsystem.DCresult.Min;
+            var com1Dc = (upperLimit == true) ? safetyFunction.Communication1Subsystem?.DCresult.Max : safetyFunction.Communication1Subsystem?.DCresult.Min;
+            var com2Dc = (upperLimit == true) ? safetyFunction.Communication2Subsystem?.DCresult.Max : safetyFunction.Communication2Subsystem?.DCresult.Min;
+
             double denominator = 0;
             double numerator = 0;
-            if (upperLimit)
-            {
-                denominator += 1 / safetyFunction.InputSubsystem.MTTFdResult.Max;
-                denominator += 1 / safetyFunction.LogicSubsystem.MTTFdResult.Max;
-                denominator += 1 / safetyFunction.OutputSubsystem.MTTFdResult.Max;
-                numerator += safetyFunction.InputSubsystem.DCresult.Max / safetyFunction.InputSubsystem.MTTFdResult.Max;
-                numerator += safetyFunction.LogicSubsystem.DCresult.Max / safetyFunction.LogicSubsystem.MTTFdResult.Max;
-                numerator += safetyFunction.OutputSubsystem.DCresult.Max / safetyFunction.OutputSubsystem.MTTFdResult.Max;
 
-                var com1MTTFd = safetyFunction.Communication1Subsystem?.MTTFdResult.Max;
-                if (com1MTTFd is not null)
-                {
-                    denominator += 1 / (double)com1MTTFd;
-                    numerator += safetyFunction.Communication1Subsystem.DCresult.Max / safetyFunction.Communication1Subsystem.MTTFdResult.Max;
-                }
-                var com2MTTFd = safetyFunction.Communication2Subsystem?.MTTFdResult.Max;
-                if (com2MTTFd is not null)
-                {
-                    denominator += 1 / (double)com2MTTFd;
-                    numerator += safetyFunction.Communication2Subsystem.DCresult.Max / safetyFunction.Communication2Subsystem.MTTFdResult.Max;
-                }
-            }
-            else
-            {
-                denominator += 1 / safetyFunction.InputSubsystem.MTTFdResult.Min;
-                denominator += 1 / safetyFunction.LogicSubsystem.MTTFdResult.Min;
-                denominator += 1 / safetyFunction.OutputSubsystem.MTTFdResult.Min;
-                numerator += safetyFunction.InputSubsystem.DCresult.Min / safetyFunction.InputSubsystem.MTTFdResult.Min;
-                numerator += safetyFunction.LogicSubsystem.DCresult.Min / safetyFunction.LogicSubsystem.MTTFdResult.Min;
-                numerator += safetyFunction.OutputSubsystem.DCresult.Min / safetyFunction.OutputSubsystem.MTTFdResult.Min;
+            denominator += 1 / inputMttfd;
+            denominator += 1 / logicMttfd;
+            denominator += 1 / outputMttfd;
+            numerator += inputDc / inputMttfd;
+            numerator += logicDc / logicMttfd;
+            numerator += outputDc / outputMttfd;
 
-                var com1MTTFd = safetyFunction.Communication1Subsystem?.MTTFdResult.Min;
-                if (com1MTTFd is not null)
-                {
-                    denominator += 1 / (double)com1MTTFd;
-                    numerator += safetyFunction.Communication1Subsystem.DCresult.Min / safetyFunction.Communication1Subsystem.MTTFdResult.Min;
-                }
-                var com2MTTFd = safetyFunction.Communication2Subsystem?.MTTFdResult.Min;
-                if (com2MTTFd is not null)
-                {
-                    denominator += 1 / (double)com2MTTFd;
-                    numerator += safetyFunction.Communication2Subsystem.DCresult.Min / safetyFunction.Communication2Subsystem.MTTFdResult.Min;
-                }
+            if (com1Mttfd is not null)
+            {
+                denominator += 1 / (double)com1Mttfd;
+                numerator += safetyFunction.Communication1Subsystem.DCresult.Max / (double)com1Mttfd;
             }
+            if (com2Mttfd is not null)
+            {
+                denominator += 1 / (double)com2Mttfd;
+                numerator += safetyFunction.Communication2Subsystem.DCresult.Max / (double)com2Mttfd;
+            }
+
             double dcResult = numerator / denominator;
             return mapper.Map<DCModel>(await dbContext.DCs.AsNoTracking().FirstOrDefaultAsync(d => d.Max >= dcResult && d.Min <= dcResult));
         }
