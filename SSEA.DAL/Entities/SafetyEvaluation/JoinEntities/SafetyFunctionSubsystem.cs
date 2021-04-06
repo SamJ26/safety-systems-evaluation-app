@@ -9,8 +9,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     [Table("SafetyFunctionSubsystem")]
     public class SafetyFunctionSubsystem : EntityBase
     {
-        public bool IsRemoved { get; set; } = false;
-
         [Column("SafetyFunction_Id")]
         public int SafetyFunctionId { get; set; }
 

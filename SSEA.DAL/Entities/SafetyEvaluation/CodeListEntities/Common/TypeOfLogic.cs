@@ -31,6 +31,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         public int? AccessPointsMaxCount { get; set; }
         public uint? EthernetAdressesMaxCount { get; set; }
 
+        [Column("Subsystem_Id")]
+        public int SubsystemId { get; set; }
+
         [Column("MaxPL_Id")]
         public int MaxPLId { get; set; }
         public PerformanceLevel MaxPL { get; set; }
@@ -45,6 +48,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         [Column("MaxArchitecture_Id")]
         public int MaxArchitectureId { get; set; }
-        public Architecture MaxArchitecture { get; set; }
+        public Architecture MaxArchitecture { get; set; }      
     }
 }

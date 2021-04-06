@@ -825,6 +825,11 @@ namespace SSEA.DAL
                 {
                     Id = 4,
                     NameCZ = "elektromechanický",
+                },
+                new OperationPrinciple()
+                {
+                    Id = 5,
+                    NameCZ = "hydraulický",
                 }
             );
 
@@ -1013,10 +1018,62 @@ namespace SSEA.DAL
                 {
                     Id = 3,
                     NameCZ = "Funkce místního ovládaní",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 4,
+                    NameCZ = "Funkce spuštení/opětovného spuštení",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 5,
+                    NameCZ = "Funkce vyřazení",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 6,
+                    NameCZ = "Funkce tipování",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 7,
+                    NameCZ = "Funkce povelového zařízení",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 8,
+                    NameCZ = "Funkce zamezení neočekávaného spuštění",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 9,
+                    NameCZ = "Únik a uvolnění zachycených osob",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 10,
+                    NameCZ = "Funkce odpojení a uvolnění energie",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 11,
+                    NameCZ = "Režimy ovládání a volba režimu",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 12,
+                    NameCZ = "Vzájemné púsobení rúzných bezpečnostních částí ovládacího systému",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 13,
+                    NameCZ = "Monitorování parametrizace hodnot bezpečnostního vstupu",
+                },
+                new TypeOfFunction()
+                {
+                    Id = 14,
+                    NameCZ = "Funkce nouzového zastavení",
                 }
-
-                // TODO: supply all data
-
             );
 
             modelBuilder.Entity<TypeOfLogic>().HasData(

@@ -2,17 +2,15 @@
 using SSEA.BL.Extensions;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class SubsystemDetailModelPL : ExtendedModelBase
     {
+        public bool IsUsed { get; set; } = false;
         public bool ValidCCF { get; set; }
 
         [Required]

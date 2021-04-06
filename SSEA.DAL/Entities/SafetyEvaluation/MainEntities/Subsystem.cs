@@ -2,14 +2,16 @@
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 {
     [Table("Subsystem")]
     public class Subsystem : ExtendedEntityBase
     {
+        public bool IsUsed { get; set; } = false;
+
         [Column("TypeOfSubsystem_Id")]
         public int TypeOfSubsystemId { get; set; }
         public TypeOfSubsystem TypeOfSubsystem { get; set; }

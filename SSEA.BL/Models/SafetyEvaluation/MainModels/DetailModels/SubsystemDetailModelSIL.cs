@@ -10,6 +10,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class SubsystemDetailModelSIL : ExtendedModelBase
     {
+        public bool IsUsed { get; set; } = false;
         public double T1 { get; set; }
         public double T2 { get; set; }
         public double SFFresult { get; set; }

@@ -9,8 +9,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     [Table("AccessPointSafetyFunction")]
     public class AccessPointSafetyFunction : EntityBase
     {
-        public bool IsRemoved { get; set; } = false;
-
         [Column("AccessPoint_Id")]
         public int AccessPointId { get; set; }
 

@@ -10,7 +10,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
     [Table("Element")]
     public class Element : ExtendedEntityBase
     {
-        public short OrderNum { get; set; }
         public double? B10d { get; set; }
 
         [StringLength(50)]

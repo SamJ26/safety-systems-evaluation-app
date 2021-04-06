@@ -10,8 +10,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.JoinEntities
     [Table("MachineNorm")]
     public class MachineNorm : EntityBase
     {
-        public bool IsRemoved { get; set; } = false;
-
         [Column("Machine_Id")]
         public int MachineId { get; set; }
 

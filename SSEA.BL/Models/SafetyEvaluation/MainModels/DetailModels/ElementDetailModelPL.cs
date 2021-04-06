@@ -8,7 +8,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class ElementDetailModelPL : ExtendedModelBase
     {
-        public short OrderNum { get; set; }
         public double B10d { get; set; }
         public string CatalogNumber { get; set; }
         public double Nop { get; set; }
