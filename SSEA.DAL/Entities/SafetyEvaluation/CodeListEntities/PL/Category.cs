@@ -34,8 +34,9 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
         public string FailureBehaviorEN { get; set; }
 
         public bool Logic { get; set; }
-        public short Channels { get; set; }
         public bool RelevantCCF { get; set; }
+        public short Channels { get; set; }
+        public short CompareValue { get; set; }
 
         [Column("MinMTTFd_Id")]
         public int MinMTTFdId { get; set; }

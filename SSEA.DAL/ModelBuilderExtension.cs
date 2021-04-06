@@ -12,7 +12,6 @@ namespace SSEA.DAL
         public static void SeedData(this ModelBuilder modelBuilder)
         {
             // TODO: validate data by competent person
-            // TODO: replace fake data in Category
 
             #region Data for SIL methodics
 
@@ -286,26 +285,31 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     Label = "a",
+                    CompareValue = 1,
                 },
                 new PerformanceLevel()
                 {
                     Id = 2,
                     Label = "b",
+                    CompareValue = 2,
                 },
                 new PerformanceLevel()
                 {
                     Id = 3,
                     Label = "c",
+                    CompareValue = 3,
                 },
                 new PerformanceLevel()
                 {
                     Id = 4,
                     Label = "d",
+                    CompareValue = 4,
                 },
                 new PerformanceLevel()
                 {
                     Id = 5,
                     Label = "e",
+                    CompareValue = 5,
                 }
             );
 
@@ -316,6 +320,7 @@ namespace SSEA.DAL
                     ValueCZ = "Krátká",
                     Min = 3,
                     Max = 10,
+                    CompareValue = 1,
                 },
                 new MTTFd()
                 {
@@ -323,6 +328,7 @@ namespace SSEA.DAL
                     ValueCZ = "Střední",
                     Min = 10,
                     Max = 30,
+                    CompareValue = 2,
                 },
                 new MTTFd()
                 {
@@ -330,6 +336,7 @@ namespace SSEA.DAL
                     ValueCZ = "Dlouhá",
                     Min = 30,
                     Max = 100,
+                    CompareValue = 3,
                 }
             );
 
@@ -338,9 +345,6 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     Label = "B",
-                    DescriptionCZ = "Random text",
-                    RequirementsCZ = "Random text",
-                    FailureBehaviorCZ = "Random text",
                     Logic = true,
                     Channels = 1,
                     RelevantCCF = false,
@@ -348,14 +352,12 @@ namespace SSEA.DAL
                     MaxMTTFdId = 2,
                     MinDCId = 1,
                     MaxDCId = 1,
+                    CompareValue = 1,
                 },
                 new Category()
                 {
                     Id = 2,
                     Label = "1",
-                    DescriptionCZ = "Random text",
-                    RequirementsCZ = "Random text",
-                    FailureBehaviorCZ = "Random text",
                     Logic = true,
                     Channels = 1,
                     RelevantCCF = false,
@@ -363,14 +365,12 @@ namespace SSEA.DAL
                     MaxMTTFdId = 3,
                     MinDCId = 1,
                     MaxDCId = 1,
+                    CompareValue = 2,
                 },
                 new Category()
                 {
                     Id = 3,
                     Label = "2",
-                    DescriptionCZ = "Random text",
-                    RequirementsCZ = "Random text",
-                    FailureBehaviorCZ = "Random text",
                     Logic = true,
                     Channels = 1,
                     RelevantCCF = true,
@@ -378,14 +378,12 @@ namespace SSEA.DAL
                     MaxMTTFdId = 3,
                     MinDCId = 2,
                     MaxDCId = 3,
+                    CompareValue = 3,
                 },
                 new Category()
                 {
                     Id = 4,
                     Label = "3",
-                    DescriptionCZ = "Random text",
-                    RequirementsCZ = "Random text",
-                    FailureBehaviorCZ = "Random text",
                     Logic = true,
                     Channels = 2,
                     RelevantCCF = true,
@@ -393,14 +391,12 @@ namespace SSEA.DAL
                     MaxMTTFdId = 3,
                     MinDCId = 2,
                     MaxDCId = 3,
+                    CompareValue = 4,
                 },
                 new Category()
                 {
                     Id = 5,
                     Label = "4",
-                    DescriptionCZ = "Random text",
-                    RequirementsCZ = "Random text",
-                    FailureBehaviorCZ = "Random text",
                     Logic = true,
                     Channels = 2,
                     RelevantCCF = true,
@@ -408,6 +404,7 @@ namespace SSEA.DAL
                     MaxMTTFdId = 3,
                     MinDCId = 4,
                     MaxDCId = 4,
+                    CompareValue = 5,
                 }
             );
 
@@ -420,21 +417,31 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     NameCZ = "Vstupní",
+                    NameEN = "Input",
                 },
                 new TypeOfSubsystem()
                 {
                     Id = 2,
                     NameCZ = "Výstupní",
+                    NameEN = "Output",
                 },
                 new TypeOfSubsystem()
                 {
                     Id = 3,
                     NameCZ = "Logický",
+                    NameEN = "Logical",
                 },
                 new TypeOfSubsystem()
                 {
                     Id = 4,
-                    NameCZ = "Komunikační",
+                    NameCZ = "Komunikace vstup-logika",
+                    NameEN = "Input-logic comminucation",
+                },
+                new TypeOfSubsystem()
+                {
+                    Id = 5,
+                    NameCZ = "Komunikace výstup-logika",
+                    NameEN = "Output-logic comminucation",
                 }
             );
 
@@ -466,19 +473,16 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     NameCZ = "Jednoúčelový stroj",
-                    DescriptionCZ = "Nějaký popis",
                 },
                 new MachineType()
                 {
                     Id = 2,
                     NameCZ = "Víceúčelový stroj",
-                    DescriptionCZ = "Nějaký popis",
                 },
                 new MachineType()
                 {
                     Id = 3,
                     NameCZ = "Montážní linka",
-                    DescriptionCZ = "Nějaký popis",
                 }
 
                 // TODO: supply all data
@@ -539,6 +543,7 @@ namespace SSEA.DAL
                     ValueCZ = "Žádné",
                     Min = 0,
                     Max = 60,
+                    CompareValue = 1,
                 },
                 new DC()
                 {
@@ -546,6 +551,7 @@ namespace SSEA.DAL
                     ValueCZ = "Nízké",
                     Min = 60,
                     Max = 90,
+                    CompareValue = 2,
                 },
                 new DC()
                 {
@@ -553,6 +559,7 @@ namespace SSEA.DAL
                     ValueCZ = "Střední",
                     Min = 90,
                     Max = 99,
+                    CompareValue = 3,
                 },
                 new DC()
                 {
@@ -560,6 +567,7 @@ namespace SSEA.DAL
                     ValueCZ = "Vysoké",
                     Min = 99,
                     Max = 100,
+                    CompareValue = 4,
                 }
             );
 
