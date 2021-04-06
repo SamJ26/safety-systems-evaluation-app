@@ -16,8 +16,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
         public string Requirements { get; set; }
         public string FailureBehavior { get; set; }
         public bool Logic { get; set; }
-        public short Channels { get; set; }
         public bool RelevantCCF { get; set; }
+        public short Channels { get; set; }
+        public short CompareValue { get; set; }
         public MTTFdModel MinMTTFd { get; set; }
         public MTTFdModel MaxMTTFd { get; set; }
         public DCModel MinDC { get; set; }

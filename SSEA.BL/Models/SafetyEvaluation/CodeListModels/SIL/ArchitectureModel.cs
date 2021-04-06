@@ -14,10 +14,11 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
         public string Description { get; set; }
         public bool Logic { get; set; }
         public bool Diagnostic { get; set; }
+        public short HFT { get; set; }
         public short Channels { get; set; }
+        public short CompareValue { get; set; }
         public double MinSFF { get; set; }
         public double MaxSFF { get; set; }
-        public short HFT { get; set; }
         public PFHdModel MaxPFHd { get; set; }
     }
 

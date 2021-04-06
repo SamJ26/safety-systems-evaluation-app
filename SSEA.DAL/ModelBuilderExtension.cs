@@ -192,6 +192,7 @@ namespace SSEA.DAL
                     MaxSFF = 99,
                     HFT = 0,
                     MaxPFHdId = 1,
+                    CompareValue = 1,
                 },
                 new Architecture()
                 {
@@ -204,6 +205,7 @@ namespace SSEA.DAL
                     MaxSFF = 99,
                     HFT = 1,
                     MaxPFHdId = 1,
+                    CompareValue = 2,
                 },
                 new Architecture()
                 {
@@ -216,6 +218,7 @@ namespace SSEA.DAL
                     MaxSFF = 99,
                     HFT = 0,
                     MaxPFHdId = 1,
+                    CompareValue = 3,
                 },
                 new Architecture()
                 {
@@ -228,6 +231,7 @@ namespace SSEA.DAL
                     MaxSFF = 99,
                     HFT = 1,
                     MaxPFHdId = 1,
+                    CompareValue = 4,
                 }
             );
 
@@ -770,8 +774,15 @@ namespace SSEA.DAL
                 {
                     Id = 3,
                     IsValid = true,
-                    Name = "Administrator",
-                    NormalizedName = "ADMINISTRATOR",
+                    Name = "SafetyEvaluationAdmin",
+                    NormalizedName = "SAFETYEVALUATIONADMIN",
+                },
+                new Role()
+                {
+                    Id = 3,
+                    IsValid = true,
+                    Name = "UserAdmin",
+                    NormalizedName = "USERADMIN",
                 }
             );
 

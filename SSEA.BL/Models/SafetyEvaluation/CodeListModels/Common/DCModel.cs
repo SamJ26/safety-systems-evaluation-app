@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
 {
@@ -13,6 +9,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
         public string Value { get; set; }
         public short Min { get; set; }
         public short Max { get; set; }
+        public short CompareValue { get; set; }
     }
 
     public class DCModelMapperProfile : Profile

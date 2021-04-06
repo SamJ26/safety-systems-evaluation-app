@@ -11,6 +11,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
     public class PLModel : CodeListModelBase
     {
         public string Label { get; set; }
+        public short CompareValue { get; set; }
     }
 
     public class PLModelMapperProfile : Profile

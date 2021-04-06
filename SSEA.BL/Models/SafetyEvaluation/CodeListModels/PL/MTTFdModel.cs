@@ -13,6 +13,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
         public string Value { get; set; }
         public short Min { get; set; }
         public short Max { get; set; }
+        public short CompareValue { get; set; }
     }
 
     public class MTTFdModelMapperProfile : Profile
