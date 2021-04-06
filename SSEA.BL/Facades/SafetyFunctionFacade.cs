@@ -38,11 +38,9 @@ namespace SSEA.BL.Facades
 
             // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
             safetyFunction.InputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 1);
-            var com1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
-            safetyFunction.Communication1Subsystem = com1Subsystem;
-            subsystems.Remove(com1Subsystem);
+            safetyFunction.Communication1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
             safetyFunction.LogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 3);
-            safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
+            safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 5);
             safetyFunction.OutputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 2);
 
             return safetyFunction;
@@ -53,13 +51,11 @@ namespace SSEA.BL.Facades
             SafetyFunctionDetailModelSIL safetyFunction = mapper.Map<SafetyFunctionDetailModelSIL>(await safetyFunctionRepository.GetByIdSILAsync(id));
             var subsystems = mapper.Map<ICollection<SubsystemDetailModelSIL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionSILAsync(id));
 
-            // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelSIL
+            // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
             safetyFunction.InputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 1);
-            var com1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
-            safetyFunction.Communication1Subsystem = com1Subsystem;
-            subsystems.Remove(com1Subsystem);
+            safetyFunction.Communication1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
             safetyFunction.LogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 3);
-            safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
+            safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 5);
             safetyFunction.OutputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 2);
 
             return safetyFunction;
