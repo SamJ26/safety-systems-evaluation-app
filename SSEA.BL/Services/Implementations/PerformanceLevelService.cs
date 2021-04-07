@@ -77,8 +77,6 @@ namespace SSEA.BL.Services.Implementations
             subsystem.PLresult = await GetPLAsync(subsystem.Category, subsystem.MTTFdResult, subsystem.DCresult);
         }
 
-        // TODO: remove comparing of ID EVERYWHERE in this service !!!
-
         /// <summary>
         /// Method for evaluation of whole safety function
         /// </summary>
@@ -124,10 +122,10 @@ namespace SSEA.BL.Services.Implementations
             if (lowerLimitPL is null)
                 throw new Exception("Unable to determine resultant PL using lower limit values");
 
-            safetyFunction.PLresult = (upperLimitPL.Id > lowerLimitPL.Id) ? upperLimitPL : lowerLimitPL;
+            safetyFunction.PLresult = (upperLimitPL.CompareValue > lowerLimitPL.CompareValue) ? upperLimitPL : lowerLimitPL;
 
             // Check if PL result is bigger or equal to required PL
-            if (safetyFunction.PLresult.Id < safetyFunction.PLr.Id)
+            if (safetyFunction.PLresult.CompareValue < safetyFunction.PLr.CompareValue)
                 throw new Exception($"Resultant PL is not big enough! [Required PL = {safetyFunction.PLr.Label}] > [Resultant PL = {safetyFunction.PLresult.Label}]");
         }
 
@@ -142,16 +140,20 @@ namespace SSEA.BL.Services.Implementations
         /// <returns> The worst category from used subsystems </returns>
         private CategoryModel GetWorstCategory(SafetyFunctionDetailModelPL safetyFunction)
         {
-            var categories = new List<CategoryModel>();
-            categories.Add(safetyFunction.InputSubsystem.Category);
-            categories.Add(safetyFunction.LogicSubsystem.Category);
-            categories.Add(safetyFunction.OutputSubsystem.Category);
-            if (safetyFunction.Communication1Subsystem.Category is not null)
-                categories.Add(safetyFunction.Communication1Subsystem.Category);
-            if (safetyFunction.Communication2Subsystem.Category is not null)
-                categories.Add(safetyFunction.Communication2Subsystem.Category);
-            int minId = categories.Min(c => c.Id);
-            return categories.First(c => c.Id == minId);
+            var worstCateogry = safetyFunction.InputSubsystem.Category;
+
+            if (safetyFunction.Communication1Subsystem is not null)
+                if (safetyFunction.Communication1Subsystem.Category.CompareValue < worstCateogry.CompareValue)
+                    worstCateogry = safetyFunction.Communication1Subsystem.Category;
+
+            if (safetyFunction.Communication2Subsystem is not null)
+                if (safetyFunction.Communication2Subsystem.Category.CompareValue < worstCateogry.CompareValue)
+                    worstCateogry = safetyFunction.Communication2Subsystem.Category;
+
+            if (safetyFunction.OutputSubsystem.Category.CompareValue < worstCateogry.CompareValue)
+                worstCateogry = safetyFunction.OutputSubsystem.Category;
+
+            return worstCateogry;
         }
 
         /// <summary>
@@ -241,11 +243,11 @@ namespace SSEA.BL.Services.Implementations
                 throw new Exception("CCF is not valid!");
 
             // Validation of MTTFd
-            if (subsystem.Category.MinMTTFd.Min > subsystem.MTTFdResult.Min)
+            if (subsystem.Category.MinMTTFd.CompareValue > subsystem.MTTFdResult.CompareValue)
                 throw new Exception("Resultant value of MTTFd is not valid for given category");
 
             // Validation of DC
-            if (subsystem.Category.MinDC.Min > subsystem.DCresult.Min)
+            if (subsystem.Category.MinDC.CompareValue > subsystem.DCresult.CompareValue)
                 throw new Exception("Resultant value of DC is not valid for given category");
         }
 
@@ -273,19 +275,11 @@ namespace SSEA.BL.Services.Implementations
         private MTTFdModel GetMTTFdForSubsystem(ICollection<ElementDetailModelPL> elements)
         {
             // There is just one element
-            if (elements.Count == 1 || elements is null)
+            if (elements.Count == 1)
                 return elements.ElementAt(0).MTTFdResult;
-            
-            // There are two same elements
-            MTTFdModel mttfd1 = elements.ElementAt(0).MTTFdResult;
-            MTTFdModel mttfd2 = elements.ElementAt(1).MTTFdResult;
 
-            if (mttfd1.Max == mttfd2.Max)
-                return mttfd1;
-
-            if (mttfd1.Max > mttfd2.Max)
-                return mttfd2;
-            return mttfd1;
+            // There are two elements
+            return (elements.ElementAt(0).MTTFdResult.CompareValue > elements.ElementAt(1).MTTFdResult.CompareValue) ? elements.ElementAt(0).MTTFdResult : elements.ElementAt(1).MTTFdResult;
         }
 
         /// <summary>
@@ -300,16 +294,8 @@ namespace SSEA.BL.Services.Implementations
             if (elements.Count == 1)
                 return elements.ElementAt(0).DC;
 
-            // There are two same elements
-            DCModel dc1 = elements.ElementAt(0).DC;
-            DCModel dc2 = elements.ElementAt(1).DC;
-
-            if (dc1.Max == dc2.Max)
-                return dc1;
-
-            if (dc1.Max > dc2.Max)
-                return dc2;
-            return dc1;
+            // There are two elements
+            return (elements.ElementAt(0).DC.CompareValue > elements.ElementAt(1).DC.CompareValue) ? elements.ElementAt(0).DC : elements.ElementAt(1).DC;
         }
 
         /// <summary>
@@ -321,74 +307,73 @@ namespace SSEA.BL.Services.Implementations
         /// <returns> Determined PL </returns>
         private async Task<PLModel> GetPLAsync(CategoryModel category, MTTFdModel mttfd, DCModel dc)
         {
-            // IDs of records:
-            // MTTFd - kratka - 1
-            // MTTFd - stredna - 2
-            // MTTFd - dlha - 3
-            // DC - ziadne - 1
-            // DC - nizke - 2
-            // DC - stredne - 3
-            // DC - vysoke - 4
+            // MTTFd - kratka - CompareValue = 1
+            // MTTFd - stredna - CompareValue = 2
+            // MTTFd - dlha - CompareValue = 3
+            // DC - ziadne - CompareValue = 1
+            // DC - nizke - CompareValue = 2
+            // DC - stredne - CompareValue = 3
+            // DC - vysoke - CompareValue = 4
 
             ICollection<PLModel> performanceLevels = mapper.Map<ICollection<PLModel>>(await dbContext.PerformanceLevels.AsNoTracking().ToListAsync());
 
-            if (category.Label.Equals("B") && dc.Id == 1)
+            if (category.Label.Equals("B") && dc.CompareValue == 1)
             {
-                switch (mttfd.Id)
+                switch (mttfd.CompareValue)
                 {
                     case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("a"));
                     case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("b"));
                     case 3: return null;
                 }
             }
-            if (category.Label.Equals("1") && dc.Id == 1)
+            if (category.Label.Equals("1") && dc.CompareValue == 1)
             {
-                switch (mttfd.Id)
+                switch (mttfd.CompareValue)
                 {
                     case 1: return null;
                     case 2: return null;
                     case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
                 }
             }
-            if (category.Label.Equals("2") && dc.Id == 2)
+            if (category.Label.Equals("2") && dc.CompareValue == 2)
             {
-                switch (mttfd.Id)
+                switch (mttfd.CompareValue)
                 {
                     case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("a"));
                     case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("b"));
                     case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
                 }
             }
-            if (category.Label.Equals("2") && dc.Id == 3)
+            if (category.Label.Equals("2") && dc.CompareValue == 3)
             {
-                switch (mttfd.Id)
+                switch (mttfd.CompareValue)
                 {
                     case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("b"));
                     case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
                     case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("d"));
                 }
             }
-            if (category.Label.Equals("3") && dc.Id == 2)
+            if (category.Label.Equals("3") && dc.CompareValue == 2)
             {
-                switch (mttfd.Id)
+                switch (mttfd.CompareValue)
                 {
                     case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("b"));
                     case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
                     case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("d"));
                 }
             }
-            if (category.Label.Equals("3") && dc.Id == 3)
+            if (category.Label.Equals("3") && dc.CompareValue == 3)
             {
-                switch (mttfd.Id)
+                switch (mttfd.CompareValue)
                 {
                     case 1: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("c"));
                     case 2: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("d"));
                     case 3: return performanceLevels.FirstOrDefault(pl => pl.Label.Equals("d"));
                 }
             }
-            if (category.Label.Equals("4") && dc.Id == 4)
+            if (category.Label.Equals("4") && dc.CompareValue == 4)
             {
-                switch (mttfd.Id)
+                switch (mttfd.CompareValue)
                 {
                     case 1: return null;
                     case 2: return null;
