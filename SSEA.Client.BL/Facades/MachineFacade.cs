@@ -44,5 +44,10 @@ namespace SSEA.Client.BL.Facades
             Console.WriteLine("MachineFacade.DeleteAsync(int id)");
             await clientService.MachineDeleteAsync(id);
         }
+
+        public async Task SelectLogicAsync(int id)
+        {
+
+        }
     }
 }

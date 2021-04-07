@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
+using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
@@ -113,9 +114,15 @@ namespace SSEA.BL.Facades
             return await machineRepository.UpdateAsync(machineEntity, userId);
         }
 
+        // TODO: complete logic for removing
         public async Task DeleteAsync(int machineId, int userId)
         {
             await machineRepository.DeleteAsync(machineId, userId);
+        }
+
+        public async Task<MachineEvaluationResponseModel> SelectLogicAsync(int machineId, int userId)
+        {
+            return new MachineEvaluationResponseModel();
         }
     }
 }

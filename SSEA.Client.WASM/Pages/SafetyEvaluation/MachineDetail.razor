@@ -21,6 +21,7 @@
                         <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
                         <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
                         <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                        <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;">Select logic</MudButton>
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
@@ -299,6 +300,11 @@
     private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
     {
         navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{machine.Id}/{args.Item.Id}");
+    }
+
+    private async Task SelectLogic()
+    {
+
     }
 
 }
