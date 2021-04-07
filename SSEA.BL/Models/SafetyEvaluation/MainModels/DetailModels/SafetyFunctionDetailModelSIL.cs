@@ -2,12 +2,8 @@
 using SSEA.BL.Extensions;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
@@ -33,7 +29,11 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public PrModel Pr { get; set; }
         public AvModel Av { get; set; }
 
-        public ICollection<SafetyFunctionSubsystemModel> SafetyFunctionSubsystems { get; set; }
+        public SubsystemDetailModelSIL InputSubsystem { get; set; }
+        public SubsystemDetailModelSIL Communication1Subsystem { get; set; }
+        public SubsystemDetailModelSIL LogicSubsystem { get; set; }
+        public SubsystemDetailModelSIL Communication2Subsystem { get; set; }
+        public SubsystemDetailModelSIL OutputSubsystem { get; set; }
     }
 
     public class SafetyFunctionDetailModelSILMapperProfile : Profile
@@ -59,6 +59,12 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                                      .IgnoreSource(src => src.FrId)
                                                                      .IgnoreSource(src => src.PrId)
                                                                      .IgnoreSource(src => src.AvId)
+                                                                     .IgnoreSource(src => src.CurrentStateId)
+                                                                     .Ignore(dest => dest.InputSubsystem)
+                                                                     .Ignore(dest => dest.Communication1Subsystem)
+                                                                     .Ignore(dest => dest.LogicSubsystem)
+                                                                     .Ignore(dest => dest.Communication2Subsystem)
+                                                                     .Ignore(dest => dest.OutputSubsystem)
                                                                      .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                                      .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                                      .ReverseMap();

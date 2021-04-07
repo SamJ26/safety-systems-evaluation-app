@@ -12,7 +12,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.JoinModels
     {
         public int MachineId { get; set; }
         public int NormId { get; set; }
-        public NormModel Norm { get; set; }
     }
 
     public class MachineNormModelMapperProfile : Profile
@@ -20,6 +19,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.JoinModels
         public MachineNormModelMapperProfile()
         {
             CreateMap<MachineNorm, MachineNormModel>().IgnoreSource(src => src.Machine)
+                                                      .IgnoreSource(src => src.Norm)
                                                       .ReverseMap();
         }
     }

@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
-using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
 {
@@ -32,6 +27,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
                                                   .IgnoreSource(src => src.SafetyMasterInPlace)
                                                   .IgnoreSource(src => src.AccessPoints)
                                                   .IgnoreSource(src => src.MachineNorms)
+                                                  .IgnoreSource(src => src.CurrentStateId)
                                                   .MapMember(dest => dest.EvaluationMethod, src => src.EvaluationMethod.Shortcut)
                                                   .MapMember(dest => dest.MachineType, src => src.MachineType.NameCZ)
                                                   .MapMember(dest => dest.Producer, src => src.Producer.Name)

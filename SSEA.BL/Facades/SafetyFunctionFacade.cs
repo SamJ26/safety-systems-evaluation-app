@@ -1,157 +1,136 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.BL.Services.Interfaces;
-using SSEA.DAL;
-using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using SSEA.DAL.Entities.System;
+using SSEA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
 {
     public class SafetyFunctionFacade
     {
-        private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
+        private readonly SafetyFunctionRepository safetyFunctionRepository;
         private readonly IPerformanceLevelService PLService;
 
-        private readonly int safetyFunctionNewStateId = 8;
-
-        public SafetyFunctionFacade(AppDbContext dbContext, IMapper mapper, IPerformanceLevelService PLService)
+        public SafetyFunctionFacade(IMapper mapper, SafetyFunctionRepository safetyFunctionRepository, IPerformanceLevelService PLService)
         {
-            this.dbContext = dbContext;
             this.mapper = mapper;
+            this.safetyFunctionRepository = safetyFunctionRepository;
             this.PLService = PLService;
         }
 
-        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync()
+        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
         {
-            var data = await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
-                                                      .Include(sf => sf.EvaluationMethod)
-                                                      .Include(sf => sf.TypeOfFunction)
-                                                      .AsNoTracking()
-                                                      .ToListAsync();
-            return mapper.Map<ICollection<SafetyFunctionListModel>>(data);
-        }
-
-        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(int accessPointId)
-        {
-            // Getting all safety functions which are related to selected access point
-            int[] safetyFunctions = await dbContext.AccessPointSafetyFunctions.Where(a => a.AccessPointId == accessPointId)
-                                                                              .Select(a => a.SafetyFunctionId)
-                                                                              .ToArrayAsync();
-
-            // Filtering safety functions according to id
-            var data = await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
-                                                      .Include(sf => sf.EvaluationMethod)
-                                                      .Include(sf => sf.TypeOfFunction)
-                                                      .AsNoTracking()
-                                                      .Where(sf => safetyFunctions.Contains(sf.Id))
-                                                      .ToListAsync();
-
-            return mapper.Map<ICollection<SafetyFunctionListModel>>(data);
+            var safetyFunctions = await safetyFunctionRepository.GetAllAsync(name, stateId, typeOfFunctionId, evaluationMethodId);
+            return mapper.Map<ICollection<SafetyFunctionListModel>>(safetyFunctions);
         }
 
         public async Task<SafetyFunctionDetailModelPL> GetByIdPLAsync(int id)
         {
-            var safetyFunction = await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
-                                                                .Include(sf => sf.TypeOfFunction)
-                                                                .Include(sf => sf.EvaluationMethod)
-                                                                .Include(sf => sf.PLr)
-                                                                .Include(sf => sf.PLresult)
-                                                                .Include(sf => sf.S)
-                                                                .Include(sf => sf.F)
-                                                                .Include(sf => sf.P)
-                                                                .AsNoTracking()
-                                                                .SingleOrDefaultAsync(sf => sf.Id == id);
+            SafetyFunctionDetailModelPL safetyFunction = mapper.Map<SafetyFunctionDetailModelPL>(await safetyFunctionRepository.GetByIdPLAsync(id));
+            var subsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionPLAsync(id));
 
-            return mapper.Map<SafetyFunctionDetailModelPL>(safetyFunction);
+            // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
+            safetyFunction.InputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 1);
+            safetyFunction.Communication1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
+            safetyFunction.LogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 3);
+            safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 5);
+            safetyFunction.OutputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 2);
+
+            return safetyFunction;
         }
 
         public async Task<SafetyFunctionDetailModelSIL> GetByIdSILAsync(int id)
         {
-            var safetyFunction = await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
-                                                                .Include(sf => sf.TypeOfFunction)
-                                                                .Include(sf => sf.EvaluationMethod)
-                                                                .Include(sf => sf.SILCL)
-                                                                .Include(sf => sf.SILresult)
-                                                                .Include(sf => sf.Se)
-                                                                .Include(sf => sf.Fr)
-                                                                .Include(sf => sf.Pr)
-                                                                .Include(sf => sf.Av)
-                                                                .AsNoTracking()
-                                                                .SingleOrDefaultAsync(sf => sf.Id == id);
+            SafetyFunctionDetailModelSIL safetyFunction = mapper.Map<SafetyFunctionDetailModelSIL>(await safetyFunctionRepository.GetByIdSILAsync(id));
+            var subsystems = mapper.Map<ICollection<SubsystemDetailModelSIL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionSILAsync(id));
 
-            return mapper.Map<SafetyFunctionDetailModelSIL>(safetyFunction);
+            // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
+            safetyFunction.InputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 1);
+            safetyFunction.Communication1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
+            safetyFunction.LogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 3);
+            safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 5);
+            safetyFunction.OutputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 2);
+
+            return safetyFunction;
         }
 
         public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel, int userId)
         {
-            newModel.SafetyFunctionSubsystems?.Clear();
+            // Evaluating required PL
+            if (newModel.S is not null && newModel.F is not null && newModel.P is not null)
+                newModel.PLr = await PLService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
 
-            // Creating entity without collection
             var entity = mapper.Map<SafetyFunction>(newModel);
-
-            // Assigning inital state to new record
-            entity.CurrentState = await GetState(safetyFunctionNewStateId);
-
-            // Assigning evaluation method
-            entity.EvaluationMethod = await dbContext.EvaluationMethods.SingleOrDefaultAsync(e => e.Shortcut.Equals("PL"));
-
-            dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
-            dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
-            if (entity.S != null && entity.F != null && entity.P != null)
-            {
-                dbContext.Attach(entity.S).State = EntityState.Unchanged;
-                dbContext.Attach(entity.F).State = EntityState.Unchanged;
-                dbContext.Attach(entity.P).State = EntityState.Unchanged;
-                entity.PLr = await PLService.GetRequiredPLAsync(entity.S, entity.F, entity.P);
-            }
-            dbContext.Attach(entity.PLr).State = EntityState.Unchanged;
-
-            await dbContext.SafetyFunctions.AddAsync(entity);
-            await dbContext.CommitChangesAsync(userId);
-            return entity.Id;
+            return await safetyFunctionRepository.CreateAsync(entity, userId);
         }
 
-        // TODO: incomplete implementation
-        public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel, int userId)
+        // TODO: Create SF SIL
+
+        public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updatedModel, int userId)
         {
-            newModel.SafetyFunctionSubsystems?.Clear();
+            // Evaluating required PL
+            if (updatedModel.S is not null && updatedModel.F is not null && updatedModel.P is not null)
+                updatedModel.PLr = await PLService.GetRequiredPLAsync(updatedModel.S, updatedModel.F, updatedModel.P);
 
-            // Creating entity without collection
-            var entity = mapper.Map<SafetyFunction>(newModel);
-
-            // Assigning inital state to new record
-            entity.CurrentState = await GetState(safetyFunctionNewStateId);
-
-            dbContext.Attach(entity.TypeOfFunction).State = EntityState.Unchanged;
-            dbContext.Attach(entity.EvaluationMethod).State = EntityState.Unchanged;
-            if (entity.Se != null && entity.Fr != null && entity.Pr != null && entity.Av != null)
-            {
-                dbContext.Attach(entity.Se).State = EntityState.Unchanged;
-                dbContext.Attach(entity.Fr).State = EntityState.Unchanged;
-                dbContext.Attach(entity.Pr).State = EntityState.Unchanged;
-                dbContext.Attach(entity.Av).State = EntityState.Unchanged;
-
-                // TODO: get SILCL by calling SafetyIntegrityLevelService
-            }
-            dbContext.Attach(entity.SILCL).State = EntityState.Unchanged;
-
-            await dbContext.SafetyFunctions.AddAsync(entity);
-            await dbContext.CommitChangesAsync(userId);
-            return entity.Id;
+            SafetyFunction entity = mapper.Map<SafetyFunction>(updatedModel);
+            return await safetyFunctionRepository.UpdateAsync(entity, userId);
         }
 
-        private async Task<State> GetState(int stateId)
+        // TODO: Update SF SIL
+
+        // TODO: Delete SF
+
+        public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
-            return await dbContext.States.SingleOrDefaultAsync(s => s.Id == stateId);
+            await safetyFunctionRepository.AddSubsystemAsync(safetyFunctionId, subsystemId);
+        }
+
+        public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            await safetyFunctionRepository.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
+        }
+
+        // TODO: rename method to EvaluationSafetyFunctionPLAsync
+        public async Task<SafetyFunctionEvaluationResponseModel> EvaluateSafetyFunctionAsync(int safetyFunctionId, int userId)
+        {
+            SafetyFunctionDetailModelPL safetyFunction = await GetByIdPLAsync(safetyFunctionId);
+            try
+            {
+                await PLService.EvaluateSafetyFunctionAsync(safetyFunction);
+            }
+            catch (Exception exception)
+            {
+                return new SafetyFunctionEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = exception.Message,
+                };
+            }
+
+            // Updating record after its successful evaluation
+            int id = await safetyFunctionRepository.UpdateAsync(mapper.Map<SafetyFunction>(safetyFunction), userId);
+            if (id == 0)
+            {
+                return new SafetyFunctionEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = "Saving of evaluated safety function failed!",
+                };
+            }
+            return new SafetyFunctionEvaluationResponseModel()
+            {
+                IsSuccess = true,
+                Message = "Saving was successful :)",
+            };
+
+            // TODO: EvaluationSafetyFunctionSILAsync
         }
     }
 }

@@ -7,7 +7,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class ElementDetailModelSIL : ExtendedModelBase
     {
-        public short OrderNum { get; set; }
         public double B10d { get; set; }
         public string CatalogNumber { get; set; }
         public double C { get; set; }
@@ -33,6 +32,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                       .IgnoreSource(src => src.MTTFdResult)
                                                       .IgnoreSource(src => src.MTTFdResultId)
                                                       .IgnoreSource(src => src.ElementSFFs)
+                                                      .IgnoreSource(src => src.CurrentStateId)
                                                       .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                       .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                       .ReverseMap();

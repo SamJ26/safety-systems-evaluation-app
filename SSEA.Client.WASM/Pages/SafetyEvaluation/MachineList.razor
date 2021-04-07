@@ -2,11 +2,6 @@
 
 @layout MainLayout
 
-@inject IClientService clientService
-@inject CodeListFacade codeListFacade
-@inject MachineFacade machineFacade
-@inject NavigationManager navigationManager
-
 @attribute [Authorize]
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
@@ -16,100 +11,131 @@
                 <MudText Typo="Typo.h6">Machine list</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudButton @onclick="CreateNew" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Create" Color="Color.Primary" Style="margin-top:5px; margin-right:8px;">Create new machine</MudButton>
+                <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
+                    <Authorized>
+                        <MudButton @onclick="CreateNew" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Create" Color="Color.Primary" Style="margin-top:5px; margin-right:8px;">Create new machine</MudButton>
+                    </Authorized>
+                </AuthorizeView>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
             <hr />
             <MudGrid Style="margin-top: 0px;">
                 <MudItem xs="1" Style="padding-bottom: 14px; padding-top: 18px;">
-                    <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;"></MudButton>
+                    <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;">Search</MudButton>
                 </MudItem>
-                <MudItem xs="11">
-                    <MudGrid>
-                        <MudItem xs="3">
-                            <MudTextField @bind-Value="machineName" Label="Machine name" Variant="Variant.Outlined"></MudTextField>
-                        </MudItem>
-                        <MudItem xs="3">
-                            <MudSelect @bind-Value="machineTypeId" T="int" Label="Machine type" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                                @foreach (var item in machineTypes)
-                                {
-                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
-                                }
-                            </MudSelect>
-                        </MudItem>
-                        <MudItem xs="3">
-                            <MudSelect @bind-Value="evaluationMethodId" T="int" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                                @foreach (var item in evaluationMethods)
-                                {
-                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Shortcut</MudSelectItem>
-                                }
-                            </MudSelect>
-                        </MudItem>
-                        <MudItem xs="3">
-                            <MudSelect @bind-Value="producerId" T="int" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                                @foreach (var item in producers)
-                                {
-                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
-                                }
-                            </MudSelect>
-                        </MudItem>
-                    </MudGrid>
+                <MudItem xs="3">
+                    <MudTextField @bind-Value="machineName" Label="Machine name" Variant="Variant.Outlined"></MudTextField>
+                </MudItem>
+                <MudItem xs="2">
+                    <MudSelect @bind-Value="stateId" T="int" Label="State of record" Strict="true" Variant="Variant.Outlined" Format="F2">
+                        <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                        <MudSelectItem T="int" Value="@(1)">Nová</MudSelectItem>
+                        <MudSelectItem T="int" Value="@(2)">Rozpracovaná</MudSelectItem>
+                        <MudSelectItem T="int" Value="@(3)">Dokončená</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="2">
+                    <MudSelect @bind-Value="machineTypeId" T="int" Label="Machine type" Strict="true" Variant="Variant.Outlined" Format="F2">
+                        <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                        @foreach (var item in machineTypes)
+                        {
+                            <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="2">
+                    <MudSelect @bind-Value="evaluationMethodId" T="int" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
+                        <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                        @foreach (var item in evaluationMethods)
+                        {
+                            <MudSelectItem T="int" Value="@(item.Id)">@item.Shortcut</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="2">
+                    <MudSelect @bind-Value="producerId" T="int" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
+                        <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                        @foreach (var item in producers)
+                        {
+                            <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
+                        }
+                    </MudSelect>
                 </MudItem>
             </MudGrid>
-            <hr style="margin-top:16px;"/>
-            <MudTable T="MachineListModel" OnRowClick="@(args => GoToMachineDetail(args))" Items="@machines" Hover="true" Elevation="5" Style="margin-top: 20px;" Dense="true">
-                <HeaderContent>
-                    <MudTh>Name</MudTh>
-                    <MudTh>State</MudTh>
-                    <MudTh>Machine type</MudTh>
-                    <MudTh>Type of logic</MudTh>
-                    <MudTh>Producer</MudTh>
-                    <MudTh>Evaluation method</MudTh>
-                    <MudTh>Communication</MudTh>
-                    <MudTh>Actions</MudTh>
-                </HeaderContent>
-                <ColGroup>
-                    <col style="width:20%;" />
-                    <col style="width:10%;" />
-                    <col style="width:15%;" />
-                    <col style="width:15%;" />
-                    <col style="width:15%;" />
-                    <col style="width:10%;" />
-                    <col style="width:10%;" />
-                    <col style="width:5%;" />
-                </ColGroup>
-                <RowTemplate>
-                    <MudTd DataLabel="Name">@context.Name</MudTd>
-                    <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
-                    <MudTd DataLabel="Machine type">@context.MachineType</MudTd>
-                    <MudTd DataLabel="Type of logic">@context.TypeOfLogic</MudTd>
-                    <MudTd DataLabel="Producer">@context.Producer</MudTd>
-                    <MudTd DataLabel="Evaluation method">@context.EvaluationMethod</MudTd>
-                    <MudTd DataLabel="Communication">@context.Communication</MudTd>
-                    <MudTd DataLabel="Actions">
-                        <MudIconButton Icon="@Icons.Material.Filled.Delete"></MudIconButton>
-                    </MudTd>
-                </RowTemplate>
-                <PagerContent>
-                    <MudTablePager PageSizeOptions="new int[]{10, 50}" />
-                </PagerContent>
-            </MudTable>
+            <hr style="margin-top:16px;" />
+            @if (searching == true)
+            {
+                <MudText Align="Align.Center" Style="margin: 50px;">
+                    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+                </MudText>
+            }
+            else
+            {
+                <MudTable T="MachineListModel" OnRowClick="@(args => GoToMachineDetail(args))" Items="@machines" Hover="true" Elevation="5" Style="margin-top: 20px;" Dense="true">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>State</MudTh>
+                        <MudTh>Machine type</MudTh>
+                        <MudTh>Type of logic</MudTh>
+                        <MudTh>Producer</MudTh>
+                        <MudTh>Evaluation method</MudTh>
+                        <MudTh>Communication</MudTh>
+                        <MudTh>Actions</MudTh>
+                    </HeaderContent>
+                    <ColGroup>
+                        <col style="width:20%;" />Name
+                        <col style="width:10%;" />State
+                        <col style="width:15%;" />Machine type
+                        <col style="width:15%;" />Type of logic
+                        <col style="width:15%;" />Producer
+                        <col style="width:10%;" />Evaluation method
+                        <col style="width:10%;" />Communication
+                        <col style="width:5%;" />Actions
+                    </ColGroup>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
+                        <MudTd DataLabel="Machine type">@context.MachineType</MudTd>
+                        <MudTd DataLabel="Type of logic">@context.TypeOfLogic</MudTd>
+                        <MudTd DataLabel="Producer">@context.Producer</MudTd>
+                        <MudTd DataLabel="Evaluation method">@context.EvaluationMethod</MudTd>
+                        <MudTd DataLabel="Communication">@context.Communication</MudTd>
+                        <MudTd DataLabel="Actions">
+                            <MudIconButton @onclick="@(() => Delete(context))" Icon="@Icons.Material.Filled.Delete"></MudIconButton>
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager PageSizeOptions="new int[]{10, 50}" />
+                    </PagerContent>
+                </MudTable>
+            }
         </MudCardContent>
     </MudCard>
 </MudContainer>
 
 @code {
 
+    [Inject]
+    private MachineFacade machineFacade { get; set; }
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    private IDialogService dialogService { get; set; }
+
     private ICollection<MachineListModel> machines = new List<MachineListModel>();
 
     private string machineName = string.Empty;
+    private int stateId;
     private int machineTypeId;
     private int evaluationMethodId;
     private int producerId;
+    private bool searching = false;
 
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
@@ -127,16 +153,29 @@
         navigationManager.NavigateTo("/safetyEvaluation/machineInsert");
     }
 
-    // TODO: add logic for searching
     private async void Search()
     {
-        machines = await clientService.MachineGetAllAsync();
+        searching = true;
+        machines = await machineFacade.GetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId);
+        searching = false;
         StateHasChanged();
     }
 
     private void GoToMachineDetail(TableRowClickEventArgs<MachineListModel> args)
     {
         navigationManager.NavigateTo($"/safetyEvaluation/machineDetail/{args.Item.Id}");
+    }
+
+    private async Task Delete(MachineListModel machine)
+    {
+        var parameters = new DialogParameters() { ["ItemToDelte"] = "machine", ["NameOfItem"] = machine.Name };
+        var dialog = dialogService.Show<ApproveDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await machineFacade.DeleteAsync(machine.Id);
+            machines.Remove(machine);
+        }
     }
 
 }

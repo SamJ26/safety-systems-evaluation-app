@@ -2,15 +2,7 @@
 
 @layout MainLayout
 
-@inject IDialogService dialogService
-@inject MachineFacade machineFacade
-@inject CodeListFacade codeListFacade
-@inject ILocalStorageService storageService
-@inject NavigationManager navigationManager 
-
-@attribute [Authorize]
-
-@* TODO: 1. add data validation to all fields in form *@
+@attribute [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
 
 <MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
     <MudCard Elevation="3">
@@ -19,23 +11,22 @@
                 <MudText Typo="Typo.h6">Create new machine</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="ClearData" Icon="@Icons.Material.Filled.Clear" Color="Color.Primary" Disabled="@alreadySaved" />
-                <MudIconButton @onclick="EditData" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@onlyForReading" />
+                <MudIconButton @onclick="ClearData" Icon="@Icons.Material.Filled.Clear" Color="Color.Primary" Disabled="@(tabs.ActivePanelIndex != 0 || disabled)" />
+                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(tabs.ActivePanelIndex != 0 || disabled)"/>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Machine details">
-                    <EditForm Model="@machineModel" OnValidSubmit="OnValidSubmit" id="formId">
+                    <EditForm Model="@machine" OnValidSubmit="@OnValidSubmit" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="6">
-                                <MudTextField @bind-Value="machineModel.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" For="@(() => machineModel.Name)"></MudTextField>
+                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" Variant="Variant.Outlined" For="@(() => machine.Name)"></MudTextField>
                             </MudItem>
                             <MudItem xs="6">
-                                <MudSelect @bind-Value="machineModel.MachineType" ReadOnly="@onlyForReading" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machine.MachineType" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in machineTypes)
                                     {
                                         <MudSelectItem T="MachineTypeModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -43,7 +34,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machineModel.EvaluationMethod" ReadOnly="@onlyForReading" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machine.EvaluationMethod" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in evaluationMethods)
                                     {
                                         <MudSelectItem T="EvaluationMethodModel" Value="@(item)">@item.Shortcut</MudSelectItem>
@@ -51,7 +42,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machineModel.Producer" ReadOnly="@onlyForReading" T="ProducerModel" Label="Producer *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machine.Producer" T="ProducerModel" Label="Producer *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in producers)
                                     {
                                         <MudSelectItem T="ProducerModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -59,43 +50,43 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machineModel.Communication" ReadOnly="@onlyForReading" T="bool" Label="Communication *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machine.Communication" T="bool" Label="Safety communication *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     <MudSelectItem T="bool" Value="@(true)">Yes</MudSelectItem>
                                     <MudSelectItem T="bool" Value="@(false)">No</MudSelectItem>
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="12">
-                                <MudTextField @bind-Value="machineModel.Description" ReadOnly="@onlyForReading" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" Style="margin-bottom: 25px;" />
+                                <MudTextField @bind-Value="machine.Description" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" Style="margin-bottom: 25px;" />
                                 <hr />
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machineModel.Hmi" ReadOnly="@onlyForReading">HMI</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.Hmi">HMI</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machineModel.Plc" ReadOnly="@onlyForReading">PLC</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.Plc">PLC</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machineModel.MachineHelp" ReadOnly="@onlyForReading">Machine help</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.MachineHelp">Machine help</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machineModel.CodeProtection" ReadOnly="@onlyForReading">Code protection</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.CodeProtection">Code protection</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machineModel.SecurityOfSafetyParts" ReadOnly="@onlyForReading">Security of safety parts</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.SecurityOfSafetyParts">Security of safety parts</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machineModel.SafetyMasterInPlace" ReadOnly="@onlyForReading">Safety master in place</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.SafetyMasterInPlace">Safety master in place</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                         </MudGrid>
@@ -105,19 +96,19 @@
                 <MudTabPanel Text="Access points">
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="2">
-                            <MudButton @onclick="ClearAccessPoints" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
+                            <MudButton @onclick="@(() => machine.AccessPoints.Clear())" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@disabled">Clear</MudButton>
                         </MudItem>
                         <MudItem xs="8" />
                         <MudItem xs="2">
-                            <MudButton @onclick="OpenCreateAccessPointDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
+                            <MudButton @onclick="OpenCreateAccessPointDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@disabled">Add</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable T="AccessPointListModel" Items="@machineModel.AccessPoints" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true" OnRowClick="@(args => GoToAccessPointDetail(args))">
+                            <MudTable T="AccessPointListModel" Items="@machine.AccessPoints" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
-                                    <col style="width:40%;" /><!-- Name -->
-                                    <col style="width:35%;" /><!-- State -->
-                                    <col style="width:20%;" /><!-- Safety functions count -->
-                                    <col style="width:5%;" /><!-- Actions -->
+                                    <col style="width:40%;" />Name
+                                    <col style="width:35%;" />State
+                                    <col style="width:20%;" />Safety functions
+                                    <col style="width:5%;" />Actions
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Name</MudTh>
@@ -127,10 +118,10 @@
                                 </HeaderContent>
                                 <RowTemplate Context="tableContext">
                                     <MudTd DataLabel="Name">@tableContext.Name</MudTd>
-                                    <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New - not saved")</MudTd>
+                                    <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New")</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                     <MudTd DataLabel="Name">
-                                        <MudIconButton @onclick="() => RemoveAccessPoint(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
+                                        <MudIconButton @onclick="() => RemoveAccessPoint(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@disabled"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
@@ -141,20 +132,20 @@
                 <MudTabPanel Text="Used norms">
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="2">
-                            <MudButton @onclick="ClearNorms" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@onlyForReading">Clear</MudButton>
+                            <MudButton @onclick="@(() => machine.Norms.Clear())" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Clear" Size="Size.Medium" DisableElevation="true" Style="width: 100%;" Disabled="@disabled">Clear</MudButton>
                         </MudItem>
                         <MudItem xs="8" />
                         <MudItem xs="2">
-                            <MudButton @onclick="OpenSelectNormsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add</MudButton>
+                            <MudButton @onclick="OpenSelectNormsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@disabled">Add</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
-                            <MudTable Items="@machineModel.MachineNorms" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
+                            <MudTable Items="@machine.Norms" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>
-                                    <col style="width:40%;" />
-                                    <col style="width:20%;" />
-                                    <col style="width:10%;" />
-                                    <col style="width:15%;" />
-                                    <col style="width:15%;" />
+                                    <col style="width:50%;" />Name
+                                    <col style="width:25%;" />Label
+                                    <col style="width:10%;" />Category
+                                    <col style="width:10%;" />Up to date
+                                    <col style="width:5%;" />Actions
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Name</MudTh>
@@ -164,12 +155,12 @@
                                     <MudTh>Actions</MudTh>
                                 </HeaderContent>
                                 <RowTemplate Context="tableContext">
-                                    <MudTd DataLabel="Name">@tableContext.Norm.Name</MudTd>
-                                    <MudTd DataLabel="Label">@tableContext.Norm.Label</MudTd>
-                                    <MudTd DataLabel="Category">@tableContext.Norm.NormCategory</MudTd>
-                                    <MudTd DataLabel="Up to date">@tableContext.Norm.IsValid</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.Name</MudTd>
+                                    <MudTd DataLabel="Label">@tableContext.Label</MudTd>
+                                    <MudTd DataLabel="Category">@tableContext.NormCategory</MudTd>
+                                    <MudTd DataLabel="Up to date">@tableContext.IsValid</MudTd>
                                     <MudTd DataLabel="Name">
-                                        <MudIconButton @onclick="() => RemoveNorm(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
+                                        <MudIconButton @onclick="() => RemoveNorm(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@disabled"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
                             </MudTable>
@@ -188,13 +179,28 @@
 
 @code {
 
-    private MachineDetailModel machineModel;
+    [Inject]
+    private IDialogService dialogService { get; set; }
 
-    private bool onlyForReading = false;
+    [Inject]
+    private MachineFacade machineFacade { get; set; }
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
+    [Inject]
+    private ILocalStorageService storageService { get; set; }
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
+
+    private MachineDetailModel machine;
+
+    private bool disabled = false;
     private bool showMessage = false;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
-    private bool alreadySaved = false;
+    private MudTabs tabs = new MudTabs();
 
     private readonly string successMessage = "Your machine was saved successfully :)";
     private readonly string errorMessage = "Saving your machine failed :(";
@@ -202,13 +208,12 @@
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
-    private ICollection<NormModel> norms = new List<NormModel>();
 
     protected override async Task OnInitializedAsync()
     {
-        machineModel = new MachineDetailModel();
-        machineModel.AccessPoints = new List<AccessPointListModel>();
-        machineModel.MachineNorms = new List<MachineNormModel>();
+        machine = new MachineDetailModel();
+        machine.AccessPoints = new List<AccessPointListModel>();
+        machine.Norms = new HashSet<NormModel>();
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
@@ -222,132 +227,79 @@
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            machineModel.AccessPoints.Add(accessPointModel);
+            machine.AccessPoints.Add(accessPointModel);
         }
         StateHasChanged();
     }
 
     private async void OpenSelectNormsDialog()
     {
-        norms = await codeListFacade.GetAllNormsAsync();
-        ICollection<MachineNormModel> selectedNorms = new List<MachineNormModel>();
-        var parameters = new DialogParameters() { ["Norms"] = norms, ["MachineId"] = machineModel.Id, ["SelectedNorms"] = selectedNorms };
+        var parameters = new DialogParameters() { ["SelectedNorms"] = machine.Norms };
         var dialog = dialogService.Show<SelectNormsDialog>("Select norms", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            foreach (var item in selectedNorms)
-            {
-                machineModel.MachineNorms.Add(item);
-            }
+            Console.WriteLine(machine.Norms.Count);
         }
         StateHasChanged();
     }
 
-    // TODO: complete logic
     private async void OnValidSubmit()
     {
-        onlyForReading = true;
-        var result = await machineFacade.CreateAsync(machineModel);
+        disabled = true;
+        var result = await machineFacade.CreateAsync(machine);
         if (result != 0)
         {
             messageType = Severity.Success;
             message = successMessage;
-            machineModel = await machineFacade.GetByIdAsync(result);
-            Console.WriteLine(result);
+            showMessage = true;
+            StateHasChanged();
+            await Task.Delay(3000);
+            navigationManager.NavigateTo($"/safetyEvaluation/machineDetail/{result}");
         }
         else
         {
-            Console.WriteLine("Error create");
             messageType = Severity.Error;
             message = errorMessage;
         }
         showMessage = true;
-        alreadySaved = true;
+        disabled = false;
         StateHasChanged();
-    }
-
-    private void EditData()
-    {
-        onlyForReading = false;
-        showMessage = false;
     }
 
     private void ClearData()
     {
-        machineModel.Name = string.Empty;
-        machineModel.MachineType = null;
-        machineModel.EvaluationMethod = null;
-        machineModel.Producer = null;
-        machineModel.Communication = false;
-        machineModel.Description = string.Empty;
-        machineModel.Hmi = false;
-        machineModel.Plc = false;
-        machineModel.MachineHelp = false;
-        machineModel.CodeProtection = false;
-        machineModel.SecurityOfSafetyParts = false;
-        machineModel.SafetyMasterInPlace = false;
-        machineModel.AccessPoints.Clear();
-        machineModel.MachineNorms.Clear();
-    }
-
-    private void ClearAccessPoints()
-    {
-        if (alreadySaved)
-        {
-            // TODO: Remove items from DB
-        }
-        else
-        {
-            machineModel.AccessPoints.Clear();
-        }
-    }
-
-    private void ClearNorms()
-    {
-        if (alreadySaved)
-        {
-            // TODO: Remove items from DB
-        }
-        else
-        {
-            machineModel.MachineNorms.Clear();
-        }
+        machine.Name = string.Empty;
+        machine.MachineType = null;
+        machine.EvaluationMethod = null;
+        machine.Producer = null;
+        machine.Communication = false;
+        machine.Description = string.Empty;
+        machine.Hmi = false;
+        machine.Plc = false;
+        machine.MachineHelp = false;
+        machine.CodeProtection = false;
+        machine.SecurityOfSafetyParts = false;
+        machine.SafetyMasterInPlace = false;
+        machine.AccessPoints.Clear();
+        machine.Norms.Clear();
     }
 
     private void RemoveAccessPoint(AccessPointListModel accessPoint)
     {
-        // Mmachine is already in database -> removing item directly from DB
-        if (alreadySaved)
-        {
-            // TODO: call accessPointFacade.Remove(accessPoint.Id);
-        }
-        // Machine is not saved yet -> removing item from collection on frontend
-        else
-        {
-            machineModel.AccessPoints.Remove(accessPoint);
-        }
+        machine.AccessPoints.Remove(accessPoint);
         StateHasChanged();
     }
 
-    private void RemoveNorm(MachineNormModel norm)
+    private void RemoveNorm(NormModel norm)
     {
-        // Mmachine is already in database -> removing item directly from DB
-        if (alreadySaved)
-        {
-            // TODO: call accessPointFacade.Remove(accessPoint.Id);
-        }
-        // Machine is not saved yet -> removing item from collection on frontend
-        else
-        {
-            machineModel.MachineNorms.Remove(norm);
-        }
+        machine.Norms.Remove(norm);
         StateHasChanged();
     }
 
-    // TODO: test functionality
     private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
     {
         navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{args.Item.Id}");
     }
+
 }

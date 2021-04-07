@@ -16,10 +16,7 @@ namespace SSEA.DAL.Migrations
                     DescriptionCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DescriptionEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Value = table.Column<short>(type: "smallint", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -39,35 +36,12 @@ namespace SSEA.DAL.Migrations
                     TypeEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Points = table.Column<long>(type: "bigint", nullable: false),
                     ForPL = table.Column<bool>(type: "bit", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CCF", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CFF",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MinCCF = table.Column<short>(type: "smallint", nullable: false),
-                    MaxCCF = table.Column<short>(type: "smallint", nullable: false),
-                    Beta = table.Column<double>(type: "float", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsValid = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CFF", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,10 +54,8 @@ namespace SSEA.DAL.Migrations
                     ValueEN = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     Min = table.Column<short>(type: "smallint", nullable: false),
                     Max = table.Column<short>(type: "smallint", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CompareValue = table.Column<short>(type: "smallint", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -100,10 +72,7 @@ namespace SSEA.DAL.Migrations
                     NameCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     NameEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Shortcut = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -120,10 +89,7 @@ namespace SSEA.DAL.Migrations
                     Value = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
                     DescriptionCZ = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     DescriptionEN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -140,10 +106,7 @@ namespace SSEA.DAL.Migrations
                     FrequencyOfThreatCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     FrequencyOfThreatEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Value = table.Column<short>(type: "smallint", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -159,12 +122,9 @@ namespace SSEA.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     NameEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    DescriptionCZ = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     DescriptionEN = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -182,10 +142,8 @@ namespace SSEA.DAL.Migrations
                     ValueEN = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     Min = table.Column<short>(type: "smallint", nullable: false),
                     Max = table.Column<short>(type: "smallint", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CompareValue = table.Column<short>(type: "smallint", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -204,15 +162,30 @@ namespace SSEA.DAL.Migrations
                     NameEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     CatalogNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     NormCategory = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Norm", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OperationPrinciples",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameCZ = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    NameEN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
+                    IsValid = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OperationPrinciples", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,10 +197,7 @@ namespace SSEA.DAL.Migrations
                     Value = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
                     DescriptionCZ = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     DescriptionEN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -244,10 +214,7 @@ namespace SSEA.DAL.Migrations
                     ValueSIL = table.Column<short>(type: "smallint", nullable: false),
                     MinPFHd = table.Column<float>(type: "real", nullable: false),
                     MaxPFHd = table.Column<float>(type: "real", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -262,10 +229,8 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Label = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CompareValue = table.Column<short>(type: "smallint", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -282,10 +247,7 @@ namespace SSEA.DAL.Migrations
                     DescriptionCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DescriptionEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Value = table.Column<short>(type: "smallint", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -301,10 +263,7 @@ namespace SSEA.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CountryOfOrigin = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -321,10 +280,7 @@ namespace SSEA.DAL.Migrations
                     Value = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
                     DescriptionCZ = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     DescriptionEN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -341,10 +297,7 @@ namespace SSEA.DAL.Migrations
                     DescriptionCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DescriptionEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Value = table.Column<short>(type: "smallint", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -363,10 +316,7 @@ namespace SSEA.DAL.Migrations
                     ComponentNameEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     FailureModeEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Value = table.Column<long>(type: "bigint", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -380,7 +330,8 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -413,10 +364,7 @@ namespace SSEA.DAL.Migrations
                     NameEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     DescriptionCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     DescriptionEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -430,12 +378,9 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NameCZ = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    NameEN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    NameCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NameEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -457,16 +402,14 @@ namespace SSEA.DAL.Migrations
                     FailureBehaviorCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     FailureBehaviorEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Logic = table.Column<bool>(type: "bit", nullable: false),
-                    Channels = table.Column<short>(type: "smallint", nullable: false),
                     RelevantCCF = table.Column<bool>(type: "bit", nullable: false),
+                    Channels = table.Column<short>(type: "smallint", nullable: false),
+                    CompareValue = table.Column<short>(type: "smallint", nullable: false),
                     MinMTTFd_Id = table.Column<int>(type: "int", nullable: false),
                     MaxMTTFd_Id = table.Column<int>(type: "int", nullable: false),
                     MinDC_Id = table.Column<int>(type: "int", nullable: false),
                     MaxDC_Id = table.Column<int>(type: "int", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -509,15 +452,13 @@ namespace SSEA.DAL.Migrations
                     DescriptionEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Logic = table.Column<bool>(type: "bit", nullable: false),
                     Diagnostic = table.Column<bool>(type: "bit", nullable: false),
+                    HFT = table.Column<short>(type: "smallint", nullable: false),
                     Channels = table.Column<short>(type: "smallint", nullable: false),
+                    CompareValue = table.Column<short>(type: "smallint", nullable: false),
                     MinSFF = table.Column<double>(type: "float", nullable: false),
                     MaxSFF = table.Column<double>(type: "float", nullable: false),
-                    HFT = table.Column<short>(type: "smallint", nullable: false),
                     MaxPFHd_Id = table.Column<int>(type: "int", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -545,7 +486,8 @@ namespace SSEA.DAL.Migrations
                     Valid = table.Column<bool>(type: "bit", nullable: false),
                     InitialState = table.Column<bool>(type: "bit", nullable: false),
                     FinalState = table.Column<bool>(type: "bit", nullable: false),
-                    Entity_Id = table.Column<int>(type: "int", nullable: false)
+                    Entity_Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -594,14 +536,12 @@ namespace SSEA.DAL.Migrations
                     Communication = table.Column<bool>(type: "bit", nullable: false),
                     AccessPointsMaxCount = table.Column<int>(type: "int", nullable: true),
                     EthernetAdressesMaxCount = table.Column<long>(type: "bigint", nullable: true),
+                    Subsystem_Id = table.Column<int>(type: "int", nullable: false),
                     MaxPL_Id = table.Column<int>(type: "int", nullable: false),
                     MaxCategory_Id = table.Column<int>(type: "int", nullable: false),
                     MaxSIL_Id = table.Column<int>(type: "int", nullable: false),
                     MaxArchitecture_Id = table.Column<int>(type: "int", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -654,11 +594,12 @@ namespace SSEA.DAL.Migrations
                     Fr_Id = table.Column<int>(type: "int", nullable: true),
                     Pr_Id = table.Column<int>(type: "int", nullable: true),
                     Av_Id = table.Column<int>(type: "int", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
                     DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CurrentState_Id = table.Column<int>(type: "int", nullable: true)
+                    CurrentState_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -755,24 +696,27 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    IsUsed = table.Column<bool>(type: "bit", nullable: false),
                     TypeOfSubsystem_Id = table.Column<int>(type: "int", nullable: false),
+                    OperationPrinciple_Id = table.Column<int>(type: "int", nullable: false),
                     ValidCCF = table.Column<bool>(type: "bit", nullable: false),
                     Category_Id = table.Column<int>(type: "int", nullable: true),
                     MTTFdResult_Id = table.Column<int>(type: "int", nullable: true),
                     DCresult_Id = table.Column<int>(type: "int", nullable: true),
                     PLresult_Id = table.Column<int>(type: "int", nullable: true),
+                    CFF = table.Column<double>(type: "float", nullable: false),
                     T1 = table.Column<double>(type: "float", nullable: true),
                     T2 = table.Column<double>(type: "float", nullable: true),
                     HFT = table.Column<double>(type: "float", nullable: true),
                     SFFresult = table.Column<short>(type: "smallint", nullable: false),
                     Architecture_Id = table.Column<int>(type: "int", nullable: true),
                     PFHdResult_Id = table.Column<int>(type: "int", nullable: true),
-                    CFF_Id = table.Column<int>(type: "int", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
                     DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CurrentState_Id = table.Column<int>(type: "int", nullable: true)
+                    CurrentState_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -790,12 +734,6 @@ namespace SSEA.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Subsystem_CFF_CFF_Id",
-                        column: x => x.CFF_Id,
-                        principalTable: "CFF",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Subsystem_DC_DCresult_Id",
                         column: x => x.DCresult_Id,
                         principalTable: "DC",
@@ -805,6 +743,12 @@ namespace SSEA.DAL.Migrations
                         name: "FK_Subsystem_MTTFd_MTTFdResult_Id",
                         column: x => x.MTTFdResult_Id,
                         principalTable: "MTTFd",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Subsystem_OperationPrinciples_OperationPrinciple_Id",
+                        column: x => x.OperationPrinciple_Id,
+                        principalTable: "OperationPrinciples",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -842,7 +786,8 @@ namespace SSEA.DAL.Migrations
                     Note = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Valid = table.Column<bool>(type: "bit", nullable: false),
                     CurrentState_Id = table.Column<int>(type: "int", nullable: false),
-                    NextState_Id = table.Column<int>(type: "int", nullable: false)
+                    NextState_Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -915,11 +860,12 @@ namespace SSEA.DAL.Migrations
                     EvaluationMethod_Id = table.Column<int>(type: "int", nullable: false),
                     MachineType_Id = table.Column<int>(type: "int", nullable: false),
                     TypeOfLogic_Id = table.Column<int>(type: "int", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
                     DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CurrentState_Id = table.Column<int>(type: "int", nullable: true)
+                    CurrentState_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -962,7 +908,6 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderNum = table.Column<short>(type: "smallint", nullable: false),
                     B10d = table.Column<double>(type: "float", nullable: true),
                     CatalogNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Producer_Id = table.Column<int>(type: "int", nullable: false),
@@ -976,11 +921,12 @@ namespace SSEA.DAL.Migrations
                     MTTFdResult_Id = table.Column<int>(type: "int", nullable: true),
                     C = table.Column<double>(type: "float", nullable: true),
                     LambdaC = table.Column<double>(type: "float", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
                     DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CurrentState_Id = table.Column<int>(type: "int", nullable: true)
+                    CurrentState_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1008,7 +954,7 @@ namespace SSEA.DAL.Migrations
                         column: x => x.Subsystem_Id,
                         principalTable: "Subsystem",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Element_SY_State_CurrentState_Id",
                         column: x => x.CurrentState_Id,
@@ -1023,7 +969,8 @@ namespace SSEA.DAL.Migrations
                 {
                     SafetyFunction_Id = table.Column<int>(type: "int", nullable: false),
                     Subsystem_Id = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1033,13 +980,13 @@ namespace SSEA.DAL.Migrations
                         column: x => x.SafetyFunction_Id,
                         principalTable: "SafetyFunction",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SafetyFunctionSubsystem_Subsystem_Subsystem_Id",
                         column: x => x.Subsystem_Id,
                         principalTable: "Subsystem",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1048,7 +995,8 @@ namespace SSEA.DAL.Migrations
                 {
                     Subsystem_Id = table.Column<int>(type: "int", nullable: false),
                     CCF_Id = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1058,13 +1006,13 @@ namespace SSEA.DAL.Migrations
                         column: x => x.CCF_Id,
                         principalTable: "CCF",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SubsystemCCF_Subsystem_Subsystem_Id",
                         column: x => x.Subsystem_Id,
                         principalTable: "Subsystem",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1161,11 +1109,12 @@ namespace SSEA.DAL.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Machine_Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUpdated = table.Column<int>(type: "int", nullable: true),
                     DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CurrentState_Id = table.Column<int>(type: "int", nullable: true)
+                    CurrentState_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1175,7 +1124,7 @@ namespace SSEA.DAL.Migrations
                         column: x => x.Machine_Id,
                         principalTable: "Machine",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AccessPoint_SY_State_CurrentState_Id",
                         column: x => x.CurrentState_Id,
@@ -1190,7 +1139,8 @@ namespace SSEA.DAL.Migrations
                 {
                     Machine_Id = table.Column<int>(type: "int", nullable: false),
                     Norm_Id = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1200,13 +1150,13 @@ namespace SSEA.DAL.Migrations
                         column: x => x.Machine_Id,
                         principalTable: "Machine",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MachineNorm_Norm_Norm_Id",
                         column: x => x.Norm_Id,
                         principalTable: "Norm",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1215,7 +1165,8 @@ namespace SSEA.DAL.Migrations
                 {
                     Element_Id = table.Column<int>(type: "int", nullable: false),
                     SFF_Id = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1225,13 +1176,13 @@ namespace SSEA.DAL.Migrations
                         column: x => x.Element_Id,
                         principalTable: "Element",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ElementSFF_SFF_SFF_Id",
                         column: x => x.SFF_Id,
                         principalTable: "SFF",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1240,7 +1191,8 @@ namespace SSEA.DAL.Migrations
                 {
                     AccessPoint_Id = table.Column<int>(type: "int", nullable: false),
                     SafetyFunction_Id = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1250,210 +1202,313 @@ namespace SSEA.DAL.Migrations
                         column: x => x.AccessPoint_Id,
                         principalTable: "AccessPoint",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AccessPointSafetyFunction_SafetyFunction_SafetyFunction_Id",
                         column: x => x.SafetyFunction_Id,
                         principalTable: "SafetyFunction",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
                 table: "Av",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pradvěpodobné", null, 0, null, true, (short)1 },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nemožné", null, 0, null, true, (short)5 },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možné za určitých podmínek", null, 0, null, true, (short)3 }
+                    { 3, "Pradvěpodobné", null, false, true, (short)1 },
+                    { 2, "Možné za určitých podmínek", null, false, true, (short)3 },
+                    { 1, "Nemožné", null, false, true, (short)5 }
                 });
 
             migrationBuilder.InsertData(
                 table: "CCF",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "ForPL", "IdCreated", "IdUpdated", "IsValid", "Points", "TypeCZ", "TypeEN" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "ForPL", "IsRemoved", "IsValid", "Points", "TypeCZ", "TypeEN" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Fyzické oddělení medzi jednotlivými dráhami signálu", null, true, 0, null, true, 15L, "Oddělení/segregace", null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy", null, true, 0, null, true, 20L, "Diverzita", null },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Ochrana proti přepětí, přetlaku, nadproudu, atd.", null, true, 0, null, true, 15L, "Konstrukce/použití/zkušenosti", null },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou použity osvědčené součásti", null, true, 0, null, true, 5L, "Konstrukce/použití/zkušenosti", null },
-                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Jsou k vyloučení poruch se společnou pŕíčinou v konstrukci uvažovány výsledky režimu poruchy a nalýza účinku?", null, true, 0, null, true, 5L, "Posouzení/analýza", null }
-                });
-
-            migrationBuilder.InsertData(
-                table: "CFF",
-                columns: new[] { "Id", "Beta", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "MaxCCF", "MinCCF" },
-                values: new object[,]
-                {
-                    { 2, 0.050000000000000003, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)65, (short)35 },
-                    { 4, 0.01, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)85 },
-                    { 1, 0.10000000000000001, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)35, (short)0 },
-                    { 3, 0.02, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)85, (short)65 }
+                    { 5, "Jsou k vyloučení poruch se společnou příčinou v konstrukci uvažovány výsledky režimu poruchy a analýza účinku?", null, true, false, true, 5L, "Posouzení/analýza", null },
+                    { 1, "Fyzické oddělení medzi jednotlivými dráhami signálu", null, true, false, true, 15L, "Oddělení/segregace", null },
+                    { 2, "Jsou použity ruzné technologie/konstrukce nebo fyzikální principy", null, true, false, true, 20L, "Diverzita", null },
+                    { 3, "Ochrana proti přepětí, přetlaku, nadproudu, atd.", null, true, false, true, 15L, "Konstrukce/použití/zkušenosti", null },
+                    { 4, "Jsou použity osvědčené součásti", null, true, false, true, 5L, "Konstrukce/použití/zkušenosti", null },
+                    { 6, "Byli konstruktéři/údržbáři zacvičení k pochopení příčin a následkú poruch se společnou příčinou ?", null, true, false, true, 5L, "Zpusobilost/zácvik", null },
+                    { 7, "Zamezení kontaminace a elektromagnetická kompatibilita (EMC) proti CCF podle příslušných norem", null, true, false, true, 25L, "Prostředí", null },
+                    { 8, "Byly uvažováni požadavky na odolnost proti všem relevantním vlivum prostředí, např. teplota, vibrace, vlhkost ?", null, true, false, true, 10L, "Prostředí", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "DC",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
+                columns: new[] { "Id", "CompareValue", "IsRemoved", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)99, (short)90, "Střední", null },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)99, "Vysoké", null },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)60, (short)0, "Žádné", null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)90, (short)60, "Nízké", null }
+                    { 3, (short)3, false, true, (short)99, (short)90, "Střední", null },
+                    { 2, (short)2, false, true, (short)90, (short)60, "Nízké", null },
+                    { 1, (short)1, false, true, (short)60, (short)0, "Žádné", null },
+                    { 4, (short)4, false, true, (short)100, (short)99, "Vysoké", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "EvaluationMethod",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN", "Shortcut" },
+                columns: new[] { "Id", "IsRemoved", "IsValid", "NameCZ", "NameEN", "Shortcut" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Úroveň integrity bezpečnosti", "Safety Integrity Level", "SIL" },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Úroveň vlastností", "Performance Level", "PL" }
+                    { 2, false, true, "Úroveň integrity bezpečnosti", "Safety Integrity Level", "SIL" },
+                    { 1, false, true, "Úroveň vlastností", "Performance Level", "PL" }
                 });
 
             migrationBuilder.InsertData(
                 table: "F",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Častá až nepřetržitá", null, 0, null, true, "F2" },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Řídká až málo častá", null, 0, null, true, "F1" }
+                    { 1, "Řídká až málo častá", null, false, true, "F1" },
+                    { 2, "Častá až nepřetržitá", null, false, true, "F2" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Fr",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "FrequencyOfThreatCZ", "FrequencyOfThreatEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                columns: new[] { "Id", "FrequencyOfThreatCZ", "FrequencyOfThreatEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1 rok", null, 0, null, true, (short)2 },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 2 týdny až <= 1 rok", null, 0, null, true, (short)3 },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1 den až <= 2 týdny", null, 0, null, true, (short)4 },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "> 1h až <= 1 den", null, 0, null, true, (short)5 },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "<= 1h", null, 0, null, true, (short)5 }
+                    { 3, "> 1 den až <= 2 týdny", null, false, true, (short)4 },
+                    { 4, "> 2 týdny až <= 1 rok", null, false, true, (short)3 },
+                    { 5, "> 1 rok", null, false, true, (short)2 },
+                    { 1, "<= 1h", null, false, true, (short)5 },
+                    { 2, "> 1h až <= 1 den", null, false, true, (short)5 }
                 });
 
             migrationBuilder.InsertData(
                 table: "MTTFd",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
+                columns: new[] { "Id", "CompareValue", "IsRemoved", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)30, (short)10, "Střední", null },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)100, (short)30, "Dlouhá", null },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, (short)10, (short)3, "Krátká", null }
+                    { 1, (short)1, false, true, (short)10, (short)3, "Krátká", null },
+                    { 3, (short)3, false, true, (short)100, (short)30, "Dlouhá", null },
+                    { 2, (short)2, false, true, (short)30, (short)10, "Střední", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "MachineType",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Montážní linka", null },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Jednoúčelový stroj", null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Nějaký popis", null, 0, null, true, "Víceúčelový stroj", null }
+                    { 1, null, null, false, true, "Jednoúčelový stroj", null },
+                    { 2, null, null, false, true, "Víceúčelový stroj", null },
+                    { 3, null, null, false, true, "Montážní linka", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Norm",
-                columns: new[] { "Id", "CatalogNumber", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Label", "NameCZ", "NameEN", "NormCategory" },
+                columns: new[] { "Id", "CatalogNumber", "IsRemoved", "IsValid", "Label", "NameCZ", "NameEN", "NormCategory" },
                 values: new object[,]
                 {
-                    { 3, "15296296", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "ČSN EN 62061", "Popis tejto normy", null, "B1" },
-                    { 2, "15296296", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "ČSN EN ISO 12100", "Popis tejto normy", null, "A" },
-                    { 1, "15296296", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "ČSN EN ISO 13849-1", "Bezpečnost strojních zařízení - Bezpečnostné části ovládacích systému - Část 1: Všeobecné zásady pro konstrukci", null, "B1" }
+                    { 7, "unknown", false, true, "ISO 29042", "Obsažené látky - Hodnocení emisí nebezpečných látek přenášených vzduchem", null, "B" },
+                    { 30, "unknown", false, true, "ISO 4413", "Napájecí zdroj - Hydraulická zařízení", null, "B" },
+                    { 31, "unknown", false, true, "ISO 14118", "Řidicí systémy - Zamezení neočekávanému spuštění", null, "B" },
+                    { 32, "unknown", false, true, "ISO 13849-1", "Řidicí systémy - Konstrukcde bezpečnostních částí ovládacího systémů", null, "B" },
+                    { 33, "unknown", false, true, "ISO 13849-2", "Řidicí systémy - Ověřovani bezpečnostních častí ovládacích systémů", null, "B" },
+                    { 34, "unknown", false, true, "ISO 13850", "Řidicí systémy - Funkce nouzového zastavení", null, "B" },
+                    { 35, "unknown", false, true, "ISO 14120", "Bezpečnostní zařízení - Ochranné kryty", null, "B" },
+                    { 36, "unknown", false, true, "ISO 14119", "Bezpečnostní zařízení - Blokovací zařízení spojená s ochrannými kryty", null, "B" },
+                    { 38, "unknown", false, true, "IEC 61496", "Bezpečnostní zařízení - Elektrická snímací ochranná zařízení", null, "B" },
+                    { 29, "unknown", false, true, "ISO 4414", "Napájecí zdroj - Pneumatická zařízení", null, "B" },
+                    { 39, "unknown", false, true, "ISO 13856", "Bezpečnostní zařízení - Ochranná zařízení citlivá na tlak", null, "B" },
+                    { 40, "unknown", false, true, "ISO 11161", "Bezpečnostní zařízení - Integrované výrobní systémy", null, "B" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Norm",
+                columns: new[] { "Id", "CatalogNumber", "IsRemoved", "IsValid", "Label", "NameCZ", "NameEN", "NormCategory" },
+                values: new object[,]
+                {
+                    { 4, "unknown", false, true, "ISO 11546", "Rušení - Určovaní zvkové izolace krytů", null, "B" },
+                    { 3, "unknown", false, true, "ISO 9614", "Rušení - Určovaní hladin akustického výkonu zdroju hluku pomocí akustické intenzity", null, "B" },
+                    { 2, "unknown", false, true, "ISO 3741", "Rušení - Určení hladín akustického výkonu a hladin akusticko energie zdroju hluku", null, "B" },
+                    { 1, "unknown", false, true, "ISO 11200", "Rušení - Určovaní emisních hladín akustického tlaku na stanovišti obsluhy", null, "B" },
+                    { 37, "unknown", false, true, "ISO 13851", "Bezpečnostní zařízení -Dvouruční ovládací zařízení", null, "B" },
+                    { 6, "unknown", false, true, "ISO 4871", "Rušení - Deklarování a ověřování hodnot emise hluku", null, "B" },
+                    { 28, "unknown", false, true, "IEC 60204-1", "Napájecí zdroj - Elektrická zařízení", null, "B" },
+                    { 26, "unknown", false, true, "ISO 7731", "Alarmy a varování - Sluchové výstražní signály", null, "B" },
+                    { 8, "unknown", false, true, "ISO 14123-1", "Obsažené látky - Snižování ohroženými látkami emitovanými stojním zařízením", null, "B" },
+                    { 9, "unknown", false, true, "ISO 14159", "Obsažené látky - Hygienické požadavky", null, "B" },
+                    { 10, "unknown", false, true, "ISO 13732-1", "Tepelná rizika - Metody posuzování odezvy člověka na kontakt s horkými povrchy", null, "B" },
+                    { 11, "unknown", false, true, "ISO 19363", "Požarní riziká - Požarní prevence a požarní ochrana", null, "B" },
+                    { 12, "unknown", false, true, "IEC 60204-1", "Elektrická rizika - Ochrana proti zásahu elektrickým proudem", null, "B" },
+                    { 13, "unknown", false, true, "ISO 2631", "Vibrace a rázy - Expozice celkovým vibracím", null, "B" },
+                    { 5, "unknown", false, true, "ISO 11957", "Rušení - Určení zvukové izolace kabin", null, "B" },
+                    { 15, "unknown", false, true, "ISO 20643", "Vibrace a rázy - Ruční a rukou vedená strojní zařizení", null, "B" },
+                    { 27, "unknown", false, true, "IEC 61310-1", "Alarmy a varování - Požadavky na vizuální, akustické a taktilná signály", null, "B" },
+                    { 16, "unknown", false, true, "ISO 15534", "Ergonomie - Přístupové otvory", null, "B" },
+                    { 18, "unknown", false, true, "ISO 15536-1", "Ergonomie - Počítačové modely lidského těla a tělesné šablony", null, "B" },
+                    { 19, "unknown", false, true, "ISO 11145", "Radiační rizika - Lasary a laserová zařízení - obecné požadavky", null, "B" },
+                    { 20, "unknown", false, true, "ISO 13854", "Rozměry a vzdálenosti - Nejemenší mezery k zamezení stlačení částí lidského těla", null, "B" },
+                    { 21, "unknown", false, true, "ISO 13855", "Rozměry a vzdálenosti - Minimální vzdálenosti", null, "B" },
+                    { 22, "unknown", false, true, "ISO 13857", "Rozměry a vzdálenosti - Bezepečné vzdálenosti", null, "B" },
+                    { 23, "unknown", false, true, "ISO 14122", "Rozměry a vzdálenosti - Trvalé prostředky přístupu ke strojním zařízením", null, "B" },
+                    { 24, "unknown", false, true, "ISO 3864-1", "Alarmy a varování - Zásady navrhování bezpečnostních značek a bezpečnostního značení", null, "B" },
+                    { 25, "unknown", false, true, "ISO 7010", "Alarmy a varování - Registrované bezpečnostní značky", null, "B" },
+                    { 17, "unknown", false, true, "ISO 14738", "Ergonomie - Antropometrické požadavky na uspořádané pracovního místa u strojního zařízení", null, "B" },
+                    { 14, "unknown", false, true, "ISO 13753", "Vibrace a rázy - Vibrace ruky a paže", null, "B" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "OperationPrinciples",
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
+                values: new object[,]
+                {
+                    { 1, null, null, false, true, "mechanický", null },
+                    { 3, null, null, false, true, "pneumatický", null },
+                    { 2, null, null, false, true, "elektrický", null },
+                    { 5, null, null, false, true, "hydraulický", null },
+                    { 4, null, null, false, true, "elektromechanický", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "P",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možné za určitých podmínek", null, 0, null, true, "P1" },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Sotva možné", null, 0, null, true, "P2" }
+                    { 1, "Možné za určitých podmínek", null, false, true, "P1" },
+                    { 2, "Sotva možné", null, false, true, "P2" }
                 });
 
             migrationBuilder.InsertData(
                 table: "PFHd",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "MaxPFHd", "MinPFHd", "ValueSIL" },
+                columns: new[] { "Id", "IsRemoved", "IsValid", "MaxPFHd", "MinPFHd", "ValueSIL" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, 1E-05f, 1E-06f, (short)2 },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, 0.0001f, 1E-05f, (short)1 },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, 1E-06f, 1E-07f, (short)3 }
+                    { 2, false, true, 1E-05f, 1E-06f, (short)2 },
+                    { 1, false, true, 1E-06f, 1E-07f, (short)3 },
+                    { 3, false, true, 0.0001f, 1E-05f, (short)1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "PL",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Label" },
+                columns: new[] { "Id", "CompareValue", "IsRemoved", "IsValid", "Label" },
                 values: new object[,]
                 {
-                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "e" },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "b" },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "c" }
+                    { 1, (short)1, false, true, "a" },
+                    { 2, (short)2, false, true, "b" },
+                    { 3, (short)3, false, true, "c" },
+                    { 4, (short)4, false, true, "d" }
                 });
 
             migrationBuilder.InsertData(
                 table: "PL",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Label" },
-                values: new object[,]
-                {
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "d" },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "a" }
-                });
+                columns: new[] { "Id", "CompareValue", "IsRemoved", "IsValid", "Label" },
+                values: new object[] { 5, (short)5, false, true, "e" });
 
             migrationBuilder.InsertData(
                 table: "Pr",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Velmi vysoká", null, 0, null, true, (short)5 },
-                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Zanedbatelná", null, 0, null, true, (short)1 },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Možná", null, 0, null, true, (short)3 },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Výjimečná", null, 0, null, true, (short)2 },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pravděpodobná", null, 0, null, true, (short)4 }
+                    { 2, "Pravděpodobná", null, false, true, (short)4 },
+                    { 3, "Možná", null, false, true, (short)3 },
+                    { 4, "Výjimečná", null, false, true, (short)2 },
+                    { 5, "Zanedbatelná", null, false, true, (short)1 },
+                    { 1, "Velmi vysoká", null, false, true, (short)5 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Producer",
-                columns: new[] { "Id", "CountryOfOrigin", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "Name" },
+                columns: new[] { "Id", "CountryOfOrigin", "IsRemoved", "IsValid", "Name" },
                 values: new object[,]
                 {
-                    { 3, "USA", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Allen Bradley" },
-                    { 2, "Slovakia", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Sipron" },
-                    { 1, "Germany", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Siemens" }
+                    { 3, "USA", false, true, "Allen Bradley" },
+                    { 2, "Slovakia", false, true, "Sipron" },
+                    { 1, "Germany", false, true, "Siemens" }
                 });
 
             migrationBuilder.InsertData(
                 table: "S",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Závažné", null, 0, null, true, "S2" },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Lehké", null, 0, null, true, "S1" }
+                    { 2, "Závažné", null, false, true, "S2" },
+                    { 1, "Lehké", null, false, true, "S1" }
                 });
 
             migrationBuilder.InsertData(
                 table: "SFF",
-                columns: new[] { "Id", "ComponentNameCZ", "ComponentNameEN", "DateTimeCreated", "DateTimeUpdated", "FailureModeCZ", "FailureModeEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                columns: new[] { "Id", "ComponentNameCZ", "ComponentNameEN", "FailureModeCZ", "FailureModeEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 1, "Relé", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Kontakty nelze rozepnout", null, 0, null, true, 10L },
-                    { 2, "Relé", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Kontakty nelze sepnout", null, 0, null, true, 10L },
-                    { 3, "Relé", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Současný zkrat mezi třemi kontakty přepínacího spínače", null, 0, null, true, 10L }
+                    { 32, "Bezdotykové spínače", null, "Současný zkrat mezi třemi kontakty přepínacího spínače", null, false, true, 10L },
+                    { 33, "Teplotní spínač", null, "Kontakty nelze rozepnout", null, false, true, 30L },
+                    { 34, "Teplotní spínač", null, "Kontakty nelze sepnout", null, false, true, 10L },
+                    { 11, "Relé", null, "Zkrat medzi dvěma páry kontaktů a/nebo mezi kontakty a svorku cívky", null, false, true, 10L },
+                    { 10, "Relé", null, "Současné zapnutí zapínacího a vypínacího kontaktu", null, false, true, 10L },
+                    { 9, "Relé", null, "Současný zkrat mezi třemi kontakty přepínacího spínače", null, false, true, 10L },
+                    { 8, "Relé", null, "Kontakty nelze sepnout", null, false, true, 10L },
+                    { 29, "Bezdotykové spínače", null, "Trvalé vysoká rezistance na výstupu", null, false, true, 25L },
+                    { 12, "Jistič, proudový chránič", null, "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí", null, false, true, 25L },
+                    { 28, "Bezdotykové spínače", null, "Trvalé nízke rezistance na výstupu", null, false, true, 25L },
+                    { 27, "Poistka", null, "Přerušený obvod", null, false, true, 90L },
+                    { 26, "Poistka", null, "Nedojde k přtavení (zkrat)", null, false, true, 10L },
+                    { 25, "Stykač", null, "Zkrat medzi dvěma páry kontaktů a/nebo medzi kontakty a svorku cívky", null, false, true, 10L },
+                    { 24, "Stykač", null, "Současné zapnutí zapínacího a vypínacího kontaktu", null, false, true, 10L },
+                    { 23, "Stykač", null, "Současný zkrat medzi třemi kontakty přepínacího spínače", null, false, true, 10L },
+                    { 22, "Stykač", null, "Kontakty nelze sepnout", null, false, true, 10L },
+                    { 21, "Stykač", null, "Kontakty nelze rozepnout", null, false, true, 10L },
+                    { 20, "Stykač", null, "Všeschny Kontakty zůstávajé ve vypnuté poloze, je-li cívka pod napětím", null, false, true, 25L },
+                    { 19, "Stykač", null, "Všechny kontakty zůstávají v zapnuté poloze, je-li cívka bez napětí", null, false, true, 25L },
+                    { 18, "Jistič, proudový chránič", null, "Zkrat medzi dvěmi páry kontaktů a/nebo medzi kontakty a svorkou civky", null, false, true, 10L },
+                    { 17, "Jistič, proudový chránič", null, "Současné zapnutí zapínacího a vypínacího kontaktu", null, false, true, 10L },
+                    { 16, "Jistič, proudový chránič", null, "Současný zkrat medzi třemi kontakty přepínacího spínače", null, false, true, 10L },
+                    { 15, "Jistič, proudový chránič", null, "Kontakty nelze sepnou", null, false, true, 10L },
+                    { 14, "Jistič, proudový chránič", null, "Kontakty nelze rozepnout", null, false, true, 10L },
+                    { 13, "Jistič, proudový chránič", null, "Všechny kontakty zůstavají ve vypnuté poloze, je-li cívka pod napětí", null, false, true, 25L },
+                    { 31, "Bezdotykové spínače", null, "Selhíni spínače vlivem mechanické poruchy", null, false, true, 10L },
+                    { 30, "Bezdotykové spínače", null, "Přerušní napájaní", null, false, true, 30L },
+                    { 7, "Relé", null, "Kontakty nelze rozepnout", null, false, true, 10L },
+                    { 49, "Solenoidový ventil", null, "Další poruchové režimy (viz poznámka 4)", null, false, true, 10L },
+                    { 5, "Relé", null, "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí", null, false, true, 25L },
+                    { 54, "Svorkovnice", null, "Rozpojený obvod svorek", null, false, true, 90L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SFF",
+                columns: new[] { "Id", "ComponentNameCZ", "ComponentNameEN", "FailureModeCZ", "FailureModeEN", "IsRemoved", "IsValid", "Value" },
+                values: new object[,]
+                {
+                    { 53, "Svorkovnice", null, "Zkrat medzi sousedními svorkami", null, false, true, 10L },
+                    { 52, "Vidlice a zásuvky, konektory", null, "Rozpojený obvod libovolného spoje (koliku) konektoru", null, false, true, 80L },
+                    { 51, "Vidlice a zásuvky, konektory", null, "Zkrat libovolného vodiče s neživou částí", null, false, true, 10L },
+                    { 50, "Vidlice a zásuvky, konektory", null, "Zkrat medzi libovolnými dvěma sousedními spoji (koliky)", null, false, true, 10L },
+                    { 35, "Teplotní spínač", null, "Zkrat medzi sousedními kontakty", null, false, true, 10L },
+                    { 48, "Solenoidový ventil", null, "Netěsnost", null, false, true, 65L },
+                    { 47, "Solenoidový ventil", null, "Změna doby spínaní", null, false, true, 5L },
+                    { 6, "Relé", null, "Všechny kontakty zůstavají ve vypnuté poloze, je-li cívka pod napětím", null, false, true, 25L },
+                    { 45, "Solenoidový ventil", null, "Nelze nabudit", null, false, true, 5L },
+                    { 44, "Tlakový spínač", null, "Změna meřícich nebo výstupních charakteristik", null, false, true, 20L },
+                    { 46, "Solenoidový ventil", null, "Nelze odbudit", null, false, true, 15L },
+                    { 42, "Tlakový spínač", null, "Současný zkat medzi třemi svorkami přepínacích kontaktů", null, false, true, 10L },
+                    { 4, "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.", null, "Kontakty nelze sepnout", null, false, true, 50L },
+                    { 43, "Tlakový spínač", null, "Vada čidla", null, false, true, 20L },
+                    { 2, "Spínač s nuceným vypínaním", null, "Kontakty nelze sepnout", null, false, true, 80L },
+                    { 1, "Spínač s nuceným vypínaním", null, "Kontakty nelze rozepnout", null, false, true, 20L },
+                    { 3, "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.", null, "Kontakty nelze rozepnout", null, false, true, 50L },
+                    { 38, "Teplotní spínač", null, "Zmena měřích nebo výstupních charakteristik", null, false, true, 20L },
+                    { 39, "Tlakový spínač", null, "Kontakty nelze rozepnout", null, false, true, 30L },
+                    { 40, "Tlakový spínač", null, "Kontakty nelze sepnout", null, false, true, 10L },
+                    { 41, "Tlakový spínač", null, "Zkrat mezi sousedními kontakty", null, false, true, 10L },
+                    { 37, "Teplotní spínač", null, "Vada čidla", null, false, true, 20L },
+                    { 36, "Teplotní spínač", null, "Zkrat medzi třemi svorkami přepínacích kontaktů", null, false, true, 10L }
                 });
 
             migrationBuilder.InsertData(
                 table: "SY_Entity",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "IsRemoved", "Name" },
                 values: new object[,]
                 {
-                    { 2, "Element" },
-                    { 3, "Machine" },
-                    { 4, "Producer" },
-                    { 5, "SafetyFunction" },
-                    { 1, "AccessPoint" },
-                    { 7, "User" },
-                    { 6, "Subsystem" }
+                    { 1, false, "AccessPoint" },
+                    { 2, false, "Element" },
+                    { 3, false, "Machine" },
+                    { 4, false, "Producer" },
+                    { 5, false, "SafetyFunction" },
+                    { 7, false, "User" },
+                    { 6, false, "Subsystem" }
                 });
 
             migrationBuilder.InsertData(
@@ -1461,95 +1516,117 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "IsValid", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 3, "28620cea-9e24-4d4c-ba21-ed3cc50ceaf3", true, "Administrator", "ADMINISTRATOR" },
-                    { 2, "e263c121-d7e5-456f-90f6-6cf7dda6568f", true, "NormalUser", "NORMALUSER" },
-                    { 1, "ed83ad5d-5901-447d-8874-79e80aef23bf", true, "Observer", "OBSERVER" }
+                    { 1, "6ccefb5a-2af5-4920-b4fc-20689cf0f05e", true, "Observer", "OBSERVER" },
+                    { 2, "033b62c3-50ea-463f-ba96-d086052b0a21", true, "NormalUser", "NORMALUSER" },
+                    { 3, "94d63c8d-3524-44e3-bbc6-94e67047f984", true, "SafetyEvaluationAdmin", "SAFETYEVALUATIONADMIN" },
+                    { 4, "2047496c-0c8d-49ae-bb7e-ff53108436de", true, "UserAdmin", "USERADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Se",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "Value" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Trvalé: smrt, ztráta oka nebo paže", null, 0, null, true, (short)4 },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Trvalé: zlomená končetina, ztráta prstu", null, 0, null, true, (short)3 },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Přechodné: vyžadující ošetření praktickým lékařem", null, 0, null, true, (short)2 },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Přechodné: vyžadující ošetření na první pomoci", null, 0, null, true, (short)1 }
+                    { 4, "Přechodné: vyžadující ošetření na první pomoci", null, false, true, (short)1 },
+                    { 3, "Přechodné: vyžadující ošetření praktickým lékařem", null, false, true, (short)2 },
+                    { 2, "Trvalé: zlomená končetina, ztráta prstu", null, false, true, (short)3 },
+                    { 1, "Trvalé: smrt, ztráta oka nebo paže", null, false, true, (short)4 }
                 });
 
             migrationBuilder.InsertData(
                 table: "TypeOfFunction",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce místního ovládaní", null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce ručního opětného nastavení", null },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0, null, true, "Funkce bezpečného zastavení iniciována bezpečnostním zařízením", null }
+                    { 1, null, null, false, true, "Funkce bezpečného zastavení iniciována bezpečnostním zařízením", null },
+                    { 2, null, null, false, true, "Funkce ručního opětného nastavení", null },
+                    { 3, null, null, false, true, "Funkce místního ovládaní", null },
+                    { 4, null, null, false, true, "Funkce spuštení/opětovného spuštení", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TypeOfFunction",
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
+                values: new object[,]
+                {
+                    { 5, null, null, false, true, "Funkce vyřazení", null },
+                    { 6, null, null, false, true, "Funkce tipování", null },
+                    { 8, null, null, false, true, "Funkce zamezení neočekávaného spuštění", null },
+                    { 9, null, null, false, true, "Únik a uvolnění zachycených osob", null },
+                    { 10, null, null, false, true, "Funkce odpojení a uvolnění energie", null },
+                    { 11, null, null, false, true, "Režimy ovládání a volba režimu", null },
+                    { 12, null, null, false, true, "Vzájemné púsobení rúzných bezpečnostních částí ovládacího systému", null },
+                    { 13, null, null, false, true, "Monitorování parametrizace hodnot bezpečnostního vstupu", null },
+                    { 14, null, null, false, true, "Funkce nouzového zastavení", null },
+                    { 7, null, null, false, true, "Funkce povelového zařízení", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "TypeOfSubsystem",
-                columns: new[] { "Id", "DateTimeCreated", "DateTimeUpdated", "IdCreated", "IdUpdated", "IsValid", "NameCZ", "NameEN" },
+                columns: new[] { "Id", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Komunikační", null },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Logický", null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Výstupní", null },
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 0, null, true, "Vstupní", null }
+                    { 1, false, true, "Vstupní", "Input" },
+                    { 2, false, true, "Výstupní", "Output" },
+                    { 3, false, true, "Logický", "Logical" },
+                    { 4, false, true, "Komunikace vstup-logika", "Input-logic comminucation" },
+                    { 5, false, true, "Komunikace výstup-logika", "Output-logic comminucation" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Architecture",
-                columns: new[] { "Id", "Channels", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "Diagnostic", "HFT", "IdCreated", "IdUpdated", "IsValid", "Label", "Logic", "MaxPFHd_Id", "MaxSFF", "MinSFF" },
+                columns: new[] { "Id", "Channels", "CompareValue", "DescriptionCZ", "DescriptionEN", "Diagnostic", "HFT", "IsRemoved", "IsValid", "Label", "Logic", "MaxPFHd_Id", "MaxSFF", "MinSFF" },
                 values: new object[,]
                 {
-                    { 1, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, (short)0, 0, null, true, "A", true, 1, 99.0, 60.0 },
-                    { 2, (short)2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, false, (short)1, 0, null, true, "B", true, 1, 99.0, 0.0 },
-                    { 3, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, true, (short)0, 0, null, true, "C", true, 1, 99.0, 60.0 },
-                    { 4, (short)2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, true, (short)1, 0, null, true, "D", true, 1, 99.0, 0.0 }
+                    { 1, (short)1, (short)1, null, null, false, (short)0, false, true, "A", true, 1, 99.0, 60.0 },
+                    { 2, (short)2, (short)2, null, null, false, (short)1, false, true, "B", true, 1, 99.0, 0.0 },
+                    { 3, (short)1, (short)3, null, null, true, (short)0, false, true, "C", true, 1, 99.0, 60.0 },
+                    { 4, (short)2, (short)4, null, null, true, (short)1, false, true, "D", true, 1, 99.0, 0.0 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Category",
-                columns: new[] { "Id", "Channels", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "FailureBehaviorCZ", "FailureBehaviorEN", "IdCreated", "IdUpdated", "IsValid", "Label", "Logic", "MaxDC_Id", "MaxMTTFd_Id", "MinDC_Id", "MinMTTFd_Id", "RelevantCCF", "RequirementsCZ", "RequirementsEN" },
+                columns: new[] { "Id", "Channels", "CompareValue", "DescriptionCZ", "DescriptionEN", "FailureBehaviorCZ", "FailureBehaviorEN", "IsRemoved", "IsValid", "Label", "Logic", "MaxDC_Id", "MaxMTTFd_Id", "MinDC_Id", "MinMTTFd_Id", "RelevantCCF", "RequirementsCZ", "RequirementsEN" },
                 values: new object[,]
                 {
-                    { 1, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "B", true, 1, 2, 1, 1, false, "Random text", null },
-                    { 2, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "1", true, 1, 3, 1, 3, false, "Random text", null },
-                    { 3, (short)1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "2", true, 3, 3, 2, 1, true, "Random text", null },
-                    { 4, (short)2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "3", true, 3, 3, 2, 1, true, "Random text", null },
-                    { 5, (short)2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Random text", null, "Random text", null, 0, null, true, "4", true, 4, 3, 4, 3, true, "Random text", null }
+                    { 1, (short)1, (short)1, null, null, null, null, false, true, "B", true, 1, 2, 1, 1, false, null, null },
+                    { 2, (short)1, (short)2, null, null, null, null, false, true, "1", true, 1, 3, 1, 3, false, null, null },
+                    { 3, (short)1, (short)3, null, null, null, null, false, true, "2", true, 3, 3, 2, 1, true, null, null },
+                    { 4, (short)2, (short)4, null, null, null, null, false, true, "3", true, 3, 3, 2, 1, true, null, null },
+                    { 5, (short)2, (short)5, null, null, null, null, false, true, "4", true, 4, 3, 4, 3, true, null, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "SY_State",
-                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "Entity_Id", "FinalState", "InitialState", "NameCZ", "NameEN", "StateNumber", "Valid" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "Entity_Id", "FinalState", "InitialState", "IsRemoved", "NameCZ", "NameEN", "StateNumber", "Valid" },
                 values: new object[,]
                 {
-                    { 11, "Bezpečnostní funkce byla odstránena", "Safety function was deleted", 5, false, false, "Odstránená", "Removed", 4, true },
-                    { 10, "Určená výsledná úroveň bezpečnosti", "Determined final level of security", 5, false, false, "Dokončená", "Completed", 3, true },
-                    { 9, "Příprava subsystému", "Preparing subsystems", 5, false, false, "Rozpracovaná", "Work in progress", 2, true },
-                    { 8, "S nevyplnenými subsystémami", "Subsystems are not filled", 5, false, true, "Nová", "New", 1, true },
-                    { 4, "Mašina byla odstránená", "Machine was deleted", 3, true, false, "Odstránená", "Removed", 4, true },
-                    { 6, "Přístupový bod má jednu nebo více bezpečnostních funkcí", "Access point has one or more safety functions", 1, false, false, "Ošetřený bezpečnostní funkcí", "Protected with safety function", 2, true },
-                    { 2, "Pracuje se na detailech", "Working on details", 3, false, false, "Rozpracovaná", "Work in progres", 2, true },
-                    { 1, "Řídící jednotka není vybrána", "Conrol logic is not selected", 3, false, true, "Nová", "New", 1, true },
-                    { 7, "Přístupový bod byl odstránený", "Access point was deleted", 1, true, false, "Odstránený", "Removed", 3, true },
-                    { 12, null, null, 7, false, true, "Aktivní", "Active", 1, true },
-                    { 5, "Bez bezpečnostní funkce", "Without safety function", 1, false, true, "Nový", "New", 1, true },
-                    { 3, "Řídící jednotka byla vybrána", "Control logic was selected", 3, false, false, "Dokončená", "Completed", 3, true },
-                    { 13, null, null, 7, false, false, "Zablokovaný", "Blocked", 2, true }
+                    { 14, null, null, 6, false, true, false, "Nový", "New", 1, true },
+                    { 11, "Bezpečnostní funkce byla odstránena", "Safety function was deleted", 5, false, false, false, "Odstránená", "Removed", 4, true },
+                    { 10, "Určená výsledná úroveň bezpečnosti", "Determined final level of security", 5, false, false, false, "Dokončená", "Completed", 3, true },
+                    { 9, "Příprava subsystému", "Preparing subsystems", 5, false, false, false, "Rozpracovaná", "Work in progress", 2, true },
+                    { 8, "S nevyplnenými subsystémami", "Subsystems are not filled", 5, false, true, false, "Nová", "New", 1, true },
+                    { 4, "Mašina byla odstránená", "Machine was deleted", 3, true, false, false, "Odstránená", "Removed", 4, true },
+                    { 7, "Přístupový bod byl odstránený", "Access point was deleted", 1, true, false, false, "Odstránený", "Removed", 3, true },
+                    { 2, "Pracuje se na detailech", "Working on details", 3, false, false, false, "Rozpracovaná", "Work in progres", 2, true },
+                    { 1, "Řídící jednotka není vybrána", "Conrol logic is not selected", 3, false, true, false, "Nová", "New", 1, true },
+                    { 15, null, null, 2, false, true, false, "Nový", "New", 1, true },
+                    { 12, null, null, 7, false, true, false, "Aktivní", "Active", 1, true },
+                    { 6, "Přístupový bod má jednu nebo více bezpečnostních funkcí", "Access point has one or more safety functions", 1, false, false, false, "Ošetřený bezpečnostní funkcí", "Protected with safety function", 2, true },
+                    { 5, "Bez bezpečnostní funkce", "Without safety function", 1, false, true, false, "Nový", "New", 1, true },
+                    { 3, "Řídící jednotka byla vybrána", "Control logic was selected", 3, false, false, false, "Dokončená", "Completed", 3, true },
+                    { 13, null, null, 7, false, false, false, "Zablokovaný", "Blocked", 2, true }
                 });
 
             migrationBuilder.InsertData(
                 table: "TypeOfLogic",
-                columns: new[] { "Id", "AccessPointsMaxCount", "Communication", "DateTimeCreated", "DateTimeUpdated", "DescriptionCZ", "DescriptionEN", "EthernetAdressesMaxCount", "IdCreated", "IdUpdated", "IsValid", "MaxArchitecture_Id", "MaxCategory_Id", "MaxPL_Id", "MaxSIL_Id", "NameCZ", "NameEN", "SI", "SO" },
+                columns: new[] { "Id", "AccessPointsMaxCount", "Communication", "DescriptionCZ", "DescriptionEN", "EthernetAdressesMaxCount", "IsRemoved", "IsValid", "MaxArchitecture_Id", "MaxCategory_Id", "MaxPL_Id", "MaxSIL_Id", "NameCZ", "NameEN", "SI", "SO", "Subsystem_Id" },
                 values: new object[,]
                 {
-                    { 1, 2, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0L, 0, null, true, 4, 5, 5, 1, "Relé", "Relay", 4, 4 },
-                    { 2, 5, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 0L, 0, null, true, 4, 5, 5, 1, "CR30", "CR30", 12, 10 },
-                    { 3, null, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 48L, 0, null, true, 4, 5, 5, 1, "GMX", "GMX", 6144, 6144 },
-                    { 4, null, true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, 256L, 0, null, true, 4, 5, 5, 1, "GLX", "GLX", 65536, 65536 }
+                    { 1, 2, false, null, null, 0L, false, true, 4, 5, 5, 1, "Relé", "Relay", 4, 4, 0 },
+                    { 2, 5, false, null, null, 0L, false, true, 4, 5, 5, 1, "CR30", "CR30", 12, 10, 0 },
+                    { 3, null, true, null, null, 48L, false, true, 4, 5, 5, 1, "GMX", "GMX", 6144, 6144, 0 },
+                    { 4, null, true, null, null, 256L, false, true, 4, 5, 5, 1, "GLX", "GLX", 65536, 65536, 0 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -1738,11 +1815,6 @@ namespace SSEA.DAL.Migrations
                 column: "Category_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subsystem_CFF_Id",
-                table: "Subsystem",
-                column: "CFF_Id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Subsystem_CurrentState_Id",
                 table: "Subsystem",
                 column: "CurrentState_Id");
@@ -1756,6 +1828,11 @@ namespace SSEA.DAL.Migrations
                 name: "IX_Subsystem_MTTFdResult_Id",
                 table: "Subsystem",
                 column: "MTTFdResult_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subsystem_OperationPrinciple_Id",
+                table: "Subsystem",
+                column: "OperationPrinciple_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subsystem_PFHdResult_Id",
@@ -1959,7 +2036,7 @@ namespace SSEA.DAL.Migrations
                 name: "TypeOfLogic");
 
             migrationBuilder.DropTable(
-                name: "CFF");
+                name: "OperationPrinciples");
 
             migrationBuilder.DropTable(
                 name: "SY_State");

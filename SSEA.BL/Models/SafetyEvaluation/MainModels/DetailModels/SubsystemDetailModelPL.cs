@@ -2,21 +2,22 @@
 using SSEA.BL.Extensions;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class SubsystemDetailModelPL : ExtendedModelBase
     {
+        public bool IsUsed { get; set; } = false;
         public bool ValidCCF { get; set; }
 
         [Required]
         public TypeOfSubsystemModel TypeOfSubsystem { get; set; }
+
+        [Required]
+        public OperationPrincipleModel OperationPrinciple { get; set; }
 
         [Required]
         public CategoryModel Category { get; set; }
@@ -34,6 +35,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public SubsystemDetailModelPLMapperProfile()
         {
             CreateMap<Subsystem, SubsystemDetailModelPL>().IgnoreSource(src => src.TypeOfSubsystemId)
+                                                          .IgnoreSource(src => src.OperationPrincipleId)
                                                           .IgnoreSource(src => src.SafetyFunctionSubsystems)
                                                           .IgnoreSource(src => src.SubsystemCCFs)
                                                           .IgnoreSource(src => src.CategoryId)
@@ -48,9 +50,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                           .IgnoreSource(src => src.Architecture)
                                                           .IgnoreSource(src => src.PFHdResultId)
                                                           .IgnoreSource(src => src.PFHdResult)
-                                                          .IgnoreSource(src => src.CFFId)
                                                           .IgnoreSource(src => src.CFF)
                                                           .Ignore(dest => dest.SelectedCCFs)
+                                                          .IgnoreSource(src => src.CurrentStateId)
                                                           .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
                                                           .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                           .ReverseMap();

@@ -1,54 +1,50 @@
-﻿@page "/safetyEvaluation/subsystemInsert/PL/{machineId:int}/{accessPointId:int}/{safetyFunctionId:int}/{typeOfSubsystem}"
+﻿@page "/safetyEvaluation/subsystemInsert/PL"
 
 @layout MainLayout
 
-@inject NavigationManager navigationManager
-@inject CodeListFacade codeListFacade
-@inject SubsystemFacade subsystemFacade
-
-@attribute [Authorize]
+@attribute [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
 
 <MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Subsystem insert</MudText>
+                <MudText Typo="Typo.h6">Create new subsystem</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" />
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" />
+                <MudIconButton @onclick="@BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(safetyFunctionId == 0 || disabled)" />
+                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(disabled || tabs.ActivePanelIndex != 0)" />
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Subsystem details">
                     <EditForm Model="@subsystem" OnValidSubmit="OnValidSubmit" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="4">
-                                <MudField Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined">@subsystem.TypeOfSubsystem.Name</MudField>
-                            </MudItem>
-                            <MudItem xs="4">
-                                <MudField Label="Druh subsystemu" Variant="Variant.Outlined">Mechanicky</MudField>
-                            </MudItem>
-                            <MudItem xs="4">
-                                <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@subsystem.Category.Label</MudField>
+                            <MudItem xs="12">
+                                <MudSelect @bind-Value="subsystem.TypeOfSubsystem" T="TypeOfSubsystemModel" ReadOnly="@typeSelected" Label="Type of subsystem *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@typeOfSubsystemToString">
+                                    @foreach (var item in typeOfSubsystems)
+                                    {
+                                        <MudSelectItem T="TypeOfSubsystemModel" Value="@(item)" />
+                                    }
+                                </MudSelect>
                             </MudItem>
                             <MudItem xs="12">
-                                <hr />
+                                <MudSelect @bind-Value="subsystem.OperationPrinciple" T="OperationPrincipleModel" Label="Operation principle *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@operationPrincipleToString">
+                                    @foreach (var item in operationPrinciples)
+                                    {
+                                        <MudSelectItem T="OperationPrincipleModel" Value="@(item)" />
+                                    }
+                                </MudSelect>
                             </MudItem>
-                            <MudItem xs="3">
-                                <MudField Label="PL result" ReadOnly="true" Variant="Variant.Outlined">@subsystem.PLresult</MudField>
-                            </MudItem>
-                            <MudItem xs="3">
-                                <MudField Label="CCF valid" ReadOnly="true" Variant="Variant.Outlined">@subsystem.ValidCCF</MudField>
-                            </MudItem>
-                            <MudItem xs="3">
-                                <MudField Label="MTTFd result" ReadOnly="true" Variant="Variant.Outlined">@subsystem.MttFdResult</MudField>
-                            </MudItem>
-                            <MudItem xs="3">
-                                <MudField Label="DC result" ReadOnly="true" Variant="Variant.Outlined">@subsystem.DCresult</MudField>
+                            <MudItem xs="12">
+                                <MudSelect @bind-Value="subsystem.Category" T="CategoryModel" Label="Category *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@categoryToString">
+                                    @foreach (var item in categories)
+                                    {
+                                        <MudSelectItem T="CategoryModel" Value="@(item)" />
+                                    }
+                                </MudSelect>
                             </MudItem>
                         </MudGrid>
                     </EditForm>
@@ -57,12 +53,12 @@
                 <MudTabPanel Text="CCF">
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="12">
-                            <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" FixedHeader="true" Outlined="true">
+                            <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true">
                                 <ColGroup>
                                     <col style="width:5%;" /> Checkbox
                                     <col style="width:15%;" /> Type
-                                    <col style="width:65%;" /> Description
-                                    <col style="width:15%;" /> Points
+                                    <col style="width:75%;" /> Description
+                                    <col style="width:5%;" /> Points
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Type</MudTh>
@@ -72,7 +68,7 @@
                                 <RowTemplate Context="tableContext">
                                     <MudTd DataLabel="Name">@tableContext.Type</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.Description</MudTd>
-                                    <MudTd DataLabel="Name">@tableContext.Points</MudTd>
+                                    <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
                                 </RowTemplate>
                             </MudTable>
                         </MudItem>
@@ -86,7 +82,7 @@
                             <MudItem xs="3" />
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
                             </MudItem>
                             <MudItem xs="3" />
                         }
@@ -99,11 +95,11 @@
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                <ElementPL Model="subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="@(equalElements == true ? element1 : element2)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
                             </MudItem>
                         }
                     </MudGrid>
@@ -118,125 +114,133 @@
     </MudCard>
 </MudContainer>
 
-<MudDialog @bind-IsVisible="dialogVisible">
-    <TitleContent>
-        <MudText Align="Align.Center" Typo="Typo.h5">Select category</MudText>
-    </TitleContent>
-    <DialogContent>
-        <MudGrid>
-            <MudItem xs="12">
-                <MudField Disabled="true" Label="Type of subsystem" Variant="Variant.Outlined">@subsystem.TypeOfSubsystem.Name</MudField>
-            </MudItem>
-            <MudItem xs="12">
-                <MudField Label="Druh subsystemu" Variant="Variant.Outlined"></MudField>
-            </MudItem>
-            <MudItem xs="12">
-                <MudSelect @bind-Value="subsystem.Category" T="CategoryModel" Label="Category *" Variant="Variant.Outlined">
-                    @foreach (var item in categories)
-                    {
-                        <MudSelectItem T="CategoryModel" Value="@(item)">@item.Label</MudSelectItem>
-                    }
-                </MudSelect>
-            </MudItem>
-            <MudItem xs="12">
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Continue</MudButton>
-            </MudItem>
-        </MudGrid>
-    </DialogContent>
-</MudDialog>
-
 @code {
 
-    [Parameter]
-    public string TypeOfSubsystem { get; set; }
+    // safetyFunctionId == 0
+    // -- creating independed subsystem
+    // -- after saving navigate to SubsystemDetailPL
+    // safetyFunctionId != 0
+    // -- creating subsystem within safety function
+    // -- after saving navigate to SafetyFunctionDetailPL
+    // -- after saving create record in SafetyFunctionSubsystem join table
 
-    [Parameter]
-    public int SafetyFunctionId { get; set; }
+    [Inject]
+    private SubsystemFacade subsystemFacade { get; set; }
 
-    [Parameter]
-    public int AccessPointId { get; set; }
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
 
-    [Parameter]
-    public int MachineId { get; set; }
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
 
-    private SubsystemDetailModelPL subsystem = new SubsystemDetailModelPL();
+    private Func<CategoryModel, string> categoryToString = cat => cat.Label;
+    private Func<OperationPrincipleModel, string> operationPrincipleToString = op => op.Name;
+    private Func<TypeOfSubsystemModel, string> typeOfSubsystemToString = tos => tos.Name;
 
-    private ICollection<CategoryModel> categories = new List<CategoryModel>();
+    private SubsystemDetailModelPL subsystem = new();
+
+    private ElementDetailModelPL element1 = new();
+    private ElementDetailModelPL element2 = new();
+
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
     private ICollection<DCModel> DCs = new List<DCModel>();
     private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
     private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
+    private ICollection<CategoryModel> categories = new List<CategoryModel>();
     private ICollection<CCFModel> CCFs = new List<CCFModel>();
+    private ICollection<OperationPrincipleModel> operationPrinciples = new List<OperationPrincipleModel>();
 
-    private bool dialogVisible = false;
-    private bool onlyForReading = true;
+    private int machineId;
+    private int accessPointId;
+    private int safetyFunctionId;
+
+    private bool equalElements = true;
+    private bool disabled = false;
+    private bool typeSelected = false;
     private bool showMessage = false;
     private string message = string.Empty;
     private Severity messageType = Severity.Success;
-    private bool equalElements = false;
-
-    private readonly string successMessage = "Safety function was saved successfully :)";
-    private readonly string errorMessage = "Saving failed :(";
-
-    private void OpenDialog() => dialogVisible = true;
-
-    void Submit()
-    {
-        dialogVisible = false;
-        subsystem.Elements = new List<ElementDetailModelPL>();
-        if (subsystem.Category.Channels == 1)
-        {
-            subsystem.Elements.Add(new ElementDetailModelPL());
-        }
-        else
-        {
-            subsystem.Elements.Add(new ElementDetailModelPL());
-            subsystem.Elements.Add(new ElementDetailModelPL());
-        }
-    }
+    private MudTabs tabs = new MudTabs();
 
     protected override async Task OnInitializedAsync()
     {
         typeOfSubsystems = await codeListFacade.GetAllTypeOfSubsystemsAsync();
-        categories = await codeListFacade.GetAllCategoriesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
         MTTFds = await codeListFacade.GetAllMTTFdsAsync();
         DCs = await codeListFacade.GetAllDCsAsync();
+        categories = await codeListFacade.GetAllCategoriesAsync();
         CCFs = await codeListFacade.GetAllCCFsAsync();
+        operationPrinciples = await codeListFacade.GetAllOperationPrinciplesAsync();
 
-        subsystem.Category = categories.FirstOrDefault(c => c.Channels == 2);
-        subsystem.TypeOfSubsystem = (TypeOfSubsystem.ToLower()) switch
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("typeOfSubsystem", out var _typeOfSubsystem))
         {
-            "input" => typeOfSubsystems.FirstOrDefault(t => t.Id == 1),
-            "output" => typeOfSubsystems.FirstOrDefault(t => t.Id == 2),
-            "communication" => typeOfSubsystems.FirstOrDefault(t => t.Id == 4),
-            _ => typeOfSubsystems.FirstOrDefault(t => t.Id == 3)
-        };
+            subsystem.TypeOfSubsystem = (_typeOfSubsystem.ToString().ToLower()) switch
+            {
+                "input" => typeOfSubsystems.FirstOrDefault(t => t.Id == 1),
+                "output" => typeOfSubsystems.FirstOrDefault(t => t.Id == 2),
+                "communication" => typeOfSubsystems.FirstOrDefault(t => t.Id == 4),
+                _ => typeOfSubsystems.FirstOrDefault(t => t.Id == 3),
+            };
+            typeSelected = true;
+        }
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("machineId", out var _machineId))
+            machineId = Convert.ToInt32(_machineId);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("accessPointId", out var _accessPointId))
+            accessPointId = Convert.ToInt32(_accessPointId);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("safetyFunctionId", out var _safetyFunctionId))
+            safetyFunctionId = Convert.ToInt32(_safetyFunctionId);
 
         StateHasChanged();
-        OpenDialog();
-    }
-
-    private void Edit()
-    {
-        onlyForReading = false;
-        showMessage = false;
     }
 
     private void BackToSafetyFunction()
     {
-        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
+        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{machineId}/{accessPointId}/{safetyFunctionId}");
     }
 
-    // TODO
-    private async void OnValidSubmit()
+    private async Task OnValidSubmit()
     {
-        if (equalElements)
+        disabled = true;
+        int id = 0;
+
+        subsystem.Elements = new List<ElementDetailModelPL>();
+        subsystem.Elements.Add(element1);
+        if (subsystem.Category.Channels == 2 && equalElements)
+            subsystem.Elements.Add(element1);
+        if (subsystem.Category.Channels == 2 && equalElements == false)
+            subsystem.Elements.Add(element2);
+
+        SubsystemCreationResponseModel response;
+        if (safetyFunctionId == 0)
+            response = await subsystemFacade.CreateAsync(subsystem);
+        else
+            response = await subsystemFacade.CreateAsync(subsystem, safetyFunctionId);
+
+        if (response.IsSuccess)
         {
-            subsystem.Elements.Remove(subsystem.Elements.ElementAt(1));
-            subsystem.Elements.Add(subsystem.Elements.ElementAt(0));
+            messageType = Severity.Success;
+            message = response.Message;
+            showMessage = true;
+            StateHasChanged();
+            await Task.Delay(2000);
+
+            // Creating subsystem within safety function -> navigate to safety function detail
+            if (safetyFunctionId != 0)
+                navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{machineId}/{accessPointId}/{safetyFunctionId}");
+
+            // Creating independed subsystem -> navigate to subsystem detail
+            else
+                navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{0}/{0}/{0}/{id}");
         }
-        var result = await subsystemFacade.CreateAsync(subsystem);
+        else
+        {
+            messageType = Severity.Error;
+            message = response.Message;
+            showMessage = true;
+            disabled = false;
+            StateHasChanged();
+        }
     }
 
 }

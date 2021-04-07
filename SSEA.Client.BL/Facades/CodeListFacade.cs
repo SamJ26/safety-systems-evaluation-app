@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using SSEA.Client.BL.Services;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.Client.BL.Facades
@@ -19,6 +16,13 @@ namespace SSEA.Client.BL.Facades
         }
 
         // TODO: uncomment methods after adding all models to client service
+
+        public async Task<ICollection<OperationPrincipleModel>> GetAllOperationPrinciplesAsync()
+        {
+            var response = await clientService.CodeListGetAllAsync("OperationPrinciple");
+            Console.WriteLine($"Fetching data - OperationPrinciple - Count: {response.Count}");
+            return JsonConvert.DeserializeObject<ICollection<OperationPrincipleModel>>(response.Data);
+        }
 
         public async Task<ICollection<CCFModel>> GetAllCCFsAsync()
         {
@@ -130,13 +134,6 @@ namespace SSEA.Client.BL.Facades
             var response = await clientService.CodeListGetAllAsync("Av");
             Console.WriteLine($"Fetching data - Av - Count: {response.Count}");
             return JsonConvert.DeserializeObject<ICollection<AvModel>>(response.Data);
-        }
-
-        public async Task<ICollection<CFFModel>> GetAllCFFsAsync()
-        {
-            var response = await clientService.CodeListGetAllAsync("CFF");
-            Console.WriteLine($"Fetching data - CFF - Count: {response.Count}");
-            return JsonConvert.DeserializeObject<ICollection<CFFModel>>(response.Data);
         }
 
         public async Task<ICollection<FrModel>> GetAllFrsAsync()

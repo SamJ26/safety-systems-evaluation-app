@@ -1,9 +1,5 @@
-﻿using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
@@ -17,7 +13,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
         [StringLength(50)]
         public string NameEN { get; set; }
 
-        [Required]
         [StringLength(200)]
         public string DescriptionCZ { get; set; }
 

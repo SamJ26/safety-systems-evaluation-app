@@ -1,73 +1,24 @@
 ﻿
-@inject CodeListFacade codeListFacade
-@inject SafetyFunctionFacade safetyFunctionFacade 
-@inject AccessPointFacade accessPointFacade
-
-<MudDialog Style="width: 700px;">
+<MudDialog Style="width: 500px;">
     <TitleContent>
         <MudText Align="Align.Center" Typo="Typo.h5">Create new safety function</MudText>
     </TitleContent>
     <DialogContent>
         <MudGrid>
-            @if (EvaluationMethod.Equals("PL"))
-            {
-                <MudItem xs="12">
-                    <MudTextField @bind-Value="safetyFunctionPL.Name" Label="Name *" Variant="Variant.Outlined"></MudTextField>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudSelect @bind-Value="safetyFunctionPL.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function *" Variant="Variant.Outlined" Format="F2">
-                        @foreach (var item in typeOfFunctions)
-                        {
-                            <MudSelectItem T="TypeOfFunctionModel" Value="@(item)">@item.Name</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField @bind-Value="safetyFunctionPL.Description" Label="Description" Variant="Variant.Outlined" Lines="3"></MudTextField>
-                </MudItem>
-                <MudItem xs="12">
-                    <hr />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@EvaluationMethod</MudField>
-                </MudItem>
-                <MudItem xs="6">
-                    <MudSelect @bind-Value="safetyFunctionPL.PLr" T="PLModel" Label="Required PL" Variant="Variant.Outlined" Format="F2">
-                        @foreach (var item in PLs)
-                        {
-                            <MudSelectItem T="PLModel" Value="@(item)">@item.Label</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-                <MudItem xs="4">
-                    <MudSelect @bind-Value="safetyFunctionPL.S" T="SModel" Label="Severity of injury" Variant="Variant.Outlined" Format="F2">
-                        @foreach (var item in Ss)
-                        {
-                            <MudSelectItem T="SModel" Value="@(item)">@item.Value</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-                <MudItem xs="4">
-                    <MudSelect @bind-Value="safetyFunctionPL.F" T="FModel" Label="Frequency" Variant="Variant.Outlined" Format="F2">
-                        @foreach (var item in Fs)
-                        {
-                            <MudSelectItem T="FModel" Value="@(item)">@item.Value</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-                <MudItem xs="4">
-                    <MudSelect @bind-Value="safetyFunctionPL.P" T="PModel" Label="Probability" Variant="Variant.Outlined" Format="F2">
-                        @foreach (var item in Ps)
-                        {
-                            <MudSelectItem T="PModel" Value="@(item)">@item.Value</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-            }
-            else
-            {
-                // TODO: add gui layout for SIL methodics
-            }
+            <MudItem xs="12">
+                <MudTextField @bind-Value="SafetyFunction.Name" Label="Name *" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudField Label="Evaluation method" Variant="Variant.Outlined" ReadOnly="true">@EvaluationMethod</MudField>
+            </MudItem>
+            <MudItem xs="12">
+                <MudSelect @bind-Value="SafetyFunction.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function *" Variant="Variant.Outlined" Format="F2">
+                    @foreach (var item in typeOfFunctions)
+                    {
+                        <MudSelectItem T="TypeOfFunctionModel" Value="@(item)">@item.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
             <MudItem xs="6">
                 <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
             </MudItem>
@@ -80,65 +31,29 @@
 
 @code {
 
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public string EvaluationMethod { get; set; } = string.Empty;
+    public string EvaluationMethod { get; set; }
 
     [Parameter]
-    public int AccessPointId { get; set; }
+    public SafetyFunctionListModel SafetyFunction { get; set; }
 
-    private SafetyFunctionDetailModelPL safetyFunctionPL { get; set; } = new();
-    private SafetyFunctionDetailModelSIL safetyFunctionSIL { get; set; } = new();
-
-    private ICollection<TypeOfFunctionModel> typeOfFunctions { get; set; } = new List<TypeOfFunctionModel>();
-
-    private ICollection<SModel> Ss { get; set; } = new List<SModel>();
-    private ICollection<FModel> Fs { get; set; } = new List<FModel>();
-    private ICollection<PModel> Ps { get; set; } = new List<PModel>();
-    private ICollection<PLModel> PLs { get; set; } = new List<PLModel>();
-
-    private ICollection<SeModel> Ses { get; set; } = new List<SeModel>();
-    private ICollection<FrModel> Frs { get; set; } = new List<FrModel>();
-    private ICollection<PrModel> Prs { get; set; } = new List<PrModel>();
-    private ICollection<AvModel> Avs { get; set; } = new List<AvModel>();
+    private ICollection<TypeOfFunctionModel> typeOfFunctions = new List<TypeOfFunctionModel>();
+    private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
 
     protected override async Task OnInitializedAsync()
     {
         typeOfFunctions = await codeListFacade.GetAllTypeOfFunctionsAsync();
-
-        if (EvaluationMethod.Equals("PL"))
-        {
-            Ss = await codeListFacade.GetAllSsAsync();
-            Fs = await codeListFacade.GetAllFsAsync();
-            Ps = await codeListFacade.GetAllPsAsync();
-            PLs = await codeListFacade.GetAllPLsAsync();
-        }
-        else
-        {
-            Ses = await codeListFacade.GetAllSesAsync();
-            Frs = await codeListFacade.GetAllFrsAsync();
-            Prs = await codeListFacade.GetAllPrsAsync();
-            Avs = await codeListFacade.GetAllAvsAsync();
-        }
+        evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
+        SafetyFunction.EvaluationMethod = evaluationMethods.FirstOrDefault(em => em.Shortcut == EvaluationMethod);
     }
 
-    private async void Submit()
-    {
-        int id = 0;
-        if (EvaluationMethod.Equals("PL"))
-        {
-           id = await safetyFunctionFacade.CreateAsync(safetyFunctionPL);
-        }
-        else
-        {
-            id = await safetyFunctionFacade.CreateAsync(safetyFunctionSIL);
-        }
-        var result = await accessPointFacade.AddSafetyFunctionAsync(AccessPointId, id);
-        MudDialog.Close(DialogResult.Ok(true));
-    }
-
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
 
 }

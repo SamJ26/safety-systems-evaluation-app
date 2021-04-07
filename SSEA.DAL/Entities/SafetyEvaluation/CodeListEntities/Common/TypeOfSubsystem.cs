@@ -11,10 +11,10 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
     public class TypeOfSubsystem : CodeListEntityBase
     {
         [Required]
-        [StringLength(20)]
+        [StringLength(50)]
         public string NameCZ { get; set; }
 
-        [StringLength(20)]
+        [StringLength(50)]
         public string NameEN { get; set; }
     }
 }

@@ -1,19 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using SSEA.BL.Models;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
-using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.DAL;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
@@ -49,18 +40,24 @@ namespace SSEA.BL.Facades
                 "S" => await GetAllSModels(),
                 "Architecture" => await GetAllArchitectureModels(),
                 "Av" => await GetAllAvModels(),
-                "CFF" => await GetAllCFFModels(),
                 "Fr" => await GetAllFrModels(),
                 "PFHd" => await GetAllPFHdModels(),
                 "Pr" => await GetAllPrModels(),
                 "Se" => await GetAllSeModels(),
                 "SFF" => await GetAllSFFModels(),
                 "Producer" => await GetAllProducerModels(),
+                "OperationPrinciple" => await GetAllOperationPrinciplesAsync(),
                 _ => null,
             };
         }
 
         #region GetAll methods for specific types
+
+        private async Task<ICollection<OperationPrincipleModel>> GetAllOperationPrinciplesAsync()
+        {
+            var data = await dbContext.OperationPrinciples.AsNoTracking().ToListAsync();
+            return mapper.Map<ICollection<OperationPrincipleModel>>(data);
+        }
 
         private async Task<ICollection<CCFModel>> GetAllCCFModels()
         {
@@ -168,12 +165,6 @@ namespace SSEA.BL.Facades
         {
             var data = await dbContext.Avs.AsNoTracking().ToListAsync();
             return mapper.Map<ICollection<AvModel>>(data);
-        }
-
-        private async Task<ICollection<CFFModel>> GetAllCFFModels()
-        {
-            var data = await dbContext.CFFs.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<CFFModel>>(data);
         }
 
         private async Task<ICollection<FrModel>> GetAllFrModels()

@@ -13,6 +13,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
         public string Value { get; set; }
         public short Min { get; set; }
         public short Max { get; set; }
+        public short CompareValue { get; set; }
     }
 
     public class MTTFdModelMapperProfile : Profile
@@ -21,8 +22,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
         {
             CreateMap<MTTFd, MTTFdModel>().IgnoreSource(src => src.ValueEN)
                                           .MapMember(dest => dest.Value, src => src.ValueCZ)
-                                          .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                          .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                           .ReverseMap();
         }
     }

@@ -14,10 +14,11 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
         public string Description { get; set; }
         public bool Logic { get; set; }
         public bool Diagnostic { get; set; }
+        public short HFT { get; set; }
         public short Channels { get; set; }
+        public short CompareValue { get; set; }
         public double MinSFF { get; set; }
         public double MaxSFF { get; set; }
-        public short HFT { get; set; }
         public PFHdModel MaxPFHd { get; set; }
     }
 
@@ -28,8 +29,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
             CreateMap<Architecture, ArchitectureModel>().IgnoreSource(src => src.DescriptionEN)
                                                         .IgnoreSource(src => src.MaxPFHdId)
                                                         .MapMember(dest => dest.Description, src => src.DescriptionCZ)
-                                                        .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                                        .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
                                                         .ReverseMap();
         }
     }

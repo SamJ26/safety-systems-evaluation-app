@@ -11,15 +11,14 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
     public class PLModel : CodeListModelBase
     {
         public string Label { get; set; }
+        public short CompareValue { get; set; }
     }
 
     public class PLModelMapperProfile : Profile
     {
         public PLModelMapperProfile()
         {
-            CreateMap<PerformanceLevel, PLModel>().MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                                  .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
-                                                  .ReverseMap();
+            CreateMap<PerformanceLevel, PLModel>().ReverseMap();
         }
     }
 }

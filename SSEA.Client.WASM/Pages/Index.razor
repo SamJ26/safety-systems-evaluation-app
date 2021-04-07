@@ -3,7 +3,7 @@
 @attribute [Authorize]
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
-    <AuthorizeView Roles="Administrator">
+    <AuthorizeView Roles="SafetyEvaluationAdmin">
         <MudText Typo="Typo.h3" GutterBottom="true">You are admin</MudText>
     </AuthorizeView>
     <AuthorizeView Roles="Observer">

@@ -1,19 +1,32 @@
-﻿using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
-using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
+﻿using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
-using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Services.Interfaces
 {
     public interface IPerformanceLevelService
     {
-        Task<PerformanceLevel> GetRequiredPLAsync(S s, F f, P p);
-        bool IsCCFValid(HashSet<CCFModel> items);
-        bool IsSubsystemValid(SubsystemDetailModelPL subsystem);
-        Task EvaluateSubsystem(SubsystemDetailModelPL subsystem);
+        /// <summary>
+        /// Method for evaluation of required performance level
+        /// </summary>
+        /// <param name="s"> Selected severity of injury </param>
+        /// <param name="f"> Selected frequency of exposure </param>
+        /// <param name="p"> Selected probability of avoiding injury </param>
+        /// <returns> Id of record which represents determined value </returns>
+        Task<PLModel> GetRequiredPLAsync(SModel s, FModel f, PModel p);
+
+        /// <summary>
+        /// Method for evaluation of subsystem's properties using data of elements
+        /// </summary>
+        /// <param name="subsystem"> Subsystem for evaluation </param>
+        /// <returns> Method interacts with database so it returns async task </returns>
+        Task EvaluateSubsystemAsync(SubsystemDetailModelPL subsystem);
+
+        /// <summary>
+        /// Method for evaluation of whole safety function
+        /// </summary>
+        /// <param name="safetyFunction"> Safety function for evaluation </param>
+        /// <returns> Method interacts with database so it returns async task </returns>
+        Task EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction);
     }
 }

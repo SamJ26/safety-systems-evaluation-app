@@ -1,7 +1,6 @@
 ﻿using SSEA.Client.BL.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.Client.BL.Facades
@@ -15,16 +14,10 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
-        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync()
+        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
         {
-            Console.WriteLine("SafetyFunctionFacade.GetAllAsync()");
-            return await clientService.SafetyFunctionGetAllAsync(0);
-        }
-
-        public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(int accessPointId)
-        {
-            Console.WriteLine("SafetyFunctionFacade.GetAllAsync(int accessPointId)");
-            return await clientService.SafetyFunctionGetAllAsync(accessPointId);
+            Console.WriteLine("SafetyFunctionFacade.GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)");
+            return await clientService.SafetyFunctionGetAllAsync(name, stateId, typeOfFunctionId, evaluationMethodId);
         }
 
         public async Task<SafetyFunctionDetailModelPL> GetByIdPLAsync(int id)
@@ -45,10 +38,51 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionCreatePLAsync(newModel);
         }
 
+        // TODO: test
         public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
         {
             Console.WriteLine("SafetyFunctionFacade.CreateAsync(SafetyFunctionDetailModelSIL newModel)");
-            return await clientService.SafetyFunctionCreateSILAsync(newModel);
+            // return await clientService.SafetyFunctionCreateSILAsync(newModel);
+            return 0;
+        }
+
+        public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updateModel)
+        {
+            Console.WriteLine("SafetyFunctionFacade.UpdateAsync(SafetyFunctionDetailModelPL updateModel)");
+            return await clientService.SafetyFunctionUpdatePLAsync(updateModel);
+        }
+
+        // TODO: test
+        public async Task<int> UpdateAsync(SafetyFunctionDetailModelSIL updateModel)
+        {
+            Console.WriteLine("SafetyFunctionFacade.UpdateAsync(SafetyFunctionDetailModelSIL updateModel)");
+            // return await clientService.SafetyFunctionUpdateSILAsync(updateModel);
+            return 0;
+        }
+
+        // TODO: test
+        public async Task DeleteAsync(int id)
+        {
+            Console.WriteLine("SafetyFunctionFacade.DeleteAsync(int id)");
+            // await clientService.SafetyFunctionDeleteAsync(id);
+        }
+
+        public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            Console.WriteLine("SafetyFunctionFacade.AddSubsystemAsync(int safetyFunctionId, int subsystemId)");
+            await clientService.SafetyFunctionAddSubsystemAsync(safetyFunctionId, subsystemId);
+        }
+
+        public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            Console.WriteLine("SafetyFunctionFacade.RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)");
+            await clientService.SafetyFunctionRemoveSubsystemAsync(safetyFunctionId, subsystemId);
+        }
+
+        public async Task<SafetyFunctionEvaluationResponseModel> EvaluateSafetyFunctionAsync(int id)
+        {
+            Console.WriteLine("SafetyFunctionFacade.EvaluateSafetyFunction(int id)");
+            return await clientService.SafetyFunctionEvaluateAsync(id);
         }
     }
 }

@@ -1,8 +1,4 @@
 ﻿
-@inject SafetyFunctionFacade safetyFunctionFacade
-@inject AccessPointFacade accessPointFacade 
-@inject CodeListFacade codeListFacade
-
 <MudDialog>
     <TitleContent>
         <MudText Align="Align.Center" Typo="Typo.h5">Select safety functions</MudText>
@@ -18,10 +14,10 @@
                         <MudTextField @bind-Value="name" Label="Safety function name" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="4">
-                        <MudSelect @bind-Value="typeOfFunction" T="TypeOfFunctionModel" Label="Type of function" Variant="Variant.Outlined" Format="F2">
+                        <MudSelect @bind-Value="typeOfFunctionId" T="int" Label="Type of function"  Strict="true" Variant="Variant.Outlined" Format="F2">
                             @foreach (var item in typeOfFunctions)
                             {
-                                <MudSelectItem T="TypeOfFunctionModel" Value="@(item)">@item.Name</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
                             }
                         </MudSelect>
                     </MudItem>
@@ -34,7 +30,14 @@
                 <hr />
             </MudItem>
             <MudItem xs="12">
-                <MudTable Items="@safetyFunctions" MultiSelection="true" @bind-SelectedItems="selectedItems" Height="400px" Hover="true">
+                <MudTable Items="@safetyFunctions" MultiSelection="true" @bind-SelectedItems="SelectedSafetyFunctions" Height="400px" Hover="true">
+                    <ColGroup>
+                        <col style="width:5%;" />
+                        <col style="width:20%;" /> Name
+                        <col style="width:25%;" /> State
+                        <col style="width:30%;" /> Type of function
+                        <col style="width:20%;" /> Evaluation method
+                    </ColGroup>
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>State</MudTh>
@@ -42,11 +45,11 @@
                         <MudTh>Evaluation method</MudTh>
                     </HeaderContent>
                     <RowTemplate>
-                            <MudTd DataLabel="Name">@context.Name</MudTd>
-                            <MudTd DataLabel="Label">@context.CurrentState.Name</MudTd>
-                            <MudTd DataLabel="Category">@context.EvaluationMethod.Name</MudTd>
-                            <MudTd DataLabel="Up to date">@context.TypeOfFunction.Name</MudTd>
-                        </RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
+                        <MudTd DataLabel="Type of function">@context.EvaluationMethod.Name</MudTd>
+                        <MudTd DataLabel="Evaluation method">@context.TypeOfFunction.Name</MudTd>
+                    </RowTemplate>
                 </MudTable>
             </MudItem>
             <MudItem xs="6">
@@ -61,43 +64,41 @@
 
 @code {
 
+    [Inject]
+    private SafetyFunctionFacade safetyFunctionFacade { get; set; }
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public string EvaluationMethod { get; set; } = string.Empty;
+    public string EvaluationMethod { get; set; }
 
     [Parameter]
-    public int AccessPointId { get; set; }
-
-    private HashSet<SafetyFunctionListModel> selectedItems = new HashSet<SafetyFunctionListModel>();
+    public HashSet<SafetyFunctionListModel> SelectedSafetyFunctions { get; set; }
 
     private ICollection<SafetyFunctionListModel> safetyFunctions = new List<SafetyFunctionListModel>();
-    private ICollection<TypeOfFunctionModel> typeOfFunctions { get; set; } = new List<TypeOfFunctionModel>();
+    private ICollection<TypeOfFunctionModel> typeOfFunctions = new List<TypeOfFunctionModel>();
 
     private string name = string.Empty;
-    private TypeOfFunctionModel typeOfFunction;
+    private int stateId;
+    private int typeOfFunctionId;
+    private int evaluationMethodId;
 
     protected override async Task OnInitializedAsync()
     {
         typeOfFunctions = await codeListFacade.GetAllTypeOfFunctionsAsync();
     }
 
-    private async void Submit()
-    {
-        foreach (var item in selectedItems)
-        {
-            var result = await accessPointFacade.AddSafetyFunctionAsync(AccessPointId, item.Id);
-        }
-        MudDialog.Close(DialogResult.Ok(true));
-    }
+    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    private void Cancel() => MudDialog.Cancel();
 
-    void Cancel() => MudDialog.Cancel();
-
-    // TODO: add logic for searching
+    // TODO: add logic
     private async void Search()
     {
-        safetyFunctions = await safetyFunctionFacade.GetAllAsync();
-        StateHasChanged();
+        evaluationMethodId = EvaluationMethod.Equals("PL") ? 1 : 2;
     }
+
 }

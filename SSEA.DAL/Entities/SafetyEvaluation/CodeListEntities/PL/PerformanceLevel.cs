@@ -14,5 +14,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL
         [Required]
         [StringLength(2)]
         public string Label { get; set; }
+
+        public short CompareValue { get; set; }
     }
 }

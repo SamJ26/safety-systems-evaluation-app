@@ -1,5 +1,6 @@
 ﻿using SSEA.Client.BL.Services;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SSEA.Client.BL.Facades
@@ -13,22 +14,17 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
+        public async Task<ICollection<AccessPointListModel>> GetAllAsync()
+        {
+            Console.WriteLine("AccessPointFacade.GetAllAsync()");
+            return await clientService.AccessPointGetAllAsync();
+        }
+
         public async Task<AccessPointDetailModel> GetByIdAsync(int id)
         {
+            Console.WriteLine("AccessPointFacade.GetByIdAsync(int id)");
             return await clientService.AccessPointGetByIdAsync(id);
         }
-
-        public async Task<int> AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
-        {
-            var model = new AccessPointSafetyFunctionModel()
-            {
-                AccessPointId = accessPointId,
-                SafetyFunctionId = safetyFunctionId,
-            };
-            Console.WriteLine("AccessPointFacade.AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)");
-            return await clientService.AccessPointAddSafetyFunctionAsync(model);
-        }
-
 
         public async Task<int> UpdateAsync(AccessPointDetailModel updateModel)
         {
@@ -36,10 +32,10 @@ namespace SSEA.Client.BL.Facades
             return await clientService.AccessPointUpdateAsync(updateModel);
         }
 
-        public async Task DeleteAsync(int id, bool softDelete = true)
+        public async Task DeleteAsync(int id)
         {
-            Console.WriteLine("AccessPointFacade.DeleteAsync(int id, bool softDelete = true)");
-            await clientService.AccessPointDeleteAsync(id, softDelete);
+            Console.WriteLine("AccessPointFacade.DeleteAsync(int id)");
+            await clientService.AccessPointDeleteAsync(id);
         }
     }
 }

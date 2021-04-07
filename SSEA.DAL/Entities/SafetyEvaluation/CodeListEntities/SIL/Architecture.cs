@@ -20,10 +20,11 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL
 
         public bool Logic { get; set; }
         public bool Diagnostic { get; set; }
+        public short HFT { get; set; }
         public short Channels { get; set; }
+        public short CompareValue { get; set; }
         public double MinSFF { get; set; }
         public double MaxSFF { get; set; }
-        public short HFT { get; set; }
 
         [Column("MaxPFHd_Id")]
         public int MaxPFHdId { get; set; }

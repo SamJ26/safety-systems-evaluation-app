@@ -1,0 +1,217 @@
+﻿
+<MudDialog>
+    <TitleContent>
+        <MudGrid>
+            <MudItem Style="width: 5%;"/>
+            <MudItem Style="width: 90%;">
+                <MudText Align="Align.Center" Typo="Typo.h5">Select subsystem</MudText>
+            </MudItem>
+            <MudItem Style="width: 5%;">
+                <MudIconButton @onclick="@Cancel" Icon="@Icons.Material.Filled.Clear" Color="Color.Error" Disabled="@disabled"></MudIconButton>
+            </MudItem>
+        </MudGrid>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid Style="margin-bottom: 10px;">
+            <MudItem xs="1" Style="padding-bottom: 14px; padding-top: 18px;">
+                <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%; padding-left: 35px;" Disabled="@disabled"></MudButton>
+            </MudItem>
+            <MudItem xs="11">
+                <MudGrid>
+                    <MudItem xs="3">
+                        <MudField Label="Type of subsystem" ReadOnly="true" Variant="Variant.Outlined">@TypeOfSubsystem</MudField>
+                    </MudItem>
+                    <MudItem xs="3">
+                        <MudSelect @bind-Value="operationPrincipleId" T="int" Label="Operation principle" Strict="true" Variant="Variant.Outlined" Format="F2">
+                            <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                            @foreach (var item in operationPrinciples)
+                            {
+                                <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    @if (EvaluationMethod.Equals("PL"))
+                    {
+                        <MudItem xs="3">
+                            <MudSelect @bind-Value="@categoryId" T="int" Label="Category" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                                @foreach (var item in categories)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Label</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudSelect @bind-Value="performanceLevelId" T="int" Label="PL" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                                @foreach (var item in pls)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Label</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    }
+                    else
+                    {
+                        <MudItem xs="3">
+                            <MudSelect @bind-Value="architectureId" T="int" Label="Architecture" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                @foreach (var item in architectures)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.Label</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudSelect @bind-Value="silId" T="int" Label="SIL" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                @foreach (var item in sils)
+                                {
+                                    <MudSelectItem T="int" Value="@(item.Id)">@item.ValueSIL</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudItem>
+            <MudItem xs="12">
+                <hr />
+            </MudItem>
+            @if (EvaluationMethod.Equals("PL"))
+            {
+                <MudItem xs="12">
+                    <MudTable T="SubsystemListModelPL" OnRowClick="@(args => AddSubsystem(args))" Items="@subsystemsPL" Height="400px" Hover="true">
+                        <ColGroup>
+                            <col style="width:25%;" /> Type of subsystem
+                            <col style="width:25%;" /> Operation principle
+                            <col style="width:20%;" /> Category
+                            <col style="width:10%;" /> MTTFd
+                            <col style="width:10%;" /> DC
+                            <col style="width:10%;" /> PL
+                        </ColGroup>
+                        <HeaderContent>
+                            <MudTh>Type of subsystem</MudTh>
+                            <MudTh>Operation principle</MudTh>
+                            <MudTh>MTTFd</MudTh>
+                            <MudTh>DC</MudTh>
+                            <MudTh>PL</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
+                            <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
+                            <MudTd DataLabel="MTTFd">@context.MttFd</MudTd>
+                            <MudTd DataLabel="DC">@context.Dc</MudTd>
+                            <MudTd DataLabel="PL">@context.Pl</MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudItem>
+            }
+            else
+            {
+                <MudItem xs="12">
+                    <MudTable T="SubsystemListModelSIL" OnRowClick="@(args => AddSubsystem(args))" Items="@subsystemsSIL" Height="400px" Hover="true">
+                        <ColGroup>
+                            <col style="width:25%;" /> Type of subsystem
+                            <col style="width:25%;" /> Operation principle
+                            <col style="width:20%;" /> Architecture
+                            <col style="width:10%;" /> HFT
+                            <col style="width:10%;" /> SFF
+                            <col style="width:10%;" /> SIL
+                        </ColGroup>
+                        <HeaderContent>
+                            <MudTh>Type of subsystem</MudTh>
+                            <MudTh>Operation principle</MudTh>
+                            <MudTh>HFT</MudTh>
+                            <MudTh>SFF</MudTh>
+                            <MudTh>SIL</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
+                            <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
+                            <MudTd DataLabel="HFT">@context.Hft</MudTd>
+                            <MudTd DataLabel="SFF">@context.Sff</MudTd>
+                            <MudTd DataLabel="SIL">@context.Sil</MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudItem>
+            }
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [Inject]
+    private SubsystemFacade subsystemFacade { get; set; }
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string EvaluationMethod { get; set; }
+
+    [Parameter]
+    public string TypeOfSubsystem { get; set; }
+
+    private ICollection<SubsystemListModelPL> subsystemsPL = new List<SubsystemListModelPL>();
+    private ICollection<SubsystemListModelSIL> subsystemsSIL = new List<SubsystemListModelSIL>();
+
+    private ICollection<PLModel> pls = new List<PLModel>();
+    private ICollection<PFHdModel> sils = new List<PFHdModel>();
+    private ICollection<CategoryModel> categories = new List<CategoryModel>();
+    private ICollection<ArchitectureModel> architectures = new List<ArchitectureModel>();
+    private ICollection<OperationPrincipleModel> operationPrinciples = new List<OperationPrincipleModel>();
+
+    private bool disabled = false;
+
+    private string name = string.Empty;
+    private int stateId;
+    private int typeOfSubsystemId;
+    private int operationPrincipleId;
+    private int categoryId;
+    private int performanceLevelId;
+    private int architectureId;
+    private int silId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (EvaluationMethod.Equals("PL"))
+        {
+            pls = await codeListFacade.GetAllPLsAsync();
+            categories = await codeListFacade.GetAllCategoriesAsync();
+        }
+        else
+        {
+            sils = await codeListFacade.GetAllPFHdsAsync();
+            architectures = await codeListFacade.GetAllArchitecturesAsync();
+        }
+        operationPrinciples = await codeListFacade.GetAllOperationPrinciplesAsync();
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private void AddSubsystem(TableRowClickEventArgs<SubsystemListModelPL> args) => MudDialog.Close(DialogResult.Ok(args.Item.Id));
+
+    private void AddSubsystem(TableRowClickEventArgs<SubsystemListModelSIL> args) => MudDialog.Close(DialogResult.Ok(args.Item.Id));
+
+    private async void Search()
+    {
+        disabled = true;
+        typeOfSubsystemId = (TypeOfSubsystem.ToLower()) switch
+        {
+            "input" => 1,
+            "output" => 2,
+            "input-logic" => 4,
+            "output-logic" => 5,
+            _ => 3,
+        };
+        if (EvaluationMethod.Equals("PL"))
+            subsystemsPL = await subsystemFacade.GetAllPLAsync(stateId, typeOfSubsystemId, operationPrincipleId, categoryId, performanceLevelId);
+        else
+            subsystemsSIL = await subsystemFacade.GetAllSILAsync(stateId, typeOfSubsystemId, operationPrincipleId, architectureId, silId);
+        disabled = false;
+        StateHasChanged();
+    }
+
+}

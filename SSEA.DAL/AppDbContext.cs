@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SSEA.DAL.Entities;
@@ -44,6 +40,7 @@ namespace SSEA.DAL
         public DbSet<EvaluationMethod> EvaluationMethods { get; set; }
         public DbSet<MachineType> MachineTypes { get; set; }
         public DbSet<Norm> Norms { get; set; }
+        public DbSet<OperationPrinciple> OperationPrinciples { get; set; }
         public DbSet<TypeOfFunction> TypeOfFunctions { get; set; }
         public DbSet<TypeOfLogic> TypeOfLogics { get; set; }
         public DbSet<TypeOfSubsystem> TypeOfSubsystems { get; set; }
@@ -55,7 +52,6 @@ namespace SSEA.DAL
         public DbSet<PerformanceLevel> PerformanceLevels { get; set; }
         public DbSet<Architecture> Architectures { get; set; }
         public DbSet<Av> Avs { get; set; }
-        public DbSet<CFF> CFFs { get; set; }
         public DbSet<Fr> Frs { get; set; }
         public DbSet<PFHd> PFHds { get; set; }
         public DbSet<Pr> Prs { get; set; }
@@ -79,7 +75,7 @@ namespace SSEA.DAL
                 // Existing entity was modified
                 if (entry.State.Equals(EntityState.Modified))
                 {
-                    entry.Property("DateTimeUpdate").CurrentValue = DateTime.Now;
+                    entry.Property("DateTimeUpdated").CurrentValue = DateTime.Now;
                     entry.Property("IdUpdated").CurrentValue = userId;
                 }
                 // New entity was added
@@ -102,6 +98,22 @@ namespace SSEA.DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            #region Global query filters
+
+            builder.Entity<AccessPoint>().HasQueryFilter(ap => ap.IsRemoved != true);
+            builder.Entity<Element>().HasQueryFilter(e => e.IsRemoved != true);
+            builder.Entity<Machine>().HasQueryFilter(m => m.IsRemoved != true);
+            builder.Entity<SafetyFunction>().HasQueryFilter(sf => sf.IsRemoved != true);
+            builder.Entity<Subsystem>().HasQueryFilter(s => s.IsRemoved != true);
+
+            builder.Entity<AccessPointSafetyFunction>().HasQueryFilter(apsf => apsf.IsRemoved != true);
+            builder.Entity<ElementSFF>().HasQueryFilter(es => es.IsRemoved != true);
+            builder.Entity<MachineNorm>().HasQueryFilter(mn => mn.IsRemoved != true);
+            builder.Entity<SafetyFunctionSubsystem>().HasQueryFilter(sfs => sfs.IsRemoved != true);
+            builder.Entity<SubsystemCCF>().HasQueryFilter(sc => sc.IsRemoved != true);
+
+            #endregion
 
             builder.Entity<UserClaim>().ToTable("SY_UserClaim");
             builder.Entity<UserRole>().ToTable("SY_UserRole");
@@ -133,12 +145,12 @@ namespace SSEA.DAL
                 apsf.HasOne(apsf => apsf.SafetyFunction)
                     .WithMany(sf => sf.AccessPointSafetyFunctions)
                     .HasForeignKey(apsf => apsf.SafetyFunctionId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 apsf.HasOne(apsf => apsf.AccessPoint)
                     .WithMany(ap => ap.AccessPointSafetyFunctions)
                     .HasForeignKey(apsf => apsf.AccessPointId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<SafetyFunctionSubsystem>(sfs =>
@@ -148,12 +160,12 @@ namespace SSEA.DAL
                 sfs.HasOne(sfs => sfs.Subsystem)
                    .WithMany(s => s.SafetyFunctionSubsystems)
                    .HasForeignKey(sfs => sfs.SubsystemId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
 
                 sfs.HasOne(sfs => sfs.SafetyFunction)
                    .WithMany(sf => sf.SafetyFunctionSubsystems)
                    .HasForeignKey(sfs => sfs.SafetyFunctionId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Machine>(m =>
@@ -166,7 +178,7 @@ namespace SSEA.DAL
                 m.HasMany(m => m.AccessPoints)
                  .WithOne(a => a.Machine)
                  .HasForeignKey(a => a.MachineId)
-                 .OnDelete(DeleteBehavior.Cascade);
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasOne(m => m.EvaluationMethod)
                  .WithMany()
@@ -184,13 +196,17 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Restrict);
 
                 m.HasOne(m => m.CurrentState)
-                 .WithMany();
+                 .WithMany()
+                 .HasForeignKey(m => m.CurrentStateId)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<AccessPoint>(ap =>
             {
                 ap.HasOne(ap => ap.CurrentState)
-                  .WithMany();
+                  .WithMany()
+                  .HasForeignKey(ap => ap.CurrentStateId)
+                  .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<SafetyFunction>(sf =>
@@ -260,7 +276,9 @@ namespace SSEA.DAL
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.CurrentState)
-                  .WithMany();
+                  .WithMany()
+                  .HasForeignKey(sf => sf.CurrentStateId)
+                  .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Subsystem>(s =>
@@ -268,11 +286,16 @@ namespace SSEA.DAL
                 s.HasMany(s => s.Elements)
                  .WithOne(e => e.Subsystem)
                  .HasForeignKey(e => e.SubsystemId)
-                 .OnDelete(DeleteBehavior.Cascade);
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.TypeOfSubsystem)
                  .WithMany()
                  .HasForeignKey(s => s.TypeOfSubsystemId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+                s.HasOne(s => s.OperationPrinciple)
+                 .WithMany()
+                 .HasForeignKey(s => s.OperationPrincipleId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.MTTFdResult)
@@ -300,18 +323,15 @@ namespace SSEA.DAL
                  .HasForeignKey(s => s.PFHdResultId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.CFF)
-                 .WithMany()
-                 .HasForeignKey(s => s.CFFId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
                 s.HasOne(s => s.Category)
                  .WithMany()
                  .HasForeignKey(s => s.CategoryId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.CurrentState)
-                 .WithMany();
+                 .WithMany()
+                 .HasForeignKey(s => s.CurrentStateId)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Element>(e =>
@@ -332,7 +352,9 @@ namespace SSEA.DAL
                  .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(e => e.CurrentState)
-                 .WithMany();
+                 .WithMany()
+                 .HasForeignKey(e => e.CurrentStateId)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<SubsystemCCF>(sc =>
@@ -342,12 +364,12 @@ namespace SSEA.DAL
                 sc.HasOne(sc => sc.CCF)
                   .WithMany(c => c.SubsystemCCFs)
                   .HasForeignKey(sc => sc.CCFId)
-                  .OnDelete(DeleteBehavior.Cascade);
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 sc.HasOne(sc => sc.Subsystem)
                   .WithMany(s => s.SubsystemCCFs)
                   .HasForeignKey(sc => sc.SubsystemId)
-                  .OnDelete(DeleteBehavior.Cascade);
+                  .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<ElementSFF>(es =>
@@ -357,12 +379,12 @@ namespace SSEA.DAL
                 es.HasOne(es => es.SFF)
                   .WithMany(s => s.ElementSFFs)
                   .HasForeignKey(es => es.SFFId)
-                  .OnDelete(DeleteBehavior.Cascade);
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 es.HasOne(es => es.Element)
                   .WithMany(e => e.ElementSFFs)
                   .HasForeignKey(es => es.ElementId)
-                  .OnDelete(DeleteBehavior.Cascade);
+                  .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Architecture>(a =>
@@ -426,12 +448,12 @@ namespace SSEA.DAL
                mn.HasOne(mn => mn.Norm)
                  .WithMany(n => n.MachineNorms)
                  .HasForeignKey(mn => mn.NormId)
-                 .OnDelete(DeleteBehavior.Cascade);
+                 .OnDelete(DeleteBehavior.Restrict);
 
                mn.HasOne(mn => mn.Machine)
                  .WithMany(m => m.MachineNorms)
                  .HasForeignKey(mn => mn.MachineId)
-                 .OnDelete(DeleteBehavior.Cascade);
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Entity>(e =>

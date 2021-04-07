@@ -27,9 +27,13 @@ namespace SSEA.Api.Controllers
         [HttpGet]
         [SwaggerOperation(OperationId = "MachineGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ICollection<MachineListModel>>> GetAllAsync()
+        public async Task<ActionResult<ICollection<MachineListModel>>> GetAllAsync([FromQuery] string machineName,
+                                                                                   [FromQuery] int stateId = 0,
+                                                                                   [FromQuery] int machineTypeId = 0,
+                                                                                   [FromQuery] int evaluationMethodId = 0,
+                                                                                   [FromQuery] int producerId = 0)
         {
-            var data = await machineFacade.GetAllAsync();
+            var data = await machineFacade.GetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId);
             return Ok(data);
         }
 
@@ -48,8 +52,7 @@ namespace SSEA.Api.Controllers
 
         // POST: api/machine
         [HttpPost]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "MachineCreate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -64,8 +67,7 @@ namespace SSEA.Api.Controllers
 
         // PUT: api/machine
         [HttpPut]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "MachineUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -80,17 +82,16 @@ namespace SSEA.Api.Controllers
 
         // DELETE: api/machine/{id}
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Administrator")]
-        //[Authorize(Roles = "NormalUser")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "MachineDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            var userId = this.GetUserIdFromHttpContext();
-            var foundId = await machineFacade.DeleteAsync(id, userId);
-            if (foundId == 0)
+            if (id == 0)
                 return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            await machineFacade.DeleteAsync(id, userId);
             return Ok();
         }
     }

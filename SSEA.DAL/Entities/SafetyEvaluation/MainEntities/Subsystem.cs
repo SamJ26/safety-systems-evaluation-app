@@ -2,21 +2,23 @@
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
-using SSEA.DAL.Entities.System;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 {
     [Table("Subsystem")]
     public class Subsystem : ExtendedEntityBase
     {
+        public bool IsUsed { get; set; } = false;
+
         [Column("TypeOfSubsystem_Id")]
         public int TypeOfSubsystemId { get; set; }
         public TypeOfSubsystem TypeOfSubsystem { get; set; }
+
+        [Column("OperationPrinciple_Id")]
+        public int OperationPrincipleId { get; set; }
+        public OperationPrinciple OperationPrinciple { get; set; }
 
         public ICollection<SafetyFunctionSubsystem> SafetyFunctionSubsystems { get; set; }
         public ICollection<Element> Elements { get; set; }
@@ -45,6 +47,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         // Properties for SIL methodics:
 
+        public double CFF { get; set; }
         public double? T1 { get; set; }
         public double? T2 { get; set; }
         public double? HFT { get; set; }
@@ -57,9 +60,5 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [Column("PFHdResult_Id")]
         public int? PFHdResultId { get; set; }
         public PFHd PFHdResult { get; set; }
-
-        [Column("CFF_Id")]
-        public int? CFFId { get; set; }
-        public CFF CFF { get; set; }
     }
 }

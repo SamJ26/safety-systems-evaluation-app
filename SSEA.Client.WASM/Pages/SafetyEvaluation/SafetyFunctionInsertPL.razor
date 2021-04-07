@@ -1,0 +1,158 @@
+﻿@page "/safetyEvaluation/safetyFunctionInsert/PL"
+
+@layout MainLayout
+
+@attribute [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
+    <MudCard Elevation="3">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">Create new safety function (PL)</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(disabled)" />
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+                <MudTabPanel Text="Safety function details">
+                    <EditForm Model="@safetyFunction" OnValidSubmit="OnValidSubmit" id="formId">
+                        <DataAnnotationsValidator />
+                        <MudGrid Style="padding: 20px;">
+                            <MudItem xs="12">
+                                <MudTextField @bind-Value="safetyFunction.Name" Label="Safety function name *" Variant="Variant.Outlined" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudField Readonly="true" Label="Evaluation method" Variant="Variant.Outlined">Performance Level (PL)</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudSelect @bind-Value="safetyFunction.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@typeOfFunctionToString">
+                                    @foreach (var item in typeOfFunctions)
+                                    {
+                                        <MudSelectItem T="TypeOfFunctionModel" Value="@(item)" />
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField @bind-Value="safetyFunction.Description" T="string" Label="Safety function description" Variant="Variant.Outlined" Lines="3" />
+                            </MudItem>
+                            <MudItem xs="12" Style="padding-bottom: 0px;">
+                                <MudText Typo="Typo.subtitle1" Style="margin-bottom: 5px;">Select required PL or supply data for its evaluation (S, F, P)</MudText>
+                                <hr />
+                            </MudItem>
+                            <MudItem xs="3">
+                                <MudSelect @bind-Value="safetyFunction.PLr" T="PLModel" Label="Required PL" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in performanceLevels)
+                                    {
+                                        <MudSelectItem T="PLModel" Value="@(item)">@item.Label</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="3" />
+                            <MudItem xs="2">
+                                <MudSelect @bind-Value="safetyFunction.S" T="SModel" Label="Severity" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in severities)
+                                    {
+                                        <MudSelectItem T="SModel" Value="@(item)">@item.Value</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="2">
+                                <MudSelect @bind-Value="safetyFunction.F" T="FModel" Label="Frequency" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in frequencies)
+                                    {
+                                        <MudSelectItem T="FModel" Value="@(item)">@item.Value</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="2">
+                                <MudSelect @bind-Value="safetyFunction.P" T="PModel" Label="Probability" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in probabilities)
+                                    {
+                                        <MudSelectItem T="PModel" Value="@(item)">@item.Value</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                        </MudGrid>
+                    </EditForm>
+                </MudTabPanel>
+                <MudTabPanel Text="Subsystems" Disabled="true"/>
+            </MudTabs>
+            @if (showMessage)
+            {
+                <MudAlert Severity="@messageType" Style="margin-top: 20px;">@message</MudAlert>
+            }
+        </MudCardContent>
+    </MudCard>
+</MudContainer>
+
+@code {
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    private SafetyFunctionFacade safetyFunctionFacade { get; set; }
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
+    [Inject]
+    private IDialogService dialogService { get; set; }
+
+    private SafetyFunctionDetailModelPL safetyFunction = new();
+
+    private ICollection<TypeOfFunctionModel> typeOfFunctions = new List<TypeOfFunctionModel>();
+    private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
+    private ICollection<PLModel> performanceLevels = new List<PLModel>();
+    private ICollection<SModel> severities = new List<SModel>();
+    private ICollection<FModel> frequencies = new List<FModel>();
+    private ICollection<PModel> probabilities = new List<PModel>();
+
+    private bool disabled = false;
+    private bool showMessage = false;
+    private string message = string.Empty;
+    private Severity messageType = Severity.Success;
+
+    private Func<TypeOfFunctionModel, string> typeOfFunctionToString = tof => tof.Name;
+
+    private readonly string successMessage = "Safety function was saved successfully :)";
+    private readonly string errorMessage = "Saving failed :(";
+
+    protected override async Task OnInitializedAsync()
+    {
+        evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
+        typeOfFunctions = await codeListFacade.GetAllTypeOfFunctionsAsync();
+        performanceLevels = await codeListFacade.GetAllPLsAsync();
+        severities = await codeListFacade.GetAllSsAsync();
+        frequencies = await codeListFacade.GetAllFsAsync();
+        probabilities = await codeListFacade.GetAllPsAsync();
+        safetyFunction.EvaluationMethod = evaluationMethods.FirstOrDefault(em => em.Shortcut == "PL");
+        StateHasChanged();
+    }
+
+    private async void OnValidSubmit()
+    {
+        disabled = true;
+        int id = await safetyFunctionFacade.CreateAsync(safetyFunction);
+        if (id != 0)
+        {
+            messageType = Severity.Success;
+            message = successMessage;
+            showMessage = true;
+            StateHasChanged();
+            await Task.Delay(2000);
+            navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{0}/{0}/{id}");
+        }
+        else
+        {
+            messageType = Severity.Error;
+            message = errorMessage;
+        }
+        showMessage = true;
+        disabled = false;
+        StateHasChanged();
+    }
+
+}

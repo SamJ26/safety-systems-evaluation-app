@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SSEA.Api.Extensions;
 using SSEA.BL.Facades;
+using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
@@ -29,13 +30,12 @@ namespace SSEA.Api.Controllers
         [HttpGet]
         [SwaggerOperation(OperationId = "SafetyFunctionGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ICollection<SafetyFunctionListModel>>> GetAllAsync(int accessPointId = 0)
+        public async Task<ActionResult<ICollection<SafetyFunctionListModel>>> GetAllAsync([FromQuery] string name,
+                                                                                          [FromQuery] int stateId = 0,
+                                                                                          [FromQuery] int typeOfFunctionId = 0,
+                                                                                          [FromQuery] int evaluationMethodId = 0)
         {
-            ICollection<SafetyFunctionListModel> data;
-            if (accessPointId == 0)
-                data = await safetyFunctionFacade.GetAllAsync();
-            else
-                data = await safetyFunctionFacade.GetAllAsync(accessPointId);
+            var data = await safetyFunctionFacade.GetAllAsync(name, stateId, typeOfFunctionId, evaluationMethodId);
             return Ok(data);
         }
 
@@ -67,6 +67,7 @@ namespace SSEA.Api.Controllers
 
         // POST: api/safetyFunction/pl
         [HttpPost("pl")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionCreatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -79,18 +80,68 @@ namespace SSEA.Api.Controllers
             return Ok(id);
         }
 
-        // POST: api/safetyFunction/sil
-        [HttpPost("sil")]
-        [SwaggerOperation(OperationId = "SafetyFunctionCreateSIL")]
+        // TODO: Create SF SIL
+
+        // PUT: api/safetyFunction/pl
+        [HttpPut("pl")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionUpdatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelSIL newModel)
+        public async Task<ActionResult<int>> UpdateAsync(SafetyFunctionDetailModelPL updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var id = await safetyFunctionFacade.CreateAsync(newModel, userId);
+            var id = await safetyFunctionFacade.UpdateAsync(updatedModel, userId);
             return Ok(id);
+        }
+
+        // TODO: Update SF SIL
+
+        // TODO: Delete SF
+
+        // POST: api/safetyFunction/addSubsystem/{safetyFunctionId}/{subsystemId}
+        [HttpPost("addSubsystem/{safetyFunctionId}/{subsystemId}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionAddSubsystem")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> AddSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            if (safetyFunctionId == 0 || subsystemId == 0)
+                return BadRequest();
+            await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId);
+            return Ok();
+        }
+
+        // DELETE: api/safetyFunction/removeSubsystem/{safetyFunctionId}/{subsystemId}
+        [HttpDelete("removeSubsystem/{safetyFunctionId}/{subsystemId}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionRemoveSubsystem")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
+        {
+            if (safetyFunctionId == 0 || subsystemId == 0)
+                return BadRequest();
+            await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
+            return Ok();
+        }
+
+        // GET: api/safetyFunction/evaluateSafetyFunction/{id}
+        [HttpGet("evaluateSafetyFunction/{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionEvaluate")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<SafetyFunctionEvaluationResponseModel>> EvaluateSafetyFunctionAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var response = await safetyFunctionFacade.EvaluateSafetyFunctionAsync(id, userId);
+            return Ok(response);
         }
     }
 }
