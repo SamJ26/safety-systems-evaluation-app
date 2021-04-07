@@ -17,12 +17,14 @@ namespace SSEA.BL.Facades
         private readonly IMapper mapper;
         private readonly MachineRepository machineRepository;
         private readonly AccessPointRepository accessPointRepository;
+        public readonly SafetyFunctionRepository safetyFunctionRepository;
 
-        public MachineFacade(IMapper mapper, MachineRepository machineRepository, AccessPointRepository accessPointRepository)
+        public MachineFacade(IMapper mapper, MachineRepository machineRepository, AccessPointRepository accessPointRepository, SafetyFunctionRepository safetyFunctionRepository)
         {
             this.mapper = mapper;
             this.machineRepository = machineRepository;
             this.accessPointRepository = accessPointRepository;
+            this.safetyFunctionRepository = safetyFunctionRepository;
         }
 
         public async Task<int> CreateAsync(MachineDetailModel newModel, int userId)
@@ -120,9 +122,86 @@ namespace SSEA.BL.Facades
             await machineRepository.DeleteAsync(machineId, userId);
         }
 
+        // TODO: test it
         public async Task<MachineEvaluationResponseModel> SelectLogicAsync(int machineId, int userId)
         {
-            return new MachineEvaluationResponseModel();
+            int inputLogicSubsystemId = 4;
+            int outputLogicSubsystemId = 5;
+
+            int readyForEvaluationStateNumber = 3;
+            int workInProgressStateNumber = 2;
+
+            // Getting machine with all its access points
+            MachineDetailModel machine = await GetByIdAsync(machineId);
+
+            if (machine.AccessPoints is null || machine.AccessPoints?.Count == 0)
+                return new MachineEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = "The machine has no access points",
+                };
+
+            HashSet<SubsystemDetailModelPL> subsystems = new();
+
+            uint accessPointsWithoutSafetyFunction = 0;
+
+            // Searching cycle for getting all input-logic and output-logic subsystems
+            foreach (var accessPoint in machine.AccessPoints)
+            {
+                // Checking if current access point has at least oen safety function
+                if (accessPoint.CurrentState.StateNumber != workInProgressStateNumber)
+                {
+                    ++accessPointsWithoutSafetyFunction;
+                    continue;
+                }
+
+                // Getting all safety functions for current access point
+                var safetyFunctions = mapper.Map<ICollection<SafetyFunctionListModel>>(await accessPointRepository.GetSafetyFunctionsForAccessPointAsync(accessPoint.Id));
+
+                foreach (var safetyFunction in safetyFunctions)
+                {
+                    if (safetyFunction.CurrentState.StateNumber < readyForEvaluationStateNumber)
+                        return new MachineEvaluationResponseModel()
+                        {
+                            IsSuccess = false,
+                            Message = $"Safety function with name {safetyFunction.Name} is not ready for evaluation - input or output subsystem is missing",
+                        };
+
+                    // Getting all subsystems used for given safety function
+                    var usedSubsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionPLAsync(safetyFunction.Id));
+                    
+                    foreach (var subsytem in usedSubsystems)
+                        if (subsytem.TypeOfSubsystem.Id == inputLogicSubsystemId || subsytem.TypeOfSubsystem.Id == outputLogicSubsystemId)
+                            subsystems.Add(subsytem);
+                }
+            }
+
+            if (accessPointsWithoutSafetyFunction == machine.AccessPoints.Count)
+                return new MachineEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = "Machine has zero safety functions",
+                };
+
+            uint inputs = 0;
+            uint outputs = 0;
+
+            // At this point we are ready to iterate found subsystems and count their elements
+            foreach (var subsystem in subsystems)
+            {
+                if (subsystem.TypeOfSubsystem.Id == inputLogicSubsystemId)
+                    inputs += (uint)subsystem.Elements.Count;
+                if (subsystem.TypeOfSubsystem.Id == outputLogicSubsystemId)
+                    outputs += (uint)subsystem.Elements.Count;
+            }
+
+            // TODO: select proper logic
+
+            return new MachineEvaluationResponseModel()
+            {
+                IsSuccess = true,
+                Message = "Logic selected successfully",
+            };
         }
     }
 }
