@@ -99,7 +99,7 @@ namespace SSEA.Api.Controllers
         // GET: api/machine/selectLogic/{id}
         [HttpGet("selectLogic/{id}")]
         [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
-        [SwaggerOperation(OperationId = "MachineSelectLogicId")]
+        [SwaggerOperation(OperationId = "MachineSelectLogic")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

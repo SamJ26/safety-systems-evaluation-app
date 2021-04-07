@@ -7,6 +7,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels
     public class MachineEvaluationResponseModel
     {
         public bool IsSuccess { get; set; }
-        public bool Message { get; set; }
+        public string Message { get; set; }
     }
 }

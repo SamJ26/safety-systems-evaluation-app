@@ -21,7 +21,7 @@
                         <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
                         <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
                         <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
-                        <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;">Select logic</MudButton>
+                        <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;" Disabled="@disabled">Select logic</MudButton>
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
@@ -304,7 +304,22 @@
 
     private async Task SelectLogic()
     {
-
+        disabled = true;
+        onlyForReading = true;
+        var response = await machineFacade.SelectLogicAsync(machine.Id);
+        if (response.IsSuccess)
+        {
+            messageType = Severity.Success;
+            machine = await machineFacade.GetByIdAsync(machine.Id);
+        }
+        else
+        {
+            messageType = Severity.Error;
+        }
+        message = response.Message;
+        showMessage = true;
+        disabled = false;
+        StateHasChanged();
     }
 
 }

@@ -45,9 +45,10 @@ namespace SSEA.Client.BL.Facades
             await clientService.MachineDeleteAsync(id);
         }
 
-        public async Task SelectLogicAsync(int id)
+        public async Task<MachineEvaluationResponseModel> SelectLogicAsync(int id)
         {
-
+            Console.WriteLine("MachineFacade.SelectLogicAsync(int id)");
+            return await clientService.MachineSelectLogicAsync(id);
         }
     }
 }
