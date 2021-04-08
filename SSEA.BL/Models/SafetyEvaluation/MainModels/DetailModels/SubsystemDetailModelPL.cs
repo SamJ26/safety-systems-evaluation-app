@@ -10,6 +10,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class SubsystemDetailModelPL : ExtendedModelBase
     {
+        public string Description { get; set; }
         public bool IsUsed { get; set; } = false;
         public bool ValidCCF { get; set; }
 
