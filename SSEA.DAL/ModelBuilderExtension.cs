@@ -1761,7 +1761,7 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 16,
+                    Id = 17,
                     NameCZ = "Validní",
                     NameEN = "Valid",
                     DescriptionCZ = null,
@@ -1779,7 +1779,7 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 17,
+                    Id = 18,
                     NameCZ = "Aktivní",
                     NameEN = "Active",
                     DescriptionCZ = null,
@@ -1792,7 +1792,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 18,
+                    Id = 19,
                     NameCZ = "Zablokovaný",
                     NameEN = "Blocked",
                     DescriptionCZ = null,

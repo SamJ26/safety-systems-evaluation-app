@@ -483,7 +483,7 @@ namespace SSEA.DAL.Migrations
                     DescriptionCZ = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     DescriptionEN = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     StateNumber = table.Column<int>(type: "int", nullable: false),
-                    Valid = table.Column<bool>(type: "bit", nullable: false),
+                    IsValid = table.Column<bool>(type: "bit", nullable: false),
                     InitialState = table.Column<bool>(type: "bit", nullable: false),
                     FinalState = table.Column<bool>(type: "bit", nullable: false),
                     Entity_Id = table.Column<int>(type: "int", nullable: false),
@@ -696,7 +696,7 @@ namespace SSEA.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsUsed = table.Column<bool>(type: "bit", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     TypeOfSubsystem_Id = table.Column<int>(type: "int", nullable: false),
                     OperationPrinciple_Id = table.Column<int>(type: "int", nullable: false),
                     ValidCCF = table.Column<bool>(type: "bit", nullable: false),
@@ -784,7 +784,7 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Note = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Valid = table.Column<bool>(type: "bit", nullable: false),
+                    IsValid = table.Column<bool>(type: "bit", nullable: false),
                     CurrentState_Id = table.Column<int>(type: "int", nullable: false),
                     NextState_Id = table.Column<int>(type: "int", nullable: false),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false)
@@ -1282,9 +1282,9 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "CompareValue", "IsRemoved", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
                 values: new object[,]
                 {
-                    { 1, (short)1, false, true, (short)10, (short)3, "Krátká", null },
+                    { 2, (short)2, false, true, (short)30, (short)10, "Střední", null },
                     { 3, (short)3, false, true, (short)100, (short)30, "Dlouhá", null },
-                    { 2, (short)2, false, true, (short)30, (short)10, "Střední", null }
+                    { 1, (short)1, false, true, (short)10, (short)3, "Krátká", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1357,10 +1357,10 @@ namespace SSEA.DAL.Migrations
                 values: new object[,]
                 {
                     { 1, null, null, false, true, "mechanický", null },
+                    { 4, null, null, false, true, "elektromechanický", null },
                     { 3, null, null, false, true, "pneumatický", null },
                     { 2, null, null, false, true, "elektrický", null },
-                    { 5, null, null, false, true, "hydraulický", null },
-                    { 4, null, null, false, true, "elektromechanický", null }
+                    { 5, null, null, false, true, "hydraulický", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1403,11 +1403,11 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
+                    { 1, "Velmi vysoká", null, false, true, (short)5 },
                     { 2, "Pravděpodobná", null, false, true, (short)4 },
                     { 3, "Možná", null, false, true, (short)3 },
                     { 4, "Výjimečná", null, false, true, (short)2 },
-                    { 5, "Zanedbatelná", null, false, true, (short)1 },
-                    { 1, "Velmi vysoká", null, false, true, (short)5 }
+                    { 5, "Zanedbatelná", null, false, true, (short)1 }
                 });
 
             migrationBuilder.InsertData(
@@ -1434,16 +1434,15 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "ComponentNameCZ", "ComponentNameEN", "FailureModeCZ", "FailureModeEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
+                    { 31, "Bezdotykové spínače", null, "Selhíni spínače vlivem mechanické poruchy", null, false, true, 10L },
                     { 32, "Bezdotykové spínače", null, "Současný zkrat mezi třemi kontakty přepínacího spínače", null, false, true, 10L },
                     { 33, "Teplotní spínač", null, "Kontakty nelze rozepnout", null, false, true, 30L },
-                    { 34, "Teplotní spínač", null, "Kontakty nelze sepnout", null, false, true, 10L },
-                    { 11, "Relé", null, "Zkrat medzi dvěma páry kontaktů a/nebo mezi kontakty a svorku cívky", null, false, true, 10L },
                     { 10, "Relé", null, "Současné zapnutí zapínacího a vypínacího kontaktu", null, false, true, 10L },
                     { 9, "Relé", null, "Současný zkrat mezi třemi kontakty přepínacího spínače", null, false, true, 10L },
                     { 8, "Relé", null, "Kontakty nelze sepnout", null, false, true, 10L },
-                    { 29, "Bezdotykové spínače", null, "Trvalé vysoká rezistance na výstupu", null, false, true, 25L },
-                    { 12, "Jistič, proudový chránič", null, "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí", null, false, true, 25L },
+                    { 7, "Relé", null, "Kontakty nelze rozepnout", null, false, true, 10L },
                     { 28, "Bezdotykové spínače", null, "Trvalé nízke rezistance na výstupu", null, false, true, 25L },
+                    { 11, "Relé", null, "Zkrat medzi dvěma páry kontaktů a/nebo mezi kontakty a svorku cívky", null, false, true, 10L },
                     { 27, "Poistka", null, "Přerušený obvod", null, false, true, 90L },
                     { 26, "Poistka", null, "Nedojde k přtavení (zkrat)", null, false, true, 10L },
                     { 25, "Stykač", null, "Zkrat medzi dvěma páry kontaktů a/nebo medzi kontakty a svorku cívky", null, false, true, 10L },
@@ -1459,11 +1458,12 @@ namespace SSEA.DAL.Migrations
                     { 15, "Jistič, proudový chránič", null, "Kontakty nelze sepnou", null, false, true, 10L },
                     { 14, "Jistič, proudový chránič", null, "Kontakty nelze rozepnout", null, false, true, 10L },
                     { 13, "Jistič, proudový chránič", null, "Všechny kontakty zůstavají ve vypnuté poloze, je-li cívka pod napětí", null, false, true, 25L },
-                    { 31, "Bezdotykové spínače", null, "Selhíni spínače vlivem mechanické poruchy", null, false, true, 10L },
+                    { 12, "Jistič, proudový chránič", null, "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí", null, false, true, 25L },
                     { 30, "Bezdotykové spínače", null, "Přerušní napájaní", null, false, true, 30L },
-                    { 7, "Relé", null, "Kontakty nelze rozepnout", null, false, true, 10L },
-                    { 49, "Solenoidový ventil", null, "Další poruchové režimy (viz poznámka 4)", null, false, true, 10L },
-                    { 5, "Relé", null, "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí", null, false, true, 25L },
+                    { 29, "Bezdotykové spínače", null, "Trvalé vysoká rezistance na výstupu", null, false, true, 25L },
+                    { 6, "Relé", null, "Všechny kontakty zůstavají ve vypnuté poloze, je-li cívka pod napětím", null, false, true, 25L },
+                    { 48, "Solenoidový ventil", null, "Netěsnost", null, false, true, 65L },
+                    { 4, "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.", null, "Kontakty nelze sepnout", null, false, true, 50L },
                     { 54, "Svorkovnice", null, "Rozpojený obvod svorek", null, false, true, 90L }
                 });
 
@@ -1476,25 +1476,25 @@ namespace SSEA.DAL.Migrations
                     { 52, "Vidlice a zásuvky, konektory", null, "Rozpojený obvod libovolného spoje (koliku) konektoru", null, false, true, 80L },
                     { 51, "Vidlice a zásuvky, konektory", null, "Zkrat libovolného vodiče s neživou částí", null, false, true, 10L },
                     { 50, "Vidlice a zásuvky, konektory", null, "Zkrat medzi libovolnými dvěma sousedními spoji (koliky)", null, false, true, 10L },
-                    { 35, "Teplotní spínač", null, "Zkrat medzi sousedními kontakty", null, false, true, 10L },
-                    { 48, "Solenoidový ventil", null, "Netěsnost", null, false, true, 65L },
+                    { 49, "Solenoidový ventil", null, "Další poruchové režimy (viz poznámka 4)", null, false, true, 10L },
+                    { 34, "Teplotní spínač", null, "Kontakty nelze sepnout", null, false, true, 10L },
                     { 47, "Solenoidový ventil", null, "Změna doby spínaní", null, false, true, 5L },
-                    { 6, "Relé", null, "Všechny kontakty zůstavají ve vypnuté poloze, je-li cívka pod napětím", null, false, true, 25L },
+                    { 5, "Relé", null, "Všechny kontakty zůstavají v zapnuté poloze, je-li cívka bez napětí", null, false, true, 25L },
                     { 45, "Solenoidový ventil", null, "Nelze nabudit", null, false, true, 5L },
                     { 44, "Tlakový spínač", null, "Změna meřícich nebo výstupních charakteristik", null, false, true, 20L },
                     { 46, "Solenoidový ventil", null, "Nelze odbudit", null, false, true, 15L },
                     { 42, "Tlakový spínač", null, "Současný zkat medzi třemi svorkami přepínacích kontaktů", null, false, true, 10L },
-                    { 4, "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.", null, "Kontakty nelze sepnout", null, false, true, 50L },
-                    { 43, "Tlakový spínač", null, "Vada čidla", null, false, true, 20L },
-                    { 2, "Spínač s nuceným vypínaním", null, "Kontakty nelze sepnout", null, false, true, 80L },
-                    { 1, "Spínač s nuceným vypínaním", null, "Kontakty nelze rozepnout", null, false, true, 20L },
-                    { 3, "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.", null, "Kontakty nelze rozepnout", null, false, true, 50L },
-                    { 38, "Teplotní spínač", null, "Zmena měřích nebo výstupních charakteristik", null, false, true, 20L },
-                    { 39, "Tlakový spínač", null, "Kontakty nelze rozepnout", null, false, true, 30L },
-                    { 40, "Tlakový spínač", null, "Kontakty nelze sepnout", null, false, true, 10L },
                     { 41, "Tlakový spínač", null, "Zkrat mezi sousedními kontakty", null, false, true, 10L },
+                    { 40, "Tlakový spínač", null, "Kontakty nelze sepnout", null, false, true, 10L },
+                    { 39, "Tlakový spínač", null, "Kontakty nelze rozepnout", null, false, true, 30L },
+                    { 38, "Teplotní spínač", null, "Zmena měřích nebo výstupních charakteristik", null, false, true, 20L },
                     { 37, "Teplotní spínač", null, "Vada čidla", null, false, true, 20L },
-                    { 36, "Teplotní spínač", null, "Zkrat medzi třemi svorkami přepínacích kontaktů", null, false, true, 10L }
+                    { 36, "Teplotní spínač", null, "Zkrat medzi třemi svorkami přepínacích kontaktů", null, false, true, 10L },
+                    { 1, "Spínač s nuceným vypínaním", null, "Kontakty nelze rozepnout", null, false, true, 20L },
+                    { 2, "Spínač s nuceným vypínaním", null, "Kontakty nelze sepnout", null, false, true, 80L },
+                    { 3, "Elektromechanický konocový spínač, polohový spínač, koncový spínač, ručně ovladaný spínač atd.", null, "Kontakty nelze rozepnout", null, false, true, 50L },
+                    { 43, "Tlakový spínač", null, "Vada čidla", null, false, true, 20L },
+                    { 35, "Teplotní spínač", null, "Zkrat medzi sousedními kontakty", null, false, true, 10L }
                 });
 
             migrationBuilder.InsertData(
@@ -1505,10 +1505,9 @@ namespace SSEA.DAL.Migrations
                     { 1, false, "AccessPoint" },
                     { 2, false, "Element" },
                     { 3, false, "Machine" },
-                    { 4, false, "Producer" },
-                    { 5, false, "SafetyFunction" },
-                    { 7, false, "User" },
-                    { 6, false, "Subsystem" }
+                    { 4, false, "SafetyFunction" },
+                    { 6, false, "User" },
+                    { 5, false, "Subsystem" }
                 });
 
             migrationBuilder.InsertData(
@@ -1516,10 +1515,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "IsValid", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "6ccefb5a-2af5-4920-b4fc-20689cf0f05e", true, "Observer", "OBSERVER" },
-                    { 2, "033b62c3-50ea-463f-ba96-d086052b0a21", true, "NormalUser", "NORMALUSER" },
-                    { 3, "94d63c8d-3524-44e3-bbc6-94e67047f984", true, "SafetyEvaluationAdmin", "SAFETYEVALUATIONADMIN" },
-                    { 4, "2047496c-0c8d-49ae-bb7e-ff53108436de", true, "UserAdmin", "USERADMIN" }
+                    { 1, "8e40e214-1ec7-4798-b1ad-6df12ccc0983", true, "Observer", "OBSERVER" },
+                    { 2, "3fddc30d-38ba-4445-9580-0e11450ba067", true, "NormalUser", "NORMALUSER" },
+                    { 3, "a9440705-bcc6-41ab-af98-10add59a8c76", true, "SafetyEvaluationAdmin", "SAFETYEVALUATIONADMIN" },
+                    { 4, "dfca4985-69b1-4091-8654-67530a7746b9", true, "UserAdmin", "USERADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -1541,7 +1540,8 @@ namespace SSEA.DAL.Migrations
                     { 1, null, null, false, true, "Funkce bezpečného zastavení iniciována bezpečnostním zařízením", null },
                     { 2, null, null, false, true, "Funkce ručního opětného nastavení", null },
                     { 3, null, null, false, true, "Funkce místního ovládaní", null },
-                    { 4, null, null, false, true, "Funkce spuštení/opětovného spuštení", null }
+                    { 4, null, null, false, true, "Funkce spuštení/opětovného spuštení", null },
+                    { 5, null, null, false, true, "Funkce vyřazení", null }
                 });
 
             migrationBuilder.InsertData(
@@ -1549,7 +1549,6 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 5, null, null, false, true, "Funkce vyřazení", null },
                     { 6, null, null, false, true, "Funkce tipování", null },
                     { 8, null, null, false, true, "Funkce zamezení neočekávaného spuštění", null },
                     { 9, null, null, false, true, "Únik a uvolnění zachycených osob", null },
@@ -1578,10 +1577,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "Channels", "CompareValue", "DescriptionCZ", "DescriptionEN", "Diagnostic", "HFT", "IsRemoved", "IsValid", "Label", "Logic", "MaxPFHd_Id", "MaxSFF", "MinSFF" },
                 values: new object[,]
                 {
-                    { 1, (short)1, (short)1, null, null, false, (short)0, false, true, "A", true, 1, 99.0, 60.0 },
-                    { 2, (short)2, (short)2, null, null, false, (short)1, false, true, "B", true, 1, 99.0, 0.0 },
+                    { 4, (short)2, (short)4, null, null, true, (short)1, false, true, "D", true, 1, 99.0, 0.0 },
                     { 3, (short)1, (short)3, null, null, true, (short)0, false, true, "C", true, 1, 99.0, 60.0 },
-                    { 4, (short)2, (short)4, null, null, true, (short)1, false, true, "D", true, 1, 99.0, 0.0 }
+                    { 2, (short)2, (short)2, null, null, false, (short)1, false, true, "B", true, 1, 99.0, 0.0 },
+                    { 1, (short)1, (short)1, null, null, false, (short)0, false, true, "A", true, 1, 99.0, 60.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -1590,32 +1589,36 @@ namespace SSEA.DAL.Migrations
                 values: new object[,]
                 {
                     { 1, (short)1, (short)1, null, null, null, null, false, true, "B", true, 1, 2, 1, 1, false, null, null },
-                    { 2, (short)1, (short)2, null, null, null, null, false, true, "1", true, 1, 3, 1, 3, false, null, null },
-                    { 3, (short)1, (short)3, null, null, null, null, false, true, "2", true, 3, 3, 2, 1, true, null, null },
                     { 4, (short)2, (short)4, null, null, null, null, false, true, "3", true, 3, 3, 2, 1, true, null, null },
+                    { 3, (short)1, (short)3, null, null, null, null, false, true, "2", true, 3, 3, 2, 1, true, null, null },
+                    { 2, (short)1, (short)2, null, null, null, null, false, true, "1", true, 1, 3, 1, 3, false, null, null },
                     { 5, (short)2, (short)5, null, null, null, null, false, true, "4", true, 4, 3, 4, 3, true, null, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "SY_State",
-                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "Entity_Id", "FinalState", "InitialState", "IsRemoved", "NameCZ", "NameEN", "StateNumber", "Valid" },
+                columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "Entity_Id", "FinalState", "InitialState", "IsRemoved", "IsValid", "NameCZ", "NameEN", "StateNumber" },
                 values: new object[,]
                 {
-                    { 14, null, null, 6, false, true, false, "Nový", "New", 1, true },
-                    { 11, "Bezpečnostní funkce byla odstránena", "Safety function was deleted", 5, false, false, false, "Odstránená", "Removed", 4, true },
-                    { 10, "Určená výsledná úroveň bezpečnosti", "Determined final level of security", 5, false, false, false, "Dokončená", "Completed", 3, true },
-                    { 9, "Příprava subsystému", "Preparing subsystems", 5, false, false, false, "Rozpracovaná", "Work in progress", 2, true },
-                    { 8, "S nevyplnenými subsystémami", "Subsystems are not filled", 5, false, true, false, "Nová", "New", 1, true },
-                    { 4, "Mašina byla odstránená", "Machine was deleted", 3, true, false, false, "Odstránená", "Removed", 4, true },
-                    { 7, "Přístupový bod byl odstránený", "Access point was deleted", 1, true, false, false, "Odstránený", "Removed", 3, true },
-                    { 2, "Pracuje se na detailech", "Working on details", 3, false, false, false, "Rozpracovaná", "Work in progres", 2, true },
-                    { 1, "Řídící jednotka není vybrána", "Conrol logic is not selected", 3, false, true, false, "Nová", "New", 1, true },
-                    { 15, null, null, 2, false, true, false, "Nový", "New", 1, true },
-                    { 12, null, null, 7, false, true, false, "Aktivní", "Active", 1, true },
-                    { 6, "Přístupový bod má jednu nebo více bezpečnostních funkcí", "Access point has one or more safety functions", 1, false, false, false, "Ošetřený bezpečnostní funkcí", "Protected with safety function", 2, true },
-                    { 5, "Bez bezpečnostní funkce", "Without safety function", 1, false, true, false, "Nový", "New", 1, true },
-                    { 3, "Řídící jednotka byla vybrána", "Control logic was selected", 3, false, false, false, "Dokončená", "Completed", 3, true },
-                    { 13, null, null, 7, false, false, false, "Zablokovaný", "Blocked", 2, true }
+                    { 10, "Počáteční stav - s nevyplnenými subsystémami", "Initial state - subsystems are not filled", 4, false, true, false, true, "Nová", "New", 1 },
+                    { 16, null, null, 5, true, true, false, true, "Nepoužitý", "Not used in safety function", 2 },
+                    { 15, null, null, 5, true, true, false, true, "Použitý", "Used in safety function", 1 },
+                    { 14, "Výsledná úroveň bezpečnosti nesplňuje požadavky", "Determined final level of security does not meet the requirements", 4, true, false, false, true, "Vyhodnocená - invalidní", "Evaluated - invalid", 5 },
+                    { 13, "Výsledná úroveň bezpečnosti splňuje požadavky", "Determined final level of security meets the requirements", 4, true, false, false, true, "Vyhodnocená - validní", "Evaluated - valid", 4 },
+                    { 12, "Vstupní i výstupní subsystém je vyplněn", "Input and output subsystems are completed", 4, false, false, false, true, "Připravená na vyhodnocení", "Ready for evaluation", 3 },
+                    { 11, "Příprava subsystému", "Preparing subsystems", 4, false, false, false, true, "Rozpracovaná", "Work in progress", 2 },
+                    { 5, "Některé bezpečnostní funkce nesplňují požadavky", "Some safety functions do not meet the requirements", 3, true, false, false, true, "Vyhodnocená - invalidní", "Evaluated - invalid", 5 },
+                    { 17, null, null, 2, false, true, false, true, "Validní", "Valid", 1 },
+                    { 3, "Řídící jednotka byla vybrána", "Control system was selected", 3, false, false, false, true, "S vybranou řídící jednotkou", "With selected control system", 3 },
+                    { 2, "Pracuje se na detailech", "Working on details", 3, false, false, false, true, "Rozpracovaná", "Work in progres", 2 },
+                    { 1, "Počáteční stav - řídící jednotka není vybrána", "Initial state - conrol system is not selected", 3, false, true, false, true, "Nová", "New", 1 },
+                    { 18, null, null, 6, false, true, false, true, "Aktivní", "Active", 1 },
+                    { 9, "Přístupový bod nemá bezpečnostní funkce", "Access point has not any safety functions", 1, true, false, false, true, "Neošetřený bezpečnostní funkcí", "Not protected with safety function", 4 },
+                    { 8, "Přístupový bod má jednu nebo více bezpečnostních funkcí", "Access point has one or more safety functions", 1, true, false, false, true, "Ošetřený bezpečnostní funkcí", "Protected with safety function", 3 },
+                    { 7, "Pracuje se na detailech", "Working on details", 1, false, false, false, true, "Rozpracovaný", "Work in progress", 2 },
+                    { 6, "Počáteční stav - bez bezpečnostní funkce", "Initial state - without safety function", 1, false, true, false, true, "Nový", "New", 1 },
+                    { 4, "Všechny bezpečnostní funkce splňují požadavky", "All safety functions meet the requirements", 3, true, false, false, true, "Vyhodnocená - validní", "Evaluated - valid", 4 },
+                    { 19, null, null, 6, true, false, false, true, "Zablokovaný", "Blocked", 2 }
                 });
 
             migrationBuilder.InsertData(
