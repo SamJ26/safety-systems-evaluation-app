@@ -13,8 +13,6 @@ namespace SSEA.DAL.Repositories
     {
         private readonly AppDbContext dbContext;
 
-        private readonly int accessPointRemovedStateId = 7;
-
         public AccessPointRepository(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
@@ -57,13 +55,13 @@ namespace SSEA.DAL.Repositories
             return accessPoint.Id;
         }
 
-        public async Task AddExistingSafetyFunctions(ICollection<AccessPointSafetyFunction> joinEntities)
+        public async Task AddExistingSafetyFunctionsAsync(ICollection<AccessPointSafetyFunction> joinEntities)
         {
             dbContext.AddRange(joinEntities);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task AddNewSafetyFunctions(ICollection<SafetyFunction> safetyFunctions, int accessPointId, int userId)
+        public async Task AddNewSafetyFunctionsAsync(ICollection<SafetyFunction> safetyFunctions, int accessPointId, int userId)
         {
             foreach (var safetyFunction in safetyFunctions)
             {
@@ -87,19 +85,33 @@ namespace SSEA.DAL.Repositories
             }
         }
 
-        public async Task RemoveSafetyFunctions(ICollection<SafetyFunction> safetyFunctions, int accessPointId)
+        public async Task RemoveSafetyFunctionsAsync(ICollection<SafetyFunction> safetyFunctions, int accessPointId)
         {
-            var entites = await dbContext.AccessPointSafetyFunctions.Where(apsf => apsf.AccessPointId == accessPointId && safetyFunctions.Select(sf => sf.Id).Contains(apsf.SafetyFunctionId)).ToListAsync();
-            dbContext.RemoveRange(entites);
+            var accessPointSafetyFunctions = await dbContext.AccessPointSafetyFunctions.Where(apsf => apsf.AccessPointId == accessPointId && safetyFunctions.Select(sf => sf.Id).Contains(apsf.SafetyFunctionId)).ToListAsync();
+            foreach (var item in accessPointSafetyFunctions)
+            {
+                item.IsRemoved = true;
+            }
+            dbContext.UpdateRange(accessPointSafetyFunctions);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id, int userId)
+        public async Task DeleteAsync(int accessPointId, int userId)
         {
-            AccessPoint acessPoint = await dbContext.AccessPoints.Where(ap => ap.Id == id).AsNoTracking().FirstOrDefaultAsync();
-            acessPoint.CurrentStateId = accessPointRemovedStateId;
+            // Removing access point
+            AccessPoint acessPoint = await dbContext.AccessPoints.Where(ap => ap.Id == accessPointId).AsNoTracking().FirstOrDefaultAsync();
+            acessPoint.IsRemoved = true;
             dbContext.Update(acessPoint);
             await dbContext.CommitChangesAsync(userId);
+
+            // Removing records from AccessPointSafetyFunction join table
+            var accessPointSafetyFunctions = await dbContext.AccessPointSafetyFunctions.AsNoTracking().Where(e => e.AccessPointId == accessPointId).ToListAsync();
+            foreach (var item in accessPointSafetyFunctions)
+            {
+                item.IsRemoved = true;
+            }
+            dbContext.UpdateRange(accessPointSafetyFunctions);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

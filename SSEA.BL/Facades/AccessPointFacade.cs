@@ -1,16 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
-using SSEA.DAL;
 using SSEA.DAL.Entities.SafetyEvaluation.JoinEntities;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Facades
@@ -85,15 +80,15 @@ namespace SSEA.BL.Facades
 
             // Inserting new records to AccessPointSafetyFunction join table
             if (joinEntites.Count != 0)
-                await repository.AddExistingSafetyFunctions(joinEntites);
+                await repository.AddExistingSafetyFunctionsAsync(joinEntites);
 
             // Inserting newly created safety functions + created entites in join table
             if (createdSafetyFunctions.Count != 0)
-                await repository.AddNewSafetyFunctions(mapper.Map<ICollection<SafetyFunction>>(createdSafetyFunctions), updatedModel.Id, userId);
+                await repository.AddNewSafetyFunctionsAsync(mapper.Map<ICollection<SafetyFunction>>(createdSafetyFunctions), updatedModel.Id, userId);
 
             // Removing records from AccessPointSafetyFunction join table
             if (oldModel.SafetyFunctions.Count != 0)
-                await repository.RemoveSafetyFunctions(mapper.Map<ICollection<SafetyFunction>>(oldModel.SafetyFunctions), updatedModel.Id);
+                await repository.RemoveSafetyFunctionsAsync(mapper.Map<ICollection<SafetyFunction>>(oldModel.SafetyFunctions), updatedModel.Id);
 
             // Safety functions are processed -> collection can be cleared
             updatedModel.SafetyFunctions.Clear();
