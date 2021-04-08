@@ -18,13 +18,15 @@ namespace SSEA.BL.Facades
         private readonly MachineRepository machineRepository;
         private readonly AccessPointRepository accessPointRepository;
         public readonly SafetyFunctionRepository safetyFunctionRepository;
+        private readonly CodeListFacade codeListFacade;
 
-        public MachineFacade(IMapper mapper, MachineRepository machineRepository, AccessPointRepository accessPointRepository, SafetyFunctionRepository safetyFunctionRepository)
+        public MachineFacade(IMapper mapper, MachineRepository machineRepository, AccessPointRepository accessPointRepository, SafetyFunctionRepository safetyFunctionRepository, CodeListFacade codeListFacade)
         {
             this.mapper = mapper;
             this.machineRepository = machineRepository;
             this.accessPointRepository = accessPointRepository;
             this.safetyFunctionRepository = safetyFunctionRepository;
+            this.codeListFacade = codeListFacade;
         }
 
         public async Task<int> CreateAsync(MachineDetailModel newModel, int userId)
@@ -50,6 +52,8 @@ namespace SSEA.BL.Facades
         public async Task<MachineDetailModel> GetByIdAsync(int id)
         {
             var machine = mapper.Map<MachineDetailModel>(await machineRepository.GetByIdAsync(id));
+            if (machine is null)
+                return null;
             machine.Norms = mapper.Map<HashSet<NormModel>>(await machineRepository.GetNormsForMachineAsync(id));
             return machine;
         }
@@ -134,6 +138,9 @@ namespace SSEA.BL.Facades
             // Getting machine with all its access points
             MachineDetailModel machine = await GetByIdAsync(machineId);
 
+            if (machine is null)
+                return null;
+
             if (machine.AccessPoints is null || machine.AccessPoints?.Count == 0)
                 return new MachineEvaluationResponseModel()
                 {
@@ -148,8 +155,8 @@ namespace SSEA.BL.Facades
             // Searching cycle for getting all input-logic and output-logic subsystems
             foreach (var accessPoint in machine.AccessPoints)
             {
-                // Checking if current access point has at least oen safety function
-                if (accessPoint.CurrentState.StateNumber != workInProgressStateNumber)
+                // Checking if current access point has at least one safety function
+                if (accessPoint.CurrentState.StateNumber < workInProgressStateNumber)
                 {
                     ++accessPointsWithoutSafetyFunction;
                     continue;
@@ -195,13 +202,57 @@ namespace SSEA.BL.Facades
                     outputs += (uint)subsystem.Elements.Count;
             }
 
-            // TODO: select proper logic
+            if (inputs == 0 || outputs == 0)
+                return new MachineEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = "Number if standard inputs or outputs is zero"
+                };
+
+            // Selecting proper logic for given machine according to number of SI and SO
+            TypeOfLogicModel logic = null;
+            try
+            {
+                logic = await SelectLogicAsync(inputs, outputs);
+            }
+            catch (System.Exception exception)
+            {
+                return new MachineEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = exception.Message,
+                };
+            }
 
             return new MachineEvaluationResponseModel()
             {
                 IsSuccess = true,
-                Message = "Logic selected successfully",
+                Message = "Logic selected successfully - save machine and than evaluate its safety functions",
+                Logic = logic,
             };
+        }
+
+        private async Task<TypeOfLogicModel> SelectLogicAsync(uint standardInputs, uint standardOutputs)
+        {
+            ICollection<TypeOfLogicModel> typeOfLogics = await codeListFacade.GetAllAsync("TypeOfLogic");
+            if (typeOfLogics is null)
+                throw new System.Exception("No type of logics available - report this issue to administrator");
+
+            // Relay
+            if (standardInputs <= 4 && standardOutputs <= 4)
+                return typeOfLogics.FirstOrDefault(tol => tol.Id == 1);
+
+            // CR30
+            else if (standardInputs <= 12 && standardOutputs <= 10)
+                return typeOfLogics.FirstOrDefault(tol => tol.Id == 2);
+
+            // GMX
+            else if (standardInputs + standardOutputs <= 6144)
+                return typeOfLogics.FirstOrDefault(tol => tol.Id == 3);
+
+            // GLX
+            else
+                return typeOfLogics.FirstOrDefault(tol => tol.Id == 4);
         }
     }
 }
