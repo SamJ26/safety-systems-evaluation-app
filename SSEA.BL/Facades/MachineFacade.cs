@@ -210,19 +210,14 @@ namespace SSEA.BL.Facades
                 };
 
             // Selecting proper logic for given machine according to number of SI and SO
-            TypeOfLogicModel logic = null;
-            try
-            {
-                logic = await SelectLogicAsync(inputs, outputs);
-            }
-            catch (System.Exception exception)
-            {
+            TypeOfLogicModel logic = await SelectLogicAsync(inputs, outputs);
+
+            if (logic is null)
                 return new MachineEvaluationResponseModel()
                 {
                     IsSuccess = false,
-                    Message = exception.Message,
+                    Message = "No type of logics available - report this issue to administrator",
                 };
-            }
 
             return new MachineEvaluationResponseModel()
             {
@@ -236,7 +231,7 @@ namespace SSEA.BL.Facades
         {
             ICollection<TypeOfLogicModel> typeOfLogics = await codeListFacade.GetAllAsync("TypeOfLogic");
             if (typeOfLogics is null)
-                throw new System.Exception("No type of logics available - report this issue to administrator");
+                return null;
 
             // Relay
             if (standardInputs <= 4 && standardOutputs <= 4)
