@@ -5,7 +5,6 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.DAL.Repositories
@@ -15,9 +14,7 @@ namespace SSEA.DAL.Repositories
         private readonly AppDbContext dbContext;
 
         private readonly int machineNewStateId = 1;
-        private readonly int machineRemovedStateId = 4;
-        private readonly int accessPointNewStateId = 5;
-        private readonly int accessPointRemovedStateId = 7;
+        private readonly int accessPointNewStateId = 6;
 
         public MachineRepository(AppDbContext dbContext)
         {
@@ -140,14 +137,33 @@ namespace SSEA.DAL.Repositories
 
         public async Task DeleteAsync(int machineId, int userId)
         {
+            // Removing machine and related access points
             Machine machine = await dbContext.Machines.Include(m => m.AccessPoints).AsNoTracking().SingleOrDefaultAsync(m => m.Id == machineId);
-            machine.CurrentStateId = machineRemovedStateId;
+            machine.IsRemoved = true;
             foreach (var accessPoint in machine.AccessPoints)
             {
-                accessPoint.CurrentStateId = accessPointRemovedStateId;
+                accessPoint.IsRemoved = true;
+
+                // Removing records from AccessPointSafetyFunction join table
+                var accessPointSafetyFunctions = await dbContext.AccessPointSafetyFunctions.AsNoTracking().Where(e => e.AccessPointId == accessPoint.Id).ToListAsync();
+                foreach (var item in accessPointSafetyFunctions)
+                {
+                    item.IsRemoved = true;
+                }
+                dbContext.UpdateRange(accessPointSafetyFunctions);
+                await dbContext.SaveChangesAsync();
             }
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
+
+            // Removing records from MachineNorm join table
+            var machineNorms = await dbContext.MachineNorms.AsNoTracking().Where(mn => mn.MachineId == machineId).ToListAsync();
+            foreach (var item in machineNorms)
+            {
+                item.IsRemoved = true;
+            }
+            dbContext.UpdateRange(machineNorms);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

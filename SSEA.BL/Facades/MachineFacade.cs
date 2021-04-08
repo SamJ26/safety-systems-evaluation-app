@@ -120,13 +120,12 @@ namespace SSEA.BL.Facades
             return await machineRepository.UpdateAsync(machineEntity, userId);
         }
 
-        // TODO: complete logic for removing
         public async Task DeleteAsync(int machineId, int userId)
         {
             await machineRepository.DeleteAsync(machineId, userId);
         }
 
-        // TODO: test it
+        // TODO: test this method
         public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId, int userId)
         {
             int inputLogicSubsystemId = 4;

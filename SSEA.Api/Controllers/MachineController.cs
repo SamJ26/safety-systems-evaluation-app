@@ -127,7 +127,7 @@ namespace SSEA.Api.Controllers
             var userId = this.GetUserIdFromHttpContext();
             var response = await machineFacade.SelectLogicAsync(id, userId);
 
-            // TODO
+            // TODO: call facade and return response model
 
             return Ok(response);
         }
