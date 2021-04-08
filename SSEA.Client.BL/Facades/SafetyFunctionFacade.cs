@@ -79,7 +79,7 @@ namespace SSEA.Client.BL.Facades
             await clientService.SafetyFunctionRemoveSubsystemAsync(safetyFunctionId, subsystemId);
         }
 
-        public async Task<SafetyFunctionEvaluationResponseModel> EvaluateSafetyFunctionAsync(int id)
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionAsync(int id)
         {
             Console.WriteLine("SafetyFunctionFacade.EvaluateSafetyFunction(int id)");
             return await clientService.SafetyFunctionEvaluateAsync(id);

@@ -502,7 +502,7 @@
     {
         disabled = true;
         onlyForReading = true;
-        SafetyFunctionEvaluationResponseModel response = await safetyFunctionFacade.EvaluateSafetyFunctionAsync(safetyFunction.Id);
+        SafetyEvaluationResponseModel response = await safetyFunctionFacade.EvaluateSafetyFunctionAsync(safetyFunction.Id);
         if (response.IsSuccess)
         {
             messageType = Severity.Success;

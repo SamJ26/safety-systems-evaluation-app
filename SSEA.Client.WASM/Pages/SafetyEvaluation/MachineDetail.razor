@@ -22,6 +22,7 @@
                         <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
                         <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
                         <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;" Disabled="@disabled">Select logic</MudButton>
+                        <MudButton @onclick="@EvaluateSafety" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;" Disabled="@disabled">Evaluate safety</MudButton>
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
@@ -310,7 +311,26 @@
         if (response.IsSuccess)
         {
             messageType = Severity.Success;
-            machine = await machineFacade.GetByIdAsync(machine.Id);
+            machine.TypeOfLogic = response.Logic;
+        }
+        else
+        {
+            messageType = Severity.Error;
+        }
+        message = response.Message;
+        showMessage = true;
+        disabled = false;
+        StateHasChanged();
+    }
+
+    private async Task EvaluateSafety()
+    {
+        disabled = true;
+        onlyForReading = true;
+        var response = await machineFacade.EvaluateSafetyAsync(machine.Id);
+        if (response.IsSuccess)
+        {
+            messageType = Severity.Success;
         }
         else
         {
