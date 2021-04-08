@@ -1512,27 +1512,22 @@ namespace SSEA.DAL
                 new Entity()
                 {
                     Id = 4,
-                    Name = "Producer",
-                },
-                new Entity()
-                {
-                    Id = 5,
                     Name = "SafetyFunction",
                 },
                 new Entity()
                 {
-                    Id = 6,
+                    Id = 5,
                     Name = "Subsystem",
                 },
                 new Entity()
                 {
-                    Id = 7,
+                    Id = 6,
                     Name = "User",
                 }
             );
 
             modelBuilder.Entity<State>().HasData(
-
+                 
                 #region States for machines
 
                 new State()
@@ -1540,10 +1535,10 @@ namespace SSEA.DAL
                     Id = 1,
                     NameCZ = "Nová",
                     NameEN = "New",
-                    DescriptionCZ = "Řídící jednotka není vybrána",
-                    DescriptionEN = "Conrol logic is not selected",
+                    DescriptionCZ = "Počáteční stav - řídící jednotka není vybrána",
+                    DescriptionEN = "Initial state - conrol system is not selected",
                     StateNumber = 1,
-                    Valid = true,
+                    IsValid = true,
                     InitialState = true,
                     FinalState = false,
                     EntityId = 3,
@@ -1556,7 +1551,7 @@ namespace SSEA.DAL
                     DescriptionCZ = "Pracuje se na detailech",
                     DescriptionEN = "Working on details",
                     StateNumber = 2,
-                    Valid = true,
+                    IsValid = true,
                     InitialState = false,
                     FinalState = false,
                     EntityId = 3,
@@ -1564,12 +1559,12 @@ namespace SSEA.DAL
                 new State()
                 {
                     Id = 3,
-                    NameCZ = "Dokončená",
-                    NameEN = "Completed",
+                    NameCZ = "S vybranou řídící jednotkou",
+                    NameEN = "With selected control system",
                     DescriptionCZ = "Řídící jednotka byla vybrána",
-                    DescriptionEN = "Control logic was selected",
+                    DescriptionEN = "Control system was selected",
                     StateNumber = 3,
-                    Valid = true,
+                    IsValid = true,
                     InitialState = false,
                     FinalState = false,
                     EntityId = 3,
@@ -1577,12 +1572,25 @@ namespace SSEA.DAL
                 new State()
                 {
                     Id = 4,
-                    NameCZ = "Odstránená",
-                    NameEN = "Removed",
-                    DescriptionCZ = "Mašina byla odstránená",
-                    DescriptionEN = "Machine was deleted",
+                    NameCZ = "Vyhodnocená - validní",
+                    NameEN = "Evaluated - valid",
+                    DescriptionCZ = "Všechny bezpečnostní funkce splňují požadavky",
+                    DescriptionEN = "All safety functions meet the requirements",
                     StateNumber = 4,
-                    Valid = true,
+                    IsValid = true,
+                    InitialState = false,
+                    FinalState = true,
+                    EntityId = 3,
+                },
+                new State()
+                {
+                    Id = 5,
+                    NameCZ = "Vyhodnocená - invalidní",
+                    NameEN = "Evaluated - invalid",
+                    DescriptionCZ = "Některé bezpečnostní funkce nesplňují požadavky",
+                    DescriptionEN = "Some safety functions do not meet the requirements",
+                    StateNumber = 5,
+                    IsValid = true,
                     InitialState = false,
                     FinalState = true,
                     EntityId = 3,
@@ -1594,39 +1602,52 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 5,
+                    Id = 6,
                     NameCZ = "Nový",
                     NameEN = "New",
-                    DescriptionCZ = "Bez bezpečnostní funkce",
-                    DescriptionEN = "Without safety function",
+                    DescriptionCZ = "Počáteční stav - bez bezpečnostní funkce",
+                    DescriptionEN = "Initial state - without safety function",
                     StateNumber = 1,
-                    Valid = true,
+                    IsValid = true,
                     InitialState = true,
                     FinalState = false,
                     EntityId = 1,
                 },
                 new State()
                 {
-                    Id = 6,
-                    NameCZ = "Ošetřený bezpečnostní funkcí",
-                    NameEN = "Protected with safety function",
-                    DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
-                    DescriptionEN = "Access point has one or more safety functions",
+                    Id = 7,
+                    NameCZ = "Rozpracovaný",
+                    NameEN = "Work in progress",
+                    DescriptionCZ = "Pracuje se na detailech",
+                    DescriptionEN = "Working on details",
                     StateNumber = 2,
-                    Valid = true,
+                    IsValid = true,
                     InitialState = false,
                     FinalState = false,
                     EntityId = 1,
                 },
                 new State()
                 {
-                    Id = 7,
-                    NameCZ = "Odstránený",
-                    NameEN = "Removed",
-                    DescriptionCZ = "Přístupový bod byl odstránený",
-                    DescriptionEN = "Access point was deleted",
+                    Id = 8,
+                    NameCZ = "Ošetřený bezpečnostní funkcí",
+                    NameEN = "Protected with safety function",
+                    DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
+                    DescriptionEN = "Access point has one or more safety functions",
                     StateNumber = 3,
-                    Valid = true,
+                    IsValid = true,
+                    InitialState = false,
+                    FinalState = true,
+                    EntityId = 1,
+                },
+                new State()
+                {
+                    Id = 9,
+                    NameCZ = "Neošetřený bezpečnostní funkcí",
+                    NameEN = "Not protected with safety function",
+                    DescriptionCZ = "Přístupový bod nemá bezpečnostní funkce",
+                    DescriptionEN = "Access point has not any safety functions",
+                    StateNumber = 4,
+                    IsValid = true,
                     InitialState = false,
                     FinalState = true,
                     EntityId = 1,
@@ -1638,86 +1659,69 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 8,
+                    Id = 10,
                     NameCZ = "Nová",
                     NameEN = "New",
-                    DescriptionCZ = "S nevyplnenými subsystémami",
-                    DescriptionEN = "Subsystems are not filled",
+                    DescriptionCZ = "Počáteční stav - s nevyplnenými subsystémami",
+                    DescriptionEN = "Initial state - subsystems are not filled",
                     StateNumber = 1,
-                    Valid = true,
+                    IsValid = true,
                     InitialState = true,
                     FinalState = false,
-                    EntityId = 5,
+                    EntityId = 4,
                 },
                 new State()
                 {
-                    Id = 9,
+                    Id = 11,
                     NameCZ = "Rozpracovaná",
                     NameEN = "Work in progress",
                     DescriptionCZ = "Příprava subsystému",
                     DescriptionEN = "Preparing subsystems",
                     StateNumber = 2,
-                    Valid = true,
+                    IsValid = true,
                     InitialState = false,
                     FinalState = false,
-                    EntityId = 5,
+                    EntityId = 4,
                 },
-                new State()
-                {
-                    Id = 10,
-                    NameCZ = "Dokončená",
-                    NameEN = "Completed",
-                    DescriptionCZ = "Určená výsledná úroveň bezpečnosti",
-                    DescriptionEN = "Determined final level of security",
-                    StateNumber = 3,
-                    Valid = true,
-                    InitialState = false,
-                    FinalState = false,
-                    EntityId = 5,
-                },
-                new State()
-                {
-                    Id = 11,
-                    NameCZ = "Odstránená",
-                    NameEN = "Removed",
-                    DescriptionCZ = "Bezpečnostní funkce byla odstránena",
-                    DescriptionEN = "Safety function was deleted",
-                    StateNumber = 4,
-                    Valid = true,
-                    InitialState = false,
-                    FinalState = false,
-                    EntityId = 5,
-                },
-
-                #endregion
-
-                #region States for users
-
                 new State()
                 {
                     Id = 12,
-                    NameCZ = "Aktivní",
-                    NameEN = "Active",
-                    DescriptionCZ = null,
-                    DescriptionEN = null,
-                    StateNumber = 1,
-                    Valid = true,
-                    InitialState = true,
+                    NameCZ = "Připravená na vyhodnocení",
+                    NameEN = "Ready for evaluation",
+                    DescriptionCZ = "Vstupní i výstupní subsystém je vyplněn",
+                    DescriptionEN = "Input and output subsystems are completed",
+                    StateNumber = 3,
+                    IsValid = true,
+                    InitialState = false,
                     FinalState = false,
-                    EntityId = 7,
+                    EntityId = 4,
                 },
+
                 new State()
                 {
                     Id = 13,
-                    NameCZ = "Zablokovaný",
-                    NameEN = "Blocked",
-                    DescriptionCZ = null,
-                    DescriptionEN = null,
-                    StateNumber = 2,
-                    Valid = true,
+                    NameCZ = "Vyhodnocená - validní",
+                    NameEN = "Evaluated - valid",
+                    DescriptionCZ = "Výsledná úroveň bezpečnosti splňuje požadavky",
+                    DescriptionEN = "Determined final level of security meets the requirements",
+                    StateNumber = 4,
+                    IsValid = true,
                     InitialState = false,
-                    FinalState = false,
-                    EntityId = 7,
+                    FinalState = true,
+                    EntityId = 4,
+                },
+                new State()
+                {
+                    Id = 14,
+                    NameCZ = "Vyhodnocená - invalidní",
+                    NameEN = "Evaluated - invalid",
+                    DescriptionCZ = "Výsledná úroveň bezpečnosti nesplňuje požadavky",
+                    DescriptionEN = "Determined final level of security does not meet the requirements",
+                    StateNumber = 5,
+                    IsValid = true,
+                    InitialState = false,
+                    FinalState = true,
+                    EntityId = 4,
                 },
 
                 #endregion
@@ -1726,16 +1730,29 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 14,
-                    NameCZ = "Nový",
-                    NameEN = "New",
+                    Id = 15,
+                    NameCZ = "Použitý",
+                    NameEN = "Used in safety function",
                     DescriptionCZ = null,
                     DescriptionEN = null,
                     StateNumber = 1,
-                    Valid = true,
+                    IsValid = true,
                     InitialState = true,
-                    FinalState = false,
-                    EntityId = 6,
+                    FinalState = true,
+                    EntityId = 5,
+                },
+                new State()
+                {
+                    Id = 16,
+                    NameCZ = "Nepoužitý",
+                    NameEN = "Not used in safety function",
+                    DescriptionCZ = null,
+                    DescriptionEN = null,
+                    StateNumber = 2,
+                    IsValid = true,
+                    InitialState = true,
+                    FinalState = true,
+                    EntityId = 5,
                 },
 
                 #endregion
@@ -1744,20 +1761,50 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 15,
-                    NameCZ = "Nový",
-                    NameEN = "New",
+                    Id = 16,
+                    NameCZ = "Validní",
+                    NameEN = "Valid",
                     DescriptionCZ = null,
                     DescriptionEN = null,
                     StateNumber = 1,
-                    Valid = true,
+                    IsValid = true,
                     InitialState = true,
                     FinalState = false,
                     EntityId = 2,
-                }
+                },
 
                 #endregion
 
+                #region States for users
+
+                new State()
+                {
+                    Id = 17,
+                    NameCZ = "Aktivní",
+                    NameEN = "Active",
+                    DescriptionCZ = null,
+                    DescriptionEN = null,
+                    StateNumber = 1,
+                    IsValid = true,
+                    InitialState = true,
+                    FinalState = false,
+                    EntityId = 6,
+                },
+                new State()
+                {
+                    Id = 18,
+                    NameCZ = "Zablokovaný",
+                    NameEN = "Blocked",
+                    DescriptionCZ = null,
+                    DescriptionEN = null,
+                    StateNumber = 2,
+                    IsValid = true,
+                    InitialState = false,
+                    FinalState = true,
+                    EntityId = 6,
+                }
+
+                #endregion
             );
 
             #endregion

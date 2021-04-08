@@ -11,8 +11,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
     [Table("Subsystem")]
     public class Subsystem : ExtendedEntityBase
     {
-        public bool IsUsed { get; set; } = false;
-
         [StringLength(250)]
         public string Description { get; set; }
 
