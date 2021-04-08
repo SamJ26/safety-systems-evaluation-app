@@ -103,7 +103,7 @@ namespace SSEA.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<MachineEvaluationResponseModel>> SelectLogicAsync(int id)
+        public async Task<ActionResult<MachineLogicSelectionResponseModel>> SelectLogicAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
@@ -111,6 +111,24 @@ namespace SSEA.Api.Controllers
             var response = await machineFacade.SelectLogicAsync(id, userId);
             if (response is null)
                 return NotFound();
+            return Ok(response);
+        }
+
+        // GET: api/machine/evaluateSafety/{id}
+        [HttpGet("evaluateSafety/{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "MachineEvaluateSafety")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var response = await machineFacade.SelectLogicAsync(id, userId);
+
+            // TODO
+
             return Ok(response);
         }
     }

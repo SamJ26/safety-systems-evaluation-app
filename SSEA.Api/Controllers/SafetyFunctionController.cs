@@ -135,7 +135,7 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionEvaluate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<SafetyFunctionEvaluationResponseModel>> EvaluateSafetyFunctionAsync(int id)
+        public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionAsync(int id)
         {
             if (id == 0)
                 return BadRequest();

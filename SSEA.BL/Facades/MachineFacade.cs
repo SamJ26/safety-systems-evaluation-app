@@ -127,7 +127,7 @@ namespace SSEA.BL.Facades
         }
 
         // TODO: test it
-        public async Task<MachineEvaluationResponseModel> SelectLogicAsync(int machineId, int userId)
+        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId, int userId)
         {
             int inputLogicSubsystemId = 4;
             int outputLogicSubsystemId = 5;
@@ -142,7 +142,7 @@ namespace SSEA.BL.Facades
                 return null;
 
             if (machine.AccessPoints is null || machine.AccessPoints?.Count == 0)
-                return new MachineEvaluationResponseModel()
+                return new MachineLogicSelectionResponseModel()
                 {
                     IsSuccess = false,
                     Message = "The machine has no access points",
@@ -168,7 +168,7 @@ namespace SSEA.BL.Facades
                 foreach (var safetyFunction in safetyFunctions)
                 {
                     if (safetyFunction.CurrentState.StateNumber < readyForEvaluationStateNumber)
-                        return new MachineEvaluationResponseModel()
+                        return new MachineLogicSelectionResponseModel()
                         {
                             IsSuccess = false,
                             Message = $"Safety function with name {safetyFunction.Name} is not ready for evaluation - input or output subsystem is missing",
@@ -184,7 +184,7 @@ namespace SSEA.BL.Facades
             }
 
             if (accessPointsWithoutSafetyFunction == machine.AccessPoints.Count)
-                return new MachineEvaluationResponseModel()
+                return new MachineLogicSelectionResponseModel()
                 {
                     IsSuccess = false,
                     Message = "Machine has zero safety functions",
@@ -203,7 +203,7 @@ namespace SSEA.BL.Facades
             }
 
             if (inputs == 0 || outputs == 0)
-                return new MachineEvaluationResponseModel()
+                return new MachineLogicSelectionResponseModel()
                 {
                     IsSuccess = false,
                     Message = "Number if standard inputs or outputs is zero"
@@ -213,13 +213,13 @@ namespace SSEA.BL.Facades
             TypeOfLogicModel logic = await SelectLogicAsync(inputs, outputs);
 
             if (logic is null)
-                return new MachineEvaluationResponseModel()
+                return new MachineLogicSelectionResponseModel()
                 {
                     IsSuccess = false,
                     Message = "No type of logics available - report this issue to administrator",
                 };
 
-            return new MachineEvaluationResponseModel()
+            return new MachineLogicSelectionResponseModel()
             {
                 IsSuccess = true,
                 Message = "Logic selected successfully - save machine and than evaluate its safety functions",

@@ -98,7 +98,7 @@ namespace SSEA.BL.Facades
         }
 
         // TODO: rename method to EvaluationSafetyFunctionPLAsync
-        public async Task<SafetyFunctionEvaluationResponseModel> EvaluateSafetyFunctionAsync(int safetyFunctionId, int userId)
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionAsync(int safetyFunctionId, int userId)
         {
             SafetyFunctionDetailModelPL safetyFunction = await GetByIdPLAsync(safetyFunctionId);
             try
@@ -107,7 +107,7 @@ namespace SSEA.BL.Facades
             }
             catch (Exception exception)
             {
-                return new SafetyFunctionEvaluationResponseModel()
+                return new SafetyEvaluationResponseModel()
                 {
                     IsSuccess = false,
                     Message = exception.Message,
@@ -118,13 +118,13 @@ namespace SSEA.BL.Facades
             int id = await safetyFunctionRepository.UpdateAsync(mapper.Map<SafetyFunction>(safetyFunction), userId);
             if (id == 0)
             {
-                return new SafetyFunctionEvaluationResponseModel()
+                return new SafetyEvaluationResponseModel()
                 {
                     IsSuccess = false,
                     Message = "Saving of evaluated safety function failed!",
                 };
             }
-            return new SafetyFunctionEvaluationResponseModel()
+            return new SafetyEvaluationResponseModel()
             {
                 IsSuccess = true,
                 Message = "Saving was successful :)",
