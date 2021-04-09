@@ -103,7 +103,7 @@ namespace SSEA.BL.Facades
             // Updating access point
             AccessPoint accessPoint = mapper.Map<AccessPoint>(updatedModel);
 
-            // --- STATE CHANGE --- updating state of machine and access point to work in progress after adding at least one safety function
+            // --- STATE CHANGE --- updating state of machine and access point to "work in progress" state after adding at least one safety function
             if (joinEntites.Count != 0 || createdSafetyFunctions.Count != 0)
             {
                 await machineRepository.UpdateMachineStateAsync(accessPoint.MachineId, machineWorkInProgressStateId, userId);

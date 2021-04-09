@@ -111,7 +111,8 @@ namespace SSEA.Api.Controllers
         {
             if (safetyFunctionId == 0 || subsystemId == 0)
                 return BadRequest();
-            await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId);
+            var userId = this.GetUserIdFromHttpContext();
+            await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId, userId);
             return Ok();
         }
 

@@ -17,14 +17,14 @@ namespace SSEA.BL.Facades
     {
         private readonly IMapper mapper;
         private readonly SubsystemRepository subsystemRepository;
-        private readonly SafetyFunctionRepository safetyFunctionRepository;
+        private readonly SafetyFunctionFacade safetyFunctionFacade;
         private readonly IPerformanceLevelService PLService;
 
-        public SubsystemFacade(IMapper mapper, SubsystemRepository subsystemRepository, SafetyFunctionRepository safetyFunctionRepository, IPerformanceLevelService PLService)
+        public SubsystemFacade(IMapper mapper, SubsystemRepository subsystemRepository, SafetyFunctionFacade safetyFunctionFacade, IPerformanceLevelService PLService)
         {
             this.mapper = mapper;
             this.subsystemRepository = subsystemRepository;
-            this.safetyFunctionRepository = safetyFunctionRepository;
+            this.safetyFunctionFacade = safetyFunctionFacade;
             this.PLService = PLService;
         }
 
@@ -86,7 +86,7 @@ namespace SSEA.BL.Facades
 
             // If safetyFunctionId is not 0 than create record in join table
             if (safetyFunctionId != 0)
-                await safetyFunctionRepository.AddSubsystemAsync(safetyFunctionId, subsystemId);
+                await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId, userId);
 
             return new SubsystemCreationResponseModel()
             {

@@ -13,7 +13,11 @@ namespace SSEA.DAL.Repositories
     {
         private readonly AppDbContext dbContext;
 
-        private readonly int safetyFunctionNewStateId = 8;
+        private readonly int safetyFunctionNewStateId = 10;
+        private readonly int safetyFunctionWorkInProgressStateId = 11;
+        private readonly int safetyFunctionReadyForEvaluationStateId = 12;
+        private readonly int safetyFunctionEvaluatedValidStateId = 13;
+        private readonly int safetyFunctionEvaluatedInvalidStateId = 14;
 
         public SafetyFunctionRepository(AppDbContext dbContext)
         {
@@ -168,6 +172,28 @@ namespace SSEA.DAL.Repositories
             var entity = await dbContext.SafetyFunctionSubsystems.AsNoTracking().FirstOrDefaultAsync(i => i.SafetyFunctionId == safetyFunctionId && i.SubsystemId == subsystemId);
             dbContext.Remove(entity);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateSafetyFunctionStateAsync(int safetyFunctionId, int userId, int stateId = 0)
+        {
+            var safetyFunction = await dbContext.SafetyFunctions.AsNoTracking().FirstOrDefaultAsync(sf => sf.Id == safetyFunctionId);
+            if (stateId != 0)
+            {
+
+            }
+            else
+            {
+                // First subsystem was added
+                if (safetyFunction.CurrentStateId == safetyFunctionNewStateId)
+                    safetyFunction.CurrentStateId = safetyFunctionWorkInProgressStateId;
+
+                // Check if there is already input and output subsystem. If yes we can move to another state
+                else
+                {
+
+                }
+            }
+
         }
     }
 }
