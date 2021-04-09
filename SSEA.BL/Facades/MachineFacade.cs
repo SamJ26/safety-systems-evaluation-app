@@ -252,6 +252,9 @@ namespace SSEA.BL.Facades
         // TODO: add complete implementation
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId)
         {
+            // TODO: call UpdateMachineStateAsync
+            // TODO: call UpdateAccessPointStateAsync
+
             return new SafetyEvaluationResponseModel()
             {
                 IsSuccess = true,

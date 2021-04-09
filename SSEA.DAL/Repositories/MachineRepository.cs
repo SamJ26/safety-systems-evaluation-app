@@ -24,7 +24,7 @@ namespace SSEA.DAL.Repositories
 
         public async Task<int> CreateAsync(Machine machine, int userId)
         {
-            // Assigning initial state to machine and its access points
+            // -- STATE CHANGE -- assigning initial state to machine and its access points
             machine.CurrentStateId = machineNewStateId;
             machine.AccessPoints.AsParallel().ForAll(accessPoint => accessPoint.CurrentStateId = accessPointNewStateId);
 
@@ -131,7 +131,7 @@ namespace SSEA.DAL.Repositories
             if (machine.TypeOfLogic != null)
                 dbContext.Attach(machine.TypeOfLogic).State = EntityState.Unchanged;
 
-            // If machine is in "work in progress" state and logic was selected, than its state will be "logic selected"
+            // -- STATE CHANGE -- if machine is in "work in progress" state and logic was selected, than its state will be "logic selected"
             if (machine.CurrentState.StateNumber == 2 && machine.TypeOfLogic != null)
             {
                 machine.CurrentState = null;
@@ -174,6 +174,16 @@ namespace SSEA.DAL.Repositories
             }
             dbContext.UpdateRange(machineNorms);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateMachineStateAsync(int machineId ,int stateId, int userId)
+        {
+            Machine machine = await dbContext.Machines.AsNoTracking().FirstOrDefaultAsync(m => m.Id == machineId);
+            if (machine.CurrentStateId == stateId)
+                return;
+            machine.CurrentStateId = stateId;
+            dbContext.Update(machine);
+            await dbContext.CommitChangesAsync(userId);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace SSEA.DAL.Repositories
         public async Task<int> UpdateAsync(AccessPoint accessPoint, int userId)
         {
             accessPoint.Machine = null;
-            dbContext.Attach(accessPoint.CurrentState).State = EntityState.Unchanged;
+            accessPoint.CurrentState = null;
             dbContext.Update(accessPoint);
             await dbContext.CommitChangesAsync();
             return accessPoint.Id;
@@ -112,6 +112,16 @@ namespace SSEA.DAL.Repositories
             }
             dbContext.UpdateRange(accessPointSafetyFunctions);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAccessPointStateAsync(int accessPointId, int stateId, int userId)
+        {
+            AccessPoint accessPoint = await dbContext.AccessPoints.AsNoTracking().FirstOrDefaultAsync(ap => ap.Id == accessPointId);
+            if (accessPoint.CurrentStateId == stateId)
+                return;
+            accessPoint.CurrentStateId = stateId;
+            dbContext.Update(accessPoint);
+            await dbContext.CommitChangesAsync(userId);
         }
     }
 }

@@ -13,24 +13,29 @@ namespace SSEA.BL.Facades
     public class AccessPointFacade
     {
         private readonly IMapper mapper;
-        private readonly AccessPointRepository repository;
+        private readonly AccessPointRepository accessPointRepository;
+        private readonly MachineRepository machineRepository;
 
-        public AccessPointFacade(IMapper mapper, AccessPointRepository repository)
+        private readonly int machineWorkInProgressStateId = 2;
+        private readonly int accessPointWorkInProgressStateId = 7;
+
+        public AccessPointFacade(IMapper mapper, AccessPointRepository accessPointRepository, MachineRepository machineRepository)
         {
             this.mapper = mapper;
-            this.repository = repository;
+            this.accessPointRepository = accessPointRepository;
+            this.machineRepository = machineRepository;
         }
 
         public async Task<ICollection<AccessPointListModel>> GetAllAsync()
         {
-            var data = await repository.GetAllAsync();
+            var data = await accessPointRepository.GetAllAsync();
             return mapper.Map<ICollection<AccessPointListModel>>(data);
         }
 
         public async Task<AccessPointDetailModel> GetByIdAsync(int id)
         {
-            AccessPointDetailModel accessPoint = mapper.Map<AccessPointDetailModel>(await repository.GetByIdAsync(id));
-            accessPoint.SafetyFunctions = mapper.Map<ICollection<SafetyFunctionListModel>>(await repository.GetSafetyFunctionsForAccessPointAsync(accessPoint.Id));
+            AccessPointDetailModel accessPoint = mapper.Map<AccessPointDetailModel>(await accessPointRepository.GetByIdAsync(id));
+            accessPoint.SafetyFunctions = mapper.Map<ICollection<SafetyFunctionListModel>>(await accessPointRepository.GetSafetyFunctionsForAccessPointAsync(accessPoint.Id));
             return accessPoint;
         }
 
@@ -80,21 +85,15 @@ namespace SSEA.BL.Facades
 
             // Inserting new records to AccessPointSafetyFunction join table
             if (joinEntites.Count != 0)
-                await repository.AddExistingSafetyFunctionsAsync(joinEntites);
+                await accessPointRepository.AddExistingSafetyFunctionsAsync(joinEntites);
 
             // Inserting newly created safety functions + created entites in join table
             if (createdSafetyFunctions.Count != 0)
-                await repository.AddNewSafetyFunctionsAsync(mapper.Map<ICollection<SafetyFunction>>(createdSafetyFunctions), updatedModel.Id, userId);
-
-            // TODO: update machine state to 2
-            if (joinEntites.Count != 0 || createdSafetyFunctions.Count != 0)
-            {
-
-            }
+                await accessPointRepository.AddNewSafetyFunctionsAsync(mapper.Map<ICollection<SafetyFunction>>(createdSafetyFunctions), updatedModel.Id, userId);
 
             // Removing records from AccessPointSafetyFunction join table
             if (oldModel.SafetyFunctions.Count != 0)
-                await repository.RemoveSafetyFunctionsAsync(mapper.Map<ICollection<SafetyFunction>>(oldModel.SafetyFunctions), updatedModel.Id);
+                await accessPointRepository.RemoveSafetyFunctionsAsync(mapper.Map<ICollection<SafetyFunction>>(oldModel.SafetyFunctions), updatedModel.Id);
 
             // Safety functions are processed -> collection can be cleared
             updatedModel.SafetyFunctions.Clear();
@@ -103,13 +102,20 @@ namespace SSEA.BL.Facades
 
             // Updating access point
             AccessPoint accessPoint = mapper.Map<AccessPoint>(updatedModel);
-            accessPoint.MachineId = oldModel.MachineId;
-            return await repository.UpdateAsync(accessPoint, userId);
+
+            // --- STATE CHANGE --- updating state of machine and access point to work in progress after adding at least one safety function
+            if (joinEntites.Count != 0 || createdSafetyFunctions.Count != 0)
+            {
+                await machineRepository.UpdateMachineStateAsync(accessPoint.MachineId, machineWorkInProgressStateId, userId);
+                accessPoint.CurrentStateId = accessPointWorkInProgressStateId;
+            }
+
+            return await accessPointRepository.UpdateAsync(accessPoint, userId);
         }
 
         public async Task DeleteAsync(int accessPointId, int userId)
         {
-            await repository.DeleteAsync(accessPointId, userId);
+            await accessPointRepository.DeleteAsync(accessPointId, userId);
         }
     }
 }
