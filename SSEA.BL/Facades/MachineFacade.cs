@@ -248,5 +248,15 @@ namespace SSEA.BL.Facades
             else
                 return typeOfLogics.FirstOrDefault(tol => tol.Id == 4);
         }
+
+        // TODO: add complete implementation
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId)
+        {
+            return new SafetyEvaluationResponseModel()
+            {
+                IsSuccess = true,
+                Message = "Evaluation was successfull",
+            };
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace SSEA.DAL.Repositories
         private readonly AppDbContext dbContext;
 
         private readonly int machineNewStateId = 1;
+        private readonly int machineLogicSelectedStateId = 3;
         private readonly int accessPointNewStateId = 6;
 
         public MachineRepository(AppDbContext dbContext)
@@ -127,9 +128,18 @@ namespace SSEA.DAL.Repositories
             dbContext.Attach(machine.EvaluationMethod).State = EntityState.Unchanged;
             dbContext.Attach(machine.MachineType).State = EntityState.Unchanged;
             dbContext.Attach(machine.Producer).State = EntityState.Unchanged;
-            dbContext.Attach(machine.CurrentState).State = EntityState.Unchanged;
             if (machine.TypeOfLogic != null)
                 dbContext.Attach(machine.TypeOfLogic).State = EntityState.Unchanged;
+
+            // If machine is in "work in progress" state and logic was selected, than its state will be "logic selected"
+            if (machine.CurrentState.StateNumber == 2 && machine.TypeOfLogic != null)
+            {
+                machine.CurrentState = null;
+                machine.CurrentStateId = machineLogicSelectedStateId;
+            }
+            else
+                dbContext.Attach(machine.CurrentState).State = EntityState.Unchanged;
+
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
             return machine.Id;

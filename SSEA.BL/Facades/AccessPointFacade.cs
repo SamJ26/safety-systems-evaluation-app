@@ -86,6 +86,12 @@ namespace SSEA.BL.Facades
             if (createdSafetyFunctions.Count != 0)
                 await repository.AddNewSafetyFunctionsAsync(mapper.Map<ICollection<SafetyFunction>>(createdSafetyFunctions), updatedModel.Id, userId);
 
+            // TODO: update machine state to 2
+            if (joinEntites.Count != 0 || createdSafetyFunctions.Count != 0)
+            {
+
+            }
+
             // Removing records from AccessPointSafetyFunction join table
             if (oldModel.SafetyFunctions.Count != 0)
                 await repository.RemoveSafetyFunctionsAsync(mapper.Map<ICollection<SafetyFunction>>(oldModel.SafetyFunctions), updatedModel.Id);
