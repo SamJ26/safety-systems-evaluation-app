@@ -117,7 +117,12 @@ namespace SSEA.BL.Facades
             // Creating machine entity with machine properties and access point collection
             Machine machineEntity = mapper.Map<Machine>(updatedModel);
 
-            return await machineRepository.UpdateAsync(machineEntity, userId);
+            var id = await machineRepository.UpdateAsync(machineEntity, userId);
+
+            // UPDATING STATE OF MACHINE
+            await machineRepository.UpdateMachineStateAsync(id, userId);
+
+            return id;
         }
 
         public async Task DeleteAsync(int machineId, int userId)
@@ -250,10 +255,17 @@ namespace SSEA.BL.Facades
         }
 
         // TODO: add complete implementation
-        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId)
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId, int userId)
         {
-            // TODO: call UpdateMachineStateAsync
-            // TODO: call UpdateAccessPointStateAsync
+            int machineEvaluatedValidStateId = 4;
+            int machineEvaluatedInvalidStateId = 5;
+            int nextMachineStateId = 0;
+
+            // TODO: set nextmachineStateId according to result of this method
+            // TODO: call accessPointRepository.UpdateAccessPointStateAsync
+
+            // UPDATING STATE OF MACHINE
+            await machineRepository.UpdateMachineStateAsync(machineId, userId, nextMachineStateId);
 
             return new SafetyEvaluationResponseModel()
             {

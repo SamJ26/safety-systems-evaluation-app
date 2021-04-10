@@ -125,10 +125,7 @@ namespace SSEA.Api.Controllers
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var response = await machineFacade.SelectLogicAsync(id, userId);
-
-            // TODO: call facade and return response model
-
+            var response = await machineFacade.EvaluateSafetyAsync(id, userId);
             return Ok(response);
         }
     }

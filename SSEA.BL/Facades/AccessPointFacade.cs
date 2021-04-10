@@ -16,7 +16,6 @@ namespace SSEA.BL.Facades
         private readonly AccessPointRepository accessPointRepository;
         private readonly MachineRepository machineRepository;
 
-        private readonly int machineWorkInProgressStateId = 2;
         private readonly int accessPointWorkInProgressStateId = 7;
 
         public AccessPointFacade(IMapper mapper, AccessPointRepository accessPointRepository, MachineRepository machineRepository)
@@ -103,14 +102,22 @@ namespace SSEA.BL.Facades
             // Updating access point
             AccessPoint accessPoint = mapper.Map<AccessPoint>(updatedModel);
 
+
+            // TODO
             // --- STATE CHANGE --- updating state of machine and access point to "work in progress" state after adding at least one safety function
             if (joinEntites.Count != 0 || createdSafetyFunctions.Count != 0)
-            {
-                await machineRepository.UpdateMachineStateAsync(accessPoint.MachineId, machineWorkInProgressStateId, userId);
+            {         
                 accessPoint.CurrentStateId = accessPointWorkInProgressStateId;
             }
 
-            return await accessPointRepository.UpdateAsync(accessPoint, userId);
+
+
+            var id = await accessPointRepository.UpdateAsync(accessPoint, userId);
+
+            // UPDATING STATE OF MACHINE
+            await machineRepository.UpdateMachineStateAsync(accessPoint.MachineId, userId);
+
+            return id;
         }
 
         public async Task DeleteAsync(int accessPointId, int userId)
