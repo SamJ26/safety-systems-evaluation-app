@@ -152,7 +152,28 @@ namespace SSEA.DAL.Repositories
             return safetyFunction.Id;
         }
 
-        // TODO: Delete SF
+        public async Task DeleteAsync(int safetyFunctionId, int userId)
+        {
+            // Removing safety function
+            SafetyFunction safetyFunction = await dbContext.SafetyFunctions.AsNoTracking().FirstOrDefaultAsync(sf => sf.Id == safetyFunctionId);
+            safetyFunction.IsRemoved = true;
+            dbContext.Update(safetyFunction);
+            await dbContext.CommitChangesAsync(userId);
+
+            // Removing records from AccessPointSafetyFunction join table
+            var accessPointSafetyFunctions = await dbContext.AccessPointSafetyFunctions.AsNoTracking().Where(e => e.SafetyFunctionId == safetyFunctionId).ToListAsync();
+            foreach (var item in accessPointSafetyFunctions)
+                item.IsRemoved = true;
+            dbContext.UpdateRange(accessPointSafetyFunctions);
+
+            // Removing records from SafetyFunctionSusystem join table
+            var safetyFunctionSubsystems = await dbContext.SafetyFunctionSubsystems.AsNoTracking().Where(e => e.SafetyFunctionId == safetyFunctionId).ToListAsync();
+            foreach (var item in safetyFunctionSubsystems)
+                item.IsRemoved = true;
+            dbContext.UpdateRange(safetyFunctionSubsystems);
+
+            await dbContext.SaveChangesAsync();
+        }
 
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
