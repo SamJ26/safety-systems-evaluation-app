@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SSEA.BL.Services.Implementations;
 using SSEA.BL.Services.Interfaces;
@@ -17,9 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Facades;
-using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.BL.Models;
-using SSEA.DAL.Entities.System;
 using SSEA.DAL.Repositories;
 
 namespace SSEA.Api
@@ -79,6 +74,7 @@ namespace SSEA.Api
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPerformanceLevelService, PerformanceLevelService>();
 
+            services.AddScoped<CodeListRepository>();
             services.AddScoped<MachineRepository>();
             services.AddScoped<AccessPointRepository>();
             services.AddScoped<SafetyFunctionRepository>();
