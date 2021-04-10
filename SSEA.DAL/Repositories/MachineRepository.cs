@@ -183,8 +183,7 @@ namespace SSEA.DAL.Repositories
             {
                 if (machine.CurrentStateId == stateId)
                     return;
-                else
-                    nextStateId = stateId;
+                nextStateId = stateId;
             }
             else
             {
@@ -202,7 +201,8 @@ namespace SSEA.DAL.Repositories
                         nextStateId = machineLogicSelectedStateId;
                 }
             }
-
+            if (machine.CurrentStateId == nextStateId)
+                return;
             machine.CurrentStateId = nextStateId;
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);

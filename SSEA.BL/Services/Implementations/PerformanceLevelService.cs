@@ -81,8 +81,8 @@ namespace SSEA.BL.Services.Implementations
         /// Method for evaluation of whole safety function
         /// </summary>
         /// <param name="safetyFunction"> Safety function for evaluation </param>
-        /// <returns> Method interacts with database so it returns async task </returns>
-        public async Task EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction)
+        /// <returns> True if resultant PL is bigger than required PL, otherwise false </returns>
+        public async Task<bool> EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction)
         {
             if (safetyFunction.InputSubsystem is null)
                 throw new Exception("Input subsystem is missing");
@@ -126,7 +126,8 @@ namespace SSEA.BL.Services.Implementations
 
             // Check if PL result is bigger or equal to required PL
             if (safetyFunction.PLresult.CompareValue < safetyFunction.PLr.CompareValue)
-                throw new Exception($"Resultant PL is not big enough! [Required PL = {safetyFunction.PLr.Label}] > [Resultant PL = {safetyFunction.PLresult.Label}]");
+                return false;
+            return true;
         }
 
         #endregion

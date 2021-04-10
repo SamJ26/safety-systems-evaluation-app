@@ -126,22 +126,23 @@ namespace SSEA.Api.Controllers
         {
             if (safetyFunctionId == 0 || subsystemId == 0)
                 return BadRequest();
-            await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
+            var userId = this.GetUserIdFromHttpContext();
+            await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunctionId, subsystemId, userId);
             return Ok();
         }
 
-        // GET: api/safetyFunction/evaluateSafetyFunction/{id}
-        [HttpGet("evaluateSafetyFunction/{id}")]
+        // GET: api/safetyFunction/pl/evaluateSafetyFunction/{id}
+        [HttpGet("pl/evaluateSafetyFunction/{id}")]
         [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
-        [SwaggerOperation(OperationId = "SafetyFunctionEvaluate")]
+        [SwaggerOperation(OperationId = "SafetyFunctionEvaluatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionAsync(int id)
+        public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionPLAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var response = await safetyFunctionFacade.EvaluateSafetyFunctionAsync(id, userId);
+            var response = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(id, userId);
             return Ok(response);
         }
     }

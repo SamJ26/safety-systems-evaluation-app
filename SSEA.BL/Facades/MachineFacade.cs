@@ -260,8 +260,8 @@ namespace SSEA.BL.Facades
             int machineEvaluatedValidStateId = 4;
             int machineEvaluatedInvalidStateId = 5;
 
-            int accessPointProtectedValidStateId = 8;
-            int accessPointProtectedInvalidStateId = 9;
+            int accessPointProtectedStateId = 8;
+            int accessPointNotProtectedStateId = 9;
 
             int nextMachineStateId = 0;
 

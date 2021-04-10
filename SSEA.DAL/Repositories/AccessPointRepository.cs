@@ -131,8 +131,7 @@ namespace SSEA.DAL.Repositories
             {
                 if (accessPoint.CurrentStateId == stateId)
                     return;
-                else
-                    nextStateId = stateId;
+                nextStateId = stateId;
             }
             else
             {
@@ -144,7 +143,8 @@ namespace SSEA.DAL.Repositories
                         nextStateId = accessPointWorkInProgressStateId;
                 }
             }
-
+            if (accessPoint.CurrentStateId == nextStateId)
+                return;
             accessPoint.CurrentStateId = nextStateId;
             dbContext.Update(accessPoint);
             await dbContext.CommitChangesAsync(userId);

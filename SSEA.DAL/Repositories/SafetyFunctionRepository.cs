@@ -4,7 +4,6 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.DAL.Repositories
@@ -16,8 +15,6 @@ namespace SSEA.DAL.Repositories
         private readonly int safetyFunctionNewStateId = 10;
         private readonly int safetyFunctionWorkInProgressStateId = 11;
         private readonly int safetyFunctionReadyForEvaluationStateId = 12;
-        private readonly int safetyFunctionEvaluatedValidStateId = 13;
-        private readonly int safetyFunctionEvaluatedInvalidStateId = 14;
 
         public SafetyFunctionRepository(AppDbContext dbContext)
         {
@@ -61,6 +58,7 @@ namespace SSEA.DAL.Repositories
 
         public async Task<SafetyFunction> GetByIdSILAsync(int id)
         {
+            // Getting safety function without subsystems
             return await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
                                                   .Include(sf => sf.TypeOfFunction)
                                                   .Include(sf => sf.EvaluationMethod)
@@ -176,24 +174,79 @@ namespace SSEA.DAL.Repositories
 
         public async Task UpdateSafetyFunctionStateAsync(int safetyFunctionId, int userId, int stateId = 0)
         {
+            // Untracking all tracked entites.
+            dbContext.ChangeTracker.Clear();
+
             var safetyFunction = await dbContext.SafetyFunctions.AsNoTracking().FirstOrDefaultAsync(sf => sf.Id == safetyFunctionId);
+            int nextStateId = 0;
+
             if (stateId != 0)
             {
-
+                if (safetyFunction.CurrentStateId == stateId)
+                    return;
+                nextStateId = stateId;
             }
             else
             {
-                // First subsystem was added
+                // Current state == Initial state
                 if (safetyFunction.CurrentStateId == safetyFunctionNewStateId)
-                    safetyFunction.CurrentStateId = safetyFunctionWorkInProgressStateId;
-
-                // Check if there is already input and output subsystem. If yes we can move to another state
-                else
                 {
-
+                    // If there is at least one subsystem than move to state "work in progress"
+                    if (await dbContext.SafetyFunctionSubsystems.AnyAsync(sfs => sfs.SafetyFunctionId == safetyFunctionId))
+                        nextStateId = safetyFunctionWorkInProgressStateId;
+                }
+                // Current state == Work in progress state
+                else if (safetyFunction.CurrentStateId == safetyFunctionWorkInProgressStateId)
+                {
+                    // Checking if safety function has input and output subsystem
+                    if (await IsReadyForEvaluation(safetyFunctionId))
+                        nextStateId = safetyFunctionReadyForEvaluationStateId;
+                }
+                // Current state == Ready for evaluation state
+                else if (safetyFunction.CurrentStateId == safetyFunctionReadyForEvaluationStateId)
+                {
+                    // Checking if safety function has input and output subsystem
+                    if (await IsReadyForEvaluation(safetyFunctionId))
+                        return;
+                    // If safety function has not input and output subsystems at this state, than we move state back to "work in progress" state
+                    nextStateId = safetyFunctionWorkInProgressStateId;
                 }
             }
+            if (safetyFunction.CurrentStateId == nextStateId)
+                return;
+            safetyFunction.CurrentStateId = nextStateId;
+            dbContext.Update(safetyFunction);
+            await dbContext.CommitChangesAsync(userId);
+        }
 
+        private async Task<bool> IsReadyForEvaluation(int safetyFunctionId)
+        {
+            // Getting ids of all subsystems which are related to selected safety function specified by safetyFunctionId
+            int[] subsystemIds = await dbContext.SafetyFunctionSubsystems.Where(a => a.SafetyFunctionId == safetyFunctionId)
+                                                                         .Select(a => a.SubsystemId)
+                                                                         .ToArrayAsync();
+
+            var subsystems = await dbContext.Subsystems.Where(s => subsystemIds.Contains(s.Id))
+                                                       .Include(s => s.TypeOfSubsystem)
+                                                       .AsNoTracking()
+                                                       .ToListAsync();
+            if (subsystems.Count < 2)
+                return false;
+
+            int inputSubsystemId = 1;
+            int outputSubsystemId = 2;
+            bool inputSubsystem = false;
+            bool outputSubsystem = false;
+
+            // Checking if safety function has input and output subsystem
+            foreach (var subsystem in subsystems)
+            {
+                if (subsystem.TypeOfSubsystemId == inputSubsystemId)
+                    inputSubsystem = true;
+                if (subsystem.TypeOfSubsystemId == outputSubsystemId)
+                    outputSubsystem = true;
+            }
+            return inputSubsystem && outputSubsystem;
         }
     }
 }
