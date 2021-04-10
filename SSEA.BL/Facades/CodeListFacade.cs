@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
-using SSEA.DAL;
+using SSEA.DAL.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,198 +10,67 @@ namespace SSEA.BL.Facades
 {
     public class CodeListFacade
     {
-        private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
+        private readonly CodeListRepository codeListRepository;
 
-        public CodeListFacade(AppDbContext dbContext, IMapper mapper)
+        public CodeListFacade(IMapper mapper, CodeListRepository codeListRepository)
         {
-            this.dbContext = dbContext;
             this.mapper = mapper;
+            this.codeListRepository = codeListRepository;
         }
 
         public async Task<dynamic> GetAllAsync(string typeName)
         {
             return typeName.ToLower() switch
             {
-                "dc" => await GetAllDCModels(),
-                "ccf" => await GetAllCCFModels(),
-                "evaluationmethod" => await GetAllEvaluationMethodModels(),
-                "machinetype" => await GetAllMachineTypeModels(),
-                "norm" => await GetAllNormModels(),
-                "typeoffunction" => await GetAllTypeOfFunctionModels(),
-                "typeoflogic" => await GetAllTypeOfLogicModels(),
-                "typeofsubsystem" => await GetAllTypeOfSubsystemModels(),
-                "category" => await GetAllCategoryModels(),
-                "f" => await GetAllFModels(),
-                "mttfd" => await GetAllMTTFdModels(),
-                "pl" => await GetAllPLModels(),
-                "p" => await GetAllPModels(),
-                "s" => await GetAllSModels(),
-                "architecture" => await GetAllArchitectureModels(),
-                "av" => await GetAllAvModels(),
-                "fr" => await GetAllFrModels(),
-                "pfhd" => await GetAllPFHdModels(),
-                "pr" => await GetAllPrModels(),
-                "se" => await GetAllSeModels(),
-                "sff" => await GetAllSFFModels(),
-                "producer" => await GetAllProducerModels(),
-                "operationprinciple" => await GetAllOperationPrinciplesAsync(),
+                "dc" => mapper.Map<ICollection<DCModel>>(await codeListRepository.GetAllDCsAsync()),
+
+                "ccf" => mapper.Map< ICollection<CCFModel>>(await codeListRepository.GetAllCCFsAsync()),
+
+                "evaluationmethod" => mapper.Map< ICollection<EvaluationMethodModel>>(await codeListRepository.GetAllEvaluationMethodsAsync()),
+
+                "machinetype" => mapper.Map<ICollection<MachineTypeModel>>(await codeListRepository.GetAllMachineTypesAsync()),
+
+                "norm" => mapper.Map<ICollection<NormModel>>(await codeListRepository.GetAllNormsAsync()),
+
+                "typeoffunction" => mapper.Map<ICollection<TypeOfFunctionModel>>(await codeListRepository.GetAllTypeOfFunctionsAsync()),
+
+                "typeoflogic" => mapper.Map<ICollection<TypeOfLogicModel>>(await codeListRepository.GetAllTypeOfLogicsAsync()),
+
+                "typeofsubsystem" => mapper.Map<ICollection<TypeOfSubsystemModel>>(await codeListRepository.GetAllTypeOfSubsystemsAsync()),
+
+                "category" => mapper.Map<ICollection<CategoryModel>>(await codeListRepository.GetAllCategorysAsync()),
+
+                "f" => mapper.Map<ICollection<FModel>>(await codeListRepository.GetAllFsAsync()),
+
+                "mttfd" => mapper.Map<ICollection<MTTFdModel>>(await codeListRepository.GetAllMTTFdsAsync()),
+
+                "pl" => mapper.Map<ICollection<PLModel>>(await codeListRepository.GetAllPLsAsync()),
+
+                "p" => mapper.Map<ICollection<PModel>>(await codeListRepository.GetAllPsAsync()),
+
+                "s" => mapper.Map<ICollection<SModel>>(await codeListRepository.GetAllSsAsync()),
+
+                "architecture" => mapper.Map<ICollection<ArchitectureModel>>(await codeListRepository.GetAllArchitecturesAsync()),
+
+                "av" => mapper.Map<ICollection<AvModel>>(await codeListRepository.GetAllAvsAsync()),
+
+                "fr" => mapper.Map<ICollection<FrModel>>(await codeListRepository.GetAllFrsAsync()),
+
+                "pfhd" => mapper.Map<ICollection<PFHdModel>>(await codeListRepository.GetAllPFHdsAsync()),
+
+                "pr" => mapper.Map<ICollection<PrModel>>(await codeListRepository.GetAllPrsAsync()),
+
+                "se" => mapper.Map<ICollection<SeModel>>(await codeListRepository.GetAllSesAsync()),
+
+                "sff" => mapper.Map<ICollection<SFFModel>>(await codeListRepository.GetAllSFFsAsync()),
+
+                "producer" => mapper.Map<ICollection<ProducerModel>>(await codeListRepository.GetAllProducersAsync()),
+
+                "operationprinciple" => mapper.Map<ICollection<OperationPrincipleModel>>(await codeListRepository.GetAllOperationPrinciplesAsync()),
+
                 _ => null,
             };
         }
-
-        #region GetAll methods for specific types
-
-        private async Task<ICollection<OperationPrincipleModel>> GetAllOperationPrinciplesAsync()
-        {
-            var data = await dbContext.OperationPrinciples.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<OperationPrincipleModel>>(data);
-        }
-
-        private async Task<ICollection<CCFModel>> GetAllCCFModels()
-        {
-            var data = await dbContext.CCFs.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<CCFModel>>(data);
-        }
-
-        private async Task<ICollection<DCModel>> GetAllDCModels()
-        {
-            var data = await dbContext.DCs.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<DCModel>>(data);
-        }
-
-        private async Task<ICollection<EvaluationMethodModel>> GetAllEvaluationMethodModels()
-        {
-            var data = await dbContext.EvaluationMethods.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<EvaluationMethodModel>>(data);
-        }
-
-        private async Task<ICollection<MachineTypeModel>> GetAllMachineTypeModels()
-        {
-            var data = await dbContext.MachineTypes.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<MachineTypeModel>>(data);
-        }
-
-        private async Task<ICollection<NormModel>> GetAllNormModels()
-        {
-            var data = await dbContext.Norms.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<NormModel>>(data);
-        }
-
-        private async Task<ICollection<TypeOfFunctionModel>> GetAllTypeOfFunctionModels()
-        {
-            var data = await dbContext.TypeOfFunctions.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<TypeOfFunctionModel>>(data);
-        }
-
-        private async Task<ICollection<TypeOfLogicModel>> GetAllTypeOfLogicModels()
-        {
-            var data = await dbContext.TypeOfLogics.Include(tol => tol.MaxArchitecture)
-                                                   .Include(tol => tol.MaxPL)
-                                                   .Include(tol => tol.MaxCategory)
-                                                   .Include(tol => tol.MaxSIL)
-                                                   .AsNoTracking()
-                                                   .ToListAsync();
-            return mapper.Map<ICollection<TypeOfLogicModel>>(data);
-        }
-
-        private async Task<ICollection<TypeOfSubsystemModel>> GetAllTypeOfSubsystemModels()
-        {
-            var data = await dbContext.TypeOfSubsystems.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<TypeOfSubsystemModel>>(data);
-        }
-
-        private async Task<ICollection<CategoryModel>> GetAllCategoryModels()
-        {
-            var data = await dbContext.Categories.Include(c => c.MinMTTFd)
-                                                 .Include(c => c.MaxMTTFd)
-                                                 .Include(c => c.MinDC)
-                                                 .Include(c => c.MaxDC)
-                                                 .AsNoTracking()
-                                                 .ToListAsync();
-            return mapper.Map<ICollection<CategoryModel>>(data);
-        }
-
-        private async Task<ICollection<FModel>> GetAllFModels()
-        {
-            var data = await dbContext.Fs.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<FModel>>(data);
-        }
-
-        private async Task<ICollection<MTTFdModel>> GetAllMTTFdModels()
-        {
-            var data = await dbContext.MTTFds.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<MTTFdModel>>(data);
-        }
-
-        private async Task<ICollection<PLModel>> GetAllPLModels()
-        {
-            var data = await dbContext.PerformanceLevels.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<PLModel>>(data);
-        }
-
-        private async Task<ICollection<PModel>> GetAllPModels()
-        {
-            var data = await dbContext.Ps.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<PModel>>(data);
-        }
-
-        private async Task<ICollection<SModel>> GetAllSModels()
-        {
-            var data = await dbContext.Ss.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<SModel>>(data);
-        }
-
-        private async Task<ICollection<ArchitectureModel>> GetAllArchitectureModels()
-        {
-            var data = await dbContext.Architectures.Include(a => a.MaxPFHd)
-                                                    .AsNoTracking()
-                                                    .ToListAsync();
-            return mapper.Map<ICollection<ArchitectureModel>>(data);
-        }
-
-        private async Task<ICollection<AvModel>> GetAllAvModels()
-        {
-            var data = await dbContext.Avs.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<AvModel>>(data);
-        }
-
-        private async Task<ICollection<FrModel>> GetAllFrModels()
-        {
-            var data = await dbContext.Frs.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<FrModel>>(data);
-        }
-
-        private async Task<ICollection<PFHdModel>> GetAllPFHdModels()
-        {
-            var data = await dbContext.PFHds.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<PFHdModel>>(data);
-        }
-
-        private async Task<ICollection<PrModel>> GetAllPrModels()
-        {
-            var data = await dbContext.Prs.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<PrModel>>(data);
-        }
-
-        private async Task<ICollection<SeModel>> GetAllSeModels()
-        {
-            var data = await dbContext.Ses.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<SeModel>>(data);
-        }
-
-        private async Task<ICollection<SFFModel>> GetAllSFFModels()
-        {
-            var data = await dbContext.SFFs.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<SFFModel>>(data);
-        }
-
-        private async Task<ICollection<ProducerModel>> GetAllProducerModels()
-        {
-            var data = await dbContext.Producers.AsNoTracking().ToListAsync();
-            return mapper.Map<ICollection<ProducerModel>>(data);
-        }
-
-        #endregion
     }
 }
