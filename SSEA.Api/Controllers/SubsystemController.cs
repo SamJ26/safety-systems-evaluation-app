@@ -99,6 +99,19 @@ namespace SSEA.Api.Controllers
 
         // TODO: Update Subsystem SIL
 
-        // TODO: Delete Subsystem
+        // DELETE: api/subsystem/{id}
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SubsystemDelete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            await subsystemFacade.DeleteAsync(id, userId);
+            return Ok();
+        }
     }
 }

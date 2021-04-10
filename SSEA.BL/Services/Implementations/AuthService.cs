@@ -19,7 +19,7 @@ namespace SSEA.BL.Services.Implementations
         private readonly UserManager<User> userManager;
         private readonly IConfiguration configuration;
 
-        private readonly int activeUserStateId = 17;
+        private readonly int activeUserStateId = 18;
 
         public AuthService(UserManager<User> userManager, IConfiguration configuration)
         {

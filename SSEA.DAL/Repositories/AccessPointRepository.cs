@@ -13,6 +13,11 @@ namespace SSEA.DAL.Repositories
     {
         private readonly AppDbContext dbContext;
 
+        private readonly int accessPointNewStateId = 6;
+        private readonly int accessPointWorkInProgressStateId = 7;
+
+        private readonly int safetyFunctionNewStateId = 10;
+
         public AccessPointRepository(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
@@ -65,7 +70,7 @@ namespace SSEA.DAL.Repositories
         {
             foreach (var safetyFunction in safetyFunctions)
             {
-                safetyFunction.CurrentStateId = 8;
+                safetyFunction.CurrentStateId = safetyFunctionNewStateId;
 
                 // Explicitly setting up ids of navigation properties to avoid exception with tracking same entity more than ones
                 safetyFunction.EvaluationMethodId = safetyFunction.EvaluationMethod.Id;
@@ -114,12 +119,33 @@ namespace SSEA.DAL.Repositories
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAccessPointStateAsync(int accessPointId, int stateId, int userId)
+        public async Task UpdateAccessPointStateAsync(int accessPointId, int userId, int stateId = 0)
         {
+            // Untracking all tracked entites.
+            dbContext.ChangeTracker.Clear();
+
             AccessPoint accessPoint = await dbContext.AccessPoints.AsNoTracking().FirstOrDefaultAsync(ap => ap.Id == accessPointId);
-            if (accessPoint.CurrentStateId == stateId)
+            int nextStateId = 0;
+
+            if (stateId != 0)
+            {
+                if (accessPoint.CurrentStateId == stateId)
+                    return;
+                nextStateId = stateId;
+            }
+            else
+            {
+                // Initial state
+                if (accessPoint.CurrentStateId == accessPointNewStateId)
+                {
+                    // If there is at least one safety function related to this access point -> moving to next state "work in progress"
+                    if (await dbContext.AccessPointSafetyFunctions.AnyAsync(apsf => apsf.AccessPointId == accessPoint.Id))
+                        nextStateId = accessPointWorkInProgressStateId;
+                }
+            }
+            if (accessPoint.CurrentStateId == nextStateId)
                 return;
-            accessPoint.CurrentStateId = stateId;
+            accessPoint.CurrentStateId = nextStateId;
             dbContext.Update(accessPoint);
             await dbContext.CommitChangesAsync(userId);
         }

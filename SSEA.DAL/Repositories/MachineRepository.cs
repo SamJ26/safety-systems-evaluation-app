@@ -14,7 +14,9 @@ namespace SSEA.DAL.Repositories
         private readonly AppDbContext dbContext;
 
         private readonly int machineNewStateId = 1;
+        private readonly int machineWorkInProgressStateId = 2;
         private readonly int machineLogicSelectedStateId = 3;
+
         private readonly int accessPointNewStateId = 6;
 
         public MachineRepository(AppDbContext dbContext)
@@ -24,7 +26,7 @@ namespace SSEA.DAL.Repositories
 
         public async Task<int> CreateAsync(Machine machine, int userId)
         {
-            // -- STATE CHANGE -- assigning initial state to machine and its access points
+            // Assigning initial state to machine and its access points
             machine.CurrentStateId = machineNewStateId;
             machine.AccessPoints.AsParallel().ForAll(accessPoint => accessPoint.CurrentStateId = accessPointNewStateId);
 
@@ -128,17 +130,10 @@ namespace SSEA.DAL.Repositories
             dbContext.Attach(machine.EvaluationMethod).State = EntityState.Unchanged;
             dbContext.Attach(machine.MachineType).State = EntityState.Unchanged;
             dbContext.Attach(machine.Producer).State = EntityState.Unchanged;
+            dbContext.Attach(machine.CurrentState).State = EntityState.Unchanged;
+
             if (machine.TypeOfLogic != null)
                 dbContext.Attach(machine.TypeOfLogic).State = EntityState.Unchanged;
-
-            // -- STATE CHANGE -- if machine is in "work in progress" state and logic was selected, than its state will be "logic selected"
-            if (machine.CurrentState.StateNumber == 2 && machine.TypeOfLogic != null)
-            {
-                machine.CurrentState = null;
-                machine.CurrentStateId = machineLogicSelectedStateId;
-            }
-            else
-                dbContext.Attach(machine.CurrentState).State = EntityState.Unchanged;
 
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
@@ -176,12 +171,39 @@ namespace SSEA.DAL.Repositories
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateMachineStateAsync(int machineId ,int stateId, int userId)
+        public async Task UpdateMachineStateAsync(int machineId, int userId, int stateId = 0)
         {
-            Machine machine = await dbContext.Machines.AsNoTracking().FirstOrDefaultAsync(m => m.Id == machineId);
-            if (machine.CurrentStateId == stateId)
+            // Untracking all tracked entites.
+            dbContext.ChangeTracker.Clear();
+
+            Machine machine = await dbContext.Machines.Include(m => m.AccessPoints).AsNoTracking().FirstOrDefaultAsync(m => m.Id == machineId);
+            int nextStateId = 0;
+
+            if (stateId != 0)
+            {
+                if (machine.CurrentStateId == stateId)
+                    return;
+                nextStateId = stateId;
+            }
+            else
+            {
+                // Initial state
+                if (machine.CurrentStateId == machineNewStateId)
+                {
+                    // If there is at least one safety function related to some access point on this machine -> moving to next state "work in progress"
+                    if (await dbContext.AccessPointSafetyFunctions.AnyAsync(apsf => machine.AccessPoints.Select(ap => ap.Id).Contains(apsf.AccessPointId)))
+                        nextStateId = machineWorkInProgressStateId;
+                }
+                // Work in proress state
+                else if (machine.CurrentStateId == machineWorkInProgressStateId)
+                {
+                    if (machine.TypeOfLogicId != 0)
+                        nextStateId = machineLogicSelectedStateId;
+                }
+            }
+            if (machine.CurrentStateId == nextStateId)
                 return;
-            machine.CurrentStateId = stateId;
+            machine.CurrentStateId = nextStateId;
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
         }

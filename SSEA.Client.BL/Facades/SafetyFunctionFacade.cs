@@ -38,7 +38,7 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionCreatePLAsync(newModel);
         }
 
-        // TODO: test
+        // TODO
         public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
         {
             Console.WriteLine("SafetyFunctionFacade.CreateAsync(SafetyFunctionDetailModelSIL newModel)");
@@ -52,7 +52,7 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionUpdatePLAsync(updateModel);
         }
 
-        // TODO: test
+        // TODO
         public async Task<int> UpdateAsync(SafetyFunctionDetailModelSIL updateModel)
         {
             Console.WriteLine("SafetyFunctionFacade.UpdateAsync(SafetyFunctionDetailModelSIL updateModel)");
@@ -60,11 +60,10 @@ namespace SSEA.Client.BL.Facades
             return 0;
         }
 
-        // TODO: test
         public async Task DeleteAsync(int id)
         {
             Console.WriteLine("SafetyFunctionFacade.DeleteAsync(int id)");
-            // await clientService.SafetyFunctionDeleteAsync(id);
+            await clientService.SafetyFunctionDeleteAsync(id);
         }
 
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
@@ -79,10 +78,12 @@ namespace SSEA.Client.BL.Facades
             await clientService.SafetyFunctionRemoveSubsystemAsync(safetyFunctionId, subsystemId);
         }
 
-        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionAsync(int id)
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionPLAsync(int id)
         {
             Console.WriteLine("SafetyFunctionFacade.EvaluateSafetyFunction(int id)");
-            return await clientService.SafetyFunctionEvaluateAsync(id);
+            return await clientService.SafetyFunctionEvaluatePLAsync(id);
         }
+
+        // TODO: Evaluate safety functon SIL
     }
 }

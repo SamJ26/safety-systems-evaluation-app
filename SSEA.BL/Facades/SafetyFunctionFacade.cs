@@ -16,13 +16,15 @@ namespace SSEA.BL.Facades
     {
         private readonly IMapper mapper;
         private readonly SafetyFunctionRepository safetyFunctionRepository;
-        private readonly IPerformanceLevelService PLService;
+        private readonly SubsystemRepository subsystemRepository;
+        private readonly IPerformanceLevelService performanceLevelService;
 
-        public SafetyFunctionFacade(IMapper mapper, SafetyFunctionRepository safetyFunctionRepository, IPerformanceLevelService PLService)
+        public SafetyFunctionFacade(IMapper mapper, SafetyFunctionRepository safetyFunctionRepository, SubsystemRepository subsystemRepository, IPerformanceLevelService performanceLevelService)
         {
             this.mapper = mapper;
             this.safetyFunctionRepository = safetyFunctionRepository;
-            this.PLService = PLService;
+            this.subsystemRepository = subsystemRepository;
+            this.performanceLevelService = performanceLevelService;
         }
 
         public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
@@ -65,7 +67,7 @@ namespace SSEA.BL.Facades
         {
             // Evaluating required PL
             if (newModel.S is not null && newModel.F is not null && newModel.P is not null)
-                newModel.PLr = await PLService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
+                newModel.PLr = await performanceLevelService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
 
             var entity = mapper.Map<SafetyFunction>(newModel);
             return await safetyFunctionRepository.CreateAsync(entity, userId);
@@ -77,34 +79,53 @@ namespace SSEA.BL.Facades
         {
             // Evaluating required PL
             if (updatedModel.S is not null && updatedModel.F is not null && updatedModel.P is not null)
-                updatedModel.PLr = await PLService.GetRequiredPLAsync(updatedModel.S, updatedModel.F, updatedModel.P);
+                updatedModel.PLr = await performanceLevelService.GetRequiredPLAsync(updatedModel.S, updatedModel.F, updatedModel.P);
 
             SafetyFunction entity = mapper.Map<SafetyFunction>(updatedModel);
-            return await safetyFunctionRepository.UpdateAsync(entity, userId);
+            var id = await safetyFunctionRepository.UpdateAsync(entity, userId);
+
+            // UPDATING STATE OF SAFETY FUNCTION
+            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(id, userId);
+
+            return id;
         }
 
         // TODO: Update SF SIL
 
-        // TODO: Delete SF
+        public async Task DeleteAsync(int safetyFunctionId, int userId)
+        {
+            await safetyFunctionRepository.DeleteAsync(safetyFunctionId, userId);
+        }
 
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
             await safetyFunctionRepository.AddSubsystemAsync(safetyFunctionId, subsystemId);
+
+            // UPDATING STATE OF SAFETY FUNCTION
             await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
+
+            // UPDATING STATE OF SUBSYSTEM
+            await subsystemRepository.UpdateSubsystemStateAsync(subsystemId, userId);
         }
 
-        public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
+        public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
             await safetyFunctionRepository.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
+
+            // UPDATING STATE OF SAFETY FUNCTION
+            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
+
+            // UPDATING STATE OF SUBSYSTEM
+            await subsystemRepository.UpdateSubsystemStateAsync(subsystemId, userId);
         }
 
-        // TODO: rename method to EvaluationSafetyFunctionPLAsync
-        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionAsync(int safetyFunctionId, int userId)
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionPLAsync(int safetyFunctionId, int userId)
         {
             SafetyFunctionDetailModelPL safetyFunction = await GetByIdPLAsync(safetyFunctionId);
+            bool evaluationResult = false;
             try
             {
-                await PLService.EvaluateSafetyFunctionAsync(safetyFunction);
+                evaluationResult = await performanceLevelService.EvaluateSafetyFunctionAsync(safetyFunction);
             }
             catch (Exception exception)
             {
@@ -115,7 +136,7 @@ namespace SSEA.BL.Facades
                 };
             }
 
-            // Updating record after its successful evaluation
+            // Updating record after its successful evaluation (method did not throw exception)
             int id = await safetyFunctionRepository.UpdateAsync(mapper.Map<SafetyFunction>(safetyFunction), userId);
             if (id == 0)
             {
@@ -125,13 +146,30 @@ namespace SSEA.BL.Facades
                     Message = "Saving of evaluated safety function failed!",
                 };
             }
+
+            // At this point safety function was successfully saved to database
+            // Now we will update state of record according to result of PL evaluation
+
+            int safetyFunctionValidStateId = 13;
+            int safetyFunctionInvalidStateId = 14;
+
+            // UPDATING STATE OF SAFETY FUNCTION
+            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(id, userId, (evaluationResult == false) ? safetyFunctionInvalidStateId : safetyFunctionValidStateId);
+
+            if (evaluationResult == true)
+                return new SafetyEvaluationResponseModel()
+                {
+                    IsSuccess = true,
+                    Message = $"Resultant PL is valid ... [Required PL = {safetyFunction.PLr.Label}] <= [Resultant PL = {safetyFunction.PLresult.Label}]",
+                };
+
             return new SafetyEvaluationResponseModel()
             {
-                IsSuccess = true,
-                Message = "Saving was successful :)",
+                IsSuccess = false,
+                Message = $"Resultant PL is invalid ... [Required PL = {safetyFunction.PLr.Label}] > [Resultant PL = {safetyFunction.PLresult.Label}]",
             };
-
-            // TODO: EvaluationSafetyFunctionSILAsync
         }
+
+        // TODO: EvaluateSafetyFunctionSILAsync
     }
 }

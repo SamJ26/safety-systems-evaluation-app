@@ -12,7 +12,9 @@ namespace SSEA.DAL.Repositories
     {
         private readonly AppDbContext dbContext;
 
-        private readonly int subsystemNewStateId = 14;
+        private readonly int subsystemUsedStateId = 15;
+        private readonly int subsystemUnusedStateId = 16;
+
         private readonly int elementNewStateId = 15;
 
         public SubsystemRepository(AppDbContext dbContext)
@@ -109,9 +111,10 @@ namespace SSEA.DAL.Repositories
         }
 
         // TODO: test for SIL methodics
-        public async Task<int> CreateAsync(Subsystem subsystem, int userId)
+        public async Task<int> CreateAsync(Subsystem subsystem, int userId, int safetyFunctionId)
         {
-            subsystem.CurrentStateId = subsystemNewStateId;
+            // Assigning initial state to new record according to safetyFunctionId
+            subsystem.CurrentStateId = (safetyFunctionId != 0) ? subsystemUsedStateId : subsystemUnusedStateId;
 
             dbContext.Attach(subsystem.TypeOfSubsystem).State = EntityState.Unchanged;
             dbContext.Attach(subsystem.OperationPrinciple).State = EntityState.Unchanged;
@@ -141,6 +144,42 @@ namespace SSEA.DAL.Repositories
             return subsystem.Id;
         }
 
+        public async Task DeleteAsync(int subsystemId, int userId)
+        {
+            Subsystem subsystem = await dbContext.Subsystems.Include(s => s.Elements).AsNoTracking().FirstOrDefaultAsync(s => s.Id == subsystemId);
+
+            // Removing subsystem and related elements
+            subsystem.IsRemoved = true;
+            foreach (var element in subsystem.Elements)
+                element.IsRemoved = true;
+            dbContext.Update(subsystem);
+            await dbContext.CommitChangesAsync(userId);
+
+            // Removing records from SafetyFunctionSubsystem join table
+            var safetyFunctionSubsystems = await dbContext.SafetyFunctionSubsystems.AsNoTracking().Where(sfs => sfs.SubsystemId == subsystemId).ToListAsync();
+            foreach (var item in safetyFunctionSubsystems)
+                item.IsRemoved = true;
+
+            // Removing records from SubsystemCCF join table
+            var subsystemCCFs = await dbContext.SubsystemCCFs.AsNoTracking().Where(sc => sc.SubsystemId == subsystemId).ToListAsync();
+            foreach (var item in subsystemCCFs)
+                item.IsRemoved = true;
+
+            dbContext.UpdateRange(safetyFunctionSubsystems);
+            dbContext.UpdateRange(subsystemCCFs);
+            await dbContext.SaveChangesAsync();
+
+            // Removing records from ElementSFF join table for each element in subsystem
+            foreach (var element in subsystem.Elements)
+            {
+                var elementSFFs = await dbContext.ElementSFFs.AsNoTracking().Where(es => es.ElementId == element.Id).ToListAsync();
+                foreach (var item in elementSFFs)
+                    item.IsRemoved = true;
+                dbContext.UpdateRange(elementSFFs);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
         public async Task AddCCFsToSubsystemAsync(ICollection<CCF> CCFs, int subsystemId)
         {
             foreach (var item in CCFs)
@@ -153,6 +192,27 @@ namespace SSEA.DAL.Repositories
                 await dbContext.AddAsync(record);
             }
             await dbContext.CommitChangesAsync();
+        }
+
+        public async Task UpdateSubsystemStateAsync(int subsystemId, int userId)
+        {
+            // Untracking all tracked entites.
+            dbContext.ChangeTracker.Clear();
+
+            var subsystem = await dbContext.Subsystems.AsNoTracking().FirstOrDefaultAsync(s => s.Id == subsystemId);
+            int nextStateId = 0;
+
+            // If selected subsystem has related record in SafetyFunctionSubsystem join tale, than subsystem is used in some safety function -> state "Used"
+            if (await dbContext.SafetyFunctionSubsystems.AnyAsync(sfs => sfs.SubsystemId == subsystemId))
+                nextStateId = subsystemUsedStateId;
+            else
+                nextStateId = subsystemUnusedStateId;
+
+            if (subsystem.CurrentStateId == nextStateId)
+                return;
+            subsystem.CurrentStateId = nextStateId;
+            dbContext.Update(subsystem);
+            await dbContext.CommitChangesAsync(userId);
         }
     }
 }

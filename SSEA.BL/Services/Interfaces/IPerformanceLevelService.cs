@@ -26,7 +26,7 @@ namespace SSEA.BL.Services.Interfaces
         /// Method for evaluation of whole safety function
         /// </summary>
         /// <param name="safetyFunction"> Safety function for evaluation </param>
-        /// <returns> Method interacts with database so it returns async task </returns>
-        Task EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction);
+        /// <returns> True if resultant PL is bigger than required PL, otherwise false </returns>
+        Task<bool> EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction);
     }
 }
