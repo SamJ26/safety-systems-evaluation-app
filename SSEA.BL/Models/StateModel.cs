@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.System;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SSEA.BL.Models
 {
@@ -12,7 +9,7 @@ namespace SSEA.BL.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public int StateNumber { get; set; }
-        public bool Valid { get; set; }
+        public bool IsValid { get; set; }
     }
 
     public class StateModelMapperProfile : Profile

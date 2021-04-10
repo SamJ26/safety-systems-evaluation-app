@@ -16,13 +16,15 @@ namespace SSEA.BL.Facades
     {
         private readonly IMapper mapper;
         private readonly SafetyFunctionRepository safetyFunctionRepository;
-        private readonly IPerformanceLevelService PLService;
+        private readonly SubsystemRepository subsystemRepository;
+        private readonly IPerformanceLevelService performanceLevelService;
 
-        public SafetyFunctionFacade(IMapper mapper, SafetyFunctionRepository safetyFunctionRepository, IPerformanceLevelService PLService)
+        public SafetyFunctionFacade(IMapper mapper, SafetyFunctionRepository safetyFunctionRepository, SubsystemRepository subsystemRepository, IPerformanceLevelService performanceLevelService)
         {
             this.mapper = mapper;
             this.safetyFunctionRepository = safetyFunctionRepository;
-            this.PLService = PLService;
+            this.subsystemRepository = subsystemRepository;
+            this.performanceLevelService = performanceLevelService;
         }
 
         public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
@@ -65,7 +67,7 @@ namespace SSEA.BL.Facades
         {
             // Evaluating required PL
             if (newModel.S is not null && newModel.F is not null && newModel.P is not null)
-                newModel.PLr = await PLService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
+                newModel.PLr = await performanceLevelService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
 
             var entity = mapper.Map<SafetyFunction>(newModel);
             return await safetyFunctionRepository.CreateAsync(entity, userId);
@@ -77,7 +79,7 @@ namespace SSEA.BL.Facades
         {
             // Evaluating required PL
             if (updatedModel.S is not null && updatedModel.F is not null && updatedModel.P is not null)
-                updatedModel.PLr = await PLService.GetRequiredPLAsync(updatedModel.S, updatedModel.F, updatedModel.P);
+                updatedModel.PLr = await performanceLevelService.GetRequiredPLAsync(updatedModel.S, updatedModel.F, updatedModel.P);
 
             SafetyFunction entity = mapper.Map<SafetyFunction>(updatedModel);
             var id = await safetyFunctionRepository.UpdateAsync(entity, userId);
@@ -101,6 +103,9 @@ namespace SSEA.BL.Facades
 
             // UPDATING STATE OF SAFETY FUNCTION
             await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
+
+            // UPDATING STATE OF SUBSYSTEM
+            await subsystemRepository.UpdateSubsystemStateAsync(subsystemId, userId);
         }
 
         public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
@@ -109,6 +114,9 @@ namespace SSEA.BL.Facades
 
             // UPDATING STATE OF SAFETY FUNCTION
             await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
+
+            // UPDATING STATE OF SUBSYSTEM
+            await subsystemRepository.UpdateSubsystemStateAsync(subsystemId, userId);
         }
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionPLAsync(int safetyFunctionId, int userId)
@@ -117,7 +125,7 @@ namespace SSEA.BL.Facades
             bool evaluationResult = false;
             try
             {
-                evaluationResult = await PLService.EvaluateSafetyFunctionAsync(safetyFunction);
+                evaluationResult = await performanceLevelService.EvaluateSafetyFunctionAsync(safetyFunction);
             }
             catch (Exception exception)
             {
