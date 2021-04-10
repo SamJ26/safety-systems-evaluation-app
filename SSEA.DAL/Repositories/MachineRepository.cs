@@ -191,6 +191,7 @@ namespace SSEA.DAL.Repositories
                 // Initial state
                 if (machine.CurrentStateId == machineNewStateId)
                 {
+                    // If there is at least one safety function related to some access point on this machine -> moving to next state "work in progress"
                     if (await dbContext.AccessPointSafetyFunctions.AnyAsync(apsf => machine.AccessPoints.Select(ap => ap.Id).Contains(apsf.AccessPointId)))
                         nextStateId = machineWorkInProgressStateId;
                 }

@@ -259,10 +259,14 @@ namespace SSEA.BL.Facades
         {
             int machineEvaluatedValidStateId = 4;
             int machineEvaluatedInvalidStateId = 5;
+
+            int accessPointProtectedValidStateId = 8;
+            int accessPointProtectedInvalidStateId = 9;
+
             int nextMachineStateId = 0;
 
             // TODO: set nextmachineStateId according to result of this method
-            // TODO: call accessPointRepository.UpdateAccessPointStateAsync
+            // TODO: call accessPointRepository.UpdateAccessPointStateAsync for each access point on machine
 
             // UPDATING STATE OF MACHINE
             await machineRepository.UpdateMachineStateAsync(machineId, userId, nextMachineStateId);
