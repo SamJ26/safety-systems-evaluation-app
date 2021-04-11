@@ -196,7 +196,7 @@
                                             <MudButton @onclick="@(() => ShowDialog(safetyFunction.LogicSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null)">Remove</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;  margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is not null)">Select</MudButton>
+                                            <MudButton @onclick="@OpenSelectLogicDialog" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is not null)">Select</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -490,11 +490,24 @@
         if (!result.Cancelled)
         {
             int subsystemId = Convert.ToInt32(result.Data);
-            Console.WriteLine(subsystemId);
             await safetyFunctionFacade.AddSubsystemAsync(safetyFunction.Id, subsystemId);
             safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
             GetInfoAboutSubsystems();
         }
+        StateHasChanged();
+    }
+
+    private async void OpenSelectLogicDialog()
+    {
+        var dialog = dialogService.Show<SelectLogicDialog>("Select subsystem");
+        var result = await dialog.Result;
+        //if (!result.Cancelled)
+        //{
+        //    int subsystemId = Convert.ToInt32(result.Data);
+        //    await safetyFunctionFacade.AddSubsystemAsync(safetyFunction.Id, subsystemId);
+        //    safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
+        //    GetInfoAboutSubsystems();
+        //}
         StateHasChanged();
     }
 
