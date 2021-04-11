@@ -3,6 +3,7 @@ using SSEA.DAL.Entities.Auth;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
+using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Entities.System;
 
 namespace SSEA.DAL
@@ -1385,6 +1386,7 @@ namespace SSEA.DAL
                     MaxCategoryId = 5,
                     MaxSILId = 1,
                     MaxArchitectureId = 4,
+                    SubsystemId = 1,
                 },
                 new TypeOfLogic()
                 {
@@ -1400,6 +1402,7 @@ namespace SSEA.DAL
                     MaxCategoryId = 5,
                     MaxSILId = 1,
                     MaxArchitectureId = 4,
+                    SubsystemId = 2,
                 },
                 new TypeOfLogic()
                 {
@@ -1415,6 +1418,7 @@ namespace SSEA.DAL
                     MaxCategoryId = 5,
                     MaxSILId = 1,
                     MaxArchitectureId = 4,
+                    SubsystemId = 3,
                 },
                 new TypeOfLogic()
                 {
@@ -1430,6 +1434,7 @@ namespace SSEA.DAL
                     MaxCategoryId = 5,
                     MaxSILId = 1,
                     MaxArchitectureId = 4,
+                    SubsystemId = 4,
                 }
             );
 
@@ -1457,6 +1462,69 @@ namespace SSEA.DAL
             #endregion
 
             #region Data for main entities
+
+            modelBuilder.Entity<Subsystem>().HasData(
+                new Subsystem()
+                {
+                    Id = 1,
+                    Description = "Relay",
+                    TypeOfSubsystemId = 3,
+                    OperationPrincipleId = 4,
+                    ValidCCF = true,
+                    CategoryId = 5,
+                    MTTFdResultId = 3,
+                    DCresultId = 4,
+                    PLresultId = 5,
+                    ArchitectureId = 4,
+                    PFHdResultId = 1,
+                    DateTimeCreated = System.DateTime.Now,
+                },
+                new Subsystem()
+                {
+                    Id = 2,
+                    Description = "CR30",
+                    TypeOfSubsystemId = 3,
+                    OperationPrincipleId = 2,
+                    ValidCCF = true,
+                    CategoryId = 5,
+                    MTTFdResultId = 3,
+                    DCresultId = 4,
+                    PLresultId = 5,
+                    ArchitectureId = 4,
+                    PFHdResultId = 1,
+                    DateTimeCreated = System.DateTime.Now,
+                },
+                new Subsystem()
+                {
+                    Id = 3,
+                    Description = "GMX",
+                    TypeOfSubsystemId = 3,
+                    OperationPrincipleId = 2,
+                    ValidCCF = true,
+                    CategoryId = 5,
+                    MTTFdResultId = 3,
+                    DCresultId = 4,
+                    PLresultId = 5,
+                    ArchitectureId = 4,
+                    PFHdResultId = 1,
+                    DateTimeCreated = System.DateTime.Now,
+                },
+                new Subsystem()
+                {
+                    Id = 4,
+                    Description = "GLX",
+                    TypeOfSubsystemId = 3,
+                    OperationPrincipleId = 2,
+                    ValidCCF = true,
+                    CategoryId = 5,
+                    MTTFdResultId = 3,
+                    DCresultId = 4,
+                    PLresultId = 5,
+                    ArchitectureId = 4,
+                    PFHdResultId = 1,
+                    DateTimeCreated = System.DateTime.Now,
+                }
+            );
 
             #endregion
 
