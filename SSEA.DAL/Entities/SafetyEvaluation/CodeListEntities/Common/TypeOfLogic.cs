@@ -1,11 +1,8 @@
 ﻿using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 {
@@ -33,6 +30,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         [Column("Subsystem_Id")]
         public int SubsystemId { get; set; }
+        public Subsystem Subsystem { get; set; }
 
         [Column("MaxPL_Id")]
         public int MaxPLId { get; set; }
@@ -48,6 +46,6 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common
 
         [Column("MaxArchitecture_Id")]
         public int MaxArchitectureId { get; set; }
-        public Architecture MaxArchitecture { get; set; }      
+        public Architecture MaxArchitecture { get; set; }
     }
 }

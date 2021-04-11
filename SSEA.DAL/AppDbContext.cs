@@ -439,6 +439,11 @@ namespace SSEA.DAL
                    .WithMany()
                    .HasForeignKey(tol => tol.MaxArchitectureId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+                tol.HasOne(tol => tol.Subsystem)
+                   .WithMany()
+                   .HasForeignKey(tol => tol.SubsystemId)
+                   .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<MachineNorm>(mn =>
