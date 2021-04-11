@@ -49,12 +49,7 @@
                                 <MudField Label="Type of logic" ReadOnly="true" Variant="Variant.Outlined">@(machine.TypeOfLogic != null ? machine.TypeOfLogic.Name : "Not selected")</MudField>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machine.EvaluationMethod" ReadOnly="@onlyForReading" T="EvaluationMethodModel" Label="Evaluation method *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@evalMethodToString">
-                                    @foreach (var item in evaluationMethods)
-                                    {
-                                        <MudSelectItem T="EvaluationMethodModel" Value="@(item)" />
-                                    }
-                                </MudSelect>
+                                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@(machine.EvaluationMethod.Name)</MudField>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudSelect @bind-Value="machine.Producer" ReadOnly="@onlyForReading" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@producerToString">
@@ -65,10 +60,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machine.Communication" ReadOnly="@onlyForReading" T="bool" Label="Safety communication *" Variant="Variant.Outlined" Format="F2">
-                                    <MudSelectItem T="bool" Value="@(true)">Yes</MudSelectItem>
-                                    <MudSelectItem T="bool" Value="@(false)">No</MudSelectItem>
-                                </MudSelect>
+                                <MudField Label="Safety communication" ReadOnly="true" Variant="Variant.Outlined">@((machine.Communication == true) ? "Yes" : "No")</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudTextField @bind-Value="machine.Description" ReadOnly="@onlyForReading" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" Style="margin-bottom: 25px;" />
@@ -215,7 +207,6 @@
     private readonly string successMessage = "Your machine was saved successfully :)";
     private readonly string errorMessage = "Saving of your machine failed :(";
 
-    private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
 
@@ -278,7 +269,6 @@
 
     private async void Edit()
     {
-        evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
         onlyForReading = false;

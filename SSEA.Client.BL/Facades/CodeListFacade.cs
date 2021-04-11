@@ -15,8 +15,6 @@ namespace SSEA.Client.BL.Facades
             this.clientService = clientService;
         }
 
-        // TODO: uncomment methods after adding all models to client service
-
         public async Task<ICollection<OperationPrincipleModel>> GetAllOperationPrinciplesAsync()
         {
             var response = await clientService.CodeListGetAllAsync("OperationPrinciple");
