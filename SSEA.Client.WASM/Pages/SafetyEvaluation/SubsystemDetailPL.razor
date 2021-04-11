@@ -56,6 +56,12 @@
                                         }
                                     </MudSelect>
                                 </MudItem>
+                                <MudItem xs="12">
+                                    <MudField Label="State of subsystem" Variant="Variant.Outlined" readonly="true">@(subsystem.CurrentState is null ? "" : subsystem.CurrentState.Name )</MudField>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudTextField @bind-Value="subsystem.Description" ReadOnly="@onlyForReading" T="string" Label="Subsystem description" Variant="Variant.Outlined" Lines="3" />
+                                </MudItem>
                             </MudGrid>
                         </MudGrid>
                     </EditForm>

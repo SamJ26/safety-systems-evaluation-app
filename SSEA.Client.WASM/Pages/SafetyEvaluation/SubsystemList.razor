@@ -36,9 +36,8 @@
                         <MudItem xs="2">
                             <MudSelect @bind-Value="stateId" T="int" Label="State of record" Strict="true" Variant="Variant.Outlined" Format="F2">
                                 <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(8)">Nová</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(9)">Rozpracovaná</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(10)">Dokončená</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(15)">Used</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(16)">Unused</MudSelectItem>
                             </MudSelect>
                         </MudItem>
                         <MudItem xs="3">
@@ -118,15 +117,17 @@
                 {
                     <MudTable T="SubsystemListModelPL" OnRowClick="@(args => GoToSubsystemDetail(args))" Items="@subsystemsPL" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
                         <ColGroup>
-                            <col style="width:25%;" /> Type of subsystem
-                            <col style="width:25%;" /> Operation principle
-                            <col style="width:21%;" /> Category
-                            <col style="width:12%;" /> MTTFd
-                            <col style="width:12%;" /> DC
+                            <col style="width:20%;" /> Type of subsystem
+                            <col style="width:15%;" /> State
+                            <col style="width:20%;" /> Operation principle
+                            <col style="width:20%;" /> Category
+                            <col style="width:10%;" /> MTTFd
+                            <col style="width:10%;" /> DC
                             <col style="width:5%;" /> PL
                         </ColGroup>
                         <HeaderContent>
                             <MudTh>Type of subsystem</MudTh>
+                            <MudTh>State</MudTh>
                             <MudTh>Operation principle</MudTh>
                             <MudTh>Category</MudTh>
                             <MudTh>MTTFd</MudTh>
@@ -135,6 +136,7 @@
                         </HeaderContent>
                         <RowTemplate>
                             <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
+                            <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
                             <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
                             <MudTd DataLabel="Category">@context.Category</MudTd>
                             <MudTd DataLabel="MTTFd">@context.MttFd</MudTd>
@@ -147,15 +149,17 @@
                 {
                     <MudTable T="SubsystemListModelSIL" OnRowClick="@(args => GoToSubsystemDetail(args))" Items="@subsystemsSIL" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
                         <ColGroup>
-                            <col style="width:25%;" /> Type of subsystem
-                            <col style="width:25%;" /> Operation principle
-                            <col style="width:21%;" /> Architecture
-                            <col style="width:12%;" /> HFT
-                            <col style="width:12%;" /> SFF
+                            <col style="width:20%;" /> Type of subsystem
+                            <col style="width:15%;" /> State
+                            <col style="width:20%;" /> Operation principle
+                            <col style="width:20%;" /> Architecture
+                            <col style="width:10%;" /> HFT
+                            <col style="width:10%;" /> SFF
                             <col style="width:5%;" /> SIL
                         </ColGroup>
                         <HeaderContent>
                             <MudTh>Type of subsystem</MudTh>
+                            <MudTh>State</MudTh>
                             <MudTh>Operation principle</MudTh>
                             <MudTh>Architecture</MudTh>
                             <MudTh>HFT</MudTh>
@@ -164,6 +168,7 @@
                         </HeaderContent>
                         <RowTemplate>
                             <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
+                            <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
                             <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
                             <MudTd DataLabel="Architecture">@context.Architecture</MudTd>
                             <MudTd DataLabel="HFT">@context.Hft</MudTd>
