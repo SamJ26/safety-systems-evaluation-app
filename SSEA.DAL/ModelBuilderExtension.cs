@@ -1478,6 +1478,7 @@ namespace SSEA.DAL
                     ArchitectureId = 4,
                     PFHdResultId = 1,
                     DateTimeCreated = System.DateTime.Now,
+                    CurrentStateId = 16,
                 },
                 new Subsystem()
                 {
@@ -1493,6 +1494,7 @@ namespace SSEA.DAL
                     ArchitectureId = 4,
                     PFHdResultId = 1,
                     DateTimeCreated = System.DateTime.Now,
+                    CurrentStateId = 16,
                 },
                 new Subsystem()
                 {
@@ -1508,6 +1510,7 @@ namespace SSEA.DAL
                     ArchitectureId = 4,
                     PFHdResultId = 1,
                     DateTimeCreated = System.DateTime.Now,
+                    CurrentStateId = 16,
                 },
                 new Subsystem()
                 {
@@ -1523,6 +1526,7 @@ namespace SSEA.DAL
                     ArchitectureId = 4,
                     PFHdResultId = 1,
                     DateTimeCreated = System.DateTime.Now,
+                    CurrentStateId = 16,
                 }
             );
 

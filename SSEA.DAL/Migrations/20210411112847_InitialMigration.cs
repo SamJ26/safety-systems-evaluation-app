@@ -522,58 +522,6 @@ namespace SSEA.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TypeOfLogic",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NameCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NameEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    DescriptionCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    DescriptionEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    SI = table.Column<int>(type: "int", nullable: false),
-                    SO = table.Column<int>(type: "int", nullable: false),
-                    Communication = table.Column<bool>(type: "bit", nullable: false),
-                    AccessPointsMaxCount = table.Column<int>(type: "int", nullable: true),
-                    EthernetAdressesMaxCount = table.Column<long>(type: "bigint", nullable: true),
-                    Subsystem_Id = table.Column<int>(type: "int", nullable: false),
-                    MaxPL_Id = table.Column<int>(type: "int", nullable: false),
-                    MaxCategory_Id = table.Column<int>(type: "int", nullable: false),
-                    MaxSIL_Id = table.Column<int>(type: "int", nullable: false),
-                    MaxArchitecture_Id = table.Column<int>(type: "int", nullable: false),
-                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
-                    IsValid = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TypeOfLogic", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TypeOfLogic_Architecture_MaxArchitecture_Id",
-                        column: x => x.MaxArchitecture_Id,
-                        principalTable: "Architecture",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TypeOfLogic_Category_MaxCategory_Id",
-                        column: x => x.MaxCategory_Id,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TypeOfLogic_PFHd_MaxSIL_Id",
-                        column: x => x.MaxSIL_Id,
-                        principalTable: "PFHd",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TypeOfLogic_PL_MaxPL_Id",
-                        column: x => x.MaxPL_Id,
-                        principalTable: "PL",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SafetyFunction",
                 columns: table => new
                 {
@@ -842,67 +790,6 @@ namespace SSEA.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Machine",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    Communication = table.Column<bool>(type: "bit", nullable: false),
-                    HMI = table.Column<bool>(type: "bit", nullable: true),
-                    PLC = table.Column<bool>(type: "bit", nullable: true),
-                    MachineHelp = table.Column<bool>(type: "bit", nullable: true),
-                    CodeProtection = table.Column<bool>(type: "bit", nullable: true),
-                    SecurityOfSafetyParts = table.Column<bool>(type: "bit", nullable: true),
-                    SafetyMasterInPlace = table.Column<bool>(type: "bit", nullable: true),
-                    Producer_Id = table.Column<int>(type: "int", nullable: false),
-                    EvaluationMethod_Id = table.Column<int>(type: "int", nullable: false),
-                    MachineType_Id = table.Column<int>(type: "int", nullable: false),
-                    TypeOfLogic_Id = table.Column<int>(type: "int", nullable: true),
-                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
-                    IdCreated = table.Column<int>(type: "int", nullable: false),
-                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUpdated = table.Column<int>(type: "int", nullable: true),
-                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CurrentState_Id = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Machine", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Machine_EvaluationMethod_EvaluationMethod_Id",
-                        column: x => x.EvaluationMethod_Id,
-                        principalTable: "EvaluationMethod",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Machine_MachineType_MachineType_Id",
-                        column: x => x.MachineType_Id,
-                        principalTable: "MachineType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Machine_Producer_Producer_Id",
-                        column: x => x.Producer_Id,
-                        principalTable: "Producer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Machine_SY_State_CurrentState_Id",
-                        column: x => x.CurrentState_Id,
-                        principalTable: "SY_State",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Machine_TypeOfLogic_TypeOfLogic_Id",
-                        column: x => x.TypeOfLogic_Id,
-                        principalTable: "TypeOfLogic",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Element",
                 columns: table => new
                 {
@@ -1016,6 +903,64 @@ namespace SSEA.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TypeOfLogic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NameEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    SI = table.Column<int>(type: "int", nullable: false),
+                    SO = table.Column<int>(type: "int", nullable: false),
+                    Communication = table.Column<bool>(type: "bit", nullable: false),
+                    AccessPointsMaxCount = table.Column<int>(type: "int", nullable: true),
+                    EthernetAdressesMaxCount = table.Column<long>(type: "bigint", nullable: true),
+                    Subsystem_Id = table.Column<int>(type: "int", nullable: false),
+                    MaxPL_Id = table.Column<int>(type: "int", nullable: false),
+                    MaxCategory_Id = table.Column<int>(type: "int", nullable: false),
+                    MaxSIL_Id = table.Column<int>(type: "int", nullable: false),
+                    MaxArchitecture_Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
+                    IsValid = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TypeOfLogic", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TypeOfLogic_Architecture_MaxArchitecture_Id",
+                        column: x => x.MaxArchitecture_Id,
+                        principalTable: "Architecture",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TypeOfLogic_Category_MaxCategory_Id",
+                        column: x => x.MaxCategory_Id,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TypeOfLogic_PFHd_MaxSIL_Id",
+                        column: x => x.MaxSIL_Id,
+                        principalTable: "PFHd",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TypeOfLogic_PL_MaxPL_Id",
+                        column: x => x.MaxPL_Id,
+                        principalTable: "PL",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TypeOfLogic_Subsystem_Subsystem_Id",
+                        column: x => x.Subsystem_Id,
+                        principalTable: "Subsystem",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SY_UserClaim",
                 columns: table => new
                 {
@@ -1101,6 +1046,93 @@ namespace SSEA.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ElementSFF",
+                columns: table => new
+                {
+                    Element_Id = table.Column<int>(type: "int", nullable: false),
+                    SFF_Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ElementSFF", x => new { x.Element_Id, x.SFF_Id });
+                    table.ForeignKey(
+                        name: "FK_ElementSFF_Element_Element_Id",
+                        column: x => x.Element_Id,
+                        principalTable: "Element",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ElementSFF_SFF_SFF_Id",
+                        column: x => x.SFF_Id,
+                        principalTable: "SFF",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Machine",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Communication = table.Column<bool>(type: "bit", nullable: false),
+                    HMI = table.Column<bool>(type: "bit", nullable: true),
+                    PLC = table.Column<bool>(type: "bit", nullable: true),
+                    MachineHelp = table.Column<bool>(type: "bit", nullable: true),
+                    CodeProtection = table.Column<bool>(type: "bit", nullable: true),
+                    SecurityOfSafetyParts = table.Column<bool>(type: "bit", nullable: true),
+                    SafetyMasterInPlace = table.Column<bool>(type: "bit", nullable: true),
+                    Producer_Id = table.Column<int>(type: "int", nullable: false),
+                    EvaluationMethod_Id = table.Column<int>(type: "int", nullable: false),
+                    MachineType_Id = table.Column<int>(type: "int", nullable: false),
+                    TypeOfLogic_Id = table.Column<int>(type: "int", nullable: true),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false),
+                    IdCreated = table.Column<int>(type: "int", nullable: false),
+                    DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdUpdated = table.Column<int>(type: "int", nullable: true),
+                    DateTimeUpdated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CurrentState_Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Machine", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Machine_EvaluationMethod_EvaluationMethod_Id",
+                        column: x => x.EvaluationMethod_Id,
+                        principalTable: "EvaluationMethod",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Machine_MachineType_MachineType_Id",
+                        column: x => x.MachineType_Id,
+                        principalTable: "MachineType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Machine_Producer_Producer_Id",
+                        column: x => x.Producer_Id,
+                        principalTable: "Producer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Machine_SY_State_CurrentState_Id",
+                        column: x => x.CurrentState_Id,
+                        principalTable: "SY_State",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Machine_TypeOfLogic_TypeOfLogic_Id",
+                        column: x => x.TypeOfLogic_Id,
+                        principalTable: "TypeOfLogic",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AccessPoint",
                 columns: table => new
                 {
@@ -1155,32 +1187,6 @@ namespace SSEA.DAL.Migrations
                         name: "FK_MachineNorm_Norm_Norm_Id",
                         column: x => x.Norm_Id,
                         principalTable: "Norm",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ElementSFF",
-                columns: table => new
-                {
-                    Element_Id = table.Column<int>(type: "int", nullable: false),
-                    SFF_Id = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    IsRemoved = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ElementSFF", x => new { x.Element_Id, x.SFF_Id });
-                    table.ForeignKey(
-                        name: "FK_ElementSFF_Element_Element_Id",
-                        column: x => x.Element_Id,
-                        principalTable: "Element",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ElementSFF_SFF_SFF_Id",
-                        column: x => x.SFF_Id,
-                        principalTable: "SFF",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1515,10 +1521,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "IsValid", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "8e40e214-1ec7-4798-b1ad-6df12ccc0983", true, "Observer", "OBSERVER" },
-                    { 2, "3fddc30d-38ba-4445-9580-0e11450ba067", true, "NormalUser", "NORMALUSER" },
-                    { 3, "a9440705-bcc6-41ab-af98-10add59a8c76", true, "SafetyEvaluationAdmin", "SAFETYEVALUATIONADMIN" },
-                    { 4, "dfca4985-69b1-4091-8654-67530a7746b9", true, "UserAdmin", "USERADMIN" }
+                    { 1, "f9a9c068-2961-4e69-954f-be3e16ffa144", true, "Observer", "OBSERVER" },
+                    { 2, "213f4fef-bdb5-4c4c-8e4b-9f05915e9beb", true, "NormalUser", "NORMALUSER" },
+                    { 3, "cf697e61-319c-46b9-b2ae-a5820164bb23", true, "SafetyEvaluationAdmin", "SAFETYEVALUATIONADMIN" },
+                    { 4, "9a1290cf-bb0f-4002-8664-c2b58e9bfd5d", true, "UserAdmin", "USERADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -1622,14 +1628,25 @@ namespace SSEA.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Subsystem",
+                columns: new[] { "Id", "Architecture_Id", "CFF", "Category_Id", "CurrentState_Id", "DCresult_Id", "DateTimeCreated", "DateTimeUpdated", "Description", "HFT", "IdCreated", "IdUpdated", "IsRemoved", "MTTFdResult_Id", "OperationPrinciple_Id", "PFHdResult_Id", "PLresult_Id", "SFFresult", "T1", "T2", "TypeOfSubsystem_Id", "ValidCCF" },
+                values: new object[,]
+                {
+                    { 1, 4, 0.0, 5, 16, 4, new DateTime(2021, 4, 11, 13, 28, 46, 375, DateTimeKind.Local).AddTicks(8906), null, "Relay", null, 0, null, false, 3, 4, 1, 5, (short)0, null, null, 3, true },
+                    { 2, 4, 0.0, 5, 16, 4, new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1207), null, "CR30", null, 0, null, false, 3, 2, 1, 5, (short)0, null, null, 3, true },
+                    { 3, 4, 0.0, 5, 16, 4, new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1256), null, "GMX", null, 0, null, false, 3, 2, 1, 5, (short)0, null, null, 3, true },
+                    { 4, 4, 0.0, 5, 16, 4, new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1261), null, "GLX", null, 0, null, false, 3, 2, 1, 5, (short)0, null, null, 3, true }
+                });
+
+            migrationBuilder.InsertData(
                 table: "TypeOfLogic",
                 columns: new[] { "Id", "AccessPointsMaxCount", "Communication", "DescriptionCZ", "DescriptionEN", "EthernetAdressesMaxCount", "IsRemoved", "IsValid", "MaxArchitecture_Id", "MaxCategory_Id", "MaxPL_Id", "MaxSIL_Id", "NameCZ", "NameEN", "SI", "SO", "Subsystem_Id" },
                 values: new object[,]
                 {
-                    { 1, 2, false, null, null, 0L, false, true, 4, 5, 5, 1, "Relé", "Relay", 4, 4, 0 },
-                    { 2, 5, false, null, null, 0L, false, true, 4, 5, 5, 1, "CR30", "CR30", 12, 10, 0 },
-                    { 3, null, true, null, null, 48L, false, true, 4, 5, 5, 1, "GMX", "GMX", 6144, 6144, 0 },
-                    { 4, null, true, null, null, 256L, false, true, 4, 5, 5, 1, "GLX", "GLX", 65536, 65536, 0 }
+                    { 1, 2, false, null, null, 0L, false, true, 4, 5, 5, 1, "Relé", "Relay", 4, 4, 1 },
+                    { 2, 5, false, null, null, 0L, false, true, 4, 5, 5, 1, "CR30", "CR30", 12, 10, 2 },
+                    { 3, null, true, null, null, 48L, false, true, 4, 5, 5, 1, "GMX", "GMX", 6144, 6144, 3 },
+                    { 4, null, true, null, null, 256L, false, true, 4, 5, 5, 1, "GLX", "GLX", 65536, 65536, 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -1935,6 +1952,11 @@ namespace SSEA.DAL.Migrations
                 name: "IX_TypeOfLogic_MaxSIL_Id",
                 table: "TypeOfLogic",
                 column: "MaxSIL_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TypeOfLogic_Subsystem_Id",
+                table: "TypeOfLogic",
+                column: "Subsystem_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -2000,9 +2022,6 @@ namespace SSEA.DAL.Migrations
                 name: "Machine");
 
             migrationBuilder.DropTable(
-                name: "Subsystem");
-
-            migrationBuilder.DropTable(
                 name: "Av");
 
             migrationBuilder.DropTable(
@@ -2039,13 +2058,7 @@ namespace SSEA.DAL.Migrations
                 name: "TypeOfLogic");
 
             migrationBuilder.DropTable(
-                name: "OperationPrinciples");
-
-            migrationBuilder.DropTable(
-                name: "SY_State");
-
-            migrationBuilder.DropTable(
-                name: "TypeOfSubsystem");
+                name: "Subsystem");
 
             migrationBuilder.DropTable(
                 name: "Architecture");
@@ -2054,10 +2067,16 @@ namespace SSEA.DAL.Migrations
                 name: "Category");
 
             migrationBuilder.DropTable(
+                name: "OperationPrinciples");
+
+            migrationBuilder.DropTable(
                 name: "PL");
 
             migrationBuilder.DropTable(
-                name: "SY_Entity");
+                name: "SY_State");
+
+            migrationBuilder.DropTable(
+                name: "TypeOfSubsystem");
 
             migrationBuilder.DropTable(
                 name: "PFHd");
@@ -2067,6 +2086,9 @@ namespace SSEA.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "MTTFd");
+
+            migrationBuilder.DropTable(
+                name: "SY_Entity");
         }
     }
 }
