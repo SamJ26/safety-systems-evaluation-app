@@ -125,7 +125,7 @@ namespace SSEA.DAL.Repositories
             dbContext.ChangeTracker.Clear();
 
             AccessPoint accessPoint = await dbContext.AccessPoints.AsNoTracking().FirstOrDefaultAsync(ap => ap.Id == accessPointId);
-            int nextStateId = 0;
+            int nextStateId = accessPoint.CurrentStateId;
 
             if (stateId != 0)
             {

@@ -35,10 +35,13 @@
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="12">
-                                <MudTextField @bind-Value="safetyFunction.Name" Label="Safety function name *" Variant="Variant.Outlined" ReadOnly="@onlyForReading"/>
+                                <MudTextField @bind-Value="safetyFunction.Name" Label="Safety function name *" Variant="Variant.Outlined" ReadOnly="@onlyForReading" />
                             </MudItem>
                             <MudItem xs="12">
                                 <MudField Readonly="true" Label="Evaluation method" Variant="Variant.Outlined">Performance Level (PL)</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudField Readonly="true" Label="State of record" Variant="Variant.Outlined">@(safetyFunction.CurrentState is null ? "" : safetyFunction.CurrentState.Name)</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudSelect @bind-Value="safetyFunction.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@typeOfFunctionToString" ReadOnly="@onlyForReading">
@@ -49,7 +52,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="12">
-                                <MudTextField @bind-Value="safetyFunction.Description" T="string" Label="Safety function description" Variant="Variant.Outlined" Lines="3" ReadOnly="@onlyForReading"/>
+                                <MudTextField @bind-Value="safetyFunction.Description" T="string" Label="Safety function description" Variant="Variant.Outlined" Lines="3" ReadOnly="@onlyForReading" />
                             </MudItem>
                             <MudItem xs="12">
                                 <hr />
@@ -63,7 +66,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="6">
-                                <MudField Label="Resultant PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.PLresult != null ? safetyFunction.PLresult.Label : "Not evaluated")</MudField>
+                                <MudField Label="Resultant PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.PLresult is not null ? safetyFunction.PLresult.Label : "Not evaluated")</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudExpansionPanels MultiExpansion="true" Elevation="1">
@@ -501,13 +504,13 @@
     {
         var dialog = dialogService.Show<SelectLogicDialog>("Select subsystem");
         var result = await dialog.Result;
-        //if (!result.Cancelled)
-        //{
-        //    int subsystemId = Convert.ToInt32(result.Data);
-        //    await safetyFunctionFacade.AddSubsystemAsync(safetyFunction.Id, subsystemId);
-        //    safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
-        //    GetInfoAboutSubsystems();
-        //}
+        if (!result.Cancelled)
+        {
+            int subsystemId = Convert.ToInt32(result.Data);
+            await safetyFunctionFacade.AddSubsystemAsync(safetyFunction.Id, subsystemId);
+            safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
+            GetInfoAboutSubsystems();
+        }
         StateHasChanged();
     }
 
@@ -530,6 +533,7 @@
         showMessage = true;
         disabled = false;
         StateHasChanged();
+        Console.WriteLine($"Show message: {showMessage}, message: {response.Message}");
     }
 
 }

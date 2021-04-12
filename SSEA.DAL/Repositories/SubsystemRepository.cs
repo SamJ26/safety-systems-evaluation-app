@@ -200,7 +200,7 @@ namespace SSEA.DAL.Repositories
             dbContext.ChangeTracker.Clear();
 
             var subsystem = await dbContext.Subsystems.AsNoTracking().FirstOrDefaultAsync(s => s.Id == subsystemId);
-            int nextStateId = 0;
+            int nextStateId = subsystem.CurrentStateId;
 
             // If selected subsystem has related record in SafetyFunctionSubsystem join tale, than subsystem is used in some safety function -> state "Used"
             if (await dbContext.SafetyFunctionSubsystems.AnyAsync(sfs => sfs.SubsystemId == subsystemId))

@@ -199,7 +199,7 @@ namespace SSEA.DAL.Repositories
             dbContext.ChangeTracker.Clear();
 
             var safetyFunction = await dbContext.SafetyFunctions.AsNoTracking().FirstOrDefaultAsync(sf => sf.Id == safetyFunctionId);
-            int nextStateId = 0;
+            int nextStateId = safetyFunction.CurrentStateId;
 
             if (stateId != 0)
             {

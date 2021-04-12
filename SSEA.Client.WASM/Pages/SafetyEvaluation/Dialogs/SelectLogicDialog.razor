@@ -67,7 +67,6 @@
 
     private void Cancel() => MudDialog.Cancel();
 
-    // TODO: change return value to SubsystemId
-    private void AddSubsystem(TableRowClickEventArgs<TypeOfLogicModel> args) => MudDialog.Close(DialogResult.Ok(args.Item.Id));
+    private void AddSubsystem(TableRowClickEventArgs<TypeOfLogicModel> args) => MudDialog.Close(DialogResult.Ok(args.Item.SubsystemId));
 
 }
