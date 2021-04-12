@@ -57,48 +57,28 @@
                             <MudItem xs="12">
                                 <hr />
                             </MudItem>
-                            <MudItem xs="6">
-                                <MudSelect @bind-Value="safetyFunction.PLr" T="PLModel" Label="Required PL" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading" ToStringFunc="@plToString">
-                                    @foreach (var item in performanceLevels)
-                                    {
-                                        <MudSelectItem T="PLModel" Value="@(item)" />
-                                    }
-                                </MudSelect>
+                            <MudItem Style="width: 50%;">
+                                <MudField Label="Required PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.PLr is not null ? safetyFunction.PLr.Label : "Not evaluated")</MudField>
                             </MudItem>
-                            <MudItem xs="6">
+                            <MudItem Style="width: 45%;">
                                 <MudField Label="Resultant PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.PLresult is not null ? safetyFunction.PLresult.Label : "Not evaluated")</MudField>
                             </MudItem>
-                            <MudItem xs="12">
-                                <MudExpansionPanels MultiExpansion="true" Elevation="1">
-                                    <MudExpansionPanel Text="I do not know required PL">
-                                        <MudGrid>
-                                            <MudItem xs="4" Style="padding: 5px;">
-                                                <MudSelect @bind-Value="safetyFunction.S" T="SModel" Label="Severity" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading" ToStringFunc="@severityToString">
-                                                    @foreach (var item in severities)
-                                                    {
-                                                        <MudSelectItem T="SModel" Value="@(item)" />
-                                                    }
-                                                </MudSelect>
-                                            </MudItem>
-                                            <MudItem xs="4" Style="padding: 5px;">
-                                                <MudSelect @bind-Value="safetyFunction.F" T="FModel" Label="Frequency" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading" ToStringFunc="@frequencyToString">
-                                                    @foreach (var item in frequencies)
-                                                    {
-                                                        <MudSelectItem T="FModel" Value="@(item)" />
-                                                    }
-                                                </MudSelect>
-                                            </MudItem>
-                                            <MudItem xs="4" Style="padding: 5px;">
-                                                <MudSelect @bind-Value="safetyFunction.P" T="PModel" Label="Probability" Variant="Variant.Outlined" Format="F2" ReadOnly="@onlyForReading" ToStringFunc="@probabilityToString">
-                                                    @foreach (var item in probabilities)
-                                                    {
-                                                        <MudSelectItem T="PModel" Value="@(item)" />
-                                                    }
-                                                </MudSelect>
-                                            </MudItem>
-                                        </MudGrid>
-                                    </MudExpansionPanel>
-                                </MudExpansionPanels>
+                            <MudItem Style="width: 5%; padding-left: 5px;">
+                                @if (safetyFunction.PLresult is not null)
+                                {
+                                    if (safetyFunction.PLr.CompareValue > safetyFunction.PLresult.CompareValue)
+                                    {
+                                        <MudIcon Icon="@Icons.Material.Filled.ErrorOutline" Color="Color.Error" Size="Size.Large" Style="margin-top: 15px;" />
+                                    }
+                                    else
+                                    {
+                                        <MudIcon Icon="@Icons.Material.Outlined.DoneOutline" Color="Color.Success" Size="Size.Large" Style="margin-top: 15px;" />
+                                    }
+                                }
+                                else
+                                {
+                                    <MudIcon Icon="@Icons.Material.Outlined.NotInterested" Color="Color.Default" Size="Size.Large" Style="margin-top: 15px;" />
+                                }
                             </MudItem>
                         </MudGrid>
                     </EditForm>
@@ -324,10 +304,6 @@
     private SafetyFunctionDetailModelPL safetyFunction = new SafetyFunctionDetailModelPL();
 
     private ICollection<TypeOfFunctionModel> typeOfFunctions = new List<TypeOfFunctionModel>();
-    private ICollection<PLModel> performanceLevels = new List<PLModel>();
-    private ICollection<SModel> severities = new List<SModel>();
-    private ICollection<FModel> frequencies = new List<FModel>();
-    private ICollection<PModel> probabilities = new List<PModel>();
 
     struct SubsystemInfo
     {
@@ -367,9 +343,6 @@
 
     private Func<TypeOfFunctionModel, string> typeOfFunctionToString = tof => tof.Name;
     private Func<PLModel, string> plToString = pl => pl.Label;
-    private Func<SModel, string> severityToString = s => s.Value;
-    private Func<FModel, string> frequencyToString = f => f.Value;
-    private Func<PModel, string> probabilityToString = p => p.Value;
 
     protected override async Task OnInitializedAsync()
     {
@@ -409,10 +382,6 @@
     private async void Edit()
     {
         typeOfFunctions = await codeListFacade.GetAllTypeOfFunctionsAsync();
-        severities = await codeListFacade.GetAllSsAsync();
-        frequencies = await codeListFacade.GetAllFsAsync();
-        probabilities = await codeListFacade.GetAllPsAsync();
-        performanceLevels = await codeListFacade.GetAllPLsAsync();
         onlyForReading = false;
         showMessage = false;
         StateHasChanged();

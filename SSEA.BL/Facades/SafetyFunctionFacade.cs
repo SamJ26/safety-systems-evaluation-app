@@ -165,7 +165,7 @@ namespace SSEA.BL.Facades
 
             return new SafetyEvaluationResponseModel()
             {
-                IsSuccess = false,
+                IsSuccess = true,
                 Message = $"Resultant PL is invalid ... [Required PL = {safetyFunction.PLr.Label}] > [Resultant PL = {safetyFunction.PLresult.Label}]",
             };
         }
