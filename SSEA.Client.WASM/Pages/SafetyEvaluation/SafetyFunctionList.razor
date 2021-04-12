@@ -33,9 +33,11 @@
                         <MudItem xs="2">
                             <MudSelect @bind-Value="stateId" T="int" Label="State of record" Strict="true" Variant="Variant.Outlined" Format="F2">
                                 <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(8)">Nová</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(9)">Rozpracovaná</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(10)">Dokončená</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(10)">Nová</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(11)">Rozpracovaná</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(12)">Připravená na vyhodnocení</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(13)">Vyhodnocená - validní</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(14)">Vyhodnocená - invalidní</MudSelectItem>
                             </MudSelect>
                         </MudItem>
                         <MudItem xs="4">
@@ -88,9 +90,15 @@
                         <MudTd DataLabel="Evaluation method">@context.EvaluationMethod.Shortcut</MudTd>
                     </RowTemplate>
                     <PagerContent>
-                        <MudTablePager PageSizeOptions="new int[]{10, 50}" />
+                        <MudTablePager PageSizeOptions="new int[]{10, 15}" />
                     </PagerContent>
                 </MudTable>
+            }
+            @if (notFound)
+            {
+                <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
+                    Found nothing :(
+                </MudText>
             }
         </MudCardContent>
     </MudCard>
@@ -117,6 +125,7 @@
     private int evaluationMethodId;
     private int typeOfFunctionId;
     private bool searching = false;
+    private bool notFound = false;
 
     private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<TypeOfFunctionModel> typeOfFunctions = new List<TypeOfFunctionModel>();
@@ -136,6 +145,7 @@
     {
         searching = true;
         safetyFunctions = await safetyFunctionFacade.GetAllAsync(safetyFunctionName, stateId, typeOfFunctionId, evaluationMethodId);
+        notFound = safetyFunctions is null || safetyFunctions.Count == 0;
         searching = false;
         StateHasChanged();
     }
