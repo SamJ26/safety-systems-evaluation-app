@@ -3,10 +3,10 @@
 
 <MudGrid>
     <MudItem xs="12">
-        <MudTextField @bind-Value="Model.CatalogNumber" Label="Catalog number" Variant="Variant.Outlined"  Immediate="true" ReadOnly="@ReadOnly"/>
+        <MudTextField @bind-Value="Model.CatalogNumber" Label="Catalog number" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" />
     </MudItem>
     <MudItem xs="12">
-        <MudSelect @bind-Value="Model.Producer" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined"  Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@producerToString">
+        <MudSelect @bind-Value="Model.Producer" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@producerToString">
             @foreach (var item in Producers)
             {
                 <MudSelectItem T="ProducerModel" Value="@(item)" />
@@ -29,25 +29,21 @@
             }
         </MudSelect>
     </MudItem>
-    <MudItem xs="12" Style="margin-top: 15px;">
-        <MudExpansionPanels MultiExpansion="true" Elevation="1">
-            <MudExpansionPanel Text="I do not know MTTFd">
-                <MudGrid>
-                    <MudItem xs="12" Style="padding: 5px; margin-top: 10px;">
-                        <MudField Label="B10d" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.B10d</MudField>
-                    </MudItem>
-                    <MudItem xs="12" Style="padding: 5px;">
-                        <MudField Label="Hop" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Hop</MudField>
-                    </MudItem>
-                    <MudItem xs="12" Style="padding: 5px;">
-                        <MudField Label="Dop" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Dop</MudField>
-                    </MudItem>
-                    <MudItem xs="12" Style="padding: 5px; margin-bottom: 10px;">
-                        <MudField Label="Tcycles" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Tcycles</MudField>
-                    </MudItem>
-                </MudGrid>
-            </MudExpansionPanel>
-        </MudExpansionPanels>
+    <MudItem xs="12" Style="padding-bottom: 0px;">
+        <MudText Typo="Typo.subtitle1" Style="margin-bottom: 5px;">Fill data below if you don't know MTTFd</MudText>
+        <hr />
+    </MudItem>
+    <MudItem xs="3">
+        <MudField Label="B10d" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.B10d</MudField>
+    </MudItem>
+    <MudItem xs="3">
+        <MudField Label="Hop" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Hop</MudField>
+    </MudItem>
+    <MudItem xs="3">
+        <MudField Label="Dop" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Dop</MudField>
+    </MudItem>
+    <MudItem xs="3">
+        <MudField Label="Tcycles" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Tcycles</MudField>
     </MudItem>
 </MudGrid>
 
