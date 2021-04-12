@@ -82,9 +82,7 @@
                         {
                             <MudItem xs="12">
                                 <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
-                                    Selected category does not require evaluation of CCF
-                                    <br />
-                                    You can skip this step
+                                    CCF is not relevant for this category of subsystem
                                 </MudText>
                             </MudItem>
                         }
@@ -218,7 +216,6 @@
     private async Task OnValidSubmit()
     {
         disabled = true;
-        int id = 0;
 
         subsystem.Elements = new List<ElementDetailModelPL>();
         subsystem.Elements.Add(element1);
@@ -247,7 +244,7 @@
 
             // Creating independed subsystem -> navigate to subsystem detail
             else
-                navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{0}/{0}/{0}/{id}");
+                navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{0}/{0}/{0}/{response.SubsystemId}");
         }
         else
         {

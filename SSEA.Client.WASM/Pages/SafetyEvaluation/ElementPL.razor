@@ -34,16 +34,16 @@
         <hr />
     </MudItem>
     <MudItem xs="3">
-        <MudField Label="B10d" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.B10d</MudField>
+        <MudTextField @bind-Value="Model.B10d" Label="B10d" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
     </MudItem>
     <MudItem xs="3">
-        <MudField Label="Hop" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Hop</MudField>
+        <MudTextField @bind-Value="Model.Hop" Label="Hop" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
     </MudItem>
     <MudItem xs="3">
-        <MudField Label="Dop" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Dop</MudField>
+        <MudTextField @bind-Value="Model.Dop" Label="Dop" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
     </MudItem>
     <MudItem xs="3">
-        <MudField Label="Tcycles" Variant="Variant.Outlined" readonly="@ReadOnly">@Model.Tcycles</MudField>
+        <MudTextField @bind-Value="Model.Tcycles" Label="Tcycles" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
     </MudItem>
 </MudGrid>
 
