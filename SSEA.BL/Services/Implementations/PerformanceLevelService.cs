@@ -109,8 +109,6 @@ namespace SSEA.BL.Services.Implementations
                 throw new Exception("Unable to determine DC using upper limit values");
 
             PLModel upperLimitPL = await GetPLAsync(worstCategory, mttfd, dcAvg);
-            if (upperLimitPL is null)
-                throw new Exception("Unable to determine resultant PL using upper limit values - possible incompatibility between MTTFd, DC and category");
 
             // Evaluation with lower limit values
             mttfd = await GetMTTFdForSafetyFunctionAsync(safetyFunction, false);
@@ -121,10 +119,14 @@ namespace SSEA.BL.Services.Implementations
                 throw new Exception("Unable to determine DC using lower limit values");
 
             PLModel lowerLimitPL = await GetPLAsync(worstCategory, mttfd, dcAvg);
-            if (lowerLimitPL is null)
-                throw new Exception("Unable to determine resultant PL using lower limit values - possible incompatibility between MTTFd, DC and category");
 
-            safetyFunction.PLresult = (upperLimitPL.CompareValue > lowerLimitPL.CompareValue) ? upperLimitPL : lowerLimitPL;
+            if (upperLimitPL is null && lowerLimitPL is null)
+                throw new Exception("Unable to determine resultant PL - possible incompatibility between MTTFd, DC and category");
+
+            if (upperLimitPL is null || lowerLimitPL is null)
+                safetyFunction.PLresult = (upperLimitPL is null) ? lowerLimitPL : upperLimitPL;
+            else
+                safetyFunction.PLresult = (upperLimitPL.CompareValue > lowerLimitPL.CompareValue) ? upperLimitPL : lowerLimitPL;
 
             // Check if PL result is bigger or equal to required PL
             if (safetyFunction.PLresult.CompareValue < safetyFunction.PLr.CompareValue)
