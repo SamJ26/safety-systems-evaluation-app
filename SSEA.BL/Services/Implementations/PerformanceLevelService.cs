@@ -58,6 +58,9 @@ namespace SSEA.BL.Services.Implementations
             // Evaluation of CCF
             subsystem.ValidCCF = IsCCFValid(subsystem.SelectedCCFs);
 
+            // Check whether user selected MTTFd of elements directly or should be calculated
+            await CalculateMTTFdForElements(subsystem);
+
             // Evaluation of MTTFd
             subsystem.MTTFdResult = GetMTTFdForSubsystem(subsystem.Elements);
 
@@ -137,6 +140,24 @@ namespace SSEA.BL.Services.Implementations
         #endregion
 
         #region Private methods
+
+        /// <summary>
+        /// Method for calculation of MTTFd for all elements in subsystem
+        /// </summary>
+        /// <param name="subsystem"> Evaluated subsystem </param>
+        /// <returns> Method interacts with database so it returns async task </returns>
+        private async Task CalculateMTTFdForElements(SubsystemDetailModelPL subsystem)
+        {
+            ICollection<MTTFdModel> mttfds = mapper.Map<ICollection<MTTFdModel>>(await dbContext.MTTFds.AsNoTracking().ToListAsync());
+            foreach (var element in subsystem.Elements)
+            {
+                if (element.MTTFdResult is not null)
+                    continue;
+                element.Nop = (element.Dop * element.Hop * 3600) / element.Tcycles;
+                element.MTTFdCounted = element.B10d / (0.1 * element.Nop);
+                element.MTTFdResult = mttfds.FirstOrDefault(m => m.Min <= element.MTTFdCounted && element.MTTFdCounted <= m.Max);
+            }
+        }
 
         /// <summary>
         /// Method for selection of the worst category from used subsystems
