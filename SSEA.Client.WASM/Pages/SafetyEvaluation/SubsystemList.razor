@@ -143,6 +143,9 @@
                             <MudTd DataLabel="DC">@context.Dc</MudTd>
                             <MudTd DataLabel="PL">@context.Pl</MudTd>
                         </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[]{10, 15}" />
+                        </PagerContent>
                     </MudTable>
                 }
                 if (evaluationMethodId == 2)
@@ -205,8 +208,8 @@
     [Inject]
     private IDialogService dialogService { get; set; }
 
-    private ICollection<SubsystemListModelPL> subsystemsPL;
-    private ICollection<SubsystemListModelSIL> subsystemsSIL;
+    private ICollection<SubsystemListModelPL> subsystemsPL = new List<SubsystemListModelPL>();
+    private ICollection<SubsystemListModelSIL> subsystemsSIL = new List<SubsystemListModelSIL>();
 
     private int evaluationMethodId = 1;
     private int stateId;
