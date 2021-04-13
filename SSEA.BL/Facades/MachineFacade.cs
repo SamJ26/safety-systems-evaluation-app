@@ -136,8 +136,8 @@ namespace SSEA.BL.Facades
             int inputLogicSubsystemId = 4;
             int outputLogicSubsystemId = 5;
 
-            int readyForEvaluationStateNumber = 3;
-            int workInProgressStateNumber = 2;
+            int safetyFunctionReadyForEvaluationStateNumber = 3;
+            int accessPointWorkInProgressStateNumber = 2;
 
             // Getting machine with all its access points
             MachineDetailModel machine = await GetByIdAsync(machineId);
@@ -160,7 +160,7 @@ namespace SSEA.BL.Facades
             foreach (var accessPoint in machine.AccessPoints)
             {
                 // Checking if current access point has at least one safety function
-                if (accessPoint.CurrentState.StateNumber < workInProgressStateNumber)
+                if (accessPoint.CurrentState.StateNumber < accessPointWorkInProgressStateNumber)
                 {
                     ++accessPointsWithoutSafetyFunction;
                     continue;
@@ -171,7 +171,7 @@ namespace SSEA.BL.Facades
 
                 foreach (var safetyFunction in safetyFunctions)
                 {
-                    if (safetyFunction.CurrentState.StateNumber < readyForEvaluationStateNumber)
+                    if (safetyFunction.CurrentState.StateNumber < safetyFunctionReadyForEvaluationStateNumber)
                         return new MachineLogicSelectionResponseModel()
                         {
                             IsSuccess = false,
@@ -210,7 +210,7 @@ namespace SSEA.BL.Facades
                 return new MachineLogicSelectionResponseModel()
                 {
                     IsSuccess = false,
-                    Message = "Number if standard inputs or outputs is zero"
+                    Message = "Number of standard inputs or outputs is zero"
                 };
 
             // Selecting proper logic for given machine according to number of SI and SO
