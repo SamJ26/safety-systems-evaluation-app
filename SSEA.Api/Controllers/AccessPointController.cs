@@ -75,5 +75,35 @@ namespace SSEA.Api.Controllers
             await accessPointFacade.DeleteAsync(id, userId);
             return Ok();
         }
+
+        // POST: api/accessPoint/addSafetyFunction/{accessPointId}/{safetyFunctionId}
+        [HttpPost("addSafetyFunction/{accessPointId}/{safetyFunctionId}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "AccessPointAddSafetyFunction")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
+        {
+            if (safetyFunctionId == 0 || accessPointId == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+            return Ok();
+        }
+
+        // DELETE: api/accessPoint/removeSafetyFunction/{accessPointId}/{safetyFunctionId}
+        [HttpDelete("removeSafetyFunction/{accessPointId}/{safetyFunctionId}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "AccessPointRemoveSafetyFunction")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
+        {
+            if (safetyFunctionId == 0 || accessPointId == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            await accessPointFacade.RemoveSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+            return Ok();
+        }
     }
 }
