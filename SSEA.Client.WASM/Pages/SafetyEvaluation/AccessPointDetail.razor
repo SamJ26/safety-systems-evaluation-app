@@ -170,17 +170,12 @@
         showMessage = false;
     }
 
+    // TODO: change logic
     private async void OpenSelectSafetyFunctionsDialog()
     {
-        ICollection<SafetyFunctionListModel> selectedSafetyFunctions = new HashSet<SafetyFunctionListModel>();
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPoint.EvaluationMethod, ["SelectedSafetyFunctions"] = selectedSafetyFunctions };
-        var dialog = dialogService.Show<SelectSafetyFunctionsDialog>("Select safety functions", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
-        var result = await dialog.Result;
-        if (!result.Cancelled)
-        {
-            foreach (var item in selectedSafetyFunctions)
-                accessPoint.SafetyFunctions.Add(item);
-        }
+       
+        // TODO: call API
+
         StateHasChanged();
     }
 

@@ -154,7 +154,7 @@
     private async void OnValidSubmit()
     {
         disabled = true;
-        int id = await safetyFunctionFacade.CreateAsync(safetyFunction,accessPointId);
+        int id = await safetyFunctionFacade.CreateAsync(safetyFunction, accessPointId);
         if (id != 0)
         {
             messageType = Severity.Success;
