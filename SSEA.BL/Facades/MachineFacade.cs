@@ -133,6 +133,8 @@ namespace SSEA.BL.Facades
         // TODO: test this method
         public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId, int userId)
         {
+            int inputSubsystemId = 1;
+            int outputSubsystemId = 2;
             int inputLogicSubsystemId = 4;
             int outputLogicSubsystemId = 5;
 
@@ -155,6 +157,7 @@ namespace SSEA.BL.Facades
             HashSet<SubsystemDetailModelPL> subsystems = new();
 
             uint accessPointsWithoutSafetyFunction = 0;
+            bool machineWithoutSafetyFunction = true;
 
             // Searching cycle for getting all input-logic and output-logic subsystems
             foreach (var accessPoint in machine.AccessPoints)
@@ -171,6 +174,8 @@ namespace SSEA.BL.Facades
 
                 foreach (var safetyFunction in safetyFunctions)
                 {
+                    machineWithoutSafetyFunction = false;
+
                     if (safetyFunction.CurrentState.StateNumber < safetyFunctionReadyForEvaluationStateNumber)
                         return new MachineLogicSelectionResponseModel()
                         {
@@ -180,14 +185,24 @@ namespace SSEA.BL.Facades
 
                     // Getting all subsystems used for given safety function
                     var usedSubsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionPLAsync(safetyFunction.Id));
-                    
-                    foreach (var subsytem in usedSubsystems)
-                        if (subsytem.TypeOfSubsystem.Id == inputLogicSubsystemId || subsytem.TypeOfSubsystem.Id == outputLogicSubsystemId)
-                            subsystems.Add(subsytem);
+
+                    // If safety function has input-logic subsystem than use this one instead of input subsystem for further processing
+                    var inputLogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputLogicSubsystemId);
+                    if (inputLogicSubsystem is not null)
+                        subsystems.Add(inputLogicSubsystem);
+                    else
+                        subsystems.Add(subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputSubsystemId));
+
+                    // If safety function has output-logic subsystem than use this one instead of output subsystem for further processing
+                    var outputLogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == outputLogicSubsystemId);
+                    if (outputLogicSubsystem is not null)
+                        subsystems.Add(outputLogicSubsystem);
+                    else
+                        subsystems.Add(subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == outputSubsystemId));
                 }
             }
 
-            if (accessPointsWithoutSafetyFunction == machine.AccessPoints.Count)
+            if (accessPointsWithoutSafetyFunction == machine.AccessPoints.Count || machineWithoutSafetyFunction)
                 return new MachineLogicSelectionResponseModel()
                 {
                     IsSuccess = false,
