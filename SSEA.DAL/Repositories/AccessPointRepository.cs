@@ -4,7 +4,6 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.DAL.Repositories
@@ -15,8 +14,6 @@ namespace SSEA.DAL.Repositories
 
         private readonly int accessPointNewStateId = 6;
         private readonly int accessPointWorkInProgressStateId = 7;
-
-        private readonly int safetyFunctionNewStateId = 10;
 
         public AccessPointRepository(AppDbContext dbContext)
         {
@@ -60,44 +57,21 @@ namespace SSEA.DAL.Repositories
             return accessPoint.Id;
         }
 
-        public async Task AddExistingSafetyFunctionsAsync(ICollection<AccessPointSafetyFunction> joinEntities)
+        public async Task AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
         {
-            dbContext.AddRange(joinEntities);
+            AccessPointSafetyFunction entity = new()
+            {
+                AccessPointId = accessPointId,
+                SafetyFunctionId = safetyFunctionId
+            };
+            await dbContext.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task AddNewSafetyFunctionsAsync(ICollection<SafetyFunction> safetyFunctions, int accessPointId, int userId)
+        public async Task RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
         {
-            foreach (var safetyFunction in safetyFunctions)
-            {
-                safetyFunction.CurrentStateId = safetyFunctionNewStateId;
-
-                // Explicitly setting up ids of navigation properties to avoid exception with tracking same entity more than ones
-                safetyFunction.EvaluationMethodId = safetyFunction.EvaluationMethod.Id;
-                safetyFunction.EvaluationMethod = null;
-                safetyFunction.TypeOfFunctionId = safetyFunction.TypeOfFunction.Id;
-                safetyFunction.TypeOfFunction = null;
-
-                await dbContext.AddAsync(safetyFunction);
-                await dbContext.CommitChangesAsync(userId);
-                var joinEntity = new AccessPointSafetyFunction()
-                {
-                    AccessPointId = accessPointId,
-                    SafetyFunctionId = safetyFunction.Id
-                };
-                await dbContext.AddAsync(joinEntity);
-                await dbContext.SaveChangesAsync();
-            }
-        }
-
-        public async Task RemoveSafetyFunctionsAsync(ICollection<SafetyFunction> safetyFunctions, int accessPointId)
-        {
-            var accessPointSafetyFunctions = await dbContext.AccessPointSafetyFunctions.Where(apsf => apsf.AccessPointId == accessPointId && safetyFunctions.Select(sf => sf.Id).Contains(apsf.SafetyFunctionId)).ToListAsync();
-            foreach (var item in accessPointSafetyFunctions)
-            {
-                item.IsRemoved = true;
-            }
-            dbContext.UpdateRange(accessPointSafetyFunctions);
+            var entity = await dbContext.AccessPointSafetyFunctions.AsNoTracking().FirstOrDefaultAsync(i => i.AccessPointId == accessPointId && i.SafetyFunctionId == safetyFunctionId);
+            dbContext.Remove(entity);
             await dbContext.SaveChangesAsync();
         }
 
@@ -119,7 +93,7 @@ namespace SSEA.DAL.Repositories
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAccessPointStateAsync(int accessPointId, int userId, int stateId = 0)
+        public async Task<int> UpdateAccessPointStateAsync(int accessPointId, int userId, int stateId = 0)
         {
             // Untracking all tracked entites.
             dbContext.ChangeTracker.Clear();
@@ -130,7 +104,7 @@ namespace SSEA.DAL.Repositories
             if (stateId != 0)
             {
                 if (accessPoint.CurrentStateId == stateId)
-                    return;
+                    return accessPoint.MachineId;
                 nextStateId = stateId;
             }
             else
@@ -144,10 +118,11 @@ namespace SSEA.DAL.Repositories
                 }
             }
             if (accessPoint.CurrentStateId == nextStateId)
-                return;
+                return accessPoint.MachineId;
             accessPoint.CurrentStateId = nextStateId;
             dbContext.Update(accessPoint);
             await dbContext.CommitChangesAsync(userId);
+            return accessPoint.MachineId;
         }
     }
 }
