@@ -11,6 +11,7 @@
                 <MudText Typo="Typo.h6">Create new safety function (PL)</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
+                <MudIconButton @onclick="@BackToAccessPoint" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(accessPointId == 0 || disabled)" />
                 <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(disabled)" />
             </CardHeaderActions>
         </MudCardHeader>
@@ -89,6 +90,14 @@
 
 @code {
 
+    // accessPointId == 0
+    // -- creating independed ssafetyFunction
+    // -- after saving navigate to SafetyFunctionDetailPL
+    // accessPointId != 0
+    // -- creating safety function within access point
+    // -- after saving navigate to AccessPointDetailPL
+    // -- after saving create record in AccessPointSafetyFunction join table
+
     [Inject]
     private NavigationManager navigationManager { get; set; }
 
@@ -110,6 +119,9 @@
     private ICollection<FModel> frequencies = new List<FModel>();
     private ICollection<PModel> probabilities = new List<PModel>();
 
+    private int machineId;
+    private int accessPointId;
+
     private bool disabled = false;
     private bool showMessage = false;
     private string message = string.Empty;
@@ -129,13 +141,20 @@
         frequencies = await codeListFacade.GetAllFsAsync();
         probabilities = await codeListFacade.GetAllPsAsync();
         safetyFunction.EvaluationMethod = evaluationMethods.FirstOrDefault(em => em.Shortcut == "PL");
+
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("machineId", out var _machineId))
+            machineId = Convert.ToInt32(_machineId);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("accessPointId", out var _accessPointId))
+            accessPointId = Convert.ToInt32(_accessPointId);
+
         StateHasChanged();
     }
 
     private async void OnValidSubmit()
     {
         disabled = true;
-        int id = await safetyFunctionFacade.CreateAsync(safetyFunction);
+        int id = await safetyFunctionFacade.CreateAsync(safetyFunction,accessPointId);
         if (id != 0)
         {
             messageType = Severity.Success;
@@ -143,16 +162,25 @@
             showMessage = true;
             StateHasChanged();
             await Task.Delay(2000);
-            navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{0}/{0}/{id}");
+
+            // Creating safety function from access point -> navigate to access point detail
+            if (accessPointId != 0)
+                BackToAccessPoint();
+
+            // Creating independent safety function -> navigate to safety function detail PL
+            else
+                navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{0}/{0}/{id}");
         }
         else
         {
             messageType = Severity.Error;
             message = errorMessage;
+            showMessage = true;
+            disabled = false;
+            StateHasChanged();
         }
-        showMessage = true;
-        disabled = false;
-        StateHasChanged();
     }
+
+    private void BackToAccessPoint() => navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{machineId}/{accessPointId}");
 
 }

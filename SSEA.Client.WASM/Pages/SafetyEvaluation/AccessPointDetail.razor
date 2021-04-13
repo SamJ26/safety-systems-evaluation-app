@@ -53,10 +53,10 @@
                     <MudGrid Style="padding: 20px;">
                         <MudItem xs="8" />
                         <MudItem xs="2">
-                            <MudButton @onclick="OpenSelectSafetyFunctionsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Add existing</MudButton>
+                            <MudButton @onclick="OpenSelectSafetyFunctionsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;">Add existing</MudButton>
                         </MudItem>
                         <MudItem xs="2">
-                            <MudButton @onclick="OpenCreateSafetyFunctionDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Create" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;" Disabled="@onlyForReading">Create new</MudButton>
+                            <MudButton @onclick="CreateSafetyFunction" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Create" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;">Create new</MudButton>
                         </MudItem>
                         <MudItem xs="12" Style="padding-top: 0px;">
                             <MudTable T="SafetyFunctionListModel" Items="@accessPoint.SafetyFunctions" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
@@ -185,18 +185,7 @@
         StateHasChanged();
     }
 
-    private async void OpenCreateSafetyFunctionDialog()
-    {
-        var safetyFunction = new SafetyFunctionListModel();
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPoint.EvaluationMethod, ["SafetyFunction"] = safetyFunction };
-        var dialog = dialogService.Show<CreateSafetyFunctionDialog>("Create safety function", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
-        var result = await dialog.Result;
-        if (!result.Cancelled)
-        {
-            accessPoint.SafetyFunctions.Add(safetyFunction);
-        }
-        StateHasChanged();
-    }
+    private void CreateSafetyFunction() => navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionInsert/PL?machineId={MachineId}&accessPointId={AccessPointId}");
 
     private async void OnValidSubmit()
     {
