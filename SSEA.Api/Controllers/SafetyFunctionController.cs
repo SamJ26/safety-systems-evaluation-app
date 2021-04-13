@@ -69,12 +69,12 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionCreatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelPL newModel)
+        public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelPL newModel, int accessPointId = 0)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var id = await safetyFunctionFacade.CreateAsync(newModel, userId);
+            var id = await safetyFunctionFacade.CreateAsync(newModel, userId, accessPointId);
             return Ok(id);
         }
 

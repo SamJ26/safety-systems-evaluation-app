@@ -27,10 +27,10 @@
                 </MudItem>
                 <MudItem xs="11">
                     <MudGrid>
-                        <MudItem xs="4">
+                        <MudItem xs="3">
                             <MudTextField @bind-Value="safetyFunctionName" Label="Safety function name" Variant="Variant.Outlined"></MudTextField>
                         </MudItem>
-                        <MudItem xs="2">
+                        <MudItem xs="3">
                             <MudSelect @bind-Value="stateId" T="int" Label="State of record" Strict="true" Variant="Variant.Outlined" Format="F2">
                                 <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
                                 <MudSelectItem T="int" Value="@(10)">Nová</MudSelectItem>

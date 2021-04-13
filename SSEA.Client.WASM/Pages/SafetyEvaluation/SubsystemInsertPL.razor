@@ -225,10 +225,7 @@
             subsystem.Elements.Add(element2);
 
         SubsystemCreationResponseModel response;
-        if (safetyFunctionId == 0)
-            response = await subsystemFacade.CreateAsync(subsystem);
-        else
-            response = await subsystemFacade.CreateAsync(subsystem, safetyFunctionId);
+        response = await subsystemFacade.CreateAsync(subsystem, safetyFunctionId);
 
         if (response.IsSuccess)
         {
@@ -240,7 +237,7 @@
 
             // Creating subsystem within safety function -> navigate to safety function detail
             if (safetyFunctionId != 0)
-                navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{machineId}/{accessPointId}/{safetyFunctionId}");
+                BackToSafetyFunction();
 
             // Creating independed subsystem -> navigate to subsystem detail
             else
