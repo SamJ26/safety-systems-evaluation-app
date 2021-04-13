@@ -74,7 +74,7 @@
             }
             else
             {
-                <MudTable T="MachineListModel" OnRowClick="@(args => GoToMachineDetail(args))" Items="@machines" Hover="true" Elevation="5" Style="margin-top: 20px;" Dense="false">
+                <MudTable T="MachineListModel" OnRowClick="@(args => GoToMachineDetail(args))" Items="@machines" Hover="true" Elevation="0" Style="margin-top: 20px;" Dense="false" Outlined="true">
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>State</MudTh>

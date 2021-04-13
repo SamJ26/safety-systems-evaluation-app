@@ -37,5 +37,17 @@ namespace SSEA.Client.BL.Facades
             Console.WriteLine("AccessPointFacade.DeleteAsync(int id)");
             await clientService.AccessPointDeleteAsync(id);
         }
+
+        public async Task AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
+        {
+            Console.WriteLine("AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)");
+            await clientService.AccessPointAddSafetyFunctionAsync(accessPointId, safetyFunctionId);
+        }
+
+        public async Task RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
+        {
+            Console.WriteLine("RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId)");
+            await clientService.AccessPointRemoveSafetyFunctionAsync(accessPointId, safetyFunctionId);
+        }
     }
 }
