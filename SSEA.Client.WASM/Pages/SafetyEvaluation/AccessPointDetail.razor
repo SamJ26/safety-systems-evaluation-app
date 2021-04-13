@@ -135,10 +135,7 @@
         StateHasChanged();
     }
 
-    private void BackToMachine()
-    {
-        navigationManager.NavigateTo($"/safetyEvaluation/machineDetail/{MachineId}");
-    }
+    private void BackToMachine() => navigationManager.NavigateTo($"/safetyEvaluation/machineDetail/{MachineId}");
 
     private void GoToSafetyFunctionDetail(TableRowClickEventArgs<SafetyFunctionListModel> args)
     {
@@ -159,7 +156,9 @@
 
     private void RemoveSafetyFunction(SafetyFunctionListModel safetyFunction)
     {
-        accessPoint.SafetyFunctions.Remove(safetyFunction);
+
+        // TODO: call API
+
         StateHasChanged();
     }
 
