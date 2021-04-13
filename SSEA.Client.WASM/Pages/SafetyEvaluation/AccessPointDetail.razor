@@ -195,12 +195,20 @@
         showMessage = false;
     }
 
-    // TODO: change logic
     private async void OpenSelectSafetyFunctionsDialog()
     {
-
-        // TODO: call API
-
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = "PL" };
+        var dialog = dialogService.Show<SelectSafetyFunctionsDialog>("Select safety functions", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var safetyFunctions = (HashSet<SafetyFunctionListModel>)result.Data;
+            foreach (var safetyFunction in safetyFunctions)
+            {
+                await accessPointFacade.AddSafetyFunctionAsync(AccessPointId, safetyFunction.Id);
+            }
+            accessPoint = await accessPointFacade.GetByIdAsync(accessPoint.Id);
+        }
         StateHasChanged();
     }
 
