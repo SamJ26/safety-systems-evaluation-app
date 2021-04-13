@@ -142,10 +142,10 @@ namespace SSEA.DAL.Repositories
                 dbContext.Attach(safetyFunction.F).State = EntityState.Unchanged;
                 dbContext.Attach(safetyFunction.P).State = EntityState.Unchanged;
             }
-            if (safetyFunction.PLr is not null)
-                dbContext.Attach(safetyFunction.PLr).State = EntityState.Unchanged;
-            if (safetyFunction.PLresult is not null)
-                dbContext.Attach(safetyFunction.PLresult).State = EntityState.Unchanged;
+
+            // Setting these properties to null to avoid change tracking excpetion with tracking two entities with the same id
+            safetyFunction.PLr = null;
+            safetyFunction.PLresult = null;
 
             dbContext.Update(safetyFunction);
             await dbContext.CommitChangesAsync(userId);
