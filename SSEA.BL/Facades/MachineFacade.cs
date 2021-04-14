@@ -291,5 +291,23 @@ namespace SSEA.BL.Facades
                 Message = "Evaluation was successfull",
             };
         }
+
+        /* Vybrat masinu s access pointami z DB
+         * Vybrat z DB subsystem podla vybranej logiky
+         * Prejst vsetky AP:
+         * - Pre každy AP vybrať všetky SF
+         * - Prejst všetky SF a pre každu SF:
+         * -- AK SF nema log susystem tak pridat logicky subsystem a vyhodnotit ju - vysledok ktory sa vrati ulozit do nejakeho listu
+         * -- Ak SF ma log subsystem ale neni vyhodnotena tak ju vyhodnotit - vysledok ktory sa vrati ulozit do nejakeho listu
+         * -- Ak je SF vyhodnotena tak ju preskocit
+         * Podla vysledku vyhodnocovania SF nastavit stav pre masinu
+         * Vratit vysledok (zoznam s prehladom)
+         *
+         * Vratit IsSuccess = true a nejaku message ak sa vsetko podari a nejaky zoznam s polozkami:
+         * - AP ku ktoremu SF patri (jeho ID a meno)
+         * - Meno SF a jej ID
+         * - Vysledok vyhodnotenia SF - message a true/false
+         *
+         */
     }
 }
