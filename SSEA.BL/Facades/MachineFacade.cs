@@ -130,7 +130,6 @@ namespace SSEA.BL.Facades
             await machineRepository.DeleteAsync(machineId, userId);
         }
 
-        // TODO: test this method
         public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId, int userId)
         {
             int inputSubsystemId = 1;
@@ -184,7 +183,7 @@ namespace SSEA.BL.Facades
                         };
 
                     // Getting all subsystems used for given safety function
-                    var usedSubsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionPLAsync(safetyFunction.Id));
+                    var usedSubsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionAsync(safetyFunction.Id));
 
                     // If safety function has input-logic subsystem than use this one instead of input subsystem for further processing
                     var inputLogicSubsystem = usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputLogicSubsystemId);

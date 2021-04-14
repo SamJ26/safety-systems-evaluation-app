@@ -75,9 +75,7 @@ namespace SSEA.DAL.Repositories
         public async Task<ICollection<Subsystem>> GetSubsystemsForSafetyFunctionPLAsync(int safetyFunctionId)
         {
             // Getting ids of all subsystems which are related to selected safety function specified by safetyFunctionId
-            int[] subsystemIds = await dbContext.SafetyFunctionSubsystems.Where(a => a.SafetyFunctionId == safetyFunctionId)
-                                                                         .Select(a => a.SubsystemId)
-                                                                         .ToArrayAsync();
+            int[] subsystemIds = await GetIdsOfSubsystems(safetyFunctionId);
 
             var subsystems = await dbContext.Subsystems.Where(s => s.CategoryId != null && subsystemIds.Contains(s.Id))
                                                        .Include(s => s.TypeOfSubsystem)
@@ -95,9 +93,7 @@ namespace SSEA.DAL.Repositories
         public async Task<ICollection<Subsystem>> GetSubsystemsForSafetyFunctionSILAsync(int safetyFunctionId)
         {
             // Getting ids of all subsystems which are related to selected safety function specified by safetyFunctionId
-            int[] subsystemIds = await dbContext.SafetyFunctionSubsystems.Where(a => a.SafetyFunctionId == safetyFunctionId)
-                                                                         .Select(a => a.SubsystemId)
-                                                                         .ToArrayAsync();
+            int[] subsystemIds = await GetIdsOfSubsystems(safetyFunctionId);
 
             var subsystems = await dbContext.Subsystems.Where(s => s.ArchitectureId != null && subsystemIds.Contains(s.Id))
                                                        .Include(s => s.TypeOfSubsystem)
@@ -108,6 +104,19 @@ namespace SSEA.DAL.Repositories
                                                        .AsNoTracking()
                                                        .ToListAsync();
             return subsystems;
+        }
+
+        public async Task<ICollection<Subsystem>> GetSubsystemsForSafetyFunctionAsync(int safetyFunctionId)
+        {
+            // Getting ids of all subsystems which are related to selected safety function specified by safetyFunctionId
+            int[] subsystemIds = await GetIdsOfSubsystems(safetyFunctionId);
+
+            return await dbContext.Subsystems.Where(s => subsystemIds.Contains(s.Id))
+                                             .Include(s => s.TypeOfSubsystem)
+                                             .Include(s => s.Category)
+                                             .Include(s => s.Architecture)
+                                             .AsNoTracking()
+                                             .ToListAsync();
         }
 
         // TODO: edit to work also with SF SIL
@@ -268,6 +277,18 @@ namespace SSEA.DAL.Repositories
                     outputSubsystem = true;
             }
             return inputSubsystem && outputSubsystem;
+        }
+
+        /// <summary>
+        /// Method which returns ids of all subsystems which are related to safety function specified by input parameter safetyFunctionId
+        /// </summary>
+        /// <param name="safetyFunctionId"> Selected safety function </param>
+        /// <returns> Ids as array of integers </returns>
+        private async Task<int[]> GetIdsOfSubsystems(int safetyFunctionId)
+        {
+            return await dbContext.SafetyFunctionSubsystems.Where(a => a.SafetyFunctionId == safetyFunctionId)
+                                                           .Select(a => a.SubsystemId)
+                                                           .ToArrayAsync();
         }
     }
 }
