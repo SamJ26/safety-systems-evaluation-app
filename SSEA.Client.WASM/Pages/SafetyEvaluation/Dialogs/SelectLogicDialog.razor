@@ -1,0 +1,72 @@
+﻿
+<MudDialog>
+    <TitleContent>
+        <MudGrid>
+            <MudItem Style="width: 5%;"/>
+            <MudItem Style="width: 90%;">
+                <MudText Align="Align.Center" Typo="Typo.h5">Select logic</MudText>
+            </MudItem>
+            <MudItem Style="width: 5%;">
+                <MudIconButton @onclick="@Cancel" Icon="@Icons.Material.Filled.Clear" Color="Color.Error" Disabled="@disabled"></MudIconButton>
+            </MudItem>
+        </MudGrid>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid Style="margin-bottom: 10px;">
+            <MudTable T="TypeOfLogicModel" Items="@typeOfLogics" Hover="true" OnRowClick="@(args => AddSubsystem(args))">
+                <ColGroup>
+                    <col style="width:30%;" /> Name
+                    <col style="width:20%;" /> Max inputs
+                    <col style="width:20%;" /> Max outputs
+                    <col style="width:5%;" /> PL
+                    <col style="width:10%;" /> Category
+                    <col style="width:5%;" /> SIL
+                    <col style="width:10%;" /> Architecture
+                </ColGroup>
+                <HeaderContent>
+                    <MudTh Style="@centerStyle">Name</MudTh>
+                    <MudTh Style="@centerStyle">Inputs</MudTh>
+                    <MudTh Style="@centerStyle">Outputs</MudTh>
+                    <MudTh Style="@centerStyle">PL</MudTh>
+                    <MudTh Style="@centerStyle">Category</MudTh>
+                    <MudTh Style="@centerStyle">SIL</MudTh>
+                    <MudTh Style="@centerStyle">Architecture</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd Style="@centerStyle" DataLabel="Name">@context.Name</MudTd>
+                    <MudTd Style="@centerStyle" DataLabel="Inputs">@context.Si</MudTd>
+                    <MudTd Style="@centerStyle" DataLabel="Outputs">@context.So</MudTd>
+                    <MudTd Style="@centerStyle" DataLabel="PL">@context.MaxPL.Label</MudTd>
+                    <MudTd Style="@centerStyle" DataLabel="Category">@context.MaxCategory.Label</MudTd>
+                    <MudTd Style="@centerStyle" DataLabel="SIL">@context.MaxSIL.ValueSIL</MudTd>
+                    <MudTd Style="@centerStyle" DataLabel="Architecture">@context.MaxArchitecture.Label</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    private ICollection<TypeOfLogicModel> typeOfLogics = new List<TypeOfLogicModel>();
+
+    private bool disabled = false;
+
+    private string centerStyle = "text-align: center; vertical-align: middle;";
+
+    protected override async Task OnInitializedAsync()
+    {
+        typeOfLogics = await codeListFacade.GetAllTypeOfLogicsAsync();
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private void AddSubsystem(TableRowClickEventArgs<TypeOfLogicModel> args) => MudDialog.Close(DialogResult.Ok(args.Item.SubsystemId));
+
+}

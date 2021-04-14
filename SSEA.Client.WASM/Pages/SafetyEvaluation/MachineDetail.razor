@@ -21,8 +21,8 @@
                         <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
                         <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
                         <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
-                        <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;" Disabled="@disabled">Select logic</MudButton>
-                        <MudButton @onclick="@EvaluateSafety" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;" Disabled="@disabled">Evaluate safety</MudButton>
+                        <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Search" Color="Color.Primary" Style="margin: 0px 5px 0px 5px;" Disabled="@disabled">Select logic</MudButton>
+                        @*<MudButton @onclick="@EvaluateSafety" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px 0px 5px;" Disabled="@disabled">Evaluate safety</MudButton>*@
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
@@ -178,6 +178,31 @@
     </MudCard>
 </MudContainer>
 
+<MudDialog @bind-IsVisible="showDialog">
+    <TitleContent>
+        <MudText Typo="Typo.h5">
+            Selected logic: @logic.Name
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid Style="margin-bottom: 0px;">
+            <MudItem xs="12">                
+                <MudText Typo="Typo.subtitle1">
+                    If you save this action,
+                    selected logic will be assigned to all safety functions which has not selected logical subsystem yet.
+                    In addition, resultant @machine.EvaluationMethod.Shortcut will be evaluated for all safety functions.
+                </MudText>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" OnClick="@(() => showDialog = false)" FullWidth="true">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveLogic" FullWidth="true">Save</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
 @code {
 
     [Inject]
@@ -196,6 +221,9 @@
     public int Id { get; set; }
 
     private MachineDetailModel machine = new MachineDetailModel();
+
+    private bool showDialog = false;
+    private TypeOfLogicModel logic;
 
     private bool disabled = false;
     private bool onlyForReading = true;
@@ -246,7 +274,7 @@
         StateHasChanged();
     }
 
-    private async void OnValidSubmit()
+    private async Task OnValidSubmit()
     {
         disabled = true;
         onlyForReading = true;
@@ -267,12 +295,11 @@
         StateHasChanged();
     }
 
-    private async void Edit()
+    private async Task Edit()
     {
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
         onlyForReading = false;
-        showMessage = false;
         StateHasChanged();
     }
 
@@ -298,35 +325,40 @@
         disabled = true;
         onlyForReading = true;
         var response = await machineFacade.SelectLogicAsync(machine.Id);
+        disabled = false;
         if (response.IsSuccess)
         {
-            messageType = Severity.Success;
-            machine.TypeOfLogic = response.Logic;
+            logic = response.Logic;
+            showDialog = true;
         }
         else
         {
             messageType = Severity.Error;
+            message = response.Message;
+            showMessage = true;
+            StateHasChanged();
         }
-        message = response.Message;
-        showMessage = true;
-        disabled = false;
-        StateHasChanged();
     }
 
-    private async Task EvaluateSafety()
+    private async Task SaveLogic()
     {
+        showDialog = false;
         disabled = true;
         onlyForReading = true;
-        var response = await machineFacade.EvaluateSafetyAsync(machine.Id);
-        if (response.IsSuccess)
+        machine.TypeOfLogic = logic;
+        var result = await machineFacade.UpdateAsync(machine);
+        if (result != 0)
         {
-            messageType = Severity.Success;
+            var response = await machineFacade.EvaluateSafetyAsync(machine.Id);
+            messageType = response.IsSuccess == true ? Severity.Success : Severity.Error;
+            message = response.Message;
+            machine = await machineFacade.GetByIdAsync(machine.Id);
         }
         else
         {
             messageType = Severity.Error;
+            message = errorMessage;
         }
-        message = response.Message;
         showMessage = true;
         disabled = false;
         StateHasChanged();

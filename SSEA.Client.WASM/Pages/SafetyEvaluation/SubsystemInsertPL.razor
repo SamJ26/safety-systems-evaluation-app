@@ -53,39 +53,50 @@
                     </EditForm>
                 </MudTabPanel>
 
-                <MudTabPanel Text="CCF">
+                <MudTabPanel Text="CCF" Disabled="@(subsystem.Category.Label == string.Empty || subsystem.Category.Label is null)">
                     <MudGrid Style="padding: 20px;">
-                        <MudItem xs="12">
-                            <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true">
-                                <ColGroup>
-                                    <col style="width:5%;" /> Checkbox
-                                    <col style="width:15%;" /> Type
-                                    <col style="width:75%;" /> Description
-                                    <col style="width:5%;" /> Points
-                                </ColGroup>
-                                <HeaderContent>
-                                    <MudTh>Type</MudTh>
-                                    <MudTh>Description</MudTh>
-                                    <MudTh>Points</MudTh>
-                                </HeaderContent>
-                                <RowTemplate Context="tableContext">
-                                    <MudTd DataLabel="Name">@tableContext.Type</MudTd>
-                                    <MudTd DataLabel="Name">@tableContext.Description</MudTd>
-                                    <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
-                                </RowTemplate>
-                            </MudTable>
-                        </MudItem>
+                        @if (subsystem.Category.RelevantCCF == true)
+                        {
+                            <MudItem xs="12">
+                                <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true">
+                                    <ColGroup>
+                                        <col style="width:5%;" /> Checkbox
+                                        <col style="width:15%;" /> Type
+                                        <col style="width:75%;" /> Description
+                                        <col style="width:5%;" /> Points
+                                    </ColGroup>
+                                    <HeaderContent>
+                                        <MudTh>Type</MudTh>
+                                        <MudTh>Description</MudTh>
+                                        <MudTh>Points</MudTh>
+                                    </HeaderContent>
+                                    <RowTemplate Context="tableContext">
+                                        <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                        <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                        <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
+                                    </RowTemplate>
+                                </MudTable>
+                            </MudItem>
+                        }
+                        else
+                        {
+                            <MudItem xs="12">
+                                <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
+                                    CCF is not relevant for this category of subsystem
+                                </MudText>
+                            </MudItem>
+                        }
                     </MudGrid>
                 </MudTabPanel>
 
-                <MudTabPanel Text="Elements">
+                <MudTabPanel Text="Elements" Disabled="@(subsystem.Category.Label == string.Empty || subsystem.Category.Label is null)">
                     <MudGrid Style="padding: 20px;">
                         @if (subsystem.Category.Channels == 1)
                         {
                             <MudItem xs="3" />
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="false"/>
                             </MudItem>
                             <MudItem xs="3" />
                         }
@@ -98,11 +109,11 @@
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="false"/>
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                <ElementPL Model="@(equalElements == true ? element1 : element2)" MTTFds="MTTFds" Producers="producers" DCs="DCs" />
+                                <ElementPL Model="@(equalElements == true ? element1 : element2)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="false"/>
                             </MudItem>
                         }
                     </MudGrid>
@@ -205,7 +216,6 @@
     private async Task OnValidSubmit()
     {
         disabled = true;
-        int id = 0;
 
         subsystem.Elements = new List<ElementDetailModelPL>();
         subsystem.Elements.Add(element1);
@@ -215,10 +225,7 @@
             subsystem.Elements.Add(element2);
 
         SubsystemCreationResponseModel response;
-        if (safetyFunctionId == 0)
-            response = await subsystemFacade.CreateAsync(subsystem);
-        else
-            response = await subsystemFacade.CreateAsync(subsystem, safetyFunctionId);
+        response = await subsystemFacade.CreateAsync(subsystem, safetyFunctionId);
 
         if (response.IsSuccess)
         {
@@ -230,11 +237,11 @@
 
             // Creating subsystem within safety function -> navigate to safety function detail
             if (safetyFunctionId != 0)
-                navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{machineId}/{accessPointId}/{safetyFunctionId}");
+                BackToSafetyFunction();
 
             // Creating independed subsystem -> navigate to subsystem detail
             else
-                navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{0}/{0}/{0}/{id}");
+                navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{0}/{0}/{0}/{response.SubsystemId}");
         }
         else
         {

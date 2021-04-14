@@ -131,10 +131,7 @@ namespace SSEA.DAL.Repositories
             dbContext.Attach(machine.MachineType).State = EntityState.Unchanged;
             dbContext.Attach(machine.Producer).State = EntityState.Unchanged;
             dbContext.Attach(machine.CurrentState).State = EntityState.Unchanged;
-
-            if (machine.TypeOfLogic != null)
-                dbContext.Attach(machine.TypeOfLogic).State = EntityState.Unchanged;
-
+            machine.TypeOfLogic = null;
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
             return machine.Id;
@@ -177,7 +174,7 @@ namespace SSEA.DAL.Repositories
             dbContext.ChangeTracker.Clear();
 
             Machine machine = await dbContext.Machines.Include(m => m.AccessPoints).AsNoTracking().FirstOrDefaultAsync(m => m.Id == machineId);
-            int nextStateId = 0;
+            int nextStateId = machine.CurrentStateId;
 
             if (stateId != 0)
             {

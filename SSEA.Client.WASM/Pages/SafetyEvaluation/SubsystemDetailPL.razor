@@ -69,49 +69,60 @@
 
                 <MudTabPanel Text="CCF">
                     <MudGrid Style="padding: 20px;">
-                        @if (onlyForReading)
+                        @if (subsystem.Category.RelevantCCF == true)
                         {
-                            <MudItem xs="12">
-                                <MudTable T="CCFModel" Items="@subsystem.SelectedCCFs" Dense="true" Hover="true" Outlined="true" ReadOnly="@onlyForReading">
-                                    <ColGroup>
-                                        <col style="width:15%;" /> Type
-                                        <col style="width:80%;" /> Description
-                                        <col style="width:5%;" /> Points
-                                    </ColGroup>
-                                    <HeaderContent>
-                                        <MudTh>Type</MudTh>
-                                        <MudTh>Description</MudTh>
-                                        <MudTh>Points</MudTh>
-                                    </HeaderContent>
-                                    <RowTemplate Context="tableContext">
-                                        <MudTd DataLabel="Name">@tableContext.Type</MudTd>
-                                        <MudTd DataLabel="Name">@tableContext.Description</MudTd>
-                                        <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
-                                    </RowTemplate>
-                                </MudTable>
-                            </MudItem>
+                            @if (onlyForReading)
+                            {
+                                <MudItem xs="12">
+                                    <MudTable T="CCFModel" Items="@subsystem.SelectedCCFs" Dense="true" Hover="true" Outlined="true" ReadOnly="@onlyForReading">
+                                        <ColGroup>
+                                            <col style="width:15%;" /> Type
+                                            <col style="width:80%;" /> Description
+                                            <col style="width:5%;" /> Points
+                                        </ColGroup>
+                                        <HeaderContent>
+                                            <MudTh>Type</MudTh>
+                                            <MudTh>Description</MudTh>
+                                            <MudTh>Points</MudTh>
+                                        </HeaderContent>
+                                        <RowTemplate Context="tableContext">
+                                            <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                            <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                            <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
+                                        </RowTemplate>
+                                    </MudTable>
+                                </MudItem>
+                            }
+                            else
+                            {
+                                <MudItem xs="12">
+                                    <MudTable T="CCFModel" MultiSelection="true" SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true">
+                                        <ColGroup>
+                                            <col style="width:5%;" /> Checkbox
+                                            <col style="width:15%;" /> Type
+                                            <col style="width:75%;" /> Description
+                                            <col style="width:5%;" /> Points
+                                        </ColGroup>
+                                        <HeaderContent>
+                                            <MudTh>Type</MudTh>
+                                            <MudTh>Description</MudTh>
+                                            <MudTh>Points</MudTh>
+                                        </HeaderContent>
+                                        <RowTemplate Context="tableContext">
+                                            <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                            <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                            <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
+                                        </RowTemplate>
+                                    </MudTable>
+                                </MudItem>
+                            }
                         }
                         else
                         {
                             <MudItem xs="12">
-                                <MudTable T="CCFModel" MultiSelection="true" SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true">
-                                    <ColGroup>
-                                        <col style="width:5%;" /> Checkbox
-                                        <col style="width:15%;" /> Type
-                                        <col style="width:75%;" /> Description
-                                        <col style="width:5%;" /> Points
-                                    </ColGroup>
-                                    <HeaderContent>
-                                        <MudTh>Type</MudTh>
-                                        <MudTh>Description</MudTh>
-                                        <MudTh>Points</MudTh>
-                                    </HeaderContent>
-                                    <RowTemplate Context="tableContext">
-                                        <MudTd DataLabel="Name">@tableContext.Type</MudTd>
-                                        <MudTd DataLabel="Name">@tableContext.Description</MudTd>
-                                        <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
-                                    </RowTemplate>
-                                </MudTable>
+                                <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
+                                    CCF is not relevant for this category of subsystem
+                                </MudText>
                             </MudItem>
                         }
                     </MudGrid>
@@ -119,24 +130,35 @@
 
                 <MudTabPanel Text="Elements">
                     <MudGrid Style="padding: 20px;">
-                        @if (subsystem.Category.Channels == 1)
+                        @if (subsystem.Elements is not null && subsystem.Elements.Count != 0)
                         {
-                            <MudItem xs="3" />
-                            <MudItem xs="6">
-                                <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="@onlyForReading"/>
-                            </MudItem>
-                            <MudItem xs="3" />
+                            @if (subsystem.Category.Channels == 1)
+                            {
+                                <MudItem xs="3" />
+                                <MudItem xs="6">
+                                    <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                    <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="@onlyForReading" />
+                                </MudItem>
+                                <MudItem xs="3" />
+                            }
+                            else
+                            {
+                                <MudItem xs="6">
+                                    <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                    <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="@onlyForReading" />
+                                </MudItem>
+                                <MudItem xs="6">
+                                    <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
+                                    <ElementPL Model="@subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="@onlyForReading" />
+                                </MudItem>
+                            }
                         }
                         else
                         {
-                            <MudItem xs="6">
-                                <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="@onlyForReading"/>
-                            </MudItem>
-                            <MudItem xs="6">
-                                <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                <ElementPL Model="@subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="@onlyForReading"/>
+                            <MudItem xs="12">
+                                <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
+                                    Detials are not available
+                                </MudText>
                             </MudItem>
                         }
                     </MudGrid>

@@ -10,7 +10,7 @@ using SSEA.DAL;
 namespace SSEA.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210408162845_InitialMigration")]
+    [Migration("20210411112847_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "8e40e214-1ec7-4798-b1ad-6df12ccc0983",
+                            ConcurrencyStamp = "f9a9c068-2961-4e69-954f-be3e16ffa144",
                             IsValid = true,
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
@@ -65,7 +65,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3fddc30d-38ba-4445-9580-0e11450ba067",
+                            ConcurrencyStamp = "213f4fef-bdb5-4c4c-8e4b-9f05915e9beb",
                             IsValid = true,
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
@@ -73,7 +73,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "a9440705-bcc6-41ab-af98-10add59a8c76",
+                            ConcurrencyStamp = "cf697e61-319c-46b9-b2ae-a5820164bb23",
                             IsValid = true,
                             Name = "SafetyEvaluationAdmin",
                             NormalizedName = "SAFETYEVALUATIONADMIN"
@@ -81,7 +81,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "dfca4985-69b1-4091-8654-67530a7746b9",
+                            ConcurrencyStamp = "9a1290cf-bb0f-4002-8664-c2b58e9bfd5d",
                             IsValid = true,
                             Name = "UserAdmin",
                             NormalizedName = "USERADMIN"
@@ -1364,6 +1364,8 @@ namespace SSEA.DAL.Migrations
 
                     b.HasIndex("MaxSILId");
 
+                    b.HasIndex("SubsystemId");
+
                     b.ToTable("TypeOfLogic");
 
                     b.HasData(
@@ -1383,7 +1385,7 @@ namespace SSEA.DAL.Migrations
                             NameEN = "Relay",
                             SI = 4,
                             SO = 4,
-                            SubsystemId = 0
+                            SubsystemId = 1
                         },
                         new
                         {
@@ -1401,7 +1403,7 @@ namespace SSEA.DAL.Migrations
                             NameEN = "CR30",
                             SI = 12,
                             SO = 10,
-                            SubsystemId = 0
+                            SubsystemId = 2
                         },
                         new
                         {
@@ -1418,7 +1420,7 @@ namespace SSEA.DAL.Migrations
                             NameEN = "GMX",
                             SI = 6144,
                             SO = 6144,
-                            SubsystemId = 0
+                            SubsystemId = 3
                         },
                         new
                         {
@@ -1435,7 +1437,7 @@ namespace SSEA.DAL.Migrations
                             NameEN = "GLX",
                             SI = 65536,
                             SO = 65536,
-                            SubsystemId = 0
+                            SubsystemId = 4
                         });
                 });
 
@@ -3471,6 +3473,88 @@ namespace SSEA.DAL.Migrations
                     b.HasIndex("TypeOfSubsystemId");
 
                     b.ToTable("Subsystem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ArchitectureId = 4,
+                            CFF = 0.0,
+                            CategoryId = 5,
+                            CurrentStateId = 16,
+                            DCresultId = 4,
+                            DateTimeCreated = new DateTime(2021, 4, 11, 13, 28, 46, 375, DateTimeKind.Local).AddTicks(8906),
+                            Description = "Relay",
+                            IdCreated = 0,
+                            IsRemoved = false,
+                            MTTFdResultId = 3,
+                            OperationPrincipleId = 4,
+                            PFHdResultId = 1,
+                            PLresultId = 5,
+                            SFFresult = (short)0,
+                            TypeOfSubsystemId = 3,
+                            ValidCCF = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ArchitectureId = 4,
+                            CFF = 0.0,
+                            CategoryId = 5,
+                            CurrentStateId = 16,
+                            DCresultId = 4,
+                            DateTimeCreated = new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1207),
+                            Description = "CR30",
+                            IdCreated = 0,
+                            IsRemoved = false,
+                            MTTFdResultId = 3,
+                            OperationPrincipleId = 2,
+                            PFHdResultId = 1,
+                            PLresultId = 5,
+                            SFFresult = (short)0,
+                            TypeOfSubsystemId = 3,
+                            ValidCCF = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ArchitectureId = 4,
+                            CFF = 0.0,
+                            CategoryId = 5,
+                            CurrentStateId = 16,
+                            DCresultId = 4,
+                            DateTimeCreated = new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1256),
+                            Description = "GMX",
+                            IdCreated = 0,
+                            IsRemoved = false,
+                            MTTFdResultId = 3,
+                            OperationPrincipleId = 2,
+                            PFHdResultId = 1,
+                            PLresultId = 5,
+                            SFFresult = (short)0,
+                            TypeOfSubsystemId = 3,
+                            ValidCCF = true
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ArchitectureId = 4,
+                            CFF = 0.0,
+                            CategoryId = 5,
+                            CurrentStateId = 16,
+                            DCresultId = 4,
+                            DateTimeCreated = new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1261),
+                            Description = "GLX",
+                            IdCreated = 0,
+                            IsRemoved = false,
+                            MTTFdResultId = 3,
+                            OperationPrincipleId = 2,
+                            PFHdResultId = 1,
+                            PLresultId = 5,
+                            SFFresult = (short)0,
+                            TypeOfSubsystemId = 3,
+                            ValidCCF = true
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.System.Entity", b =>
@@ -3961,6 +4045,12 @@ namespace SSEA.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Subsystem", "Subsystem")
+                        .WithMany()
+                        .HasForeignKey("SubsystemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("MaxArchitecture");
 
                     b.Navigation("MaxCategory");
@@ -3968,6 +4058,8 @@ namespace SSEA.DAL.Migrations
                     b.Navigation("MaxPL");
 
                     b.Navigation("MaxSIL");
+
+                    b.Navigation("Subsystem");
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.Category", b =>

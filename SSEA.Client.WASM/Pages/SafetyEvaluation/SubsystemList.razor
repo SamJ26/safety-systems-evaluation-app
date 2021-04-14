@@ -36,8 +36,8 @@
                         <MudItem xs="2">
                             <MudSelect @bind-Value="stateId" T="int" Label="State of record" Strict="true" Variant="Variant.Outlined" Format="F2">
                                 <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(15)">Used</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(16)">Unused</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(15)">Použitý</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(16)">Nepoužitý</MudSelectItem>
                             </MudSelect>
                         </MudItem>
                         <MudItem xs="3">
@@ -143,6 +143,9 @@
                             <MudTd DataLabel="DC">@context.Dc</MudTd>
                             <MudTd DataLabel="PL">@context.Pl</MudTd>
                         </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[]{10, 15}" />
+                        </PagerContent>
                     </MudTable>
                 }
                 if (evaluationMethodId == 2)
@@ -175,6 +178,9 @@
                             <MudTd DataLabel="SFF">@context.Sff</MudTd>
                             <MudTd DataLabel="SIL">@context.Sil</MudTd>
                         </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[]{10, 15}" />
+                        </PagerContent>
                     </MudTable>
                 }
                 @if (notFound)
@@ -202,8 +208,8 @@
     [Inject]
     private IDialogService dialogService { get; set; }
 
-    private ICollection<SubsystemListModelPL> subsystemsPL;
-    private ICollection<SubsystemListModelSIL> subsystemsSIL;
+    private ICollection<SubsystemListModelPL> subsystemsPL = new List<SubsystemListModelPL>();
+    private ICollection<SubsystemListModelSIL> subsystemsSIL = new List<SubsystemListModelSIL>();
 
     private int evaluationMethodId = 1;
     private int stateId;
@@ -246,12 +252,12 @@
         if (evaluationMethodId == 1)
         {
             subsystemsPL = await subsystemFacade.GetAllPLAsync(stateId, typeOfSubsystemId, operationPrincipleId, categoryId, performanceLevelId);
-            notFound = (subsystemsPL is null || subsystemsPL.Count == 0) ? true : false;
+            notFound = subsystemsPL is null || subsystemsPL.Count == 0;
         }
         else
         {
             subsystemsSIL = await subsystemFacade.GetAllSILAsync(stateId, typeOfSubsystemId, operationPrincipleId, architectureId, silId);
-            notFound = (subsystemsSIL is null || subsystemsSIL.Count == 0) ? true : false;
+            notFound = subsystemsSIL is null || subsystemsSIL.Count == 0;
         }
         disabled = false;
         StateHasChanged();

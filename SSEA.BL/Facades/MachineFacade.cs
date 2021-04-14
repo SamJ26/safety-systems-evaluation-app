@@ -130,14 +130,15 @@ namespace SSEA.BL.Facades
             await machineRepository.DeleteAsync(machineId, userId);
         }
 
-        // TODO: test this method
         public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId, int userId)
         {
+            int inputSubsystemId = 1;
+            int outputSubsystemId = 2;
             int inputLogicSubsystemId = 4;
             int outputLogicSubsystemId = 5;
 
-            int readyForEvaluationStateNumber = 3;
-            int workInProgressStateNumber = 2;
+            int safetyFunctionReadyForEvaluationStateNumber = 3;
+            int accessPointWorkInProgressStateNumber = 2;
 
             // Getting machine with all its access points
             MachineDetailModel machine = await GetByIdAsync(machineId);
@@ -152,15 +153,16 @@ namespace SSEA.BL.Facades
                     Message = "The machine has no access points",
                 };
 
-            HashSet<SubsystemDetailModelPL> subsystems = new();
+            HashSet<Subsystem> subsystems = new();
 
             uint accessPointsWithoutSafetyFunction = 0;
+            bool machineWithoutSafetyFunction = true;
 
             // Searching cycle for getting all input-logic and output-logic subsystems
             foreach (var accessPoint in machine.AccessPoints)
             {
                 // Checking if current access point has at least one safety function
-                if (accessPoint.CurrentState.StateNumber < workInProgressStateNumber)
+                if (accessPoint.CurrentState.StateNumber < accessPointWorkInProgressStateNumber)
                 {
                     ++accessPointsWithoutSafetyFunction;
                     continue;
@@ -171,7 +173,9 @@ namespace SSEA.BL.Facades
 
                 foreach (var safetyFunction in safetyFunctions)
                 {
-                    if (safetyFunction.CurrentState.StateNumber < readyForEvaluationStateNumber)
+                    machineWithoutSafetyFunction = false;
+
+                    if (safetyFunction.CurrentState.StateNumber < safetyFunctionReadyForEvaluationStateNumber)
                         return new MachineLogicSelectionResponseModel()
                         {
                             IsSuccess = false,
@@ -179,15 +183,25 @@ namespace SSEA.BL.Facades
                         };
 
                     // Getting all subsystems used for given safety function
-                    var usedSubsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionPLAsync(safetyFunction.Id));
-                    
-                    foreach (var subsytem in usedSubsystems)
-                        if (subsytem.TypeOfSubsystem.Id == inputLogicSubsystemId || subsytem.TypeOfSubsystem.Id == outputLogicSubsystemId)
-                            subsystems.Add(subsytem);
+                    var usedSubsystems = await safetyFunctionRepository.GetSubsystemsForSafetyFunctionAsync(safetyFunction.Id);
+
+                    // If safety function has input-logic subsystem than use this one instead of input subsystem for further processing
+                    var inputLogicSubsystem = usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputLogicSubsystemId);
+                    if (inputLogicSubsystem is not null)
+                        subsystems.Add(inputLogicSubsystem);
+                    else
+                        subsystems.Add(usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputSubsystemId));
+
+                    // If safety function has output-logic subsystem than use this one instead of output subsystem for further processing
+                    var outputLogicSubsystem = usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == outputLogicSubsystemId);
+                    if (outputLogicSubsystem is not null)
+                        subsystems.Add(outputLogicSubsystem);
+                    else
+                        subsystems.Add(usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == outputSubsystemId));
                 }
             }
 
-            if (accessPointsWithoutSafetyFunction == machine.AccessPoints.Count)
+            if (accessPointsWithoutSafetyFunction == machine.AccessPoints.Count || machineWithoutSafetyFunction)
                 return new MachineLogicSelectionResponseModel()
                 {
                     IsSuccess = false,
@@ -200,17 +214,17 @@ namespace SSEA.BL.Facades
             // At this point we are ready to iterate found subsystems and count their elements
             foreach (var subsystem in subsystems)
             {
-                if (subsystem.TypeOfSubsystem.Id == inputLogicSubsystemId)
-                    inputs += (uint)subsystem.Elements.Count;
-                if (subsystem.TypeOfSubsystem.Id == outputLogicSubsystemId)
-                    outputs += (uint)subsystem.Elements.Count;
+                if (subsystem.TypeOfSubsystem.Id == inputLogicSubsystemId || subsystem.TypeOfSubsystem.Id == inputSubsystemId)
+                    inputs += (uint)(subsystem.Category is not null ? subsystem.Category.Channels : subsystem.Architecture.Channels);
+                if (subsystem.TypeOfSubsystem.Id == outputLogicSubsystemId || subsystem.TypeOfSubsystem.Id == outputSubsystemId)
+                    outputs += (uint)(subsystem.Category is not null ? subsystem.Category.Channels : subsystem.Architecture.Channels);
             }
 
             if (inputs == 0 || outputs == 0)
                 return new MachineLogicSelectionResponseModel()
                 {
                     IsSuccess = false,
-                    Message = "Number if standard inputs or outputs is zero"
+                    Message = "Number of standard inputs or outputs is zero"
                 };
 
             // Selecting proper logic for given machine according to number of SI and SO
@@ -226,7 +240,7 @@ namespace SSEA.BL.Facades
             return new MachineLogicSelectionResponseModel()
             {
                 IsSuccess = true,
-                Message = "Logic selected successfully - save machine and than evaluate its safety functions",
+                Message = "Logic selected successfully",
                 Logic = logic,
             };
         }
@@ -277,5 +291,23 @@ namespace SSEA.BL.Facades
                 Message = "Evaluation was successfull",
             };
         }
+
+        /* Vybrat masinu s access pointami z DB
+         * Vybrat z DB subsystem podla vybranej logiky
+         * Prejst vsetky AP:
+         * - Pre každy AP vybrať všetky SF
+         * - Prejst všetky SF a pre každu SF:
+         * -- AK SF nema log susystem tak pridat logicky subsystem a vyhodnotit ju - vysledok ktory sa vrati ulozit do nejakeho listu
+         * -- Ak SF ma log subsystem ale neni vyhodnotena tak ju vyhodnotit - vysledok ktory sa vrati ulozit do nejakeho listu
+         * -- Ak je SF vyhodnotena tak ju preskocit
+         * Podla vysledku vyhodnocovania SF nastavit stav pre masinu
+         * Vratit vysledok (zoznam s prehladom)
+         *
+         * Vratit IsSuccess = true a nejaku message ak sa vsetko podari a nejaky zoznam s polozkami:
+         * - AP ku ktoremu SF patri (jeho ID a meno)
+         * - Meno SF a jej ID
+         * - Vysledok vyhodnotenia SF - message a true/false
+         *
+         */
     }
 }

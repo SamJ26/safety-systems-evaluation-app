@@ -15,15 +15,17 @@ namespace SSEA.BL.Facades
     public class SafetyFunctionFacade
     {
         private readonly IMapper mapper;
-        private readonly SafetyFunctionRepository safetyFunctionRepository;
         private readonly SubsystemRepository subsystemRepository;
+        private readonly SafetyFunctionRepository safetyFunctionRepository;
+        private readonly AccessPointFacade accessPointFacade;
         private readonly IPerformanceLevelService performanceLevelService;
 
-        public SafetyFunctionFacade(IMapper mapper, SafetyFunctionRepository safetyFunctionRepository, SubsystemRepository subsystemRepository, IPerformanceLevelService performanceLevelService)
+        public SafetyFunctionFacade(IMapper mapper, SafetyFunctionRepository safetyFunctionRepository, SubsystemRepository subsystemRepository, AccessPointFacade accessPointFacade, IPerformanceLevelService performanceLevelService)
         {
             this.mapper = mapper;
-            this.safetyFunctionRepository = safetyFunctionRepository;
             this.subsystemRepository = subsystemRepository;
+            this.safetyFunctionRepository = safetyFunctionRepository;
+            this.accessPointFacade = accessPointFacade;
             this.performanceLevelService = performanceLevelService;
         }
 
@@ -63,14 +65,20 @@ namespace SSEA.BL.Facades
             return safetyFunction;
         }
 
-        public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel, int userId)
+        public async Task<int> CreateAsync(SafetyFunctionDetailModelPL newModel, int userId, int accessPointId)
         {
             // Evaluating required PL
             if (newModel.S is not null && newModel.F is not null && newModel.P is not null)
                 newModel.PLr = await performanceLevelService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
 
             var entity = mapper.Map<SafetyFunction>(newModel);
-            return await safetyFunctionRepository.CreateAsync(entity, userId);
+            int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
+
+            // If safety function was saved successfully and accessPointId is not zero than we have to create new record in AccessPointSafetyFunction join table
+            if (safetyFunctionId != 0 && accessPointId != 0)
+                await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+
+            return safetyFunctionId;
         }
 
         // TODO: Create SF SIL
@@ -165,7 +173,7 @@ namespace SSEA.BL.Facades
 
             return new SafetyEvaluationResponseModel()
             {
-                IsSuccess = false,
+                IsSuccess = true,
                 Message = $"Resultant PL is invalid ... [Required PL = {safetyFunction.PLr.Label}] > [Resultant PL = {safetyFunction.PLresult.Label}]",
             };
         }
