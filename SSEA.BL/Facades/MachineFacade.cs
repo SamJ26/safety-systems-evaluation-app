@@ -240,7 +240,7 @@ namespace SSEA.BL.Facades
             return new MachineLogicSelectionResponseModel()
             {
                 IsSuccess = true,
-                Message = "Logic selected successfully - save machine and than evaluate its safety functions",
+                Message = "Logic selected successfully",
                 Logic = logic,
             };
         }
