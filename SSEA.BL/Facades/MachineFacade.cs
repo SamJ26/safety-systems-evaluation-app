@@ -19,14 +19,21 @@ namespace SSEA.BL.Facades
         private readonly AccessPointRepository accessPointRepository;
         public readonly SafetyFunctionRepository safetyFunctionRepository;
         private readonly CodeListFacade codeListFacade;
+        private readonly SafetyFunctionFacade safetyFunctionFacade;
 
-        public MachineFacade(IMapper mapper, MachineRepository machineRepository, AccessPointRepository accessPointRepository, SafetyFunctionRepository safetyFunctionRepository, CodeListFacade codeListFacade)
+        public MachineFacade(IMapper mapper,
+                             MachineRepository machineRepository,
+                             AccessPointRepository accessPointRepository,
+                             SafetyFunctionRepository safetyFunctionRepository,
+                             CodeListFacade codeListFacade,
+                             SafetyFunctionFacade safetyFunctionFacade)
         {
             this.mapper = mapper;
             this.machineRepository = machineRepository;
             this.accessPointRepository = accessPointRepository;
             this.safetyFunctionRepository = safetyFunctionRepository;
             this.codeListFacade = codeListFacade;
+            this.safetyFunctionFacade = safetyFunctionFacade;
         }
 
         public async Task<int> CreateAsync(MachineDetailModel newModel, int userId)
@@ -268,22 +275,73 @@ namespace SSEA.BL.Facades
                 return typeOfLogics.FirstOrDefault(tol => tol.Id == 4);
         }
 
-        // TODO: add complete implementation
+        // TODO: test this method
+        // TODO: make it work for both PL and SIL using func method for evaluatio of safety function ?
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId, int userId)
         {
             int machineEvaluatedValidStateId = 4;
             int machineEvaluatedInvalidStateId = 5;
-
             int accessPointProtectedStateId = 8;
             int accessPointNotProtectedStateId = 9;
 
-            int nextMachineStateId = 0;
+            // Getting machine with all its access points
+            MachineDetailModel machine = await GetByIdAsync(machineId);
 
-            // TODO: set nextmachineStateId according to result of this method
-            // TODO: call accessPointRepository.UpdateAccessPointStateAsync for each access point on machine
+            // Check if machine has selected logic
+            if (machine.CurrentState.StateNumber < 3 || machine.TypeOfLogic is null)
+                return new SafetyEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = "Logic is not selected",
+                };
+
+            bool machineWithInvalidSafetyFunction = false;
+
+            // Iterating over all acess points of machine
+            foreach (var accessPoint in machine.AccessPoints)
+            {
+                bool accessPointProtected = false;
+
+                // Access point is new -> has no safety functions
+                if (accessPoint.CurrentState.StateNumber < 7)
+                    continue;
+
+                // Getting all safety functions for current access point
+                var safetyFunctions = mapper.Map<ICollection<SafetyFunctionListModel>>(await accessPointRepository.GetSafetyFunctionsForAccessPointAsync(accessPoint.Id));
+
+                // Iterating over all safety functions of access point
+                foreach (var safetyFunction in safetyFunctions)
+                {
+                    // If safety function is already evaluated than continue to next one
+                    if (safetyFunction.CurrentState.StateNumber >= 4)
+                        continue;
+
+                    bool hasLogic = await safetyFunctionRepository.SafetyFunctionHasLogicAsync(safetyFunction.Id);
+                    SafetyEvaluationResponseModel evaluationResult;
+
+                    // Safety function has logical subsystem but is not evaluated -> evaluate safety function
+                    if (hasLogic)
+                        evaluationResult = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(safetyFunction.Id, userId);
+
+                    // If safety function has not logical subsystem -> add logical subsystem and evaluate safety
+                    else
+                    {
+                        await safetyFunctionFacade.AddSubsystemAsync(safetyFunction.Id, machine.TypeOfLogic.SubsystemId, userId);
+                        evaluationResult = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(safetyFunction.Id, userId);
+                    }
+
+                    if (evaluationResult.IsValidSafetyLevel)
+                        accessPointProtected = true;
+                    else
+                        machineWithInvalidSafetyFunction = true;
+                }
+
+                // UPDATING STATE OF ACCESS POINT
+                await accessPointRepository.UpdateAccessPointStateAsync(accessPoint.Id, userId, accessPointProtected == true ? accessPointProtectedStateId : accessPointNotProtectedStateId);
+            }
 
             // UPDATING STATE OF MACHINE
-            await machineRepository.UpdateMachineStateAsync(machineId, userId, nextMachineStateId);
+            await machineRepository.UpdateMachineStateAsync(machineId, userId, machineWithInvalidSafetyFunction == true ? machineEvaluatedInvalidStateId : machineEvaluatedValidStateId);
 
             return new SafetyEvaluationResponseModel()
             {
@@ -291,23 +349,5 @@ namespace SSEA.BL.Facades
                 Message = "Evaluation was successfull",
             };
         }
-
-        /* Vybrat masinu s access pointami z DB
-         * Vybrat z DB subsystem podla vybranej logiky
-         * Prejst vsetky AP:
-         * - Pre každy AP vybrať všetky SF
-         * - Prejst všetky SF a pre každu SF:
-         * -- AK SF nema log susystem tak pridat logicky subsystem a vyhodnotit ju - vysledok ktory sa vrati ulozit do nejakeho listu
-         * -- Ak SF ma log subsystem ale neni vyhodnotena tak ju vyhodnotit - vysledok ktory sa vrati ulozit do nejakeho listu
-         * -- Ak je SF vyhodnotena tak ju preskocit
-         * Podla vysledku vyhodnocovania SF nastavit stav pre masinu
-         * Vratit vysledok (zoznam s prehladom)
-         *
-         * Vratit IsSuccess = true a nejaku message ak sa vsetko podari a nejaky zoznam s polozkami:
-         * - AP ku ktoremu SF patri (jeho ID a meno)
-         * - Meno SF a jej ID
-         * - Vysledok vyhodnotenia SF - message a true/false
-         *
-         */
     }
 }

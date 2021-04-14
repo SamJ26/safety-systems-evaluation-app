@@ -168,12 +168,14 @@ namespace SSEA.BL.Facades
                 return new SafetyEvaluationResponseModel()
                 {
                     IsSuccess = true,
+                    IsValidSafetyLevel = true,
                     Message = $"Resultant PL is valid ... [Required PL = {safetyFunction.PLr.Label}] <= [Resultant PL = {safetyFunction.PLresult.Label}]",
                 };
 
             return new SafetyEvaluationResponseModel()
             {
                 IsSuccess = true,
+                IsValidSafetyLevel = false,
                 Message = $"Resultant PL is invalid ... [Required PL = {safetyFunction.PLr.Label}] > [Resultant PL = {safetyFunction.PLresult.Label}]",
             };
         }

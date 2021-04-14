@@ -8,5 +8,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels
     {
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
+        public bool IsValidSafetyLevel { get; set; }
     }
 }
