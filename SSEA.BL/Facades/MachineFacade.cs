@@ -153,7 +153,7 @@ namespace SSEA.BL.Facades
                     Message = "The machine has no access points",
                 };
 
-            HashSet<SubsystemDetailModelPL> subsystems = new();
+            HashSet<Subsystem> subsystems = new();
 
             uint accessPointsWithoutSafetyFunction = 0;
             bool machineWithoutSafetyFunction = true;
@@ -183,7 +183,7 @@ namespace SSEA.BL.Facades
                         };
 
                     // Getting all subsystems used for given safety function
-                    var usedSubsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionAsync(safetyFunction.Id));
+                    var usedSubsystems = await safetyFunctionRepository.GetSubsystemsForSafetyFunctionAsync(safetyFunction.Id);
 
                     // If safety function has input-logic subsystem than use this one instead of input subsystem for further processing
                     var inputLogicSubsystem = usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputLogicSubsystemId);
@@ -215,9 +215,9 @@ namespace SSEA.BL.Facades
             foreach (var subsystem in subsystems)
             {
                 if (subsystem.TypeOfSubsystem.Id == inputLogicSubsystemId || subsystem.TypeOfSubsystem.Id == inputSubsystemId)
-                    inputs += (uint)subsystem.Category.Channels;
+                    inputs += (uint)(subsystem.Category is not null ? subsystem.Category.Channels : subsystem.Architecture.Channels);
                 if (subsystem.TypeOfSubsystem.Id == outputLogicSubsystemId || subsystem.TypeOfSubsystem.Id == outputSubsystemId)
-                    outputs += (uint)subsystem.Category.Channels;
+                    outputs += (uint)(subsystem.Category is not null ? subsystem.Category.Channels : subsystem.Architecture.Channels);
             }
 
             if (inputs == 0 || outputs == 0)
