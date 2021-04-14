@@ -132,9 +132,6 @@ namespace SSEA.DAL.Repositories
             dbContext.Attach(machine.Producer).State = EntityState.Unchanged;
             dbContext.Attach(machine.CurrentState).State = EntityState.Unchanged;
 
-            if (machine.TypeOfLogic != null)
-                dbContext.Attach(machine.TypeOfLogic).State = EntityState.Unchanged;
-
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
             return machine.Id;

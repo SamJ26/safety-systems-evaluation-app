@@ -187,18 +187,18 @@ namespace SSEA.BL.Facades
                     var usedSubsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionPLAsync(safetyFunction.Id));
 
                     // If safety function has input-logic subsystem than use this one instead of input subsystem for further processing
-                    var inputLogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputLogicSubsystemId);
+                    var inputLogicSubsystem = usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputLogicSubsystemId);
                     if (inputLogicSubsystem is not null)
                         subsystems.Add(inputLogicSubsystem);
                     else
-                        subsystems.Add(subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputSubsystemId));
+                        subsystems.Add(usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == inputSubsystemId));
 
                     // If safety function has output-logic subsystem than use this one instead of output subsystem for further processing
-                    var outputLogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == outputLogicSubsystemId);
+                    var outputLogicSubsystem = usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == outputLogicSubsystemId);
                     if (outputLogicSubsystem is not null)
                         subsystems.Add(outputLogicSubsystem);
                     else
-                        subsystems.Add(subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == outputSubsystemId));
+                        subsystems.Add(usedSubsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == outputSubsystemId));
                 }
             }
 
@@ -215,10 +215,10 @@ namespace SSEA.BL.Facades
             // At this point we are ready to iterate found subsystems and count their elements
             foreach (var subsystem in subsystems)
             {
-                if (subsystem.TypeOfSubsystem.Id == inputLogicSubsystemId)
-                    inputs += (uint)subsystem.Elements.Count;
-                if (subsystem.TypeOfSubsystem.Id == outputLogicSubsystemId)
-                    outputs += (uint)subsystem.Elements.Count;
+                if (subsystem.TypeOfSubsystem.Id == inputLogicSubsystemId || subsystem.TypeOfSubsystem.Id == inputSubsystemId)
+                    inputs += (uint)subsystem.Category.Channels;
+                if (subsystem.TypeOfSubsystem.Id == outputLogicSubsystemId || subsystem.TypeOfSubsystem.Id == outputSubsystemId)
+                    outputs += (uint)subsystem.Category.Channels;
             }
 
             if (inputs == 0 || outputs == 0)
