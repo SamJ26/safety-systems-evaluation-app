@@ -128,5 +128,19 @@ namespace SSEA.Api.Controllers
             var response = await machineFacade.EvaluateSafetyAsync(id, userId);
             return Ok(response);
         }
+
+        // GET: api/machine/machineSafetySummary/{id}
+        [HttpGet("machineSafetySummary/{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "MachinGetSafetySummary")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<MachineSafetySummaryModel>> GetSafetySummaryAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var response = await machineFacade.GetSafetyEvaluationSummary(id);
+            return Ok(response);
+        }
     }
 }
