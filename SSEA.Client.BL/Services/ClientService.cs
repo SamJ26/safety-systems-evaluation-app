@@ -3301,6 +3301,24 @@ namespace SSEA.Client.BL.Services
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class AccessPointInfo
+    {
+        [Newtonsoft.Json.JsonProperty("accessPointId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int AccessPointId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("accessPointName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string AccessPointName { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("accessPointState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public StateModel AccessPointState { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("safetyFunctions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<SafetyFunctionInfo> SafetyFunctions { get; set; }
+
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class AccessPointListModel
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -3829,8 +3847,8 @@ namespace SSEA.Client.BL.Services
         [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Message { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("summary", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<AccessPointInfo, System.Collections.Generic.ICollection<SafetyFunctionInfo>> Summary { get; set; }
+        [Newtonsoft.Json.JsonProperty("accessPoints", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<AccessPointInfo> AccessPoints { get; set; }
 
 
     }
@@ -4244,21 +4262,6 @@ namespace SSEA.Client.BL.Services
 
         [Newtonsoft.Json.JsonProperty("safetyFunctionState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StateModel SafetyFunctionState { get; set; }
-
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class AccessPointInfo
-    {
-        [Newtonsoft.Json.JsonProperty("accessPointId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int AccessPointId { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("accessPointName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string AccessPointName { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("accessPointState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public StateModel AccessPointState { get; set; }
 
 
     }
