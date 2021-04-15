@@ -352,5 +352,51 @@ namespace SSEA.BL.Facades
                 Message = "Evaluation was successfull",
             };
         }
+
+        // TODO: test this method
+        public async Task<MachineSafetySummaryModel> GetSafetyEvaluationSummary(int machineId)
+        {
+            // Getting machine with all its access points
+            MachineDetailModel machine = await GetByIdAsync(machineId);
+
+            MachineSafetySummaryModel model = new()
+            {
+                MachineId = machine.Id,
+                MachineName = machine.Name,
+                MachineState = machine.CurrentState,
+                Summary = new Dictionary<AccessPointInfo, List<SafetyFunctionInfo>>(),
+            };
+
+            // Iterating over all acess points of machine
+            foreach (var accessPoint in machine.AccessPoints)
+            {
+                AccessPointInfo accessPointInfo = new()
+                {
+                    AccessPointId = accessPoint.Id,
+                    AccessPointName = accessPoint.Name,
+                    AccessPointState = accessPoint.CurrentState,
+                };
+
+                // Getting all safety functions for current access point
+                var safetyFunctions = mapper.Map<ICollection<SafetyFunctionListModel>>(await accessPointRepository.GetSafetyFunctionsForAccessPointAsync(accessPoint.Id));
+
+                List<SafetyFunctionInfo> safetyFunctionsInfo = new();
+                
+                // Iterating over all safety functions of selected access point and adding them to safetyFunctionsInfo
+                foreach (var safetyFunction in safetyFunctions)
+                {
+                    SafetyFunctionInfo safetyFunctionInfo = new()
+                    {
+                        SafetyFunctionId = safetyFunction.Id,
+                        SafetyFunctionName = safetyFunction.Name,
+                        SafetyFunctionState = safetyFunction.CurrentState,
+                    };
+                    safetyFunctionsInfo.Add(safetyFunctionInfo);
+                }
+                // Adding selected access point with its safety functions to dictionary
+                model.Summary.Add(accessPointInfo, safetyFunctionsInfo);
+            }
+            return model;
+        }
     }
 }
