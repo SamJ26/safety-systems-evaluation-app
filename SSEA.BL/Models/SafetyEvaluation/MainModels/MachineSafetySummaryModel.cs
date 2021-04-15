@@ -10,7 +10,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels
         public string MachineName { get; set; }
         public StateModel MachineState { get; set; }
         public string Message { get; set; }
-        public Dictionary<AccessPointInfo, List<SafetyFunctionInfo>> Summary { get; set; }
+        public ICollection<AccessPointInfo> AccessPoints { get; set; }
     }
 
     public class AccessPointInfo
@@ -18,6 +18,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels
         public int AccessPointId { get; set; }
         public string AccessPointName { get; set; }
         public StateModel AccessPointState { get; set; }
+        public ICollection<SafetyFunctionInfo> SafetyFunctions { get; set; }
     }
 
     public class SafetyFunctionInfo

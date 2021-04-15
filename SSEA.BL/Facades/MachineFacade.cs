@@ -364,7 +364,7 @@ namespace SSEA.BL.Facades
                 MachineId = machine.Id,
                 MachineName = machine.Name,
                 MachineState = machine.CurrentState,
-                Summary = new Dictionary<AccessPointInfo, List<SafetyFunctionInfo>>(),
+                AccessPoints = new List<AccessPointInfo>(),
             };
 
             // Iterating over all acess points of machine
@@ -375,14 +375,13 @@ namespace SSEA.BL.Facades
                     AccessPointId = accessPoint.Id,
                     AccessPointName = accessPoint.Name,
                     AccessPointState = accessPoint.CurrentState,
+                    SafetyFunctions = new List<SafetyFunctionInfo>(),
                 };
 
                 // Getting all safety functions for current access point
                 var safetyFunctions = mapper.Map<ICollection<SafetyFunctionListModel>>(await accessPointRepository.GetSafetyFunctionsForAccessPointAsync(accessPoint.Id));
-
-                List<SafetyFunctionInfo> safetyFunctionsInfo = new();
                 
-                // Iterating over all safety functions of selected access point and adding them to safetyFunctionsInfo
+                // Iterating over all safety functions of selected access point
                 foreach (var safetyFunction in safetyFunctions)
                 {
                     SafetyFunctionInfo safetyFunctionInfo = new()
@@ -391,10 +390,10 @@ namespace SSEA.BL.Facades
                         SafetyFunctionName = safetyFunction.Name,
                         SafetyFunctionState = safetyFunction.CurrentState,
                     };
-                    safetyFunctionsInfo.Add(safetyFunctionInfo);
+                    accessPointInfo.SafetyFunctions.Add(safetyFunctionInfo);
                 }
-                // Adding selected access point with its safety functions to dictionary
-                model.Summary.Add(accessPointInfo, safetyFunctionsInfo);
+                // Adding selected access point with its safety functions to main model which will be returned
+                model.AccessPoints.Add(accessPointInfo);
             }
             return model;
         }

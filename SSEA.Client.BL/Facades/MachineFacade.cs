@@ -55,5 +55,11 @@ namespace SSEA.Client.BL.Facades
             Console.WriteLine("MachineFacade.EvaluateSafety(int id)");
             return await clientService.MachineEvaluateSafetyAsync(id);
         }
+
+        public async Task<MachineSafetySummaryModel> GetMachineSafetySummaryAsync(int id)
+        {
+            Console.WriteLine("MachineFacade.GetMachineSafetySummaryAsync(int id)");
+            return await clientService.MachinGetSafetySummaryAsync(id);
+        }
     }
 }
