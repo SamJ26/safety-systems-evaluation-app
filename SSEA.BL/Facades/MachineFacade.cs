@@ -275,7 +275,6 @@ namespace SSEA.BL.Facades
                 return typeOfLogics.FirstOrDefault(tol => tol.Id == 4);
         }
 
-        // TODO: test this method
         // TODO: make it work for both PL and SIL using func method for evaluatio of safety function ?
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId, int userId)
         {
@@ -303,7 +302,7 @@ namespace SSEA.BL.Facades
                 bool accessPointProtected = false;
 
                 // Access point is new -> has no safety functions
-                if (accessPoint.CurrentState.StateNumber < 7)
+                if (accessPoint.CurrentState.StateNumber < 2)
                     continue;
 
                 // Getting all safety functions for current access point
@@ -314,7 +313,11 @@ namespace SSEA.BL.Facades
                 {
                     // If safety function is already evaluated than continue to next one
                     if (safetyFunction.CurrentState.StateNumber >= 4)
+                    {
+                        if (safetyFunction.CurrentState.StateNumber == 4)
+                            accessPointProtected = true;
                         continue;
+                    }
 
                     bool hasLogic = await safetyFunctionRepository.SafetyFunctionHasLogicAsync(safetyFunction.Id);
                     SafetyEvaluationResponseModel evaluationResult;
