@@ -8,7 +8,7 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Detail of safety function</MudText>
+                <MudText Typo="Typo.h5"><strong>Detail of safety function</strong> [ @(safetyFunction.CurrentState is not null ? safetyFunction.CurrentState.Name : "Unknown") ]</MudText>
                 <MudText Typo="Typo.body2">Created - user ID: @safetyFunction.IdCreated, time: @safetyFunction.DateTimeCreated</MudText>
                 @if (safetyFunction.IdUpdated != null)
                 {

@@ -8,7 +8,7 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Detail of subsystem</MudText>
+                <MudText Typo="Typo.h5"><strong>Detail of subsystem</strong><small> [ @(subsystem.CurrentState is not null ? subsystem.CurrentState.Name : "Unknown") ]</small></MudText>
                 <MudText Typo="Typo.body2">Created - user ID: @subsystem.IdCreated, time: @subsystem.DateTimeCreated</MudText>
                 @if (subsystem.IdUpdated != null)
                 {
@@ -55,9 +55,6 @@
                                             <MudSelectItem T="CategoryModel" Value="@(item)" />
                                         }
                                     </MudSelect>
-                                </MudItem>
-                                <MudItem xs="12">
-                                    <MudField Label="State of subsystem" Variant="Variant.Outlined" readonly="true">@(subsystem.CurrentState is null ? "" : subsystem.CurrentState.Name )</MudField>
                                 </MudItem>
                                 <MudItem xs="12">
                                     <MudTextField @bind-Value="subsystem.Description" ReadOnly="@onlyForReading" T="string" Label="Subsystem description" Variant="Variant.Outlined" Lines="3" />

@@ -194,7 +194,7 @@ namespace SSEA.DAL.Repositories
                 // Work in proress state
                 else if (machine.CurrentStateId == machineWorkInProgressStateId)
                 {
-                    if (machine.TypeOfLogicId != 0)
+                    if (machine.TypeOfLogicId != 0 && machine.TypeOfLogicId is not null)
                         nextStateId = machineLogicSelectedStateId;
                 }
             }

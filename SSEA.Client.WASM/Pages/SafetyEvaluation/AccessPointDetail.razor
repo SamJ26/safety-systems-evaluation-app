@@ -8,7 +8,7 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Detail of access point</MudText>
+                <MudText Typo="Typo.h5"><strong>Detail of access point</strong><small> [ @(accessPoint.CurrentState is not null ? accessPoint.CurrentState.Name : "Unknown") ]</small></MudText>
                 <MudText Typo="Typo.body2">Created - user ID: @accessPoint.IdCreated, time: @accessPoint.DateTimeCreated</MudText>
                 @if (accessPoint.IdUpdated != null)
                 {

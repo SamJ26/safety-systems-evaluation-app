@@ -75,9 +75,4 @@
 
     private void Cancel() => MudDialog.Cancel();
 
-    private void GoToSafetyFunctionDetail(int safetyFunctionId, int accessPointId)
-    {
-        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/{EvaluationMethod}/{MachineId}/{accessPointId}/{safetyFunctionId}");
-    }
-
 }

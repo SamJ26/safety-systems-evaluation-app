@@ -8,7 +8,7 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Detail of safety function</MudText>
+                <MudText Typo="Typo.h5"><strong>Detail of safety function</strong><small> [ @(safetyFunction.CurrentState is not null ? safetyFunction.CurrentState.Name : "Unknown") ]</small></MudText>
                 <MudText Typo="Typo.body2">Created - user ID: @safetyFunction.IdCreated, time: @safetyFunction.DateTimeCreated</MudText>
                 @if (safetyFunction.IdUpdated != null)
                 {
@@ -39,9 +39,6 @@
                             </MudItem>
                             <MudItem xs="12">
                                 <MudField Readonly="true" Label="Evaluation method" Variant="Variant.Outlined">Performance Level (PL)</MudField>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <MudField Readonly="true" Label="State of record" Variant="Variant.Outlined">@(safetyFunction.CurrentState is null ? "" : safetyFunction.CurrentState.Name)</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudSelect @bind-Value="safetyFunction.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@typeOfFunctionToString" ReadOnly="@onlyForReading">
