@@ -387,9 +387,10 @@
         StateHasChanged();
     }
 
-    private async Task ShowSummary()
+    private void ShowSummary()
     {
-        MachineSafetySummaryModel response = await machineFacade.GetMachineSafetySummaryAsync(machine.Id);
+        var parameters = new DialogParameters() { ["MachineId"] = machine.Id, ["EvaluationMethod"] = machine.EvaluationMethod.Shortcut };
+        var dialog = dialogService.Show<MachineSummaryDialog>("Machine summary", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
     }
 
 }
