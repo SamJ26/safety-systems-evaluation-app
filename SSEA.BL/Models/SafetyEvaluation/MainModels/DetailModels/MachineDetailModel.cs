@@ -6,6 +6,7 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -29,13 +30,13 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public bool SafetyMasterInPlace { get; set; }
 
         [Required]
-        public EvaluationMethodModel EvaluationMethod { get; set; }
-        
-        [Required]
-        public MachineTypeModel MachineType { get; set; }
+        public EvaluationMethodModel EvaluationMethod { get; set; } = null;
 
         [Required]
-        public ProducerModel Producer { get; set; }
+        public MachineTypeModel MachineType { get; set; } = null;
+
+        [Required]
+        public ProducerModel Producer { get; set; } = null;
 
         public TypeOfLogicModel TypeOfLogic { get; set; }
 

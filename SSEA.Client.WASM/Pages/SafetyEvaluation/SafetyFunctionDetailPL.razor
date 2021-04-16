@@ -38,6 +38,9 @@
                                 <MudTextField @bind-Value="safetyFunction.Name" Label="Safety function name *" Variant="Variant.Outlined" ReadOnly="@onlyForReading" />
                             </MudItem>
                             <MudItem xs="12">
+                                <MudField Readonly="true" Label="Type of logic" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.Description : "Not selected")</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
                                 <MudField Readonly="true" Label="Evaluation method" Variant="Variant.Outlined">Performance Level (PL)</MudField>
                             </MudItem>
                             <MudItem xs="12">
