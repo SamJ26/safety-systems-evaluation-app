@@ -12,51 +12,38 @@
         </MudGrid>
     </TitleContent>
     <DialogContent>
-        <MudExpansionPanels>
-            @if (data is not null && data.AccessPoints is not null)
-            {
+        @if (data is not null && data.AccessPoints is not null)
+        {
+            <MudList Clickable="true" Style="margin-bottom: 10px;">
+                <MudDivider />
                 @foreach (var accessPoint in data.AccessPoints)
                 {
-                    <MudExpansionPanel>
-                        <TitleContent>
-                            <MudGrid>
-                                <MudItem Style="width: 5%;">
-                                    <MudIconButton @onclick="@(() => GoToAccessPointDetail(accessPoint.AccessPointId))" Icon="@Icons.Material.Filled.Search" Color="Color.Info" Disabled="@disabled" Style="padding: 0px;"/>
-                                </MudItem>
-                                <MudItem Style="width: 55%;">
-                                    <MudText>
-                                        <strong>@accessPoint.AccessPointName</strong>
-                                    </MudText>
-                                </MudItem>
-                                <MudItem Style="width: 40%;">
-                                    <MudText Color="Color.Success">
-                                        @accessPoint.AccessPointState.Name
-                                    </MudText>
-                                </MudItem>
-                            </MudGrid>
-                        </TitleContent>
-                        <ChildContent>
-                            <MudList Clickable="true">
-                                @foreach (var safetyFunction in accessPoint.SafetyFunctions)
-                                {
-                                    <MudListItem OnClick="@(() => GoToSafetyFunctionDetail(safetyFunction.SafetyFunctionId, accessPoint.AccessPointId))">
-                                        <MudGrid>
-                                            <MudItem Style="width: 65%;">
-                                                @safetyFunction.SafetyFunctionName
-                                            </MudItem>
-                                            <MudItem Style="width: 35%;">
+                    string text = accessPoint.AccessPointName + " [ " + accessPoint.AccessPointState.Name + " ] ";
+                    <MudListItem Icon="@Icons.Material.Filled.DirectionsWalk" Text="@text" InitiallyExpanded="false">
+                        <NestedList>
+                            @foreach (var safetyFunction in accessPoint.SafetyFunctions)
+                            {
+                                Color stateColor = safetyFunction.SafetyFunctionState.StateNumber <= 3 ? Color.Default : safetyFunction.SafetyFunctionState.StateNumber == 4 ? Color.Success : Color.Error;
+                                string href = $"/safetyEvaluation/safetyFunctionDetail/{EvaluationMethod}/{MachineId}/{accessPoint.AccessPointId}/{safetyFunction.SafetyFunctionId}";
+                                <MudListItem Icon="@Icons.Material.Filled.Security" Href="@href">
+                                    <MudGrid>
+                                        <MudItem Style="width: 65%;">
+                                            @safetyFunction.SafetyFunctionName
+                                        </MudItem>
+                                        <MudItem Style="width: 35%;">
+                                            <MudText Color="@stateColor">
                                                 @safetyFunction.SafetyFunctionState.Name
-                                            </MudItem>
-                                        </MudGrid>
-                                    </MudListItem>
-                                    <MudDivider />
-                                }
-                            </MudList>
-                        </ChildContent>
-                    </MudExpansionPanel>
+                                            </MudText>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudListItem>
+                            }
+                        </NestedList>
+                    </MudListItem>
+                    <MudDivider />
                 }
-            }
-        </MudExpansionPanels>
+            </MudList>
+        }
     </DialogContent>
 </MudDialog>
 
@@ -87,11 +74,6 @@
     }
 
     private void Cancel() => MudDialog.Cancel();
-
-    private void GoToAccessPointDetail(int accessPointId)
-    {
-        navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{MachineId}/{accessPointId}");
-    }
 
     private void GoToSafetyFunctionDetail(int safetyFunctionId, int accessPointId)
     {
