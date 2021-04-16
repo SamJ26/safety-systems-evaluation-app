@@ -353,7 +353,6 @@ namespace SSEA.BL.Facades
             };
         }
 
-        // TODO: test this method
         public async Task<MachineSafetySummaryModel> GetSafetyEvaluationSummary(int machineId)
         {
             // Getting machine with all its access points

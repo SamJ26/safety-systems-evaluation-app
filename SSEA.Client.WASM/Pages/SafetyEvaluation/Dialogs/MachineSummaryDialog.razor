@@ -1,0 +1,43 @@
+﻿
+<MudDialog>
+    <TitleContent>
+        <MudGrid>
+            <MudItem Style="width: 5%;" />
+            <MudItem Style="width: 90%;">
+                <MudText Align="Align.Center" Typo="Typo.h5">Machine summary</MudText>
+            </MudItem>
+            <MudItem Style="width: 5%;">
+                <MudIconButton @onclick="@Cancel" Icon="@Icons.Material.Filled.Clear" Color="Color.Error" Disabled="@disabled"></MudIconButton>
+            </MudItem>
+        </MudGrid>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [Inject]
+    private MachineFacade machineFacade { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    private MachineSafetySummaryModel data = new();
+
+    [Parameter]
+    public int MachineId { get; set; }
+
+    private bool disabled = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        data = await machineFacade.GetMachineSafetySummaryAsync(MachineId);
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+}
