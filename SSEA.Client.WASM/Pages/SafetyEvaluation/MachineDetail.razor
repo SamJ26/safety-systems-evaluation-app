@@ -16,12 +16,20 @@
                 }
             </CardHeaderContent>
             <CardHeaderActions>
+                <MudTooltip Text="Show summary">
+                    <MudIconButton @onclick="@ShowSummary" Icon="@Icons.Material.Filled.FormatAlignRight" Color="Color.Primary" Disabled="@disabled" />
+                </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
-                        <MudIconButton @onclick="@ShowSummary" Icon="@Icons.Material.Filled.FormatAlignRight" Color="Color.Primary" Disabled="@disabled" />
-                        <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
-                        <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
-                        <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                        <MudTooltip Text="Edit data">
+                            <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
+                        </MudTooltip>
+                        <MudTooltip Text="Save">
+                            <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
+                        </MudTooltip>
+                        <MudTooltip Text="Delete">
+                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                        </MudTooltip>
                         <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Search" Color="Color.Primary" Style="margin: 0px 5px 0px 5px;" Disabled="@disabled">Select logic</MudButton>
                         <MudButton @onclick="@EvaluateSafety" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px 0px 5px;" Disabled="@disabled">Evaluate safety</MudButton>
                     </Authorized>
@@ -29,14 +37,14 @@
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@PanelIndexChanged" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Machine details">
-                    <EditForm Model="@machine" OnValidSubmit="OnValidSubmit" id="formId">
+                    <EditForm Model="@machine" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" For="@(() => machine.Name)"></MudTextField>
+                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="4">
                                 <MudSelect @bind-Value="machine.MachineType" ReadOnly="@onlyForReading" Text="@machine.MachineType.Name" T="MachineTypeModel" Label="Machine type *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@machineTypeToString">
@@ -97,6 +105,14 @@
                                     <MudCheckBox @bind-Checked="machine.SafetyMasterInPlace" ReadOnly="@onlyForReading">Safety master in place</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
+                            @if (showValidationSummary)
+                            {
+                                <MudItem xs="12">
+                                    <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
+                                        <ValidationSummary />
+                                    </MudAlert>
+                                </MudItem>
+                            }
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -226,6 +242,7 @@
     private bool showDialog = false;
     private TypeOfLogicModel logic;
 
+    private bool showValidationSummary = false;
     private bool disabled = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
@@ -277,6 +294,7 @@
 
     private async Task OnValidSubmit()
     {
+        showValidationSummary = false;
         disabled = true;
         onlyForReading = true;
         var result = await machineFacade.UpdateAsync(machine);
@@ -391,6 +409,12 @@
     {
         var parameters = new DialogParameters() { ["MachineId"] = machine.Id, ["EvaluationMethod"] = machine.EvaluationMethod.Shortcut };
         var dialog = dialogService.Show<MachineSummaryDialog>("Machine summary", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
+    }
+
+    private void PanelIndexChanged()
+    {
+        showValidationSummary = false;
+        StateHasChanged();
     }
 
 }

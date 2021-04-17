@@ -24,7 +24,7 @@
             <MudTabs @ref="tabs" ActivePanelIndexChanged="@PanelIndexChanged" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Machine details">
-                    <EditForm Model="@machine" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@(() => showValdiationSummary = true)" id="formId">
+                    <EditForm Model="@machine" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="6">
@@ -94,7 +94,7 @@
                                     <MudCheckBox @bind-Checked="machine.SafetyMasterInPlace">Safety master in place</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
-                            @if (showValdiationSummary)
+                            @if (showValidationSummary)
                             {
                                 <MudItem xs="12">
                                     <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
@@ -209,7 +209,7 @@
 
     private MachineDetailModel machine;
 
-    private bool showValdiationSummary = false;
+    private bool showValidationSummary = false;
     private bool disabled = false;
     private bool showMessage = false;
     private string message = string.Empty;
@@ -264,7 +264,7 @@
 
     private async void OnValidSubmit()
     {
-        showValdiationSummary = false;
+        showValidationSummary = false;
         disabled = true;
         var result = await machineFacade.CreateAsync(machine);
         if (result != 0)
@@ -323,7 +323,7 @@
 
     private void PanelIndexChanged()
     {
-        showValdiationSummary = false;
+        showValidationSummary = false;
         StateHasChanged();
     }
 

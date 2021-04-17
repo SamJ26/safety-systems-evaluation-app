@@ -5,15 +5,14 @@ using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class MachineDetailModel : ExtendedModelBase
     {
-        [StringLength(50)]
         [Required(AllowEmptyStrings = false)]
+        [StringLength(maximumLength: 50, MinimumLength = 1)]
         public string Name { get; set; }
 
         [StringLength(250)]
