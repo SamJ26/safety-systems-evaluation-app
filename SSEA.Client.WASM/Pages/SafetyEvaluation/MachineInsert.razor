@@ -23,10 +23,10 @@
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="6">
-                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" Variant="Variant.Outlined" For="@(() => machine.Name)"></MudTextField>
+                                <MudTextField @bind-Value="machine.Name" For="@(() => machine.Name)" Label="Machine name *" Variant="Variant.Outlined"></MudTextField>
                             </MudItem>
                             <MudItem xs="6">
-                                <MudSelect @bind-Value="machine.MachineType" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machine.MachineType" For="@(() => machine.MachineType)" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in machineTypes)
                                     {
                                         <MudSelectItem T="MachineTypeModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -34,7 +34,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machine.EvaluationMethod" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machine.EvaluationMethod" For="@(() => machine.EvaluationMethod)" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in evaluationMethods)
                                     {
                                         <MudSelectItem T="EvaluationMethodModel" Value="@(item)">@item.Shortcut</MudSelectItem>
@@ -90,6 +90,9 @@
                                 </MudPaper>
                             </MudItem>
                         </MudGrid>
+
+                        <ValidationSummary />
+
                     </EditForm>
                 </MudTabPanel>
 
@@ -212,6 +215,10 @@
     protected override async Task OnInitializedAsync()
     {
         machine = new MachineDetailModel();
+        machine.EvaluationMethod = null;
+        machine.MachineType = null;
+        machine.Producer = null;
+
         machine.AccessPoints = new List<AccessPointListModel>();
         machine.Norms = new HashSet<NormModel>();
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();

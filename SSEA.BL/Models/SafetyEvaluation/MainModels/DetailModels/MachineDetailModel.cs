@@ -1,21 +1,19 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using SSEA.BL.Extensions;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class MachineDetailModel : ExtendedModelBase
     {
-        [Required]
         [StringLength(50)]
+        [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
 
         [StringLength(250)]
@@ -30,13 +28,13 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public bool SafetyMasterInPlace { get; set; }
 
         [Required]
-        public EvaluationMethodModel EvaluationMethod { get; set; } = null;
+        public EvaluationMethodModel EvaluationMethod { get; set; }
 
         [Required]
-        public MachineTypeModel MachineType { get; set; } = null;
+        public MachineTypeModel MachineType { get; set; }
 
         [Required]
-        public ProducerModel Producer { get; set; } = null;
+        public ProducerModel Producer { get; set; }
 
         public TypeOfLogicModel TypeOfLogic { get; set; }
 
