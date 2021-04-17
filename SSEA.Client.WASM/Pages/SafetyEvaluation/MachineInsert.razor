@@ -16,17 +16,17 @@
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@PanelIndexChanged" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Machine details">
-                    <EditForm Model="@machine" OnValidSubmit="@OnValidSubmit" id="formId">
+                    <EditForm Model="@machine" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@(() => showValdiationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="6">
-                                <MudTextField @bind-Value="machine.Name" For="@(() => machine.Name)" Label="Machine name *" Variant="Variant.Outlined"></MudTextField>
+                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" Variant="Variant.Outlined"></MudTextField>
                             </MudItem>
                             <MudItem xs="6">
-                                <MudSelect @bind-Value="machine.MachineType" For="@(() => machine.MachineType)" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machine.MachineType" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in machineTypes)
                                     {
                                         <MudSelectItem T="MachineTypeModel" Value="@(item)">@item.Name</MudSelectItem>
@@ -34,7 +34,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machine.EvaluationMethod" For="@(() => machine.EvaluationMethod)" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machine.EvaluationMethod" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in evaluationMethods)
                                     {
                                         <MudSelectItem T="EvaluationMethodModel" Value="@(item)">@item.Shortcut</MudSelectItem>
@@ -89,10 +89,15 @@
                                     <MudCheckBox @bind-Checked="machine.SafetyMasterInPlace">Safety master in place</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
+                            @if (showValdiationSummary)
+                            {
+                                <MudItem xs="12">
+                                    <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
+                                        <ValidationSummary />
+                                    </MudAlert>
+                                </MudItem>
+                            }
                         </MudGrid>
-
-                        <ValidationSummary />
-
                     </EditForm>
                 </MudTabPanel>
 
@@ -199,6 +204,7 @@
 
     private MachineDetailModel machine;
 
+    private bool showValdiationSummary = false;
     private bool disabled = false;
     private bool showMessage = false;
     private string message = string.Empty;
@@ -253,6 +259,7 @@
 
     private async void OnValidSubmit()
     {
+        showValdiationSummary = false;
         disabled = true;
         var result = await machineFacade.CreateAsync(machine);
         if (result != 0)
@@ -307,6 +314,12 @@
     private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
     {
         navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{args.Item.Id}");
+    }
+
+    private void PanelIndexChanged()
+    {
+        showValdiationSummary = false;
+        StateHasChanged();
     }
 
 }
