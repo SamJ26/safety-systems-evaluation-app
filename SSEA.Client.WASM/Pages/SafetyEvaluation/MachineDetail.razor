@@ -222,20 +222,20 @@
 
 @code {
 
-    [Inject]
-    private IDialogService dialogService { get; set; }
+        [Inject]
+        private IDialogService dialogService { get; set; }
 
-    [Inject]
-    private MachineFacade machineFacade { get; set; }
+        [Inject]
+        private MachineFacade machineFacade { get; set; }
 
-    [Inject]
-    private CodeListFacade codeListFacade { get; set; }
+        [Inject]
+        private CodeListFacade codeListFacade { get; set; }
 
-    [Inject]
-    private NavigationManager navigationManager { get; set; }
+        [Inject]
+        private NavigationManager navigationManager { get; set; }
 
-    [Parameter]
-    public int Id { get; set; }
+        [Parameter]
+        public int Id { get; set; }
 
     private MachineDetailModel machine = new MachineDetailModel();
 
@@ -344,20 +344,26 @@
     {
         disabled = true;
         onlyForReading = true;
-        var response = await machineFacade.SelectLogicAsync(machine.Id);
+        var parameters = new DialogParameters() { ["MainText"] = "Logic is already selected!" };
+        var dialog = dialogService.Show<WarningDialog>("Warning", parameters );
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var response = await machineFacade.SelectLogicAsync(machine.Id);
+            if (response.IsSuccess)
+            {
+                logic = response.Logic;
+                showDialog = true;
+            }
+            else
+            {
+                messageType = Severity.Error;
+                message = response.Message;
+                showMessage = true;
+                StateHasChanged();
+            }
+        }
         disabled = false;
-        if (response.IsSuccess)
-        {
-            logic = response.Logic;
-            showDialog = true;
-        }
-        else
-        {
-            messageType = Severity.Error;
-            message = response.Message;
-            showMessage = true;
-            StateHasChanged();
-        }
     }
 
     private async Task SaveLogic()
@@ -388,19 +394,25 @@
     {
         disabled = true;
         onlyForReading = true;
-        var response = await machineFacade.EvaluateSafetyAsync(machine.Id);
-        if (response.IsSuccess)
+        var parameters = new DialogParameters() { ["MainText"] = "Machine is already evaluated!", ["AdditionalText"] = "This actions can make changes to all parts of this machine" };
+        var dialog = dialogService.Show<WarningDialog>("Warning", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
         {
-            messageType = Severity.Success;
-            machine = await machineFacade.GetByIdAsync(machine.Id);
-            ShowSummary();
+            var response = await machineFacade.EvaluateSafetyAsync(machine.Id);
+            if (response.IsSuccess)
+            {
+                messageType = Severity.Success;
+                machine = await machineFacade.GetByIdAsync(machine.Id);
+                ShowSummary();
+            }
+            else
+            {
+                messageType = Severity.Error;
+            }
+            message = response.Message;
+            showMessage = true;
         }
-        else
-        {
-            messageType = Severity.Error;
-        }
-        message = response.Message;
-        showMessage = true;
         disabled = false;
         StateHasChanged();
     }
