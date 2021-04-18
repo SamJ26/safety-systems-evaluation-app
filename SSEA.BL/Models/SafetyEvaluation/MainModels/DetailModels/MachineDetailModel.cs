@@ -11,6 +11,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class MachineDetailModel : ExtendedModelBase
     {
+        [Required]
         [StringLength(maximumLength: 50, MinimumLength = 1)]
         public string Name { get; set; }
 
