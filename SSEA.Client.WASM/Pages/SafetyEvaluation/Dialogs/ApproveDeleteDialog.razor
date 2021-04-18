@@ -8,7 +8,10 @@
     </TitleContent>
     <DialogContent>
         <MudText>This process cannot be undone</MudText>
-        <MudText>Name of the @ItemToDelte: @NameOfItem</MudText>
+        @if (string.IsNullOrEmpty(NameOfItem) == false)
+        { 
+            <MudText>Name of the @ItemToDelte: @NameOfItem</MudText>
+        }
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -25,7 +28,7 @@
     public string ItemToDelte { get; set; }
 
     [Parameter]
-    public string NameOfItem{ get; set; }
+    public string NameOfItem { get; set; }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();

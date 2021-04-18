@@ -11,6 +11,12 @@
             <MudItem xs="12">
                 <MudTextField @bind-Value="AccessPoint.Description" Label="Description" Variant="Variant.Outlined" Lines="3"></MudTextField>
             </MudItem>
+            @if (showErrorMessage)
+            { 
+                <MudItem xs="12">
+                    <MudAlert Severity="Severity.Error">Access point name is required</MudAlert>
+                </MudItem>
+            }
             <MudItem xs="6">
                 <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
             </MudItem>
@@ -29,6 +35,18 @@
     [Parameter]
     public AccessPointListModel AccessPoint { get; set; }
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    private bool showErrorMessage = false;
+
+    void Submit()
+    {
+        if (string.IsNullOrEmpty(AccessPoint.Name) || string.IsNullOrWhiteSpace(AccessPoint.Name))
+        { 
+            showErrorMessage = true;
+            StateHasChanged();
+        }
+        else
+            MudDialog.Close(DialogResult.Ok(true));
+    }
+
     void Cancel() => MudDialog.Cancel();
 }

@@ -8,7 +8,8 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h5"><strong>Detail of machine</strong><small> [ @(machine.CurrentState is not null ? machine.CurrentState.Name : "Unknown") ]</small></MudText>
+                <MudText Typo="Typo.h5"><strong>Detail of machine</strong></MudText>
+                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>[ @(machine.CurrentState is not null ? machine.CurrentState.Name : "Unknown") ]</small></MudText>
                 <MudText Typo="Typo.body2">Created - user ID: @machine.IdCreated, time: @machine.DateTimeCreated</MudText>
                 @if (machine.IdUpdated != null)
                 {
@@ -16,12 +17,20 @@
                 }
             </CardHeaderContent>
             <CardHeaderActions>
+                <MudTooltip Text="Show summary">
+                    <MudIconButton @onclick="@ShowSummary" Icon="@Icons.Material.Filled.FormatAlignRight" Color="Color.Primary" Disabled="@disabled" />
+                </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
-                        <MudIconButton @onclick="@ShowSummary" Icon="@Icons.Material.Filled.FormatAlignRight" Color="Color.Primary" Disabled="@disabled" />
-                        <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
-                        <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
-                        <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                        <MudTooltip Text="Edit data">
+                            <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
+                        </MudTooltip>
+                        <MudTooltip Text="Save">
+                            <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
+                        </MudTooltip>
+                        <MudTooltip Text="Delete">
+                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                        </MudTooltip>
                         <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Search" Color="Color.Primary" Style="margin: 0px 5px 0px 5px;" Disabled="@disabled">Select logic</MudButton>
                         <MudButton @onclick="@EvaluateSafety" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px 0px 5px;" Disabled="@disabled">Evaluate safety</MudButton>
                     </Authorized>
@@ -29,14 +38,14 @@
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@PanelIndexChanged" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Machine details">
-                    <EditForm Model="@machine" OnValidSubmit="OnValidSubmit" id="formId">
+                    <EditForm Model="@machine" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" For="@(() => machine.Name)"></MudTextField>
+                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="4">
                                 <MudSelect @bind-Value="machine.MachineType" ReadOnly="@onlyForReading" Text="@machine.MachineType.Name" T="MachineTypeModel" Label="Machine type *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@machineTypeToString">
@@ -97,6 +106,14 @@
                                     <MudCheckBox @bind-Checked="machine.SafetyMasterInPlace" ReadOnly="@onlyForReading">Safety master in place</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
+                            @if (showValidationSummary)
+                            {
+                                <MudItem xs="12">
+                                    <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
+                                        <ValidationSummary />
+                                    </MudAlert>
+                                </MudItem>
+                            }
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -226,6 +243,7 @@
     private bool showDialog = false;
     private TypeOfLogicModel logic;
 
+    private bool showValidationSummary = false;
     private bool disabled = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
@@ -277,6 +295,7 @@
 
     private async Task OnValidSubmit()
     {
+        showValidationSummary = false;
         disabled = true;
         onlyForReading = true;
         var result = await machineFacade.UpdateAsync(machine);
@@ -326,20 +345,26 @@
     {
         disabled = true;
         onlyForReading = true;
-        var response = await machineFacade.SelectLogicAsync(machine.Id);
+        var parameters = new DialogParameters() { ["MainText"] = "Logic is already selected!" };
+        var dialog = dialogService.Show<WarningDialog>("Warning", parameters );
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var response = await machineFacade.SelectLogicAsync(machine.Id);
+            if (response.IsSuccess)
+            {
+                logic = response.Logic;
+                showDialog = true;
+            }
+            else
+            {
+                messageType = Severity.Error;
+                message = response.Message;
+                showMessage = true;
+                StateHasChanged();
+            }
+        }
         disabled = false;
-        if (response.IsSuccess)
-        {
-            logic = response.Logic;
-            showDialog = true;
-        }
-        else
-        {
-            messageType = Severity.Error;
-            message = response.Message;
-            showMessage = true;
-            StateHasChanged();
-        }
     }
 
     private async Task SaveLogic()
@@ -370,19 +395,25 @@
     {
         disabled = true;
         onlyForReading = true;
-        var response = await machineFacade.EvaluateSafetyAsync(machine.Id);
-        if (response.IsSuccess)
+        var parameters = new DialogParameters() { ["MainText"] = "Machine is already evaluated!", ["AdditionalText"] = "This actions can make changes to all parts of this machine" };
+        var dialog = dialogService.Show<WarningDialog>("Warning", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
         {
-            messageType = Severity.Success;
-            machine = await machineFacade.GetByIdAsync(machine.Id);
-            ShowSummary();
+            var response = await machineFacade.EvaluateSafetyAsync(machine.Id);
+            if (response.IsSuccess)
+            {
+                messageType = Severity.Success;
+                machine = await machineFacade.GetByIdAsync(machine.Id);
+                ShowSummary();
+            }
+            else
+            {
+                messageType = Severity.Error;
+            }
+            message = response.Message;
+            showMessage = true;
         }
-        else
-        {
-            messageType = Severity.Error;
-        }
-        message = response.Message;
-        showMessage = true;
         disabled = false;
         StateHasChanged();
     }
@@ -391,6 +422,12 @@
     {
         var parameters = new DialogParameters() { ["MachineId"] = machine.Id, ["EvaluationMethod"] = machine.EvaluationMethod.Shortcut };
         var dialog = dialogService.Show<MachineSummaryDialog>("Machine summary", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
+    }
+
+    private void PanelIndexChanged()
+    {
+        showValidationSummary = false;
+        StateHasChanged();
     }
 
 }

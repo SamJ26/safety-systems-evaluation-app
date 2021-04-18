@@ -8,17 +8,21 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Create new safety function (PL)</MudText>
+                <MudText Typo="Typo.h6"><strong>Create new safety function (PL)</strong></MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="@BackToAccessPoint" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(accessPointId == 0 || disabled)" />
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(disabled)" />
+                <MudTooltip Text="Back to access point">
+                    <MudIconButton @onclick="@BackToAccessPoint" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(accessPointId == 0 || disabled)" />
+                </MudTooltip>
+                <MudTooltip Text="Save">
+                    <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(disabled)" />
+                </MudTooltip>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
             <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
                 <MudTabPanel Text="Safety function details">
-                    <EditForm Model="@safetyFunction" OnValidSubmit="OnValidSubmit" id="formId">
+                    <EditForm Model="@safetyFunction" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="12">
@@ -75,6 +79,14 @@
                                     }
                                 </MudSelect>
                             </MudItem>
+                            @if (showValidationSummary)
+                            {
+                                <MudItem xs="12">
+                                    <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
+                                        <ValidationSummary />
+                                    </MudAlert>
+                                </MudItem>
+                            }
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -122,6 +134,7 @@
     private int machineId;
     private int accessPointId;
 
+    private bool showValidationSummary = false;
     private bool disabled = false;
     private bool showMessage = false;
     private string message = string.Empty;
@@ -148,37 +161,55 @@
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("accessPointId", out var _accessPointId))
             accessPointId = Convert.ToInt32(_accessPointId);
 
+        safetyFunction.TypeOfFunction = null;
         StateHasChanged();
     }
 
     private async void OnValidSubmit()
     {
-        disabled = true;
-        int id = await safetyFunctionFacade.CreateAsync(safetyFunction, accessPointId);
-        if (id != 0)
+        showValidationSummary = false;
+        if (IsModelValid())
         {
-            messageType = Severity.Success;
-            message = successMessage;
-            showMessage = true;
-            StateHasChanged();
-            await Task.Delay(2000);
+            disabled = true;
+            int id = await safetyFunctionFacade.CreateAsync(safetyFunction, accessPointId);
+            if (id != 0)
+            {
+                messageType = Severity.Success;
+                message = successMessage;
+                showMessage = true;
+                StateHasChanged();
+                await Task.Delay(2000);
 
-            // Creating safety function from access point -> navigate to access point detail
-            if (accessPointId != 0)
-                BackToAccessPoint();
+                // Creating safety function from access point -> navigate to access point detail
+                if (accessPointId != 0)
+                    BackToAccessPoint();
 
-            // Creating independent safety function -> navigate to safety function detail PL
+                // Creating independent safety function -> navigate to safety function detail PL
+                else
+                    navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{0}/{0}/{id}");
+            }
             else
-                navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{0}/{0}/{id}");
+            {
+                messageType = Severity.Error;
+                message = errorMessage;
+                showMessage = true;
+                disabled = false;
+            }
         }
         else
         {
-            messageType = Severity.Error;
-            message = errorMessage;
             showMessage = true;
-            disabled = false;
-            StateHasChanged();
+            message = "Missing required PL or S, F, P";
+            messageType = Severity.Error;
         }
+        StateHasChanged();
+    }
+
+    private bool IsModelValid()
+    {
+        if (safetyFunction.PLr is null && (safetyFunction.P is null || safetyFunction.S is null || safetyFunction.F is null))
+            return false;
+        return true;
     }
 
     private void BackToAccessPoint() => navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{machineId}/{accessPointId}");
