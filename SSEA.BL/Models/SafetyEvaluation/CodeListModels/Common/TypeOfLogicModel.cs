@@ -14,6 +14,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
         public int SO { get; set; }
         public bool Communication { get; set; }
         public int AccessPointsMaxCount { get; set; }
+        public int SubsystemId { get; set; }
         public uint EthernetAdressesMaxCount { get; set; }
         public PLModel MaxPL { get; set; }
         public CategoryModel MaxCategory { get; set; }
@@ -31,6 +32,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
                                                       .IgnoreSource(src => src.MaxCategoryId)
                                                       .IgnoreSource(src => src.MaxSILId)
                                                       .IgnoreSource(src => src.MaxArchitectureId)
+                                                      .IgnoreSource(src => src.Subsystem)
                                                       .MapMember(dest => dest.Name, src => src.NameCZ)
                                                       .MapMember(dest => dest.Description, src => src.DescriptionCZ)
                                                       .ReverseMap();

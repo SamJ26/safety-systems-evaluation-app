@@ -8,7 +8,8 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Detail of machine</MudText>
+                <MudText Typo="Typo.h5"><strong>Detail of machine</strong></MudText>
+                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>[ @(machine.CurrentState is not null ? machine.CurrentState.Name : "Unknown") ]</small></MudText>
                 <MudText Typo="Typo.body2">Created - user ID: @machine.IdCreated, time: @machine.DateTimeCreated</MudText>
                 @if (machine.IdUpdated != null)
                 {
@@ -16,24 +17,35 @@
                 }
             </CardHeaderContent>
             <CardHeaderActions>
+                <MudTooltip Text="Show summary">
+                    <MudIconButton @onclick="@ShowSummary" Icon="@Icons.Material.Filled.FormatAlignRight" Color="Color.Primary" Disabled="@disabled" />
+                </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
-                        <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
-                        <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
-                        <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                        <MudTooltip Text="Edit data">
+                            <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
+                        </MudTooltip>
+                        <MudTooltip Text="Save">
+                            <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
+                        </MudTooltip>
+                        <MudTooltip Text="Delete">
+                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                        </MudTooltip>
+                        <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Search" Color="Color.Primary" Style="margin: 0px 5px 0px 5px;" Disabled="@disabled">Select logic</MudButton>
+                        <MudButton @onclick="@EvaluateSafety" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px 0px 5px;" Disabled="@disabled">Evaluate safety</MudButton>
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@PanelIndexChanged" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Machine details">
-                    <EditForm Model="@machine" OnValidSubmit="OnValidSubmit" id="formId">
+                    <EditForm Model="@machine" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" For="@(() => machine.Name)"></MudTextField>
+                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="4">
                                 <MudSelect @bind-Value="machine.MachineType" ReadOnly="@onlyForReading" Text="@machine.MachineType.Name" T="MachineTypeModel" Label="Machine type *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@machineTypeToString">
@@ -47,12 +59,7 @@
                                 <MudField Label="Type of logic" ReadOnly="true" Variant="Variant.Outlined">@(machine.TypeOfLogic != null ? machine.TypeOfLogic.Name : "Not selected")</MudField>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machine.EvaluationMethod" ReadOnly="@onlyForReading" T="EvaluationMethodModel" Label="Evaluation method *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@evalMethodToString">
-                                    @foreach (var item in evaluationMethods)
-                                    {
-                                        <MudSelectItem T="EvaluationMethodModel" Value="@(item)" />
-                                    }
-                                </MudSelect>
+                                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@(machine.EvaluationMethod.Name)</MudField>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudSelect @bind-Value="machine.Producer" ReadOnly="@onlyForReading" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@producerToString">
@@ -63,10 +70,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machine.Communication" ReadOnly="@onlyForReading" T="bool" Label="Safety communication *" Variant="Variant.Outlined" Format="F2">
-                                    <MudSelectItem T="bool" Value="@(true)">Yes</MudSelectItem>
-                                    <MudSelectItem T="bool" Value="@(false)">No</MudSelectItem>
-                                </MudSelect>
+                                <MudField Label="Safety communication" ReadOnly="true" Variant="Variant.Outlined">@((machine.Communication == true) ? "Yes" : "No")</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudTextField @bind-Value="machine.Description" ReadOnly="@onlyForReading" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" Style="margin-bottom: 25px;" />
@@ -102,6 +106,14 @@
                                     <MudCheckBox @bind-Checked="machine.SafetyMasterInPlace" ReadOnly="@onlyForReading">Safety master in place</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
+                            @if (showValidationSummary)
+                            {
+                                <MudItem xs="12">
+                                    <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
+                                        <ValidationSummary />
+                                    </MudAlert>
+                                </MudItem>
+                            }
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -184,6 +196,31 @@
     </MudCard>
 </MudContainer>
 
+<MudDialog @bind-IsVisible="showDialog">
+    <TitleContent>
+        <MudText Typo="Typo.h5">
+            Selected logic: @logic.Name
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid Style="margin-bottom: 0px;">
+            <MudItem xs="12">                
+                <MudText Typo="Typo.subtitle1">
+                    If you save this action,
+                    selected logic will be assigned to all safety functions which has not selected logical subsystem yet.
+                    In addition, resultant @machine.EvaluationMethod.Shortcut will be evaluated for all safety functions.
+                </MudText>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" OnClick="@(() => showDialog = false)" FullWidth="true">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveLogic" FullWidth="true">Save</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
 @code {
 
     [Inject]
@@ -203,6 +240,10 @@
 
     private MachineDetailModel machine = new MachineDetailModel();
 
+    private bool showDialog = false;
+    private TypeOfLogicModel logic;
+
+    private bool showValidationSummary = false;
     private bool disabled = false;
     private bool onlyForReading = true;
     private bool showMessage = false;
@@ -213,7 +254,6 @@
     private readonly string successMessage = "Your machine was saved successfully :)";
     private readonly string errorMessage = "Saving of your machine failed :(";
 
-    private ICollection<EvaluationMethodModel> evaluationMethods = new List<EvaluationMethodModel>();
     private ICollection<MachineTypeModel> machineTypes = new List<MachineTypeModel>();
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
 
@@ -253,8 +293,9 @@
         StateHasChanged();
     }
 
-    private async void OnValidSubmit()
+    private async Task OnValidSubmit()
     {
+        showValidationSummary = false;
         disabled = true;
         onlyForReading = true;
         var result = await machineFacade.UpdateAsync(machine);
@@ -274,13 +315,11 @@
         StateHasChanged();
     }
 
-    private async void Edit()
+    private async Task Edit()
     {
-        evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
         machineTypes = await codeListFacade.GetAllMachineTypesAsync();
         producers = await codeListFacade.GetAllProducersAsync();
         onlyForReading = false;
-        showMessage = false;
         StateHasChanged();
     }
 
@@ -298,7 +337,97 @@
 
     private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
     {
-        navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{machine.Id}/{args.Item.Id}");
+        if (onlyForReading == true)
+            navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{machine.Id}/{args.Item.Id}");
+    }
+
+    private async Task SelectLogic()
+    {
+        disabled = true;
+        onlyForReading = true;
+        var parameters = new DialogParameters() { ["MainText"] = "This action can override current data" };
+        var dialog = dialogService.Show<WarningDialog>("Warning", parameters );
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var response = await machineFacade.SelectLogicAsync(machine.Id);
+            if (response.IsSuccess)
+            {
+                logic = response.Logic;
+                showDialog = true;
+            }
+            else
+            {
+                messageType = Severity.Error;
+                message = response.Message;
+                showMessage = true;
+                StateHasChanged();
+            }
+        }
+        disabled = false;
+    }
+
+    private async Task SaveLogic()
+    {
+        showDialog = false;
+        disabled = true;
+        onlyForReading = true;
+        machine.TypeOfLogic = logic;
+        var result = await machineFacade.UpdateAsync(machine);
+        if (result != 0)
+        {
+            var response = await machineFacade.EvaluateSafetyAsync(machine.Id);
+            messageType = response.IsSuccess == true ? Severity.Success : Severity.Error;
+            message = response.Message;
+            machine = await machineFacade.GetByIdAsync(machine.Id);
+        }
+        else
+        {
+            messageType = Severity.Error;
+            message = errorMessage;
+        }
+        showMessage = true;
+        disabled = false;
+        StateHasChanged();
+    }
+
+    private async Task EvaluateSafety()
+    {
+        disabled = true;
+        onlyForReading = true;
+        var parameters = new DialogParameters() { ["MainText"] = "This action can override current data" };
+        var dialog = dialogService.Show<WarningDialog>("Warning", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var response = await machineFacade.EvaluateSafetyAsync(machine.Id);
+            if (response.IsSuccess)
+            {
+                messageType = Severity.Success;
+                machine = await machineFacade.GetByIdAsync(machine.Id);
+                ShowSummary();
+            }
+            else
+            {
+                messageType = Severity.Error;
+            }
+            message = response.Message;
+            showMessage = true;
+        }
+        disabled = false;
+        StateHasChanged();
+    }
+
+    private void ShowSummary()
+    {
+        var parameters = new DialogParameters() { ["MachineId"] = machine.Id, ["EvaluationMethod"] = machine.EvaluationMethod.Shortcut };
+        var dialog = dialogService.Show<MachineSummaryDialog>("Machine summary", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large });
+    }
+
+    private void PanelIndexChanged()
+    {
+        showValidationSummary = false;
+        StateHasChanged();
     }
 
 }

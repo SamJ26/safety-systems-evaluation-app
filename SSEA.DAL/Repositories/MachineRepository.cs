@@ -5,7 +5,6 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.DAL.Repositories
@@ -15,9 +14,10 @@ namespace SSEA.DAL.Repositories
         private readonly AppDbContext dbContext;
 
         private readonly int machineNewStateId = 1;
-        private readonly int machineRemovedStateId = 4;
-        private readonly int accessPointNewStateId = 5;
-        private readonly int accessPointRemovedStateId = 7;
+        private readonly int machineWorkInProgressStateId = 2;
+        private readonly int machineLogicSelectedStateId = 3;
+
+        private readonly int accessPointNewStateId = 6;
 
         public MachineRepository(AppDbContext dbContext)
         {
@@ -131,8 +131,7 @@ namespace SSEA.DAL.Repositories
             dbContext.Attach(machine.MachineType).State = EntityState.Unchanged;
             dbContext.Attach(machine.Producer).State = EntityState.Unchanged;
             dbContext.Attach(machine.CurrentState).State = EntityState.Unchanged;
-            if (machine.TypeOfLogic != null)
-                dbContext.Attach(machine.TypeOfLogic).State = EntityState.Unchanged;
+            machine.TypeOfLogic = null;
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
             return machine.Id;
@@ -140,12 +139,68 @@ namespace SSEA.DAL.Repositories
 
         public async Task DeleteAsync(int machineId, int userId)
         {
+            // Removing machine and related access points
             Machine machine = await dbContext.Machines.Include(m => m.AccessPoints).AsNoTracking().SingleOrDefaultAsync(m => m.Id == machineId);
-            machine.CurrentStateId = machineRemovedStateId;
+            machine.IsRemoved = true;
             foreach (var accessPoint in machine.AccessPoints)
             {
-                accessPoint.CurrentStateId = accessPointRemovedStateId;
+                accessPoint.IsRemoved = true;
+
+                // Removing records from AccessPointSafetyFunction join table
+                var accessPointSafetyFunctions = await dbContext.AccessPointSafetyFunctions.AsNoTracking().Where(e => e.AccessPointId == accessPoint.Id).ToListAsync();
+                foreach (var item in accessPointSafetyFunctions)
+                {
+                    item.IsRemoved = true;
+                }
+                dbContext.UpdateRange(accessPointSafetyFunctions);
+                await dbContext.SaveChangesAsync();
             }
+            dbContext.Update(machine);
+            await dbContext.CommitChangesAsync(userId);
+
+            // Removing records from MachineNorm join table
+            var machineNorms = await dbContext.MachineNorms.AsNoTracking().Where(mn => mn.MachineId == machineId).ToListAsync();
+            foreach (var item in machineNorms)
+            {
+                item.IsRemoved = true;
+            }
+            dbContext.UpdateRange(machineNorms);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateMachineStateAsync(int machineId, int userId, int stateId = 0)
+        {
+            // Untracking all tracked entites.
+            dbContext.ChangeTracker.Clear();
+
+            Machine machine = await dbContext.Machines.Include(m => m.AccessPoints).AsNoTracking().FirstOrDefaultAsync(m => m.Id == machineId);
+            int nextStateId = machine.CurrentStateId;
+
+            if (stateId != 0)
+            {
+                if (machine.CurrentStateId == stateId)
+                    return;
+                nextStateId = stateId;
+            }
+            else
+            {
+                // Initial state
+                if (machine.CurrentStateId == machineNewStateId)
+                {
+                    // If there is at least one safety function related to some access point on this machine -> moving to next state "work in progress"
+                    if (await dbContext.AccessPointSafetyFunctions.AnyAsync(apsf => machine.AccessPoints.Select(ap => ap.Id).Contains(apsf.AccessPointId)))
+                        nextStateId = machineWorkInProgressStateId;
+                }
+                // Work in proress state
+                else if (machine.CurrentStateId == machineWorkInProgressStateId)
+                {
+                    if (machine.TypeOfLogicId != 0 && machine.TypeOfLogicId is not null)
+                        nextStateId = machineLogicSelectedStateId;
+                }
+            }
+            if (machine.CurrentStateId == nextStateId)
+                return;
+            machine.CurrentStateId = nextStateId;
             dbContext.Update(machine);
             await dbContext.CommitChangesAsync(userId);
         }

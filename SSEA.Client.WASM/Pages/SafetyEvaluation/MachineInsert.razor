@@ -8,22 +8,27 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Create new machine</MudText>
+                <MudText Typo="Typo.h5"><strong>Create new machine</strong></MudText>
+                <MudText Typo="Typo.subtitle1">Fields marked with * are required</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="ClearData" Icon="@Icons.Material.Filled.Clear" Color="Color.Primary" Disabled="@(tabs.ActivePanelIndex != 0 || disabled)" />
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(tabs.ActivePanelIndex != 0 || disabled)"/>
+                <MudTooltip Text="Clear data">
+                    <MudIconButton @onclick="ClearData" Icon="@Icons.Material.Filled.Clear" Color="Color.Primary" Disabled="@(tabs.ActivePanelIndex != 0 || disabled)" />
+                </MudTooltip>
+                <MudTooltip Text="Save">
+                    <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(tabs.ActivePanelIndex != 0 || disabled)"/>
+                </MudTooltip>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@PanelIndexChanged" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Machine details">
-                    <EditForm Model="@machine" OnValidSubmit="@OnValidSubmit" id="formId">
+                    <EditForm Model="@machine" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="6">
-                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" Variant="Variant.Outlined" For="@(() => machine.Name)"></MudTextField>
+                                <MudTextField @bind-Value="machine.Name" Label="Machine name *" Variant="Variant.Outlined"></MudTextField>
                             </MudItem>
                             <MudItem xs="6">
                                 <MudSelect @bind-Value="machine.MachineType" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
@@ -89,6 +94,14 @@
                                     <MudCheckBox @bind-Checked="machine.SafetyMasterInPlace">Safety master in place</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
+                            @if (showValidationSummary)
+                            {
+                                <MudItem xs="12">
+                                    <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
+                                        <ValidationSummary />
+                                    </MudAlert>
+                                </MudItem>
+                            }
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -196,6 +209,7 @@
 
     private MachineDetailModel machine;
 
+    private bool showValidationSummary = false;
     private bool disabled = false;
     private bool showMessage = false;
     private string message = string.Empty;
@@ -212,6 +226,10 @@
     protected override async Task OnInitializedAsync()
     {
         machine = new MachineDetailModel();
+        machine.EvaluationMethod = null;
+        machine.MachineType = null;
+        machine.Producer = null;
+
         machine.AccessPoints = new List<AccessPointListModel>();
         machine.Norms = new HashSet<NormModel>();
         evaluationMethods = await codeListFacade.GetAllEvaluationMethodsAsync();
@@ -246,6 +264,7 @@
 
     private async void OnValidSubmit()
     {
+        showValidationSummary = false;
         disabled = true;
         var result = await machineFacade.CreateAsync(machine);
         if (result != 0)
@@ -300,6 +319,12 @@
     private void GoToAccessPointDetail(TableRowClickEventArgs<AccessPointListModel> args)
     {
         navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{args.Item.Id}");
+    }
+
+    private void PanelIndexChanged()
+    {
+        showValidationSummary = false;
+        StateHasChanged();
     }
 
 }

@@ -8,6 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using SSEA.Api.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SSEA.BL.Models.SafetyEvaluation.MainModels;
 
 namespace SSEA.Api.Controllers
 {
@@ -93,6 +94,53 @@ namespace SSEA.Api.Controllers
             var userId = this.GetUserIdFromHttpContext();
             await machineFacade.DeleteAsync(id, userId);
             return Ok();
+        }
+
+        // GET: api/machine/selectLogic/{id}
+        [HttpGet("selectLogic/{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "MachineSelectLogic")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<MachineLogicSelectionResponseModel>> SelectLogicAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var response = await machineFacade.SelectLogicAsync(id, userId);
+            if (response is null)
+                return NotFound();
+            return Ok(response);
+        }
+
+        // GET: api/machine/evaluateSafety/{id}
+        [HttpGet("evaluateSafety/{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "MachineEvaluateSafety")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var response = await machineFacade.EvaluateSafetyAsync(id, userId);
+            return Ok(response);
+        }
+
+        // GET: api/machine/machineSafetySummary/{id}
+        [HttpGet("machineSafetySummary/{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "MachinGetSafetySummary")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<MachineSafetySummaryModel>> GetSafetySummaryAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var response = await machineFacade.GetSafetyEvaluationSummary(id);
+            return Ok(response);
         }
     }
 }

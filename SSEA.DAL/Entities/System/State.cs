@@ -23,7 +23,7 @@ namespace SSEA.DAL.Entities.System
         public string DescriptionEN { get; set; }
 
         public int StateNumber { get; set; }
-        public bool Valid { get; set; }
+        public bool IsValid { get; set; }
         public bool InitialState { get; set; }
         public bool FinalState { get; set; }
 

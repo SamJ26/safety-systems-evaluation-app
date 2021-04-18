@@ -12,7 +12,7 @@ namespace SSEA.DAL.Entities.System
         [StringLength(200)]
         public string Note { get; set; }
 
-        public bool Valid { get; set; }
+        public bool IsValid { get; set; }
 
         [Column("CurrentState_Id")]
         public int CurrentStateId { get; set; }

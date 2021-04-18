@@ -1,7 +1,6 @@
 ﻿using SSEA.Client.BL.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.Client.BL.Facades
@@ -43,6 +42,24 @@ namespace SSEA.Client.BL.Facades
         {
             Console.WriteLine("MachineFacade.DeleteAsync(int id)");
             await clientService.MachineDeleteAsync(id);
+        }
+
+        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int id)
+        {
+            Console.WriteLine("MachineFacade.SelectLogicAsync(int id)");
+            return await clientService.MachineSelectLogicAsync(id);
+        }
+
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int id)
+        {
+            Console.WriteLine("MachineFacade.EvaluateSafety(int id)");
+            return await clientService.MachineEvaluateSafetyAsync(id);
+        }
+
+        public async Task<MachineSafetySummaryModel> GetMachineSafetySummaryAsync(int id)
+        {
+            Console.WriteLine("MachineFacade.GetMachineSafetySummaryAsync(int id)");
+            return await clientService.MachinGetSafetySummaryAsync(id);
         }
     }
 }

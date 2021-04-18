@@ -2,19 +2,15 @@
 using SSEA.BL.Extensions;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class SafetyFunctionDetailModelPL : ExtendedModelBase
     {
         [Required]
-        [StringLength(50)]
+        [StringLength(maximumLength: 50, MinimumLength = 1)]
         public string Name { get; set; }
 
         [StringLength(250)]

@@ -7,9 +7,7 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SSEA.Api.Controllers
@@ -71,12 +69,12 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionCreatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelPL newModel)
+        public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelPL newModel, int accessPointId = 0)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var id = await safetyFunctionFacade.CreateAsync(newModel, userId);
+            var id = await safetyFunctionFacade.CreateAsync(newModel, userId, accessPointId);
             return Ok(id);
         }
 
@@ -99,7 +97,20 @@ namespace SSEA.Api.Controllers
 
         // TODO: Update SF SIL
 
-        // TODO: Delete SF
+        // DELETE: api/safetyFunction/{id}
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionDelete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            await safetyFunctionFacade.DeleteAsync(id, userId);
+            return Ok();
+        }
 
         // POST: api/safetyFunction/addSubsystem/{safetyFunctionId}/{subsystemId}
         [HttpPost("addSubsystem/{safetyFunctionId}/{subsystemId}")]
@@ -111,7 +122,8 @@ namespace SSEA.Api.Controllers
         {
             if (safetyFunctionId == 0 || subsystemId == 0)
                 return BadRequest();
-            await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId);
+            var userId = this.GetUserIdFromHttpContext();
+            await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId, userId);
             return Ok();
         }
 
@@ -125,23 +137,26 @@ namespace SSEA.Api.Controllers
         {
             if (safetyFunctionId == 0 || subsystemId == 0)
                 return BadRequest();
-            await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
+            var userId = this.GetUserIdFromHttpContext();
+            await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunctionId, subsystemId, userId);
             return Ok();
         }
 
-        // GET: api/safetyFunction/evaluateSafetyFunction/{id}
-        [HttpGet("evaluateSafetyFunction/{id}")]
+        // GET: api/safetyFunction/pl/evaluateSafetyFunction/{id}
+        [HttpGet("pl/evaluateSafetyFunction/{id}")]
         [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
-        [SwaggerOperation(OperationId = "SafetyFunctionEvaluate")]
+        [SwaggerOperation(OperationId = "SafetyFunctionEvaluatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<SafetyFunctionEvaluationResponseModel>> EvaluateSafetyFunctionAsync(int id)
+        public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionPLAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var response = await safetyFunctionFacade.EvaluateSafetyFunctionAsync(id, userId);
+            var response = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(id, userId);
             return Ok(response);
         }
+
+        // TODO: EvaluateSafetyFunctionSILAsync
     }
 }

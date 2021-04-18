@@ -1,0 +1,78 @@
+﻿
+<MudDialog Style="width: 1000px;">
+    <TitleContent>
+        <MudGrid>
+            <MudItem Style="width: 5%;" />
+            <MudItem Style="width: 90%;">
+                <MudText Align="Align.Center" Typo="Typo.h5">Machine summary</MudText>
+            </MudItem>
+            <MudItem Style="width: 5%;">
+                <MudIconButton @onclick="@Cancel" Icon="@Icons.Material.Filled.Clear" Color="Color.Error" Disabled="@disabled"></MudIconButton>
+            </MudItem>
+        </MudGrid>
+    </TitleContent>
+    <DialogContent>
+        @if (data is not null && data.AccessPoints is not null)
+        {
+            <MudList Clickable="true" Style="margin-bottom: 10px;">
+                <MudDivider />
+                @foreach (var accessPoint in data.AccessPoints)
+                {
+                    string text = accessPoint.AccessPointName + " [ " + accessPoint.AccessPointState.Name + " ] ";
+                    <MudListItem Icon="@Icons.Material.Filled.DirectionsWalk" Text="@text" InitiallyExpanded="false">
+                        <NestedList>
+                            @foreach (var safetyFunction in accessPoint.SafetyFunctions)
+                            {
+                                Color stateColor = safetyFunction.SafetyFunctionState.StateNumber <= 3 ? Color.Default : safetyFunction.SafetyFunctionState.StateNumber == 4 ? Color.Success : Color.Error;
+                                string href = $"/safetyEvaluation/safetyFunctionDetail/{EvaluationMethod}/{MachineId}/{accessPoint.AccessPointId}/{safetyFunction.SafetyFunctionId}";
+                                <MudListItem Icon="@Icons.Material.Filled.Security" Href="@href">
+                                    <MudGrid>
+                                        <MudItem Style="width: 65%;">
+                                            @safetyFunction.SafetyFunctionName
+                                        </MudItem>
+                                        <MudItem Style="width: 35%;">
+                                            <MudText Color="@stateColor">
+                                                @safetyFunction.SafetyFunctionState.Name
+                                            </MudText>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudListItem>
+                            }
+                        </NestedList>
+                    </MudListItem>
+                    <MudDivider />
+                }
+            </MudList>
+        }
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [Inject]
+    private MachineFacade machineFacade { get; set; }
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    private MachineSafetySummaryModel data = new();
+
+    [Parameter]
+    public int MachineId { get; set; }
+
+    [Parameter]
+    public string EvaluationMethod { get; set; }
+
+    private bool disabled = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        data = await machineFacade.GetMachineSafetySummaryAsync(MachineId);
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+}

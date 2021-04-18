@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using SSEA.BL.Extensions;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
-using SSEA.BL.Models.SafetyEvaluation.JoinModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class MachineDetailModel : ExtendedModelBase
     {
         [Required]
-        [StringLength(50)]
+        [StringLength(maximumLength: 50, MinimumLength = 1)]
         public string Name { get; set; }
 
         [StringLength(250)]
@@ -30,7 +28,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 
         [Required]
         public EvaluationMethodModel EvaluationMethod { get; set; }
-        
+
         [Required]
         public MachineTypeModel MachineType { get; set; }
 

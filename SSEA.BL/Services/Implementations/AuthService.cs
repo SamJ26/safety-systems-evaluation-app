@@ -19,6 +19,8 @@ namespace SSEA.BL.Services.Implementations
         private readonly UserManager<User> userManager;
         private readonly IConfiguration configuration;
 
+        private readonly int activeUserStateId = 18;
+
         public AuthService(UserManager<User> userManager, IConfiguration configuration)
         {
             this.userManager = userManager;
@@ -45,7 +47,7 @@ namespace SSEA.BL.Services.Implementations
                 LastName = model.LastName,
                 Email = model.Email,
                 UserName = model.Email,
-                CurrentStateId = 1,
+                CurrentStateId = activeUserStateId,
             };
 
             var result = await userManager.CreateAsync(newUser, model.Password);

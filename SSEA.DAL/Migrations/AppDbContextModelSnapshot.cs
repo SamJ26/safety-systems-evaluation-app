@@ -55,7 +55,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "6ccefb5a-2af5-4920-b4fc-20689cf0f05e",
+                            ConcurrencyStamp = "f9a9c068-2961-4e69-954f-be3e16ffa144",
                             IsValid = true,
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
@@ -63,7 +63,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "033b62c3-50ea-463f-ba96-d086052b0a21",
+                            ConcurrencyStamp = "213f4fef-bdb5-4c4c-8e4b-9f05915e9beb",
                             IsValid = true,
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
@@ -71,7 +71,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "94d63c8d-3524-44e3-bbc6-94e67047f984",
+                            ConcurrencyStamp = "cf697e61-319c-46b9-b2ae-a5820164bb23",
                             IsValid = true,
                             Name = "SafetyEvaluationAdmin",
                             NormalizedName = "SAFETYEVALUATIONADMIN"
@@ -79,7 +79,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "2047496c-0c8d-49ae-bb7e-ff53108436de",
+                            ConcurrencyStamp = "9a1290cf-bb0f-4002-8664-c2b58e9bfd5d",
                             IsValid = true,
                             Name = "UserAdmin",
                             NormalizedName = "USERADMIN"
@@ -1362,6 +1362,8 @@ namespace SSEA.DAL.Migrations
 
                     b.HasIndex("MaxSILId");
 
+                    b.HasIndex("SubsystemId");
+
                     b.ToTable("TypeOfLogic");
 
                     b.HasData(
@@ -1381,7 +1383,7 @@ namespace SSEA.DAL.Migrations
                             NameEN = "Relay",
                             SI = 4,
                             SO = 4,
-                            SubsystemId = 0
+                            SubsystemId = 1
                         },
                         new
                         {
@@ -1399,7 +1401,7 @@ namespace SSEA.DAL.Migrations
                             NameEN = "CR30",
                             SI = 12,
                             SO = 10,
-                            SubsystemId = 0
+                            SubsystemId = 2
                         },
                         new
                         {
@@ -1416,7 +1418,7 @@ namespace SSEA.DAL.Migrations
                             NameEN = "GMX",
                             SI = 6144,
                             SO = 6144,
-                            SubsystemId = 0
+                            SubsystemId = 3
                         },
                         new
                         {
@@ -1433,7 +1435,7 @@ namespace SSEA.DAL.Migrations
                             NameEN = "GLX",
                             SI = 65536,
                             SO = 65536,
-                            SubsystemId = 0
+                            SubsystemId = 4
                         });
                 });
 
@@ -3400,6 +3402,10 @@ namespace SSEA.DAL.Migrations
                     b.Property<DateTime?>("DateTimeUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<double?>("HFT")
                         .HasColumnType("float");
 
@@ -3410,9 +3416,6 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsRemoved")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsUsed")
                         .HasColumnType("bit");
 
                     b.Property<int?>("MTTFdResultId")
@@ -3468,6 +3471,88 @@ namespace SSEA.DAL.Migrations
                     b.HasIndex("TypeOfSubsystemId");
 
                     b.ToTable("Subsystem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ArchitectureId = 4,
+                            CFF = 0.0,
+                            CategoryId = 5,
+                            CurrentStateId = 16,
+                            DCresultId = 4,
+                            DateTimeCreated = new DateTime(2021, 4, 11, 13, 28, 46, 375, DateTimeKind.Local).AddTicks(8906),
+                            Description = "Relay",
+                            IdCreated = 0,
+                            IsRemoved = false,
+                            MTTFdResultId = 3,
+                            OperationPrincipleId = 4,
+                            PFHdResultId = 1,
+                            PLresultId = 5,
+                            SFFresult = (short)0,
+                            TypeOfSubsystemId = 3,
+                            ValidCCF = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ArchitectureId = 4,
+                            CFF = 0.0,
+                            CategoryId = 5,
+                            CurrentStateId = 16,
+                            DCresultId = 4,
+                            DateTimeCreated = new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1207),
+                            Description = "CR30",
+                            IdCreated = 0,
+                            IsRemoved = false,
+                            MTTFdResultId = 3,
+                            OperationPrincipleId = 2,
+                            PFHdResultId = 1,
+                            PLresultId = 5,
+                            SFFresult = (short)0,
+                            TypeOfSubsystemId = 3,
+                            ValidCCF = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ArchitectureId = 4,
+                            CFF = 0.0,
+                            CategoryId = 5,
+                            CurrentStateId = 16,
+                            DCresultId = 4,
+                            DateTimeCreated = new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1256),
+                            Description = "GMX",
+                            IdCreated = 0,
+                            IsRemoved = false,
+                            MTTFdResultId = 3,
+                            OperationPrincipleId = 2,
+                            PFHdResultId = 1,
+                            PLresultId = 5,
+                            SFFresult = (short)0,
+                            TypeOfSubsystemId = 3,
+                            ValidCCF = true
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ArchitectureId = 4,
+                            CFF = 0.0,
+                            CategoryId = 5,
+                            CurrentStateId = 16,
+                            DCresultId = 4,
+                            DateTimeCreated = new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1261),
+                            Description = "GLX",
+                            IdCreated = 0,
+                            IsRemoved = false,
+                            MTTFdResultId = 3,
+                            OperationPrincipleId = 2,
+                            PFHdResultId = 1,
+                            PLresultId = 5,
+                            SFFresult = (short)0,
+                            TypeOfSubsystemId = 3,
+                            ValidCCF = true
+                        });
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.System.Entity", b =>
@@ -3512,23 +3597,17 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             IsRemoved = false,
-                            Name = "Producer"
+                            Name = "SafetyFunction"
                         },
                         new
                         {
                             Id = 5,
                             IsRemoved = false,
-                            Name = "SafetyFunction"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            IsRemoved = false,
                             Name = "Subsystem"
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 6,
                             IsRemoved = false,
                             Name = "User"
                         });
@@ -3562,6 +3641,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
                     b.Property<string>("NameCZ")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -3574,9 +3656,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<int>("StateNumber")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Valid")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("EntityId");
@@ -3587,16 +3666,16 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DescriptionCZ = "Řídící jednotka není vybrána",
-                            DescriptionEN = "Conrol logic is not selected",
+                            DescriptionCZ = "Počáteční stav - řídící jednotka není vybrána",
+                            DescriptionEN = "Initial state - conrol system is not selected",
                             EntityId = 3,
                             FinalState = false,
                             InitialState = true,
                             IsRemoved = false,
+                            IsValid = true,
                             NameCZ = "Nová",
                             NameEN = "New",
-                            StateNumber = 1,
-                            Valid = true
+                            StateNumber = 1
                         },
                         new
                         {
@@ -3607,184 +3686,238 @@ namespace SSEA.DAL.Migrations
                             FinalState = false,
                             InitialState = false,
                             IsRemoved = false,
+                            IsValid = true,
                             NameCZ = "Rozpracovaná",
                             NameEN = "Work in progres",
-                            StateNumber = 2,
-                            Valid = true
+                            StateNumber = 2
                         },
                         new
                         {
                             Id = 3,
                             DescriptionCZ = "Řídící jednotka byla vybrána",
-                            DescriptionEN = "Control logic was selected",
+                            DescriptionEN = "Control system was selected",
                             EntityId = 3,
                             FinalState = false,
                             InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Dokončená",
-                            NameEN = "Completed",
-                            StateNumber = 3,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "S vybranou řídící jednotkou",
+                            NameEN = "With selected control system",
+                            StateNumber = 3
                         },
                         new
                         {
                             Id = 4,
-                            DescriptionCZ = "Mašina byla odstránená",
-                            DescriptionEN = "Machine was deleted",
+                            DescriptionCZ = "Všechny bezpečnostní funkce splňují požadavky",
+                            DescriptionEN = "All safety functions meet the requirements",
                             EntityId = 3,
                             FinalState = true,
                             InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Odstránená",
-                            NameEN = "Removed",
-                            StateNumber = 4,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Vyhodnocená - validní",
+                            NameEN = "Evaluated - valid",
+                            StateNumber = 4
                         },
                         new
                         {
                             Id = 5,
-                            DescriptionCZ = "Bez bezpečnostní funkce",
-                            DescriptionEN = "Without safety function",
-                            EntityId = 1,
-                            FinalState = false,
-                            InitialState = true,
+                            DescriptionCZ = "Některé bezpečnostní funkce nesplňují požadavky",
+                            DescriptionEN = "Some safety functions do not meet the requirements",
+                            EntityId = 3,
+                            FinalState = true,
+                            InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Nový",
-                            NameEN = "New",
-                            StateNumber = 1,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Vyhodnocená - invalidní",
+                            NameEN = "Evaluated - invalid",
+                            StateNumber = 5
                         },
                         new
                         {
                             Id = 6,
-                            DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
-                            DescriptionEN = "Access point has one or more safety functions",
+                            DescriptionCZ = "Počáteční stav - bez bezpečnostní funkce",
+                            DescriptionEN = "Initial state - without safety function",
                             EntityId = 1,
                             FinalState = false,
-                            InitialState = false,
+                            InitialState = true,
                             IsRemoved = false,
-                            NameCZ = "Ošetřený bezpečnostní funkcí",
-                            NameEN = "Protected with safety function",
-                            StateNumber = 2,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Nový",
+                            NameEN = "New",
+                            StateNumber = 1
                         },
                         new
                         {
                             Id = 7,
-                            DescriptionCZ = "Přístupový bod byl odstránený",
-                            DescriptionEN = "Access point was deleted",
+                            DescriptionCZ = "Pracuje se na detailech",
+                            DescriptionEN = "Working on details",
                             EntityId = 1,
-                            FinalState = true,
+                            FinalState = false,
                             InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Odstránený",
-                            NameEN = "Removed",
-                            StateNumber = 3,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Rozpracovaný",
+                            NameEN = "Work in progress",
+                            StateNumber = 2
                         },
                         new
                         {
                             Id = 8,
-                            DescriptionCZ = "S nevyplnenými subsystémami",
-                            DescriptionEN = "Subsystems are not filled",
-                            EntityId = 5,
-                            FinalState = false,
-                            InitialState = true,
+                            DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
+                            DescriptionEN = "Access point has one or more safety functions",
+                            EntityId = 1,
+                            FinalState = true,
+                            InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Nová",
-                            NameEN = "New",
-                            StateNumber = 1,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Ošetřený bezpečnostní funkcí",
+                            NameEN = "Protected with safety function",
+                            StateNumber = 3
                         },
                         new
                         {
                             Id = 9,
-                            DescriptionCZ = "Příprava subsystému",
-                            DescriptionEN = "Preparing subsystems",
-                            EntityId = 5,
-                            FinalState = false,
+                            DescriptionCZ = "Přístupový bod nemá bezpečnostní funkce",
+                            DescriptionEN = "Access point has not any safety functions",
+                            EntityId = 1,
+                            FinalState = true,
                             InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Rozpracovaná",
-                            NameEN = "Work in progress",
-                            StateNumber = 2,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Neošetřený bezpečnostní funkcí",
+                            NameEN = "Not protected with safety function",
+                            StateNumber = 4
                         },
                         new
                         {
                             Id = 10,
-                            DescriptionCZ = "Určená výsledná úroveň bezpečnosti",
-                            DescriptionEN = "Determined final level of security",
-                            EntityId = 5,
+                            DescriptionCZ = "Počáteční stav - s nevyplnenými subsystémami",
+                            DescriptionEN = "Initial state - subsystems are not filled",
+                            EntityId = 4,
                             FinalState = false,
-                            InitialState = false,
+                            InitialState = true,
                             IsRemoved = false,
-                            NameCZ = "Dokončená",
-                            NameEN = "Completed",
-                            StateNumber = 3,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Nová",
+                            NameEN = "New",
+                            StateNumber = 1
                         },
                         new
                         {
                             Id = 11,
-                            DescriptionCZ = "Bezpečnostní funkce byla odstránena",
-                            DescriptionEN = "Safety function was deleted",
-                            EntityId = 5,
+                            DescriptionCZ = "Příprava subsystému",
+                            DescriptionEN = "Preparing subsystems",
+                            EntityId = 4,
                             FinalState = false,
                             InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Odstránená",
-                            NameEN = "Removed",
-                            StateNumber = 4,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Rozpracovaná",
+                            NameEN = "Work in progress",
+                            StateNumber = 2
                         },
                         new
                         {
                             Id = 12,
-                            EntityId = 7,
+                            DescriptionCZ = "Vstupní i výstupní subsystém je vyplněn",
+                            DescriptionEN = "Input and output subsystems are completed",
+                            EntityId = 4,
                             FinalState = false,
-                            InitialState = true,
+                            InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Aktivní",
-                            NameEN = "Active",
-                            StateNumber = 1,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Připravená na vyhodnocení",
+                            NameEN = "Ready for evaluation",
+                            StateNumber = 3
                         },
                         new
                         {
                             Id = 13,
-                            EntityId = 7,
-                            FinalState = false,
+                            DescriptionCZ = "Výsledná úroveň bezpečnosti splňuje požadavky",
+                            DescriptionEN = "Determined final level of security meets the requirements",
+                            EntityId = 4,
+                            FinalState = true,
                             InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Zablokovaný",
-                            NameEN = "Blocked",
-                            StateNumber = 2,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Vyhodnocená - validní",
+                            NameEN = "Evaluated - valid",
+                            StateNumber = 4
                         },
                         new
                         {
                             Id = 14,
-                            EntityId = 6,
-                            FinalState = false,
-                            InitialState = true,
+                            DescriptionCZ = "Výsledná úroveň bezpečnosti nesplňuje požadavky",
+                            DescriptionEN = "Determined final level of security does not meet the requirements",
+                            EntityId = 4,
+                            FinalState = true,
+                            InitialState = false,
                             IsRemoved = false,
-                            NameCZ = "Nový",
-                            NameEN = "New",
-                            StateNumber = 1,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Vyhodnocená - invalidní",
+                            NameEN = "Evaluated - invalid",
+                            StateNumber = 5
                         },
                         new
                         {
                             Id = 15,
+                            EntityId = 5,
+                            FinalState = true,
+                            InitialState = true,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Použitý",
+                            NameEN = "Used in safety function",
+                            StateNumber = 1
+                        },
+                        new
+                        {
+                            Id = 16,
+                            EntityId = 5,
+                            FinalState = true,
+                            InitialState = true,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Nepoužitý",
+                            NameEN = "Not used in safety function",
+                            StateNumber = 2
+                        },
+                        new
+                        {
+                            Id = 17,
                             EntityId = 2,
                             FinalState = false,
                             InitialState = true,
                             IsRemoved = false,
-                            NameCZ = "Nový",
-                            NameEN = "New",
-                            StateNumber = 1,
-                            Valid = true
+                            IsValid = true,
+                            NameCZ = "Validní",
+                            NameEN = "Valid",
+                            StateNumber = 1
+                        },
+                        new
+                        {
+                            Id = 18,
+                            EntityId = 6,
+                            FinalState = false,
+                            InitialState = true,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Aktivní",
+                            NameEN = "Active",
+                            StateNumber = 1
+                        },
+                        new
+                        {
+                            Id = 19,
+                            EntityId = 6,
+                            FinalState = true,
+                            InitialState = false,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Zablokovaný",
+                            NameEN = "Blocked",
+                            StateNumber = 2
                         });
                 });
 
@@ -3802,6 +3935,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("bit");
+
                     b.Property<int>("NextStateId")
                         .HasColumnType("int")
                         .HasColumnName("NextState_Id");
@@ -3809,9 +3945,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<string>("Note")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("Valid")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -3910,6 +4043,12 @@ namespace SSEA.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Subsystem", "Subsystem")
+                        .WithMany()
+                        .HasForeignKey("SubsystemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("MaxArchitecture");
 
                     b.Navigation("MaxCategory");
@@ -3917,6 +4056,8 @@ namespace SSEA.DAL.Migrations
                     b.Navigation("MaxPL");
 
                     b.Navigation("MaxSIL");
+
+                    b.Navigation("Subsystem");
                 });
 
             modelBuilder.Entity("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.Category", b =>

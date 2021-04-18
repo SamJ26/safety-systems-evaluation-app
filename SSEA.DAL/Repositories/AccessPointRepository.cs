@@ -4,7 +4,6 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.DAL.Repositories
@@ -13,7 +12,8 @@ namespace SSEA.DAL.Repositories
     {
         private readonly AppDbContext dbContext;
 
-        private readonly int accessPointRemovedStateId = 7;
+        private readonly int accessPointNewStateId = 6;
+        private readonly int accessPointWorkInProgressStateId = 7;
 
         public AccessPointRepository(AppDbContext dbContext)
         {
@@ -51,55 +51,78 @@ namespace SSEA.DAL.Repositories
         public async Task<int> UpdateAsync(AccessPoint accessPoint, int userId)
         {
             accessPoint.Machine = null;
-            dbContext.Attach(accessPoint.CurrentState).State = EntityState.Unchanged;
+            accessPoint.CurrentState = null;
             dbContext.Update(accessPoint);
             await dbContext.CommitChangesAsync();
             return accessPoint.Id;
         }
 
-        public async Task AddExistingSafetyFunctions(ICollection<AccessPointSafetyFunction> joinEntities)
+        public async Task AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
         {
-            dbContext.AddRange(joinEntities);
-            await dbContext.SaveChangesAsync();
-        }
-
-        public async Task AddNewSafetyFunctions(ICollection<SafetyFunction> safetyFunctions, int accessPointId, int userId)
-        {
-            foreach (var safetyFunction in safetyFunctions)
+            AccessPointSafetyFunction entity = new()
             {
-                safetyFunction.CurrentStateId = 8;
-
-                // Explicitly setting up ids of navigation properties to avoid exception with tracking same entity more than ones
-                safetyFunction.EvaluationMethodId = safetyFunction.EvaluationMethod.Id;
-                safetyFunction.EvaluationMethod = null;
-                safetyFunction.TypeOfFunctionId = safetyFunction.TypeOfFunction.Id;
-                safetyFunction.TypeOfFunction = null;
-
-                await dbContext.AddAsync(safetyFunction);
-                await dbContext.CommitChangesAsync(userId);
-                var joinEntity = new AccessPointSafetyFunction()
-                {
-                    AccessPointId = accessPointId,
-                    SafetyFunctionId = safetyFunction.Id
-                };
-                await dbContext.AddAsync(joinEntity);
-                await dbContext.SaveChangesAsync();
-            }
-        }
-
-        public async Task RemoveSafetyFunctions(ICollection<SafetyFunction> safetyFunctions, int accessPointId)
-        {
-            var entites = await dbContext.AccessPointSafetyFunctions.Where(apsf => apsf.AccessPointId == accessPointId && safetyFunctions.Select(sf => sf.Id).Contains(apsf.SafetyFunctionId)).ToListAsync();
-            dbContext.RemoveRange(entites);
+                AccessPointId = accessPointId,
+                SafetyFunctionId = safetyFunctionId
+            };
+            await dbContext.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id, int userId)
+        public async Task RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
         {
-            AccessPoint acessPoint = await dbContext.AccessPoints.Where(ap => ap.Id == id).AsNoTracking().FirstOrDefaultAsync();
-            acessPoint.CurrentStateId = accessPointRemovedStateId;
+            var entity = await dbContext.AccessPointSafetyFunctions.AsNoTracking().FirstOrDefaultAsync(i => i.AccessPointId == accessPointId && i.SafetyFunctionId == safetyFunctionId);
+            dbContext.Remove(entity);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int accessPointId, int userId)
+        {
+            // Removing access point
+            AccessPoint acessPoint = await dbContext.AccessPoints.Where(ap => ap.Id == accessPointId).AsNoTracking().FirstOrDefaultAsync();
+            acessPoint.IsRemoved = true;
             dbContext.Update(acessPoint);
             await dbContext.CommitChangesAsync(userId);
+
+            // Removing records from AccessPointSafetyFunction join table
+            var accessPointSafetyFunctions = await dbContext.AccessPointSafetyFunctions.AsNoTracking().Where(e => e.AccessPointId == accessPointId).ToListAsync();
+            foreach (var item in accessPointSafetyFunctions)
+            {
+                item.IsRemoved = true;
+            }
+            dbContext.UpdateRange(accessPointSafetyFunctions);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateAccessPointStateAsync(int accessPointId, int userId, int stateId = 0)
+        {
+            // Untracking all tracked entites.
+            dbContext.ChangeTracker.Clear();
+
+            AccessPoint accessPoint = await dbContext.AccessPoints.AsNoTracking().FirstOrDefaultAsync(ap => ap.Id == accessPointId);
+            int nextStateId = accessPoint.CurrentStateId;
+
+            if (stateId != 0)
+            {
+                if (accessPoint.CurrentStateId == stateId)
+                    return accessPoint.MachineId;
+                nextStateId = stateId;
+            }
+            else
+            {
+                // Initial state
+                if (accessPoint.CurrentStateId == accessPointNewStateId)
+                {
+                    // If there is at least one safety function related to this access point -> moving to next state "work in progress"
+                    if (await dbContext.AccessPointSafetyFunctions.AnyAsync(apsf => apsf.AccessPointId == accessPoint.Id))
+                        nextStateId = accessPointWorkInProgressStateId;
+                }
+            }
+            if (accessPoint.CurrentStateId == nextStateId)
+                return accessPoint.MachineId;
+            accessPoint.CurrentStateId = nextStateId;
+            dbContext.Update(accessPoint);
+            await dbContext.CommitChangesAsync(userId);
+            return accessPoint.MachineId;
         }
     }
 }
