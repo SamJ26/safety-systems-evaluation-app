@@ -223,20 +223,20 @@
 
 @code {
 
-        [Inject]
-        private IDialogService dialogService { get; set; }
+    [Inject]
+    private IDialogService dialogService { get; set; }
 
-        [Inject]
-        private MachineFacade machineFacade { get; set; }
+    [Inject]
+    private MachineFacade machineFacade { get; set; }
 
-        [Inject]
-        private CodeListFacade codeListFacade { get; set; }
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
 
-        [Inject]
-        private NavigationManager navigationManager { get; set; }
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
 
-        [Parameter]
-        public int Id { get; set; }
+    [Parameter]
+    public int Id { get; set; }
 
     private MachineDetailModel machine = new MachineDetailModel();
 

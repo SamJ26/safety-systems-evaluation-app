@@ -36,24 +36,32 @@
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@PanelIndexChanged" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Access point details">
-                    <EditForm Model="@accessPoint" OnValidSubmit="OnValidSubmit" id="formId">
+                    <EditForm Model="@accessPoint" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="4">
                                 <MudTextField @bind-Value="accessPoint.Name" ReadOnly="@onlyForReading" Label="Access point name *" Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="accessPoint.MachineName" Label="Machine name" Variant="Variant.Outlined" ReadOnly="true"/>
+                                <MudTextField @bind-Value="accessPoint.MachineName" Label="Machine name" Variant="Variant.Outlined" ReadOnly="true" />
                             </MudItem>
                             <MudItem xs="4">
-                                <MudTextField @bind-Value="accessPoint.EvaluationMethod" Label="Evaluation method" Variant="Variant.Outlined" ReadOnly="true"/>
+                                <MudTextField @bind-Value="accessPoint.EvaluationMethod" Label="Evaluation method" Variant="Variant.Outlined" ReadOnly="true" />
                             </MudItem>
                             <MudItem xs="12">
                                 <MudTextField @bind-Value="accessPoint.Description" ReadOnly="@onlyForReading" T="string" Label="Access point description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
+                            @if (showValidationSummary)
+                            {
+                                <MudItem xs="12">
+                                    <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
+                                        <ValidationSummary />
+                                    </MudAlert>
+                                </MudItem>
+                            }
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -141,6 +149,7 @@
 
     private AccessPointDetailModel accessPoint = new AccessPointDetailModel();
 
+    private bool showValidationSummary = false;
     private bool showDialog = false;
     private bool disabled = false;
     private bool onlyForReading = true;
@@ -225,6 +234,7 @@
 
     private async void OnValidSubmit()
     {
+        showValidationSummary = false;
         disabled = true;
         onlyForReading = true;
         var result = await accessPointFacade.UpdateAsync(accessPoint);
@@ -244,4 +254,9 @@
         StateHasChanged();
     }
 
+    private void PanelIndexChanged()
+    {
+        showValidationSummary = false;
+        StateHasChanged();
+    }
 }
