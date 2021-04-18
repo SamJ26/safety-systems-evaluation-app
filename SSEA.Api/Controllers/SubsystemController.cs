@@ -95,10 +95,6 @@ namespace SSEA.Api.Controllers
 
         // TODO: Create Subsystem SIL
 
-        // TODO: Update Subsystem PL
-
-        // TODO: Update Subsystem SIL
-
         // DELETE: api/subsystem/{id}
         [HttpDelete("{id}")]
         [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]

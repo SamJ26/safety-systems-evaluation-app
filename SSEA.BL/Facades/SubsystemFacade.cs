@@ -98,10 +98,6 @@ namespace SSEA.BL.Facades
 
         // TODO: Create Subsystem SIL
 
-        // TODO: Update Subsystem PL - always chekc if current state is Unsued
-
-        // TODO: Update Subsystem SIL - always chekc if current state is Unsued
-
         public async Task DeleteAsync(int subsystemId, int userId)
         {
             await subsystemRepository.DeleteAsync(subsystemId, userId);

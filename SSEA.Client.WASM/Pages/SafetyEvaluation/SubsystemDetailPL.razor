@@ -188,7 +188,17 @@
 
     private async Task Delete()
     {
-        // TODO
+        var parameters = new DialogParameters() { ["ItemToDelte"] = "subsystem" };
+        var dialog = dialogService.Show<ApproveDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await subsystemFacade.DeleteAsync(subsystem.Id);
+            if (SafetyFunctionId != 0)
+                navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
+            else
+                navigationManager.NavigateTo("/safetyEvaluation/subsystemList");
+        }
     }
 
 }
