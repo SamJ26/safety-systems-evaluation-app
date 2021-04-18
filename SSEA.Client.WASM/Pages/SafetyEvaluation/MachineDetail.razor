@@ -345,7 +345,7 @@
     {
         disabled = true;
         onlyForReading = true;
-        var parameters = new DialogParameters() { ["MainText"] = "Logic is already selected!" };
+        var parameters = new DialogParameters() { ["MainText"] = "This action can override current data" };
         var dialog = dialogService.Show<WarningDialog>("Warning", parameters );
         var result = await dialog.Result;
         if (!result.Cancelled)
@@ -395,7 +395,7 @@
     {
         disabled = true;
         onlyForReading = true;
-        var parameters = new DialogParameters() { ["MainText"] = "Machine is already evaluated!", ["AdditionalText"] = "This actions can make changes to all parts of this machine" };
+        var parameters = new DialogParameters() { ["MainText"] = "This action can override current data" };
         var dialog = dialogService.Show<WarningDialog>("Warning", parameters);
         var result = await dialog.Result;
         if (!result.Cancelled)

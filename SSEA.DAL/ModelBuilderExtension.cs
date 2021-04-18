@@ -1768,7 +1768,6 @@ namespace SSEA.DAL
                     FinalState = false,
                     EntityId = 4,
                 },
-
                 new State()
                 {
                     Id = 13,

@@ -506,22 +506,27 @@
     {
         disabled = true;
         onlyForReading = true;
-        SafetyEvaluationResponseModel response = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(safetyFunction.Id);
-        if (response.IsSuccess)
+        var parameters = new DialogParameters() { ["MainText"] = "This actions can override current data" };
+        var dialog = dialogService.Show<WarningDialog>("Warning", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
         {
-            messageType = Severity.Success;
-            message = response.Message;
-            safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
-        }
-        else
-        {
-            messageType = Severity.Error;
-            message = response.Message;
+            SafetyEvaluationResponseModel response = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(safetyFunction.Id);
+            if (response.IsSuccess)
+            {
+                messageType = Severity.Success;
+                message = response.Message;
+                safetyFunction = await safetyFunctionFacade.GetByIdPLAsync(safetyFunction.Id);
+            }
+            else
+            {
+                messageType = Severity.Error;
+                message = response.Message;
+            }         
         }
         showMessage = true;
         disabled = false;
         StateHasChanged();
-        Console.WriteLine($"Show message: {showMessage}, message: {response.Message}");
     }
 
     private void PanelIndexChanged()

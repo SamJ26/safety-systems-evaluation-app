@@ -275,7 +275,7 @@ namespace SSEA.BL.Facades
                 return typeOfLogics.FirstOrDefault(tol => tol.Id == 4);
         }
 
-        // TODO: make it work for both PL and SIL using func method for evaluatio of safety function ?
+        // TODO: make it work for both PL and SIL using func method for evaluation of safety function ?
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId, int userId)
         {
             int machineEvaluatedValidStateId = 4;
