@@ -19,12 +19,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [StringLength(200)]
         public string Description { get; set; }
 
-        [Required]
         public string MachineName { get; set; }
-
-        [Required]
         public string EvaluationMethod { get; set; }
-
         public int MachineId { get; set; }
 
         public ICollection<SafetyFunctionListModel> SafetyFunctions { get; set; }

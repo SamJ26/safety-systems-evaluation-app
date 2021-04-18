@@ -8,7 +8,8 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h5"><strong>Detail of access point</strong><small> [ @(accessPoint.CurrentState is not null ? accessPoint.CurrentState.Name : "Unknown") ]</small></MudText>
+                <MudText Typo="Typo.h5"><strong>Detail of access point</strong></MudText>
+                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>[ @(accessPoint.CurrentState is not null ? accessPoint.CurrentState.Name : "Unknown") ]</small></MudText>
                 <MudText Typo="Typo.body2">Created - user ID: @accessPoint.IdCreated, time: @accessPoint.DateTimeCreated</MudText>
                 @if (accessPoint.IdUpdated != null)
                 {
@@ -16,12 +17,20 @@
                 }
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="BackToMachine" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" />
+                <MudTooltip Text="Back to machine">
+                    <MudIconButton @onclick="BackToMachine" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" />
+                </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
-                        <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
-                        <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
-                        <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                        <MudTooltip Text="Edit data">
+                            <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
+                        </MudTooltip>
+                        <MudTooltip Text="Save">
+                            <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
+                        </MudTooltip>
+                        <MudTooltip Text="Delete">
+                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                        </MudTooltip>
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
