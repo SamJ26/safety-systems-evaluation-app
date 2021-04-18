@@ -65,9 +65,9 @@
                     </EditForm>
                 </MudTabPanel>
 
-                <MudTabPanel Text="CCF" Disabled="@(subsystem.Category.Label == string.Empty || subsystem.Category.Label is null)">
+                <MudTabPanel Text="CCF" Disabled="@(subsystem.Category?.Label == string.Empty || subsystem.Category?.Label is null)">
                     <MudGrid Style="padding: 20px;">
-                        @if (subsystem.Category.RelevantCCF == true)
+                        @if (subsystem.Category?.RelevantCCF == true)
                         {
                             <MudItem xs="12">
                                 <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true">
@@ -101,9 +101,9 @@
                     </MudGrid>
                 </MudTabPanel>
 
-                <MudTabPanel Text="Elements" Disabled="@(subsystem.Category.Label == string.Empty || subsystem.Category.Label is null)">
+                <MudTabPanel Text="Elements" Disabled="@(subsystem.Category?.Label == string.Empty || subsystem.Category?.Label is null)">
                     <MudGrid Style="padding: 20px;">
-                        @if (subsystem.Category.Channels == 1)
+                        @if (subsystem.Category?.Channels == 1)
                         {
                             <MudItem xs="3" />
                             <MudItem xs="6">
@@ -289,13 +289,13 @@
             foreach (var element in subsystem.Elements)
             {
                 if (string.IsNullOrEmpty(element.CatalogNumber) || string.IsNullOrWhiteSpace(element.CatalogNumber))
-                    throw new Exception("Missing catalog number");
+                    throw new Exception("Validation error in the elements section - missing catalog number");
                 if (element.Dc is null)
-                    throw new Exception("Missing DC");
+                    throw new Exception("Validation error in the elements section - missing DC");
                 if (element.Producer is null)
-                    throw new Exception("Missing producer");
+                    throw new Exception("Validation error in the elements section - missing producer");
                 if (element.MttFdResult is null && (element.B10d == 0 || element.Hop == 0 || element.Dop == 0 || element.Tcycles == 0))
-                    throw new Exception("Missing MTTFd or fields required for its evaluation");
+                    throw new Exception("Validation error in the elements section - missing MTTFd or fields required for its evaluation");
             }
         }
         catch (Exception e)
