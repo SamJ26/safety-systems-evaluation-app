@@ -11,15 +11,19 @@
                 <MudText Typo="Typo.h6"><strong>Create new subsystem</strong></MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="@BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(safetyFunctionId == 0 || disabled)" />
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(disabled || tabs.ActivePanelIndex != 0)" />
+                <MudTooltip Text="Back to safety function">
+                    <MudIconButton @onclick="@BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(safetyFunctionId == 0 || disabled)" />
+                </MudTooltip>
+                <MudTooltip Text="Save">
+                    <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(disabled || tabs.ActivePanelIndex != 0)" />
+                </MudTooltip>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
-            <MudTabs @ref="tabs" ActivePanelIndexChanged="@(() => StateHasChanged())" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+            <MudTabs @ref="tabs" ActivePanelIndexChanged="@PanelIndexChanged" Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
 
                 <MudTabPanel Text="Subsystem details">
-                    <EditForm Model="@subsystem" OnValidSubmit="OnValidSubmit" id="formId">
+                    <EditForm Model="@subsystem" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="12">
@@ -49,6 +53,14 @@
                             <MudItem xs="12">
                                 <MudTextField @bind-Value="subsystem.Description" T="string" Label="Subsystem description" Variant="Variant.Outlined" Lines="3" />
                             </MudItem>
+                            @if (showValidationSummary)
+                            {
+                                <MudItem xs="12">
+                                    <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
+                                        <ValidationSummary />
+                                    </MudAlert>
+                                </MudItem>
+                            }
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -168,6 +180,7 @@
     private int accessPointId;
     private int safetyFunctionId;
 
+    private bool showValidationSummary = false;
     private bool equalElements = true;
     private bool disabled = false;
     private bool typeSelected = false;
@@ -198,12 +211,17 @@
             };
             typeSelected = true;
         }
+        else
+            subsystem.TypeOfSubsystem = null;
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("machineId", out var _machineId))
             machineId = Convert.ToInt32(_machineId);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("accessPointId", out var _accessPointId))
             accessPointId = Convert.ToInt32(_accessPointId);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("safetyFunctionId", out var _safetyFunctionId))
             safetyFunctionId = Convert.ToInt32(_safetyFunctionId);
+
+        subsystem.OperationPrinciple = null;
+        subsystem.Category = null;
 
         StateHasChanged();
     }
@@ -216,6 +234,7 @@
     private async Task OnValidSubmit()
     {
         disabled = true;
+        showValidationSummary = false;
 
         subsystem.Elements = new List<ElementDetailModelPL>();
         subsystem.Elements.Add(element1);
@@ -224,33 +243,67 @@
         if (subsystem.Category.Channels == 2 && equalElements == false)
             subsystem.Elements.Add(element2);
 
-        SubsystemCreationResponseModel response;
-        response = await subsystemFacade.CreateAsync(subsystem, safetyFunctionId);
-
-        if (response.IsSuccess)
+        if (ValidateElements() == true)
         {
-            messageType = Severity.Success;
-            message = response.Message;
-            showMessage = true;
-            StateHasChanged();
-            await Task.Delay(2000);
+            SubsystemCreationResponseModel response;
+            response = await subsystemFacade.CreateAsync(subsystem, safetyFunctionId);
 
-            // Creating subsystem within safety function -> navigate to safety function detail
-            if (safetyFunctionId != 0)
-                BackToSafetyFunction();
+            if (response.IsSuccess)
+            {
+                messageType = Severity.Success;
+                message = response.Message;
+                showMessage = true;
+                StateHasChanged();
+                await Task.Delay(2000);
 
-            // Creating independed subsystem -> navigate to subsystem detail
+                // Creating subsystem within safety function -> navigate to safety function detail
+                if (safetyFunctionId != 0)
+                    BackToSafetyFunction();
+
+                // Creating independed subsystem -> navigate to subsystem detail
+                else
+                    navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{0}/{0}/{0}/{response.SubsystemId}");
+            }
             else
-                navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{0}/{0}/{0}/{response.SubsystemId}");
+                message = response.Message;
         }
-        else
+        messageType = Severity.Error;
+        showMessage = true;
+        disabled = false;
+        StateHasChanged();
+
+    }
+
+    private void PanelIndexChanged()
+    {
+        showValidationSummary = false;
+        StateHasChanged();
+    }
+
+    private bool ValidateElements()
+    {
+        try
         {
-            messageType = Severity.Error;
-            message = response.Message;
-            showMessage = true;
-            disabled = false;
-            StateHasChanged();
+            if (subsystem.Elements is null || subsystem.Elements.Count == 0)
+                throw new Exception("Subsystem has 0 elements");
+            foreach (var element in subsystem.Elements)
+            {
+                if (string.IsNullOrEmpty(element.CatalogNumber) || string.IsNullOrWhiteSpace(element.CatalogNumber))
+                    throw new Exception("Missing catalog number");
+                if (element.Dc is null)
+                    throw new Exception("Missing DC");
+                if (element.Producer is null)
+                    throw new Exception("Missing producer");
+                if (element.MttFdResult is null && (element.B10d == 0 || element.Hop == 0 || element.Dop == 0 || element.Tcycles == 0))
+                    throw new Exception("Missing MTTFd or fields required for its evaluation");
+            }
         }
+        catch (Exception e)
+        {
+            message = e.Message;
+            return false;
+        }
+        return true;
     }
 
 }

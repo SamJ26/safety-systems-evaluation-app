@@ -17,7 +17,9 @@
                 }
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton @onclick="@BackToAccessPoint" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(MachineId == 0 || AccessPointId == 0)" />
+                <MudTooltip Text="Back to access point">
+                    <MudIconButton @onclick="@BackToAccessPoint" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(MachineId == 0 || AccessPointId == 0)" />
+                </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
                         <MudTooltip Text="Edit data">
