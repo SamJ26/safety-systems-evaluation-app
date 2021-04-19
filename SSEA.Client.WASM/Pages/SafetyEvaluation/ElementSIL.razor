@@ -20,39 +20,28 @@
             }
         </MudSelect>
     </MudItem>
-    <MudItem xs="12">
-        <MudSelect @bind-Value="Model.MttFdResult" T="MTTFdModel" Label="MTTFd *" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@mttfdToString">
-            @foreach (var item in MTTFds)
-            {
-                <MudSelectItem T="MTTFdModel" Value="@(item)" />
-            }
-        </MudSelect>
-    </MudItem>
-    <MudItem xs="12" Style="padding-bottom: 0px;">
-        <MudText Typo="Typo.subtitle1" Style="margin-bottom: 5px;">Fill data below if you don't know MTTFd</MudText>
-        <hr />
-    </MudItem>
-    <MudItem xs="3">
+    <MudItem xs="6">
         <MudTextField @bind-Value="Model.B10d" Label="B10d" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
     </MudItem>
-    <MudItem xs="3">
-        <MudTextField @bind-Value="Model.Hop" Label="Hop" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+    <MudItem xs="6">
+        <MudTextField @bind-Value="Model.C" Label="C" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
     </MudItem>
-    <MudItem xs="3">
-        <MudTextField @bind-Value="Model.Dop" Label="Dop" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+    <MudItem xs="12" Style="padding-bottom: 0px;">
+        <MudText Typo="Typo.subtitle1" Style="margin-bottom: 5px;">Below you can select SFF</MudText>
+        <hr />
     </MudItem>
-    <MudItem xs="3">
-        <MudTextField @bind-Value="Model.Tcycles" Label="Tcycles" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+    <MudItem xs="8">
+        <MudField Label="SFF result" Variant="Variant.Outlined"></MudField>
+    </MudItem>
+    <MudItem xs="4" Style="padding-top: 18px;">
+        <MudButton @onclick="SelectSFF" Variant="Variant.Filled" Color="Color.Primary" Style="width: 100%; height: 100%;">Select </MudButton>
     </MudItem>
 </MudGrid>
 
 @code {
 
     [Parameter]
-    public ElementDetailModelPL Model { get; set; }
-
-    [Parameter]
-    public ICollection<MTTFdModel> MTTFds { get; set; }
+    public ElementDetailModelSIL Model { get; set; }
 
     [Parameter]
     public ICollection<ProducerModel> Producers { get; set; }
@@ -63,8 +52,12 @@
     [Parameter]
     public bool ReadOnly { get; set; }
 
-    private Func<ProducerModel, string> producerToString = producer => producer.Name;
     private Func<DCModel, string> dcToString = dc => dc.Value;
-    private Func<MTTFdModel, string> mttfdToString = mttfd => mttfd.Value;
+    private Func<ProducerModel, string> producerToString = producer => producer.Name;
+
+    private void SelectSFF()
+    {
+        // TODO: open dialog
+    }
 
 }
