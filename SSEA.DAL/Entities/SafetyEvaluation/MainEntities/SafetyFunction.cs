@@ -21,6 +21,8 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [StringLength(250)]
         public string Description { get; set; }
 
+        public bool UsedOnMachine { get; set; }
+
         [Column("TypeOfFunction_Id")]
         public int TypeOfFunctionId { get; set; }
         public TypeOfFunction TypeOfFunction { get; set; }

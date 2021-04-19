@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
+using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
+using System.Collections.Generic;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
@@ -14,6 +16,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 
         public ProducerModel Producer { get; set; }
         public DCModel DC { get; set; }
+
+        public double SummedSFF { get; set; }
+        public HashSet<SFFModel> SelectedSFFs { get; set; }
     }
 
     public class ElementDetailModelSILMapperProfile : Profile

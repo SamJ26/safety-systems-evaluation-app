@@ -43,6 +43,7 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         public double? C { get; set; }
         public double? LambdaC { get; set; }
+        public double SummedSFF { get; set; }
 
         public ICollection<ElementSFF> ElementSFFs { get; set; }
     }
