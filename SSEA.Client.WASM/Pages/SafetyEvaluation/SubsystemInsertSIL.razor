@@ -120,7 +120,7 @@
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                    <ElementSIL Model="@element2" Producers="@producers" DCs="@DCs" ReadOnly="false" />
+                                    <ElementSIL Model="@(equalElements == true ? element1 : element2)" Producers="@producers" DCs="@DCs" ReadOnly="false" />
                             </MudItem>
                         }
                     </MudGrid>
@@ -280,7 +280,16 @@
                 throw new Exception("Subsystem has 0 elements");
             foreach (var element in subsystem.Elements)
             {
-                // TODO
+                if (string.IsNullOrEmpty(element.CatalogNumber) || string.IsNullOrWhiteSpace(element.CatalogNumber))
+                    throw new Exception("Validation error in the elements section - missing catalog number");
+                if (element.Dc is null)
+                    throw new Exception("Validation error in the elements section - missing DC");
+                if (element.Producer is null)
+                    throw new Exception("Validation error in the elements section - missing producer");
+                if (element.B10d == 0 || element.B10d < 0)
+                    throw new Exception("Invalid value for B10d field");
+                if (element.C == 0 || element.C < 0)
+                    throw new Exception("Invalid value for C field");
             }
         }
         catch (Exception e)
