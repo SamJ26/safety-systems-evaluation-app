@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
@@ -7,7 +8,6 @@ using SSEA.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SSEA.BL.Services.Implementations
@@ -44,6 +44,10 @@ namespace SSEA.BL.Services.Implementations
 
             // Evaluation of PFHd:
             subsystem.PFHdResult = await CalculatePFHd(subsystem);
+            if (subsystem.PFHdResult is null)
+                throw new Exception("Calculation of PFHd failed");
+
+            // TODO: Check if SFF meets requirements of given architecture
         }
 
         #endregion
@@ -52,9 +56,44 @@ namespace SSEA.BL.Services.Implementations
 
         private async Task<PFHdModel> CalculatePFHd(SubsystemDetailModelSIL subsystem)
         {
-            // TODO
+            double pfhd = (subsystem.Architecture.Label) switch
+            {
+                "A" => CalculatePFHdForArchitectureA(subsystem),
+                "B" => CalculatePFHdForArchitectureB(subsystem),
+                "C" => CalculatePFHdForArchitectureC(subsystem),
+                "D" => CalculatePFHdForArchitectureD(subsystem),
+                _ => 0,
+            };
+            if (pfhd == 0)
+                return null;
+            return mapper.Map<PFHdModel>(await dbContext.PFHds.FirstOrDefaultAsync(p => p.MinPFHd <= pfhd && pfhd <= p.MaxPFHd));
+        }
 
-            return null;
+        private double CalculatePFHdForArchitectureA(SubsystemDetailModelSIL subsystem) => (0.1 * subsystem.Elements.ElementAt(0).C) / subsystem.Elements.ElementAt(0).B10d;
+
+        private double CalculatePFHdForArchitectureB(SubsystemDetailModelSIL subsystem)
+        {
+            double lambdaDe1 = (0.1 * subsystem.Elements.ElementAt(0).C) / subsystem.Elements.ElementAt(0).B10d;
+            double lambdaDe2 = (0.1 * subsystem.Elements.ElementAt(1).C) / subsystem.Elements.ElementAt(1).B10d;
+            double beta = subsystem.CFF;
+            return (1 - beta * beta) * lambdaDe1 * lambdaDe2 * subsystem.T1 + beta * (lambdaDe1 + lambdaDe2) / 2;
+        }
+
+        private double CalculatePFHdForArchitectureC(SubsystemDetailModelSIL subsystem)
+        {
+            double lambdaDe1 = (0.1 * subsystem.Elements.ElementAt(0).C) / subsystem.Elements.ElementAt(0).B10d;
+            double dc = (double)subsystem.Elements.ElementAt(0).DC.Min;
+            return lambdaDe1 * (1 - dc);
+        }
+
+        private double CalculatePFHdForArchitectureD(SubsystemDetailModelSIL subsystem)
+        {
+            double lambdaDe1 = (0.1 * subsystem.Elements.ElementAt(0).C) / subsystem.Elements.ElementAt(0).B10d;
+            double lambdaDe2 = (0.1 * subsystem.Elements.ElementAt(1).C) / subsystem.Elements.ElementAt(1).B10d;
+            double dc1 = (double)subsystem.Elements.ElementAt(0).DC.Min;
+            double dc2 = (double)subsystem.Elements.ElementAt(1).DC.Min;
+            double beta = subsystem.CFF;
+            return (1 - beta * beta) * ((lambdaDe1 * lambdaDe2 * (dc1 + dc2)) * subsystem.T2 / 2 + (lambdaDe1 * lambdaDe2 * (2 - dc1 - dc2)) * subsystem.T1 / 2) + beta * (lambdaDe1 + lambdaDe2) / 2;
         }
 
         private double EvaluateSFF(ICollection<ElementDetailModelSIL> elements)
