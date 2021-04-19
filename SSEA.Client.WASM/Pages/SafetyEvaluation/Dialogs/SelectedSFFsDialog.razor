@@ -1,0 +1,59 @@
+﻿
+<MudDialog>
+    <TitleContent>
+        <MudText Align="Align.Center" Typo="Typo.h5">Select SFF</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTable Items="@SFFs" MultiSelection="true" @bind-SelectedItems="SelectedSFFs" Height="400px" Hover="true" FixedHeader="true">
+                    <ColGroup>
+                        <col style="width:5%;" /> Checkbox
+                        <col style="width:25%;" /> Component name
+                        <col style="width:65%;" /> Failure mode
+                        <col style="width:5%;" /> Value
+                    </ColGroup>
+                    <HeaderContent>
+                        <MudTh>Component name</MudTh>
+                        <MudTh>Failure mode</MudTh>
+                        <MudTh>Value</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Component name">@context.ComponentName</MudTd>
+                        <MudTd DataLabel="Failure mode">@context.FailureMode</MudTd>
+                        <MudTd DataLabel="Value">@context.Value</MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" OnClick="Cancel" Style="width:100%; margin-bottom: 10px;">Cancel</MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Style="width:100%; margin-bottom: 10px;">Save</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public HashSet<SFFModel> SelectedSFFs { get; set; }
+
+    private ICollection<SFFModel> SFFs { get; set; } = new List<SFFModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        SFFs = await codeListFacade.GetAllSFFsAsync();
+    }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+}

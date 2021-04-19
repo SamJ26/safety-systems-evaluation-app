@@ -290,6 +290,8 @@
                     throw new Exception("Invalid value for B10d field");
                 if (element.C == 0 || element.C < 0)
                     throw new Exception("Invalid value for C field");
+                if (element.SummedSFF > 100)
+                    throw new Exception("SFF can't be bigger than 100");
             }
         }
         catch (Exception e)

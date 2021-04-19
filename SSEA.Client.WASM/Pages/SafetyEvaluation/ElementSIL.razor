@@ -31,7 +31,7 @@
         <hr />
     </MudItem>
     <MudItem xs="8">
-        <MudField Label="SFF result" Variant="Variant.Outlined"></MudField>
+        <MudField Label="SFF result" Variant="Variant.Outlined">@Model.SummedSFF</MudField>
     </MudItem>
     <MudItem xs="4" Style="padding-top: 18px;">
         <MudButton @onclick="SelectSFF" Variant="Variant.Filled" Color="Color.Default" Style="width: 100%; height: 100%;" DisableElevation="true">Select </MudButton>
@@ -39,6 +39,9 @@
 </MudGrid>
 
 @code {
+
+    [Inject]
+    private IDialogService dialogService { get; set; }
 
     [Parameter]
     public ElementDetailModelSIL Model { get; set; }
@@ -55,9 +58,17 @@
     private Func<DCModel, string> dcToString = dc => dc.Value;
     private Func<ProducerModel, string> producerToString = producer => producer.Name;
 
-    private void SelectSFF()
+    private async Task SelectSFF()
     {
-        // TODO: open dialog
+        Model.SelectedSFFs = new HashSet<SFFModel>();
+        var parameters = new DialogParameters() { ["SelectedSFFs"] = Model.SelectedSFFs };
+        var dialog = dialogService.Show<SelectedSFFsDialog>("Select SFF", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            Model.SummedSFF = (double)Model.SelectedSFFs.Select(s => s.Value).Sum();
+        }
+        StateHasChanged();
     }
 
 }
