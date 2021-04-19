@@ -73,6 +73,7 @@ namespace SSEA.Api
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPerformanceLevelService, PerformanceLevelService>();
+            services.AddScoped<ISafetyIntegrityLevelService, SafetyIntegrityLevelService>();
 
             services.AddScoped<CodeListRepository>();
             services.AddScoped<MachineRepository>();
