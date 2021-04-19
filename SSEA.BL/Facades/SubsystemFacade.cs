@@ -19,13 +19,19 @@ namespace SSEA.BL.Facades
         private readonly SubsystemRepository subsystemRepository;
         private readonly SafetyFunctionFacade safetyFunctionFacade;
         private readonly IPerformanceLevelService performanceLevelService;
+        private readonly ISafetyIntegrityLevelService safetyIntegrityLevelService;
 
-        public SubsystemFacade(IMapper mapper, SubsystemRepository subsystemRepository, SafetyFunctionFacade safetyFunctionFacade, IPerformanceLevelService performanceLevelService)
+        public SubsystemFacade(IMapper mapper,
+                               SubsystemRepository subsystemRepository,
+                               SafetyFunctionFacade safetyFunctionFacade,
+                               IPerformanceLevelService performanceLevelService,
+                               ISafetyIntegrityLevelService safetyIntegrityLevelService)
         {
             this.mapper = mapper;
             this.subsystemRepository = subsystemRepository;
             this.safetyFunctionFacade = safetyFunctionFacade;
             this.performanceLevelService = performanceLevelService;
+            this.safetyIntegrityLevelService = safetyIntegrityLevelService;
         }
 
         public async Task<ICollection<SubsystemListModelPL>> GetAllPLAsync(int stateId, int typeOfSubsystemId, int operationPrincipleId, int categoryId, int performanceLevelId)
@@ -100,7 +106,7 @@ namespace SSEA.BL.Facades
         {
             try
             {
-                // TODO: evaluate subsystem
+                await safetyIntegrityLevelService.EvaluateSubsystemAsync(subsystem);
             }
             catch (Exception exception)
             {
