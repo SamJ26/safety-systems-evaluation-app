@@ -16,6 +16,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [StringLength(250)]
         public string Description { get; set; }
 
+        public bool UsedOnMachine { get; set; }
+
         [Required]
         public TypeOfFunctionModel TypeOfFunction { get; set; }
 
