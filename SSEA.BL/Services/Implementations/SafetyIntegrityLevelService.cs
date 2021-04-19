@@ -76,7 +76,7 @@ namespace SSEA.BL.Services.Implementations
             double lambdaDe1 = (0.1 * subsystem.Elements.ElementAt(0).C) / subsystem.Elements.ElementAt(0).B10d;
             double lambdaDe2 = (0.1 * subsystem.Elements.ElementAt(1).C) / subsystem.Elements.ElementAt(1).B10d;
             double beta = subsystem.CFF;
-            return (1 - beta * beta) * lambdaDe1 * lambdaDe2 * subsystem.T1 + beta * (lambdaDe1 + lambdaDe2) / 2;
+            return (1 - beta) * (1 - beta) * lambdaDe1 * lambdaDe2 * subsystem.T1 + beta * (lambdaDe1 + lambdaDe2) / 2;
         }
 
         private double CalculatePFHdForArchitectureC(SubsystemDetailModelSIL subsystem)
@@ -93,7 +93,7 @@ namespace SSEA.BL.Services.Implementations
             double dc1 = (double)subsystem.Elements.ElementAt(0).DC.Min;
             double dc2 = (double)subsystem.Elements.ElementAt(1).DC.Min;
             double beta = subsystem.CFF;
-            return (1 - beta * beta) * ((lambdaDe1 * lambdaDe2 * (dc1 + dc2)) * subsystem.T2 / 2 + (lambdaDe1 * lambdaDe2 * (2 - dc1 - dc2)) * subsystem.T1 / 2) + beta * (lambdaDe1 + lambdaDe2) / 2;
+            return (1 - beta) * (1 - beta) * ((lambdaDe1 * lambdaDe2 * (dc1 + dc2)) * subsystem.T2 / 2 + (lambdaDe1 * lambdaDe2 * (2 - dc1 - dc2)) * subsystem.T1 / 2) + beta * (lambdaDe1 + lambdaDe2) / 2;
         }
 
         private double EvaluateSFF(ICollection<ElementDetailModelSIL> elements)

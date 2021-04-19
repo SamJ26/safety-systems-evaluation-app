@@ -1,0 +1,200 @@
+﻿@page "/safetyEvaluation/subsystemDetail/SIL/{machineId:int}/{accessPointId:int}/{safetyFunctionId:int}/{subsystemId:int}"
+
+@layout MainLayout
+
+@attribute [Authorize]
+
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
+    <MudCard Elevation="3">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h5"><strong>Detail of subsystem</strong></MudText>
+                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>[ @(subsystem.CurrentState is not null ? subsystem.CurrentState.Name : "Unknown") ]</small></MudText>
+                <MudText Typo="Typo.body2">Created - user ID: @subsystem.IdCreated, time: @subsystem.DateTimeCreated</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudTooltip Text="Back to safety function">
+                    <MudIconButton @onclick="@BackToSafetyFunction" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(SafetyFunctionId == 0)" />
+                </MudTooltip>
+                <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
+                    <Authorized>
+                        <MudTooltip Text="Delete">
+                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabledDeletion" />
+                        </MudTooltip>
+                    </Authorized>
+                </AuthorizeView>
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
+
+                <MudTabPanel Text="Subsystem details">
+                    <EditForm Model="@subsystem">
+                        <DataAnnotationsValidator />
+                        <MudGrid Style="padding: 20px;">
+                            <MudItem xs="6">
+                                <MudField Label="T1" Variant="Variant.Outlined" readonly="true">@subsystem.T1</MudField>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudField Label="T2" Variant="Variant.Outlined" readonly="true">@subsystem.T2</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudField Label="Type of subsystem" Variant="Variant.Outlined" readonly="true">@subsystem.TypeOfSubsystem.Name</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudField Label="Operation principle" Variant="Variant.Outlined" readonly="true">@subsystem.OperationPrinciple.Name</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudField Label="Evaluation method" Variant="Variant.Outlined" readonly="true">Safety Integrity Level (SIL)</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudField Label="Architecture" Variant="Variant.Outlined" readonly="true">@subsystem.Architecture.Label</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField @bind-Value="subsystem.Description" ReadOnly="true" T="string" Label="Subsystem description" Variant="Variant.Outlined" Lines="3" />
+                            </MudItem>
+                        </MudGrid>
+                    </EditForm>
+                </MudTabPanel>
+
+                <MudTabPanel Text="CCF">
+                    <MudGrid Style="padding: 20px;">
+                        @if (subsystem.SelectedCCFs.Count == 0)
+                        {
+                            <MudItem xs="12">
+                                <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
+                                    Detials are not available
+                                </MudText>
+                            </MudItem>
+                        }
+                        else
+                        {
+                            <MudItem xs="12">
+                                <MudTable T="CCFModel" Items="@subsystem.SelectedCCFs" Dense="true" Hover="true" Outlined="true" ReadOnly="@true">
+                                    <ColGroup>
+                                        <col style="width:15%;" /> Type
+                                        <col style="width:80%;" /> Description
+                                        <col style="width:5%;" /> Points
+                                    </ColGroup>
+                                    <HeaderContent>
+                                        <MudTh>Type</MudTh>
+                                        <MudTh>Description</MudTh>
+                                        <MudTh>Points</MudTh>
+                                    </HeaderContent>
+                                    <RowTemplate Context="tableContext">
+                                        <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                        <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                        <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
+                                    </RowTemplate>
+                                </MudTable>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudTabPanel>
+
+                <MudTabPanel Text="Elements">
+                    <MudGrid Style="padding: 20px;">
+                        @if (subsystem.Elements is not null && subsystem.Elements.Count != 0)
+                        {
+                            @if (subsystem.Architecture.Channels == 1)
+                            {
+                                <MudItem xs="3" />
+                                <MudItem xs="6">
+                                    <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                    <ElementSIL Model="@subsystem.Elements.ElementAt(0)" Producers="producers" DCs="DCs" ReadOnly="true" />
+                                </MudItem>
+                                <MudItem xs="3" />
+                            }
+                            else
+                            {
+                                <MudItem xs="6">
+                                    <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
+                                    <ElementSIL Model="@subsystem.Elements.ElementAt(0)" Producers="producers" DCs="DCs" ReadOnly="true" />
+                                </MudItem>
+                                <MudItem xs="6">
+                                    <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
+                                    <ElementSIL Model="@subsystem.Elements.ElementAt(1)" Producers="producers" DCs="DCs" ReadOnly="true" />
+                                </MudItem>
+                            }
+                        }
+                        else
+                        {
+                            <MudItem xs="12">
+                                <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
+                                    Detials are not available
+                                </MudText>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudTabPanel>
+
+            </MudTabs>
+        </MudCardContent>
+    </MudCard>
+</MudContainer>
+
+@code {
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    private SubsystemFacade subsystemFacade { get; set; }
+
+    [Inject]
+    private CodeListFacade codeListFacade { get; set; }
+
+    [Inject]
+    private IDialogService dialogService { get; set; }
+
+    [Parameter]
+    public int MachineId { get; set; }
+
+    [Parameter]
+    public int AccessPointId { get; set; }
+
+    [Parameter]
+    public int SafetyFunctionId { get; set; }
+
+    [Parameter]
+    public int SubsystemId { get; set; }
+
+    private SubsystemDetailModelSIL subsystem = new();
+
+    private bool disabledDeletion = false;
+
+    private ICollection<DCModel> DCs = new List<DCModel>();
+    private ICollection<CCFModel> CCFs = new List<CCFModel>();
+    private ICollection<ProducerModel> producers = new List<ProducerModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        DCs = await codeListFacade.GetAllDCsAsync();
+        CCFs = await codeListFacade.GetAllCCFsAsync();
+        producers = await codeListFacade.GetAllProducersAsync();
+        subsystem = await subsystemFacade.GetByIdSILAsync(SubsystemId);
+        disabledDeletion = subsystem.CurrentState.StateNumber == 1;
+        StateHasChanged();
+    }
+
+    private void BackToSafetyFunction()
+    {
+        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/SIL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
+    }
+
+    private async Task Delete()
+    {
+        var parameters = new DialogParameters() { ["ItemToDelte"] = "subsystem" };
+        var dialog = dialogService.Show<ApproveDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await subsystemFacade.DeleteAsync(subsystem.Id);
+            if (SafetyFunctionId != 0)
+                navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/SIL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
+            else
+                navigationManager.NavigateTo("/safetyEvaluation/subsystemList");
+        }
+    }
+
+}
