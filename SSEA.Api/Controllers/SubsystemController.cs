@@ -93,7 +93,20 @@ namespace SSEA.Api.Controllers
             return Ok(response);
         }
 
-        // TODO: Create Subsystem SIL
+        // POST: api/subsystem/sil
+        [HttpPost("sil")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SubsystemCreateSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<SubsystemCreationResponseModel>> CreateAsync(SubsystemDetailModelSIL model, int safetyFunctionId = 0)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            SubsystemCreationResponseModel response = await subsystemFacade.CreateAsync(model, userId, safetyFunctionId);
+            return Ok(response);
+        }
 
         // DELETE: api/subsystem/{id}
         [HttpDelete("{id}")]

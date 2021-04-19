@@ -96,7 +96,47 @@ namespace SSEA.BL.Facades
             };
         }
 
-        // TODO: Create Subsystem SIL
+        public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelSIL subsystem, int userId, int safetyFunctionId)
+        {
+            try
+            {
+                // TODO: evaluate subsystem
+            }
+            catch (Exception exception)
+            {
+                return new SubsystemCreationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = exception.Message,
+                    SubsystemId = 0,
+                };
+            }
+            Subsystem entity = mapper.Map<Subsystem>(subsystem);
+            int subsystemId = await subsystemRepository.CreateAsync(entity, userId, safetyFunctionId);
+            if (subsystemId == 0)
+            {
+                return new SubsystemCreationResponseModel()
+                {
+                    IsSuccess = false,
+                    Message = "Saving of subsystem failed :(",
+                    SubsystemId = subsystemId,
+                };
+            }
+
+            // If subsystem has been saved successfully than also selected CCFs need to be saved
+            await subsystemRepository.AddCCFsToSubsystemAsync(mapper.Map<ICollection<CCF>>(subsystem.SelectedCCFs), subsystemId);
+
+            // If safetyFunctionId is not 0 than create record in join table
+            if (safetyFunctionId != 0)
+                await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId, userId);
+
+            return new SubsystemCreationResponseModel()
+            {
+                IsSuccess = true,
+                Message = "Subsystem created successfully :)",
+                SubsystemId = subsystemId,
+            };
+        }
 
         public async Task DeleteAsync(int subsystemId, int userId)
         {
