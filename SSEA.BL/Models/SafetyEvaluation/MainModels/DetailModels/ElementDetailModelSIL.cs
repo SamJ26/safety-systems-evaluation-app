@@ -25,22 +25,22 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
     {
         public ElementDetailModelSILMapperProfile()
         {
-            CreateMap<Element, ElementDetailModelPL>().IgnoreSource(src => src.ProducerId)
-                                                      .IgnoreSource(src => src.SubsystemId)
-                                                      .IgnoreSource(src => src.Subsystem)
-                                                      .IgnoreSource(src => src.DCId)
-                                                      .IgnoreSource(src => src.Nop)
-                                                      .IgnoreSource(src => src.Hop)
-                                                      .IgnoreSource(src => src.Dop)
-                                                      .IgnoreSource(src => src.Tcycles)
-                                                      .IgnoreSource(src => src.MTTFdCounted)
-                                                      .IgnoreSource(src => src.MTTFdResult)
-                                                      .IgnoreSource(src => src.MTTFdResultId)
-                                                      .IgnoreSource(src => src.ElementSFFs)
-                                                      .IgnoreSource(src => src.CurrentStateId)
-                                                      .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
-                                                      .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
-                                                      .ReverseMap();
+            CreateMap<Element, ElementDetailModelSIL>().IgnoreSource(src => src.ProducerId)
+                                                       .IgnoreSource(src => src.SubsystemId)
+                                                       .IgnoreSource(src => src.Subsystem)
+                                                       .IgnoreSource(src => src.DCId)
+                                                       .IgnoreSource(src => src.Nop)
+                                                       .IgnoreSource(src => src.Hop)
+                                                       .IgnoreSource(src => src.Dop)
+                                                       .IgnoreSource(src => src.Tcycles)
+                                                       .IgnoreSource(src => src.MTTFdCounted)
+                                                       .IgnoreSource(src => src.MTTFdResult)
+                                                       .IgnoreSource(src => src.MTTFdResultId)
+                                                       .IgnoreSource(src => src.ElementSFFs)
+                                                       .IgnoreSource(src => src.CurrentStateId)
+                                                       .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())
+                                                       .MapMember(dest => dest.DateTimeUpdated, src => src.DateTimeUpdated.ToString())
+                                                       .ReverseMap();
         }
     }
 }

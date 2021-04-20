@@ -94,6 +94,9 @@ namespace SSEA.DAL.Repositories
                                              .Include(s => s.PFHdResult)
                                              .Include(s => s.CurrentState)
                                              .Include(s => s.Elements)
+                                                .ThenInclude(e => e.DC)
+                                             .Include(s => s.Elements)
+                                                .ThenInclude(e => e.Producer)
                                              .AsNoTracking()
                                              .SingleOrDefaultAsync(s => s.Id == id);
         }
@@ -110,7 +113,6 @@ namespace SSEA.DAL.Repositories
             return foundCCFs;
         }
 
-        // TODO: test for SIL methodics
         public async Task<int> CreateAsync(Subsystem subsystem, int userId, int safetyFunctionId)
         {
             // Assigning initial state to new record according to safetyFunctionId
