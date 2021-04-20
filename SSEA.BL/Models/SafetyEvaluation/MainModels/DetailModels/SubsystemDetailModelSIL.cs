@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
-using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using System.Collections.Generic;
@@ -8,29 +7,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
-    public class SubsystemDetailModelSIL : ExtendedModelBase
+    public class SubsystemDetailModelSIL : SubsystemDetailModel
     {
         public double T1 { get; set; }
         public double T2 { get; set; }
         public double SFFresult { get; set; }
-
-        [StringLength(250)]
-        public string Description { get; set; }
-
-        [Required]
-        public TypeOfSubsystemModel TypeOfSubsystem { get; set; }
-
-        [Required]
-        public OperationPrincipleModel OperationPrinciple { get; set; }
+        public double CFF { get; set; }
+        public short HFT { get; set; }
 
         [Required]
         public ArchitectureModel Architecture { get; set; }
 
-        public short HFT { get; set; }
-        public double CFF { get; set; }
         public PFHdModel PFHdResult { get; set; }
 
-        public HashSet<CCFModel> SelectedCCFs { get; set; }
         public ICollection<ElementDetailModelSIL> Elements { get; set; }
     }
 
