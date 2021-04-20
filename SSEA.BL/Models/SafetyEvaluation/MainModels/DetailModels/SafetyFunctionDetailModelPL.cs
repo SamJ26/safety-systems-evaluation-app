@@ -1,29 +1,12 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
-using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
-using System.ComponentModel.DataAnnotations;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
-    public class SafetyFunctionDetailModelPL : ExtendedModelBase
+    public class SafetyFunctionDetailModelPL : SafetyFunctionDetailModel
     {
-        [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 1)]
-        public string Name { get; set; }
-
-        [StringLength(250)]
-        public string Description { get; set; }
-
-        public bool UsedOnMachine { get; set; }
-
-        [Required]
-        public TypeOfFunctionModel TypeOfFunction { get; set; }
-
-        [Required]
-        public EvaluationMethodModel EvaluationMethod { get; set; }
-
         public PLModel PLr { get; set; }
         public PLModel PLresult { get; set; }
         public SModel S { get; set; }

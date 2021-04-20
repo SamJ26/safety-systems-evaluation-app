@@ -129,8 +129,6 @@ namespace SSEA.BL.Facades
                 };
             }
 
-            // TODO: Saving of selected SFFs
-
             // If subsystem has been saved successfully than also selected CCFs need to be saved
             await subsystemRepository.AddCCFsToSubsystemAsync(mapper.Map<ICollection<CCF>>(subsystem.SelectedCCFs), subsystemId);
 
