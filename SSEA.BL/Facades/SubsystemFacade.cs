@@ -62,51 +62,19 @@ namespace SSEA.BL.Facades
 
         public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelPL subsystem, int userId, int safetyFunctionId)
         {
-            try
-            {
-                await performanceLevelService.EvaluateSubsystemAsync(subsystem);
-            }
-            catch (Exception exception)
-            {
-                return new SubsystemCreationResponseModel()
-                {
-                    IsSuccess = false,
-                    Message = exception.Message,
-                    SubsystemId = 0,
-                };
-            }
-            Subsystem entity = mapper.Map<Subsystem>(subsystem);          
-            int subsystemId = await subsystemRepository.CreateAsync(entity, userId, safetyFunctionId);
-            if (subsystemId == 0)
-            {
-                return new SubsystemCreationResponseModel()
-                {
-                    IsSuccess = false,
-                    Message = "Saving of subsystem failed :(",
-                    SubsystemId = subsystemId,
-                };
-            }
-
-            // If subsystem has been saved successfully than also selected CCFs need to be saved
-            await subsystemRepository.AddCCFsToSubsystemAsync(mapper.Map<ICollection<CCF>>(subsystem.SelectedCCFs), subsystemId);
-
-            // If safetyFunctionId is not 0 than create record in join table
-            if (safetyFunctionId != 0)
-                await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId, userId);
-
-            return new SubsystemCreationResponseModel()
-            {
-                IsSuccess = true,
-                Message = "Subsystem created successfully :)",
-                SubsystemId = subsystemId,
-            };
+            return await CreateAsync(performanceLevelService.EvaluateSubsystemAsync, subsystem, userId, safetyFunctionId);
         }
 
         public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelSIL subsystem, int userId, int safetyFunctionId)
         {
+            return await CreateAsync(safetyIntegrityLevelService.EvaluateSubsystemAsync, subsystem, userId, safetyFunctionId);
+        }
+
+        public async Task<SubsystemCreationResponseModel> CreateAsync<T>(Func<T, Task> evaluateSubsystem, T subsystem, int userId, int safetyFunctionId) where T : SubsystemDetailModel
+        {
             try
             {
-                await safetyIntegrityLevelService.EvaluateSubsystemAsync(subsystem);
+                await evaluateSubsystem(subsystem);
             }
             catch (Exception exception)
             {
