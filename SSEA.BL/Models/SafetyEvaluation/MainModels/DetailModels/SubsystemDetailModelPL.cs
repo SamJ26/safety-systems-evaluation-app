@@ -8,18 +8,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
-    public class SubsystemDetailModelPL : ExtendedModelBase
+    public class SubsystemDetailModelPL : SubsystemDetailModel
     {
-        public bool ValidCCF { get; set; }
-        
-        [StringLength(250)]
-        public string Description { get; set; }
-
-        [Required]
-        public TypeOfSubsystemModel TypeOfSubsystem { get; set; }
-
-        [Required]
-        public OperationPrincipleModel OperationPrinciple { get; set; }
+        public bool ValidCCF { get; set; }     
 
         [Required]
         public CategoryModel Category { get; set; }
@@ -28,7 +19,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public DCModel DCresult { get; set; }
         public PLModel PLresult { get; set; }
 
-        public HashSet<CCFModel> SelectedCCFs { get; set; }
         public ICollection<ElementDetailModelPL> Elements { get; set; }
     }
 

@@ -1,23 +1,17 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
-using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
-    public class ElementDetailModelPL : ExtendedModelBase
+    public class ElementDetailModelPL : ElementDetailModel
     {
-        public double B10d { get; set; }
-        public string CatalogNumber { get; set; }
         public double Nop { get; set; }
         public double Hop { get; set; }
         public double Dop { get; set; }
         public double Tcycles { get; set; }
-        public double MTTFdCounted { get; set; }
-
-        public ProducerModel Producer { get; set; }
-        public DCModel DC { get; set; }
+        public double MTTFdCounted { get; set; }      
         public MTTFdModel MTTFdResult { get; set; }
     }
 
