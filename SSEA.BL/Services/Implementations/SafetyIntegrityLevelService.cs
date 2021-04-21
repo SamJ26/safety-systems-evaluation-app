@@ -27,7 +27,62 @@ namespace SSEA.BL.Services.Implementations
 
         public async Task<PFHdModel> GetRequiredSILAsync(SeModel se, FrModel fr, PrModel pr, AvModel av)
         {
-
+            int cl = fr.Value + pr.Value + av.Value;
+            short sil = 0;
+            if (3 <= cl && cl <= 4)
+            {
+                if (se.Value == 4) sil = 2;
+            }
+            if (5 <= cl && cl <= 7)
+            {
+                if (se.Value == 4) sil = 2;
+            }
+            if (8 <= cl && cl <= 10)
+            {
+                switch (se.Value)
+                {
+                    case 4:
+                        sil = 2;
+                        break;
+                    case 3:
+                        sil = 1;
+                        break;
+                }
+            }
+            if (11 <= cl && cl <= 13)
+            {
+                switch (se.Value)
+                {
+                    case 4:
+                        sil = 3;
+                        break;
+                    case 3:
+                        sil = 2;
+                        break;
+                    case 2:
+                        sil = 1;
+                        break;
+                }
+            }
+            if (14 <= cl && cl <= 15)
+            {
+                switch (se.Value)
+                {
+                    case 4:
+                        sil = 3;
+                        break;
+                    case 3:
+                        sil = 3;
+                        break;
+                    case 2:
+                        sil = 2;
+                        break;
+                    case 1:
+                        sil = 1;
+                        break;
+                }
+            }
+            return mapper.Map<PFHdModel>(await dbContext.PFHds.FirstOrDefaultAsync(s => s.ValueSIL == sil));
         }
 
         public async Task EvaluateSubsystemAsync(SubsystemDetailModelSIL subsystem)
