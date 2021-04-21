@@ -119,20 +119,24 @@ namespace SSEA.DAL.Repositories
                                              .ToListAsync();
         }
 
-        // TODO: edit to work also with SF SIL
         public async Task<int> CreateAsync(SafetyFunction safetyFunction, int userId)
         {
             safetyFunction.CurrentStateId = safetyFunctionNewStateId;
             dbContext.Attach(safetyFunction.TypeOfFunction).State = EntityState.Unchanged;
             dbContext.Attach(safetyFunction.EvaluationMethod).State = EntityState.Unchanged;
-            if (safetyFunction.S != null && safetyFunction.F != null && safetyFunction.P != null)
-            {
-                dbContext.Attach(safetyFunction.S).State = EntityState.Unchanged;
-                dbContext.Attach(safetyFunction.F).State = EntityState.Unchanged;
-                dbContext.Attach(safetyFunction.P).State = EntityState.Unchanged;
-            }
-            if (safetyFunction.PLr is not null)
-                dbContext.Attach(safetyFunction.PLr).State = EntityState.Unchanged;
+
+            safetyFunction.SILCL = null;
+            safetyFunction.SILresult = null;
+            safetyFunction.Se = null;
+            safetyFunction.Fr = null;
+            safetyFunction.Pr = null;
+            safetyFunction.Av = null;
+
+            safetyFunction.PLr = null;
+            safetyFunction.PLresult = null;
+            safetyFunction.S = null;
+            safetyFunction.F = null;
+            safetyFunction.P = null;
 
             await dbContext.AddAsync(safetyFunction);
             await dbContext.CommitChangesAsync(userId);
