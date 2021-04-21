@@ -78,7 +78,20 @@ namespace SSEA.Api.Controllers
             return Ok(id);
         }
 
-        // TODO: Create SF SIL
+        // POST: api/safetyFunction/sil
+        [HttpPost("sil")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionCreateSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelSIL newModel, int accessPointId = 0)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await safetyFunctionFacade.CreateAsync(newModel, userId, accessPointId);
+            return Ok(id);
+        }
 
         // PUT: api/safetyFunction/pl
         [HttpPut("pl")]

@@ -15,18 +15,25 @@ namespace SSEA.BL.Facades
     public class SafetyFunctionFacade
     {
         private readonly IMapper mapper;
+        private readonly AccessPointFacade accessPointFacade;
         private readonly SubsystemRepository subsystemRepository;
         private readonly SafetyFunctionRepository safetyFunctionRepository;
-        private readonly AccessPointFacade accessPointFacade;
         private readonly IPerformanceLevelService performanceLevelService;
+        private readonly ISafetyIntegrityLevelService safetyIntegrityLevelService;
 
-        public SafetyFunctionFacade(IMapper mapper, SafetyFunctionRepository safetyFunctionRepository, SubsystemRepository subsystemRepository, AccessPointFacade accessPointFacade, IPerformanceLevelService performanceLevelService)
+        public SafetyFunctionFacade(IMapper mapper,
+                                    SafetyFunctionRepository safetyFunctionRepository,
+                                    SubsystemRepository subsystemRepository,
+                                    AccessPointFacade accessPointFacade,
+                                    IPerformanceLevelService performanceLevelService,
+                                    ISafetyIntegrityLevelService safetyIntegrityLevelService)
         {
             this.mapper = mapper;
+            this.accessPointFacade = accessPointFacade;
             this.subsystemRepository = subsystemRepository;
             this.safetyFunctionRepository = safetyFunctionRepository;
-            this.accessPointFacade = accessPointFacade;
             this.performanceLevelService = performanceLevelService;
+            this.safetyIntegrityLevelService = safetyIntegrityLevelService;
         }
 
         public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
@@ -81,7 +88,20 @@ namespace SSEA.BL.Facades
             return safetyFunctionId;
         }
 
-        // TODO: Create SF SIL
+        public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel, int userId, int accessPointId)
+        {
+            // Evaluation of required SIL
+            // TODO
+
+            var entity = mapper.Map<SafetyFunction>(newModel);
+            int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
+
+            // If safety function was saved successfully and accessPointId is not zero than we have to create new record in AccessPointSafetyFunction join table
+            if (safetyFunctionId != 0 && accessPointId != 0)
+                await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+
+            return safetyFunctionId;
+        }
 
         public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updatedModel, int userId)
         {
