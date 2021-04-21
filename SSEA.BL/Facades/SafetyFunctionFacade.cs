@@ -91,7 +91,8 @@ namespace SSEA.BL.Facades
         public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel, int userId, int accessPointId)
         {
             // Evaluation of required SIL
-            // TODO
+            if (newModel.Se is not null && newModel.Fr is not null && newModel.Pr is not null && newModel.Av is not null)
+                await safetyIntegrityLevelService.GetRequiredSILAsync(newModel.Se, newModel.Fr, newModel.Pr, newModel.Av);
 
             var entity = mapper.Map<SafetyFunction>(newModel);
             int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);

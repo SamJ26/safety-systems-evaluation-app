@@ -25,6 +25,11 @@ namespace SSEA.BL.Services.Implementations
 
         #region Public methods
 
+        public async Task<PFHdModel> GetRequiredSILAsync(SeModel se, FrModel fr, PrModel pr, AvModel av)
+        {
+
+        }
+
         public async Task EvaluateSubsystemAsync(SubsystemDetailModelSIL subsystem)
         {
             if (subsystem.Elements.Count == 0 || subsystem.Elements is null)
