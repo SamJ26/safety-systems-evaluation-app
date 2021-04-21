@@ -92,7 +92,10 @@ namespace SSEA.BL.Facades
         {
             // Evaluation of required SIL
             if (newModel.Se is not null && newModel.Fr is not null && newModel.Pr is not null && newModel.Av is not null)
-                await safetyIntegrityLevelService.GetRequiredSILAsync(newModel.Se, newModel.Fr, newModel.Pr, newModel.Av);
+                newModel.SILCL = await safetyIntegrityLevelService.GetRequiredSILAsync(newModel.Se, newModel.Fr, newModel.Pr, newModel.Av);
+
+            if (newModel.SILCL is null)
+                return 0;
 
             var entity = mapper.Map<SafetyFunction>(newModel);
             int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
