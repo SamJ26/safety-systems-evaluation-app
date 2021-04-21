@@ -104,22 +104,17 @@ namespace SSEA.BL.Facades
             return safetyFunctionId;
         }
 
-        public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updatedModel, int userId)
+        public async Task<int> UpdateAsync<T>(T updatedModel, int userId) where T : SafetyFunctionDetailModel
         {
-            // Evaluating required PL
-            if (updatedModel.S is not null && updatedModel.F is not null && updatedModel.P is not null)
-                updatedModel.PLr = await performanceLevelService.GetRequiredPLAsync(updatedModel.S, updatedModel.F, updatedModel.P);
-
             SafetyFunction entity = mapper.Map<SafetyFunction>(updatedModel);
             var id = await safetyFunctionRepository.UpdateAsync(entity, userId);
 
+            // TODO: is this update necessary ?
             // UPDATING STATE OF SAFETY FUNCTION
             await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(id, userId);
 
             return id;
         }
-
-        // TODO: Update SF SIL
 
         public async Task DeleteAsync(int safetyFunctionId, int userId)
         {

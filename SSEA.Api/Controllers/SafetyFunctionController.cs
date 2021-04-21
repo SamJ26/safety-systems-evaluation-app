@@ -108,7 +108,20 @@ namespace SSEA.Api.Controllers
             return Ok(id);
         }
 
-        // TODO: Update SF SIL
+        // PUT: api/safetyFunction/sil
+        [HttpPut("sil")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionUpdateSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> UpdateAsync(SafetyFunctionDetailModelSIL updatedModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await safetyFunctionFacade.UpdateAsync(updatedModel, userId);
+            return Ok(id);
+        }
 
         // DELETE: api/safetyFunction/{id}
         [HttpDelete("{id}")]
