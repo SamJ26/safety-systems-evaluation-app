@@ -490,7 +490,7 @@
 
     private async void OpenSelectLogicDialog()
     {
-        var dialog = dialogService.Show<SelectLogicDialog>("Select subsystem");
+        var dialog = dialogService.Show<SelectLogicDialog>("Select logic");
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
