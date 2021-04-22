@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
-    public abstract class SafetyFunctionDetailModel : ExtendedModelBase
+    public abstract class SafetyFunctionDetailModel<T> : ExtendedModelBase where T : SubsystemDetailModel
     {
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 1)]
@@ -19,5 +19,11 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 
         [Required]
         public EvaluationMethodModel EvaluationMethod { get; set; }
+
+        public T InputSubsystem { get; set; }
+        public T Communication1Subsystem { get; set; }
+        public T LogicSubsystem { get; set; }
+        public T Communication2Subsystem { get; set; }
+        public T OutputSubsystem { get; set; }
     }
 }

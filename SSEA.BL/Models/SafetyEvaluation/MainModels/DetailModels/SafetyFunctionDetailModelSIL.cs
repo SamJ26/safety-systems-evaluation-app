@@ -5,7 +5,7 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
-    public class SafetyFunctionDetailModelSIL : SafetyFunctionDetailModel
+    public class SafetyFunctionDetailModelSIL : SafetyFunctionDetailModel<SubsystemDetailModelSIL>
     {
         public PFHdModel SILCL { get; set; }
         public PFHdModel SILresult { get; set; }
@@ -13,12 +13,6 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public FrModel Fr { get; set; }
         public PrModel Pr { get; set; }
         public AvModel Av { get; set; }
-
-        public SubsystemDetailModelSIL InputSubsystem { get; set; }
-        public SubsystemDetailModelSIL Communication1Subsystem { get; set; }
-        public SubsystemDetailModelSIL LogicSubsystem { get; set; }
-        public SubsystemDetailModelSIL Communication2Subsystem { get; set; }
-        public SubsystemDetailModelSIL OutputSubsystem { get; set; }
     }
 
     public class SafetyFunctionDetailModelSILMapperProfile : Profile

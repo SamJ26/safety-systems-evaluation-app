@@ -107,16 +107,10 @@ namespace SSEA.BL.Facades
             return safetyFunctionId;
         }
 
-        public async Task<int> UpdateAsync<T>(T updatedModel, int userId) where T : SafetyFunctionDetailModel
+        public async Task<int> UpdateAsync<T>(T updatedModel, int userId)
         {
             SafetyFunction entity = mapper.Map<SafetyFunction>(updatedModel);
-            var id = await safetyFunctionRepository.UpdateAsync(entity, userId);
-
-            // TODO: is this update necessary ?
-            // UPDATING STATE OF SAFETY FUNCTION
-            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(id, userId);
-
-            return id;
+            return await safetyFunctionRepository.UpdateAsync(entity, userId);
         }
 
         public async Task DeleteAsync(int safetyFunctionId, int userId)
@@ -152,7 +146,7 @@ namespace SSEA.BL.Facades
             bool evaluationResult = false;
             try
             {
-                evaluationResult = await performanceLevelService.EvaluateSafetyFunctionAsync(safetyFunction);
+                evaluationResult = await performanceLevelService.EvaluateSafetyFunctionAsync(safetyFunction); // <<<<
             }
             catch (Exception exception)
             {
@@ -163,7 +157,7 @@ namespace SSEA.BL.Facades
                 };
             }
 
-            // Updating record after its successful evaluation (method did not throw exception)
+            // Updating record after its successful evaluation (method fot evaluation of safety function did not throw exception)
             int id = await safetyFunctionRepository.UpdateAsync(mapper.Map<SafetyFunction>(safetyFunction), userId);
             if (id == 0)
             {

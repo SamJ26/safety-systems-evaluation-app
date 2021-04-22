@@ -5,19 +5,13 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 
 namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
-    public class SafetyFunctionDetailModelPL : SafetyFunctionDetailModel
+    public class SafetyFunctionDetailModelPL : SafetyFunctionDetailModel<SubsystemDetailModelPL>
     {
         public PLModel PLr { get; set; }
         public PLModel PLresult { get; set; }
         public SModel S { get; set; }
         public FModel F { get; set; }
         public PModel P { get; set; }
-
-        public SubsystemDetailModelPL InputSubsystem { get; set; }
-        public SubsystemDetailModelPL Communication1Subsystem { get; set; }
-        public SubsystemDetailModelPL LogicSubsystem { get; set; }
-        public SubsystemDetailModelPL Communication2Subsystem { get; set; }
-        public SubsystemDetailModelPL OutputSubsystem { get; set; }
     }
 
     public class SafetyFunctionDetailModelPLMapperProfile : Profile
