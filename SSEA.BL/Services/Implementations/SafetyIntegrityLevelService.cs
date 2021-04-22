@@ -110,6 +110,11 @@ namespace SSEA.BL.Services.Implementations
             // TODO: Check if SFF meets requirements of given architecture
         }
 
+        public async Task<bool> EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelSIL safetyFunction)
+        {
+            throw new Exception("Not implemented");
+        }
+
         #endregion
 
         #region Private methods

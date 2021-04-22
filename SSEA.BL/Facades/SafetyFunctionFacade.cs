@@ -142,11 +142,21 @@ namespace SSEA.BL.Facades
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionPLAsync(int safetyFunctionId, int userId)
         {
-            SafetyFunctionDetailModelPL safetyFunction = await GetByIdPLAsync(safetyFunctionId);
-            bool evaluationResult = false;
+            return await EvaluateSafetyFunctionAsync(GetByIdPLAsync, performanceLevelService.EvaluateSafetyFunctionAsync, safetyFunctionId, userId);
+        }
+
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionSILAsync(int safetyFunctionId, int userId)
+        {
+            return await EvaluateSafetyFunctionAsync(GetByIdSILAsync, safetyIntegrityLevelService.EvaluateSafetyFunctionAsync, safetyFunctionId, userId);
+        }
+
+        private async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionAsync<T>(Func<int, Task<T>> getByIdFunc, Func<T, Task<bool>> evaluateSafetyFunc, int safetyFunctionId, int userId)
+        {
+            T safetyFunction = await getByIdFunc(safetyFunctionId);
+            bool evaluationResult;
             try
             {
-                evaluationResult = await performanceLevelService.EvaluateSafetyFunctionAsync(safetyFunction); // <<<<
+                evaluationResult = await evaluateSafetyFunc(safetyFunction);
             }
             catch (Exception exception)
             {
@@ -169,7 +179,7 @@ namespace SSEA.BL.Facades
             }
 
             // At this point safety function was successfully saved to database
-            // Now we will update state of record according to result of PL evaluation
+            // Now we will update state of record according to result of safety evaluation
 
             int safetyFunctionValidStateId = 13;
             int safetyFunctionInvalidStateId = 14;
@@ -182,17 +192,15 @@ namespace SSEA.BL.Facades
                 {
                     IsSuccess = true,
                     IsValidSafetyLevel = true,
-                    Message = $"Resultant PL is valid ... [Required PL = {safetyFunction.PLr.Label}] <= [Resultant PL = {safetyFunction.PLresult.Label}]",
+                    Message = $"Calculated value of safety is valid :)",
                 };
 
             return new SafetyEvaluationResponseModel()
             {
                 IsSuccess = true,
                 IsValidSafetyLevel = false,
-                Message = $"Resultant PL is invalid ... [Required PL = {safetyFunction.PLr.Label}] > [Resultant PL = {safetyFunction.PLresult.Label}]",
+                Message = $"Calculated value of safety is invalid :(",
             };
         }
-
-        // TODO: EvaluateSafetyFunctionSILAsync
     }
 }
