@@ -183,6 +183,19 @@ namespace SSEA.Api.Controllers
             return Ok(response);
         }
 
-        // TODO: EvaluateSafetyFunctionSILAsync
+        // GET: api/safetyFunction/sil/evaluateSafetyFunction/{id}
+        [HttpGet("sil/evaluateSafetyFunction/{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionEvaluateSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionSILAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var response = await safetyFunctionFacade.EvaluateSafetyFunctionSILAsync(id, userId);
+            return Ok(response);
+        }
     }
 }

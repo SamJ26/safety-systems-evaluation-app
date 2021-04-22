@@ -272,6 +272,15 @@ namespace SSEA.Client.BL.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<SafetyEvaluationResponseModel> SafetyFunctionEvaluateSILAsync(int id);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ClientServiceException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<SafetyEvaluationResponseModel> SafetyFunctionEvaluateSILAsync(int id, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ClientServiceException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubsystemListModelPL>> SubsystemGetAllPLAsync(int? stateId, int? typeOfSubsystemId, int? operationPrincipleId, int? categoryId, int? performanceLevelId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2818,6 +2827,94 @@ namespace SSEA.Client.BL.Services
 
         /// <returns>Success</returns>
         /// <exception cref="ClientServiceException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<SafetyEvaluationResponseModel> SafetyFunctionEvaluateSILAsync(int id)
+        {
+            return SafetyFunctionEvaluateSILAsync(id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ClientServiceException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<SafetyEvaluationResponseModel> SafetyFunctionEvaluateSILAsync(int id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/safetyFunction/sil/evaluateSafetyFunction/{id}");
+            urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<SafetyEvaluationResponseModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ClientServiceException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ClientServiceException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ClientServiceException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ClientServiceException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="ClientServiceException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubsystemListModelPL>> SubsystemGetAllPLAsync(int? stateId, int? typeOfSubsystemId, int? operationPrincipleId, int? categoryId, int? performanceLevelId)
         {
             return SubsystemGetAllPLAsync(stateId, typeOfSubsystemId, operationPrincipleId, categoryId, performanceLevelId, System.Threading.CancellationToken.None);
@@ -4448,21 +4545,6 @@ namespace SSEA.Client.BL.Services
         [System.ComponentModel.DataAnnotations.Required]
         public EvaluationMethodModel EvaluationMethod { get; set; } = new EvaluationMethodModel();
 
-        [Newtonsoft.Json.JsonProperty("pLr", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public PLModel PLr { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("pLresult", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public PLModel PLresult { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("s", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public SModel S { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("f", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public FModel F { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("p", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public PModel P { get; set; }
-
         [Newtonsoft.Json.JsonProperty("inputSubsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public SubsystemDetailModelPL InputSubsystem { get; set; }
 
@@ -4477,6 +4559,21 @@ namespace SSEA.Client.BL.Services
 
         [Newtonsoft.Json.JsonProperty("outputSubsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public SubsystemDetailModelPL OutputSubsystem { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("pLr", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public PLModel PLr { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("pLresult", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public PLModel PLresult { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("s", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SModel S { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("f", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public FModel F { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("p", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public PModel P { get; set; }
 
 
     }
@@ -4522,6 +4619,21 @@ namespace SSEA.Client.BL.Services
         [System.ComponentModel.DataAnnotations.Required]
         public EvaluationMethodModel EvaluationMethod { get; set; } = new EvaluationMethodModel();
 
+        [Newtonsoft.Json.JsonProperty("inputSubsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SubsystemDetailModelSIL InputSubsystem { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("communication1Subsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SubsystemDetailModelSIL Communication1Subsystem { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("logicSubsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SubsystemDetailModelSIL LogicSubsystem { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("communication2Subsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SubsystemDetailModelSIL Communication2Subsystem { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("outputSubsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SubsystemDetailModelSIL OutputSubsystem { get; set; }
+
         [Newtonsoft.Json.JsonProperty("silcl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PFHdModel Silcl { get; set; }
 
@@ -4539,21 +4651,6 @@ namespace SSEA.Client.BL.Services
 
         [Newtonsoft.Json.JsonProperty("av", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public AvModel Av { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("inputSubsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public SubsystemDetailModelSIL InputSubsystem { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("communication1Subsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public SubsystemDetailModelSIL Communication1Subsystem { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("logicSubsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public SubsystemDetailModelSIL LogicSubsystem { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("communication2Subsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public SubsystemDetailModelSIL Communication2Subsystem { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("outputSubsystem", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public SubsystemDetailModelSIL OutputSubsystem { get; set; }
 
 
     }

@@ -76,10 +76,14 @@ namespace SSEA.Client.BL.Facades
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionPLAsync(int id)
         {
-            Console.WriteLine("SafetyFunctionFacade.EvaluateSafetyFunction(int id)");
+            Console.WriteLine("SafetyFunctionFacade.EvaluateSafetyFunctionPLAsync(int id)");
             return await clientService.SafetyFunctionEvaluatePLAsync(id);
         }
 
-        // TODO: Evaluate safety functon SIL
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionSILAsync(int id)
+        {
+            Console.WriteLine("SafetyFunctionFacade.EvaluateSafetyFunctionSILAsync(int id)");
+            return await clientService.SafetyFunctionEvaluateSILAsync(id);
+        }
     }
 }

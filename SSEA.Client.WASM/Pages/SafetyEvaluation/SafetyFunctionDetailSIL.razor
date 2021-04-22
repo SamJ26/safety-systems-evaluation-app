@@ -513,8 +513,7 @@
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            SafetyEvaluationResponseModel response = new();
-            // SafetyEvaluationResponseModel response = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(safetyFunction.Id);
+            SafetyEvaluationResponseModel response = await safetyFunctionFacade.EvaluateSafetyFunctionSILAsync(safetyFunction.Id);
             if (response.IsSuccess)
             {
                 messageType = Severity.Success;
