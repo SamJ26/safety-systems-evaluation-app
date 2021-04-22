@@ -112,12 +112,27 @@ namespace SSEA.BL.Services.Implementations
 
         public async Task<bool> EvaluateSafetyFunctionAsync(SafetyFunctionDetailModelSIL safetyFunction)
         {
-            throw new Exception("Not implemented");
+            if (safetyFunction.InputSubsystem is null)
+                throw new Exception("Input subsystem is missing");
+            if (safetyFunction.LogicSubsystem is null)
+                throw new Exception("Logical subsystem is missing");
+            if (safetyFunction.OutputSubsystem is null)
+                throw new Exception("Output subsystem is missing");
+
+            return true;
         }
 
         #endregion
 
         #region Private methods
+
+        // TODO:
+        private double CalculateSILCL(SafetyFunctionDetailModelSIL safetyFunction)
+        {
+            double temp = 0;
+
+            return temp;
+        }
 
         private async Task<PFHdModel> CalculatePFHd(SubsystemDetailModelSIL subsystem)
         {
