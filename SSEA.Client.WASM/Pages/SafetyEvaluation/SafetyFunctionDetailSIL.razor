@@ -50,7 +50,7 @@
                                 <MudField Readonly="true" Label="Type of logic" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.Description : "Not selected")</MudField>
                             </MudItem>
                             <MudItem xs="12">
-                                <MudField Readonly="true" Label="Evaluation method" Variant="Variant.Outlined">Performance Level (PL)</MudField>
+                                <MudField Readonly="true" Label="Evaluation method" Variant="Variant.Outlined">Safety Integrity Level (SIL)</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudSelect @bind-Value="safetyFunction.TypeOfFunction" T="TypeOfFunctionModel" Label="Type of function *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@typeOfFunctionToString" ReadOnly="@onlyForReading">
@@ -67,10 +67,10 @@
                                 <hr />
                             </MudItem>
                             <MudItem Style="width: 50%;">
-                                <MudField Label="Required PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.Silcl is not null ? safetyFunction.Silcl.ValueSIL : "Not evaluated")</MudField>
+                                <MudField Label="Required SIL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.Silcl is not null ? safetyFunction.Silcl.ValueSIL : "Not evaluated")</MudField>
                             </MudItem>
                             <MudItem Style="width: 45%;">
-                                <MudField Label="Resultant PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.SiLresult is not null ? safetyFunction.SiLresult.ValueSIL : "Not evaluated")</MudField>
+                                <MudField Label="SILCL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.SiLresult is not null ? safetyFunction.SiLresult.ValueSIL : "Not evaluated")</MudField>
                             </MudItem>
                             <MudItem Style="width: 5%; padding-left: 5px;">
                                 @if (safetyFunction.SiLresult is not null)
@@ -113,11 +113,10 @@
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.Architecture.Label : "")</MudField>
-                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.Hft : "")</MudField>
-                                    <MudField Label="PFHd" ReadOnly="true" Variant="Variant.Outlined">PFHd counted</MudField>
-                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">Sucet SFF</MudField>
-                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.PfHdResult.ValueSIL : "")</MudField>
+                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.InputSubsystem?.Architecture.Label</MudField>
+                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.InputSubsystem?.Hft</MudField>
+                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.InputSubsystem?.SfFresult</MudField>
+                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.InputSubsystem?.PfHdResult.ValueSIL</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
@@ -147,11 +146,10 @@
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.Architecture.Label : "")</MudField>
-                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.Hft : "")</MudField>
-                                    <MudField Label="PFHd" ReadOnly="true" Variant="Variant.Outlined">PFHd counted</MudField>
-                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">Sucet SFF</MudField>
-                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.PfHdResult.ValueSIL : "")</MudField>
+                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.Communication1Subsystem?.Architecture.Label</MudField>
+                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.Communication1Subsystem?.Hft</MudField>
+                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.Communication1Subsystem?.SfFresult</MudField>
+                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.Communication1Subsystem?.PfHdResult.ValueSIL</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
@@ -181,11 +179,10 @@
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.Architecture.Label : "")</MudField>
-                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.Hft : "")</MudField>
-                                    <MudField Label="PFHd" ReadOnly="true" Variant="Variant.Outlined">PFHd counted</MudField>
-                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">Sucet SFF</MudField>
-                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.PfHdResult.ValueSIL : "")</MudField>
+                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.LogicSubsystem?.Architecture.Label</MudField>
+                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.LogicSubsystem?.Hft</MudField>
+                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.LogicSubsystem?.SfFresult</MudField>
+                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.LogicSubsystem?.PfHdResult.ValueSIL</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
@@ -196,7 +193,7 @@
                                             <MudButton @onclick="@(() => ShowDialog(safetyFunction.LogicSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null)">Remove</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;  margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is not null)">Select</MudButton>
+                                            <MudButton @onclick="@(() => OpenSelectLogicDialog())" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is not null)">Select</MudButton>
                                         </MudItem>
                                     </MudGrid>
                                 </MudCardActions>
@@ -212,11 +209,10 @@
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.Architecture.Label : "")</MudField>
-                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.Hft : "")</MudField>
-                                    <MudField Label="PFHd" ReadOnly="true" Variant="Variant.Outlined">PFHd counted</MudField>
-                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">Sucet SFF</MudField>
-                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.PfHdResult.ValueSIL : "")</MudField>
+                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.Communication2Subsystem?.Architecture.Label</MudField>
+                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.Communication2Subsystem?.Hft</MudField>
+                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.LogicSubsystem?.SfFresult</MudField>
+                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.Communication2Subsystem?.PfHdResult.ValueSIL</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
@@ -246,11 +242,10 @@
                                     </CardHeaderContent>
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
-                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.Architecture.Label : "")</MudField>
-                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.Hft : "")</MudField>
-                                    <MudField Label="PFHd" ReadOnly="true" Variant="Variant.Outlined">PFHd counted</MudField>
-                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">Sucet SFF</MudField>
-                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.PfHdResult.ValueSIL : "")</MudField>
+                                    <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.OutputSubsystem?.Architecture.Label</MudField>
+                                    <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.OutputSubsystem?.Hft</MudField>
+                                    <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.OutputSubsystem?.SfFresult</MudField>
+                                    <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@safetyFunction.OutputSubsystem?.PfHdResult.ValueSIL</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
