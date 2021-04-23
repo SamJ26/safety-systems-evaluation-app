@@ -10,6 +10,7 @@ namespace SSEA.BL.Models
         public string DateTimeCreated { get; set; }
         public int? IdUpdated { get; set; }
         public string DateTimeUpdated { get; set; }
+        public string UserName { get; set; }
         public StateModel CurrentState { get; set; }
     }
 }

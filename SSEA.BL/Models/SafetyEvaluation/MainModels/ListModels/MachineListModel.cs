@@ -7,7 +7,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
     public class MachineListModel : ExtendedModelBase
     {
         public string Name { get; set; }
-        public bool Communication { get; set; }
+        public bool SafetyCommunication { get; set; }
         public string EvaluationMethod { get; set; }
         public string MachineType { get; set; }
         public string Producer { get; set; }

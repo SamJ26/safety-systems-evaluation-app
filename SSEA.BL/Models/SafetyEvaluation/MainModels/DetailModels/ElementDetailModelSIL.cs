@@ -9,7 +9,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
     public class ElementDetailModelSIL : ElementDetailModel
     {    
         public double C { get; set; }
-        public double LambdaC { get; set; }
+        public double LambdaD { get; set; }
         public double SummedSFF { get; set; }
         public HashSet<SFFModel> SelectedSFFs { get; set; }
     }

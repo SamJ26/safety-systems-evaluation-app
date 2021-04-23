@@ -11,7 +11,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
     {
         public double T1 { get; set; }
         public double T2 { get; set; }
-        public double SFFresult { get; set; }
+        public double ResultantSFF { get; set; }
         public double CFF { get; set; }
         public short HFT { get; set; }
 

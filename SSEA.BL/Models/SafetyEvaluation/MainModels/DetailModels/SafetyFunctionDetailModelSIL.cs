@@ -8,7 +8,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
     public class SafetyFunctionDetailModelSIL : SafetyFunctionDetailModel<SubsystemDetailModelSIL>
     {
         public PFHdModel SILCL { get; set; }
-        public PFHdModel SILresult { get; set; }
+        public PFHdModel RequiredSIL { get; set; }
         public SeModel Se { get; set; }
         public FrModel Fr { get; set; }
         public PrModel Pr { get; set; }

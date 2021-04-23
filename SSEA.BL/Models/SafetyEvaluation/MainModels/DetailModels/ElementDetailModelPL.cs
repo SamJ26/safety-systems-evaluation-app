@@ -11,8 +11,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public double Hop { get; set; }
         public double Dop { get; set; }
         public double Tcycles { get; set; }
-        public double MTTFdCounted { get; set; }      
-        public MTTFdModel MTTFdResult { get; set; }
+        public double CalculatedMTTFd { get; set; }      
+        public MTTFdModel ResultantMTTFd { get; set; }
     }
 
     public class ElementDetailModelPLMapperProfile : Profile

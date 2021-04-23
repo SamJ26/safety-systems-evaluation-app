@@ -15,9 +15,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [Required]
         public CategoryModel Category { get; set; }
 
-        public MTTFdModel MTTFdResult { get; set; }
-        public DCModel DCresult { get; set; }
-        public PLModel PLresult { get; set; }
+        public MTTFdModel ResultantMTTFd { get; set; }
+        public DCModel ResultantDC { get; set; }
+        public PLModel ResulantPL { get; set; }
 
         public ICollection<ElementDetailModelPL> Elements { get; set; }
     }

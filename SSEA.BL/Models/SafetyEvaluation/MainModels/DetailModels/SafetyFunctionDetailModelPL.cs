@@ -7,8 +7,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class SafetyFunctionDetailModelPL : SafetyFunctionDetailModel<SubsystemDetailModelPL>
     {
-        public PLModel PLr { get; set; }
-        public PLModel PLresult { get; set; }
+        public PLModel ResultantPL { get; set; }
+        public PLModel RequiredPL { get; set; }
         public SModel S { get; set; }
         public FModel F { get; set; }
         public PModel P { get; set; }
