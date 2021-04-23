@@ -13,7 +13,7 @@
         </MudSelect>
     </MudItem>
     <MudItem xs="12">
-        <MudSelect @bind-Value="Model.Dc" T="DCModel" Label="DC *" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@dcToString">
+        <MudSelect @bind-Value="Model.DC" T="DCModel" Label="DC *" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@dcToString">
             @foreach (var item in DCs)
             {
                 <MudSelectItem T="DCModel" Value="@(item)" />
