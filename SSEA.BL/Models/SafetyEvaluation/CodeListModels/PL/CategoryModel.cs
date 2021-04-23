@@ -2,10 +2,6 @@
 using SSEA.BL.Extensions;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
 {
@@ -29,16 +25,16 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
     {
         public CategoryModelMapperProfile()
         {
-            CreateMap<Category, CategoryModel>().IgnoreSource(src => src.DescriptionEN)
-                                                .IgnoreSource(src => src.RequirementsEN)
-                                                .IgnoreSource(src => src.FailureBehaviorEN)
+            CreateMap<Category, CategoryModel>().IgnoreSource(src => src.DescriptionCZ)
+                                                .IgnoreSource(src => src.RequirementsCZ)
+                                                .IgnoreSource(src => src.FailureBehaviorCZ)
                                                 .IgnoreSource(src => src.MinMTTFdId)
                                                 .IgnoreSource(src => src.MaxMTTFdId)
                                                 .IgnoreSource(src => src.MinDCId)
                                                 .IgnoreSource(src => src.MaxDCId)
-                                                .MapMember(dest => dest.Description, src => src.DescriptionCZ)
-                                                .MapMember(dest => dest.Requirements, src => src.RequirementsCZ)
-                                                .MapMember(dest => dest.FailureBehavior, src => src.FailureBehaviorCZ)
+                                                .MapMember(dest => dest.Description, src => src.DescriptionEN)
+                                                .MapMember(dest => dest.Requirements, src => src.RequirementsEN)
+                                                .MapMember(dest => dest.FailureBehavior, src => src.FailureBehaviorEN)
                                                 .ReverseMap();
         }
     }

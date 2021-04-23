@@ -13,8 +13,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
     {
         public TypeOfSubsystemModelMapperProfile()
         {
-            CreateMap<TypeOfSubsystem, TypeOfSubsystemModel>().IgnoreSource(src => src.NameEN)
-                                                              .MapMember(dest => dest.Name, src => src.NameCZ)
+            CreateMap<TypeOfSubsystem, TypeOfSubsystemModel>().IgnoreSource(src => src.NameCZ)
+                                                              .MapMember(dest => dest.Name, src => src.NameEN)
                                                               .ReverseMap();
         }
     }

@@ -16,8 +16,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
     {
         public DCModelMapperProfile()
         {
-            CreateMap<DC, DCModel>().IgnoreSource(src => src.ValueEN)
-                                    .MapMember(dest => dest.Value, src => src.ValueCZ)
+            CreateMap<DC, DCModel>().IgnoreSource(src => src.ValueCZ)
+                                    .MapMember(dest => dest.Value, src => src.ValueEN)
                                     .ReverseMap();
         }
     }

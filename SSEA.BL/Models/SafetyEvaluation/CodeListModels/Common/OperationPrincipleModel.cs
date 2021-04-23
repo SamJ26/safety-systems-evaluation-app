@@ -14,10 +14,10 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
     {
         public OperationPrincipleModelMapperProfile()
         {
-            CreateMap<OperationPrinciple, OperationPrincipleModel>().IgnoreSource(src => src.NameEN)
-                                                                    .IgnoreSource(src => src.DescriptionEN)
-                                                                    .MapMember(dest => dest.Name, src => src.NameCZ)
-                                                                    .MapMember(dest => dest.Description, src => src.DescriptionCZ)
+            CreateMap<OperationPrinciple, OperationPrincipleModel>().IgnoreSource(src => src.NameCZ)
+                                                                    .IgnoreSource(src => src.DescriptionCZ)
+                                                                    .MapMember(dest => dest.Name, src => src.NameEN)
+                                                                    .MapMember(dest => dest.Description, src => src.DescriptionEN)
                                                                     .ReverseMap();
         }
     }

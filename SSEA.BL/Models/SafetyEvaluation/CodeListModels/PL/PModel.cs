@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
 {
@@ -18,8 +14,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
     {
         public PModelMapperProfile()
         {
-            CreateMap<P, PModel>().IgnoreSource(src => src.DescriptionEN)
-                                  .MapMember(dest => dest.Description, src => src.DescriptionCZ)
+            CreateMap<P, PModel>().IgnoreSource(src => src.DescriptionCZ)
+                                  .MapMember(dest => dest.Description, src => src.DescriptionEN)
                                   .ReverseMap();
         }
     }

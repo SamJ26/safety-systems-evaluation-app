@@ -615,12 +615,14 @@ namespace SSEA.DAL
                     Id = 1,
                     Value = "S1",
                     DescriptionCZ = "Lehké",
+                    DescriptionEN = "Small",
                 },
                 new S()
                 {
                     Id = 2,
                     Value = "S2",
                     DescriptionCZ = "Závažné",
+                    DescriptionEN = "Serious",
                 }
             );
 
@@ -630,12 +632,14 @@ namespace SSEA.DAL
                     Id = 1,
                     Value = "F1",
                     DescriptionCZ = "Řídká až málo častá",
+                    DescriptionEN = "Sparse to infrequent",
                 },
                 new F()
                 {
                     Id = 2,
                     Value = "F2",
                     DescriptionCZ = "Častá až nepřetržitá",
+                    DescriptionEN = "Frequent to continuous",
                 }
             );
 
@@ -645,12 +649,14 @@ namespace SSEA.DAL
                     Id = 1,
                     Value = "P1",
                     DescriptionCZ = "Možné za určitých podmínek",
+                    DescriptionEN = "Possible under certain conditions",
                 },
                 new P()
                 {
                     Id = 2,
                     Value = "P2",
                     DescriptionCZ = "Sotva možné",
+                    DescriptionEN = "Hardly possible",
                 }
             );
 
@@ -692,6 +698,7 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     ValueCZ = "Krátká",
+                    ValueEN = "Short",
                     Min = 3,
                     Max = 10,
                     CompareValue = 1,
@@ -700,6 +707,7 @@ namespace SSEA.DAL
                 {
                     Id = 2,
                     ValueCZ = "Střední",
+                    ValueEN = "Medium",
                     Min = 10,
                     Max = 30,
                     CompareValue = 2,
@@ -708,6 +716,7 @@ namespace SSEA.DAL
                 {
                     Id = 3,
                     ValueCZ = "Dlouhá",
+                    ValueEN = "Long",
                     Min = 30,
                     Max = 100,
                     CompareValue = 3,
@@ -823,27 +832,32 @@ namespace SSEA.DAL
                 new OperationPrinciple()
                 {
                     Id = 1,
-                    NameCZ = "mechanický",
+                    NameCZ = "Mechanický",
+                    NameEN = "Mechanical",
                 },
                 new OperationPrinciple()
                 {
                     Id = 2,
-                    NameCZ = "elektrický",
+                    NameCZ = "Elektrický",
+                    NameEN = "Electrical",
                 },
                 new OperationPrinciple()
                 {
                     Id = 3,
-                    NameCZ = "pneumatický",
+                    NameCZ = "Pneumatický",
+                    NameEN = "Pneumatic",
                 },
                 new OperationPrinciple()
                 {
                     Id = 4,
-                    NameCZ = "elektromechanický",
+                    NameCZ = "Elektromechanický",
+                    NameEN = "Electromechanical",
                 },
                 new OperationPrinciple()
                 {
                     Id = 5,
-                    NameCZ = "hydraulický",
+                    NameCZ = "Hydraulický",
+                    NameEN = "Hydraulic",
                 }
             );
 
@@ -852,22 +866,23 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     NameCZ = "Jednoúčelový stroj",
+                    NameEN = "Single-purpose machine",
                 },
                 new MachineType()
                 {
                     Id = 2,
                     NameCZ = "Víceúčelový stroj",
+                    NameEN = "Multi-purpose machine",
                 },
                 new MachineType()
                 {
                     Id = 3,
                     NameCZ = "Montážní linka",
+                    NameEN = "Assembly line",
                 }
-
-                // TODO: supply all data
-
             );
 
+            // TODO: translate to english
             modelBuilder.Entity<Norm>().HasData(
                 new Norm()
                 {
@@ -1214,6 +1229,7 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     ValueCZ = "Žádné",
+                    ValueEN = "None",
                     Min = 0,
                     Max = 60,
                     CompareValue = 1,
@@ -1222,6 +1238,7 @@ namespace SSEA.DAL
                 {
                     Id = 2,
                     ValueCZ = "Nízké",
+                    ValueEN = "Low",
                     Min = 60,
                     Max = 90,
                     CompareValue = 2,
@@ -1230,6 +1247,7 @@ namespace SSEA.DAL
                 {
                     Id = 3,
                     ValueCZ = "Střední",
+                    ValueEN = "Medium",
                     Min = 90,
                     Max = 99,
                     CompareValue = 3,
@@ -1238,12 +1256,14 @@ namespace SSEA.DAL
                 {
                     Id = 4,
                     ValueCZ = "Vysoké",
+                    ValueEN = "High",
                     Min = 99,
                     Max = 100,
                     CompareValue = 4,
                 }
             );
 
+            // TODO: translate to english
             modelBuilder.Entity<CCF>().HasData(
                 new CCF()
                 {
@@ -1316,71 +1336,85 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     NameCZ = "Funkce bezpečného zastavení iniciována bezpečnostním zařízením",
+                    NameEN = "Safe stop function initiated by the safety device",
                 },
                 new TypeOfFunction()
                 {
                     Id = 2,
                     NameCZ = "Funkce ručního opětného nastavení",
+                    NameEN = "Manual reset function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 3,
                     NameCZ = "Funkce místního ovládaní",
+                    NameEN = "Local control function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 4,
                     NameCZ = "Funkce spuštení/opětovného spuštení",
+                    NameEN = "Start / restart function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 5,
                     NameCZ = "Funkce vyřazení",
+                    NameEN = "Exclusion function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 6,
                     NameCZ = "Funkce tipování",
+                    NameEN = "Tipping function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 7,
                     NameCZ = "Funkce povelového zařízení",
+                    NameEN = "Command device functions",
                 },
                 new TypeOfFunction()
                 {
                     Id = 8,
                     NameCZ = "Funkce zamezení neočekávaného spuštění",
+                    NameEN = "Unexpected startup prevention function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 9,
                     NameCZ = "Únik a uvolnění zachycených osob",
+                    NameEN = "Escape and release of captured persons",
                 },
                 new TypeOfFunction()
                 {
                     Id = 10,
                     NameCZ = "Funkce odpojení a uvolnění energie",
+                    NameEN = "Power disconnection and release function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 11,
                     NameCZ = "Režimy ovládání a volba režimu",
+                    NameEN = "Control modes and mode selection",
                 },
                 new TypeOfFunction()
                 {
                     Id = 12,
                     NameCZ = "Vzájemné púsobení rúzných bezpečnostních částí ovládacího systému",
+                    NameEN = "Interaction of different safety parts of the control system",
                 },
                 new TypeOfFunction()
                 {
                     Id = 13,
                     NameCZ = "Monitorování parametrizace hodnot bezpečnostního vstupu",
+                    NameEN = "Monitoring the parameterization of safety input values",
                 },
                 new TypeOfFunction()
                 {
                     Id = 14,
                     NameCZ = "Funkce nouzového zastavení",
+                    NameEN = "Emergency stop function",
                 }
             );
 
