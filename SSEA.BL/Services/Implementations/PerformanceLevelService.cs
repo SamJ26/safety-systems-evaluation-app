@@ -62,10 +62,10 @@ namespace SSEA.BL.Services.Implementations
             await CalculateMTTFdForElements(subsystem);
 
             // Evaluation of MTTFd
-            subsystem.MTTFdResult = GetMTTFdForSubsystem(subsystem.Elements);
+            subsystem.ResultantMTTFd = GetMTTFdForSubsystem(subsystem.Elements);
 
             // Evaluation of DC
-            subsystem.DCresult = GetDCForSubsystem(subsystem.Elements);
+            subsystem.ResultantDC = GetDCForSubsystem(subsystem.Elements);
 
             try
             {
@@ -77,8 +77,8 @@ namespace SSEA.BL.Services.Implementations
             }
 
             // Evaluation of PL
-            subsystem.PLresult = await GetPLAsync(subsystem.Category, subsystem.MTTFdResult, subsystem.DCresult);
-            if (subsystem.PLresult is null)
+            subsystem.ResultantPL = await GetPLAsync(subsystem.Category, subsystem.ResultantMTTFd, subsystem.ResultantDC);
+            if (subsystem.ResultantPL is null)
                 throw new Exception("Unable to evaluate resultant PL - possible incompatibility between MTTFd, DC and selected category");
         }
 
@@ -127,12 +127,12 @@ namespace SSEA.BL.Services.Implementations
                 throw new Exception("Unable to determine resultant PL - possible incompatibility between MTTFd, DC and category");
 
             if (upperLimitPL is null || lowerLimitPL is null)
-                safetyFunction.PLresult = (upperLimitPL is null) ? lowerLimitPL : upperLimitPL;
+                safetyFunction.ResultantPL = (upperLimitPL is null) ? lowerLimitPL : upperLimitPL;
             else
-                safetyFunction.PLresult = (upperLimitPL.CompareValue > lowerLimitPL.CompareValue) ? upperLimitPL : lowerLimitPL;
+                safetyFunction.ResultantPL = (upperLimitPL.CompareValue > lowerLimitPL.CompareValue) ? upperLimitPL : lowerLimitPL;
 
             // Check if PL result is bigger or equal to required PL
-            if (safetyFunction.PLresult.CompareValue < safetyFunction.PLr.CompareValue)
+            if (safetyFunction.ResultantPL.CompareValue < safetyFunction.RequiredPL.CompareValue)
                 return false;
             return true;
         }
@@ -151,11 +151,11 @@ namespace SSEA.BL.Services.Implementations
             ICollection<MTTFdModel> mttfds = mapper.Map<ICollection<MTTFdModel>>(await dbContext.MTTFds.AsNoTracking().ToListAsync());
             foreach (var element in subsystem.Elements)
             {
-                if (element.MTTFdResult is not null)
+                if (element.ResultantMTTFd is not null)
                     continue;
                 element.Nop = (element.Dop * element.Hop * 3600) / element.Tcycles;
-                element.MTTFdCounted = element.B10d / (0.1 * element.Nop);
-                element.MTTFdResult = mttfds.FirstOrDefault(m => m.Min <= element.MTTFdCounted && element.MTTFdCounted <= m.Max);
+                element.CalculatedMTTFd = element.B10d / (0.1 * element.Nop);
+                element.ResultantMTTFd = mttfds.FirstOrDefault(m => m.Min <= element.CalculatedMTTFd && element.CalculatedMTTFd <= m.Max);
             }
         }
 
@@ -190,11 +190,11 @@ namespace SSEA.BL.Services.Implementations
         /// <returns> Calculated MTTFd </returns>
         private async Task<MTTFdModel> GetMTTFdForSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction, bool upperLimit)
         {
-            double inputMttfd = (upperLimit == true) ? safetyFunction.InputSubsystem.MTTFdResult.Max : safetyFunction.InputSubsystem.MTTFdResult.Min;
-            double logicMttfd = (upperLimit == true) ? safetyFunction.LogicSubsystem.MTTFdResult.Max : safetyFunction.LogicSubsystem.MTTFdResult.Min;
-            double outputMttfd = (upperLimit == true) ? safetyFunction.OutputSubsystem.MTTFdResult.Max : safetyFunction.OutputSubsystem.MTTFdResult.Min;
-            short? com1Mttfd = (upperLimit == true) ? safetyFunction.Communication1Subsystem?.MTTFdResult.Max : safetyFunction.Communication1Subsystem?.MTTFdResult.Min;
-            short? com2Mttfd = (upperLimit == true) ? safetyFunction.Communication2Subsystem?.MTTFdResult.Max : safetyFunction.Communication2Subsystem?.MTTFdResult.Min;
+            double inputMttfd = (upperLimit == true) ? safetyFunction.InputSubsystem.ResultantMTTFd.Max : safetyFunction.InputSubsystem.ResultantMTTFd.Min;
+            double logicMttfd = (upperLimit == true) ? safetyFunction.LogicSubsystem.ResultantMTTFd.Max : safetyFunction.LogicSubsystem.ResultantMTTFd.Min;
+            double outputMttfd = (upperLimit == true) ? safetyFunction.OutputSubsystem.ResultantMTTFd.Max : safetyFunction.OutputSubsystem.ResultantMTTFd.Min;
+            short? com1Mttfd = (upperLimit == true) ? safetyFunction.Communication1Subsystem?.ResultantMTTFd.Max : safetyFunction.Communication1Subsystem?.ResultantMTTFd.Min;
+            short? com2Mttfd = (upperLimit == true) ? safetyFunction.Communication2Subsystem?.ResultantMTTFd.Max : safetyFunction.Communication2Subsystem?.ResultantMTTFd.Min;
 
             double temp = 0;
             temp += 1 / inputMttfd;
@@ -217,17 +217,17 @@ namespace SSEA.BL.Services.Implementations
         /// <returns> Calculated DC </returns>
         private async Task<DCModel> GetDCForSafetyFunctionAsync(SafetyFunctionDetailModelPL safetyFunction, bool upperLimit = true)
         {
-            double inputMttfd = (upperLimit == true) ? safetyFunction.InputSubsystem.MTTFdResult.Max : safetyFunction.InputSubsystem.MTTFdResult.Min;
-            double logicMttfd = (upperLimit == true) ? safetyFunction.LogicSubsystem.MTTFdResult.Max : safetyFunction.LogicSubsystem.MTTFdResult.Min;
-            double outputMttfd = (upperLimit == true) ? safetyFunction.OutputSubsystem.MTTFdResult.Max : safetyFunction.OutputSubsystem.MTTFdResult.Min;
-            short? com1Mttfd = (upperLimit == true) ? safetyFunction.Communication1Subsystem?.MTTFdResult.Max : safetyFunction.Communication1Subsystem?.MTTFdResult.Min;
-            short? com2Mttfd = (upperLimit == true) ? safetyFunction.Communication2Subsystem?.MTTFdResult.Max : safetyFunction.Communication2Subsystem?.MTTFdResult.Min;
+            double inputMttfd = (upperLimit == true) ? safetyFunction.InputSubsystem.ResultantMTTFd.Max : safetyFunction.InputSubsystem.ResultantMTTFd.Min;
+            double logicMttfd = (upperLimit == true) ? safetyFunction.LogicSubsystem.ResultantMTTFd.Max : safetyFunction.LogicSubsystem.ResultantMTTFd.Min;
+            double outputMttfd = (upperLimit == true) ? safetyFunction.OutputSubsystem.ResultantMTTFd.Max : safetyFunction.OutputSubsystem.ResultantMTTFd.Min;
+            short? com1Mttfd = (upperLimit == true) ? safetyFunction.Communication1Subsystem?.ResultantMTTFd.Max : safetyFunction.Communication1Subsystem?.ResultantMTTFd.Min;
+            short? com2Mttfd = (upperLimit == true) ? safetyFunction.Communication2Subsystem?.ResultantMTTFd.Max : safetyFunction.Communication2Subsystem?.ResultantMTTFd.Min;
 
-            double inputDc = (upperLimit == true) ? safetyFunction.InputSubsystem.DCresult.Max : safetyFunction.InputSubsystem.DCresult.Min;
-            double logicDc = (upperLimit == true) ? safetyFunction.LogicSubsystem.DCresult.Max : safetyFunction.LogicSubsystem.DCresult.Min;
-            double outputDc = (upperLimit == true) ? safetyFunction.OutputSubsystem.DCresult.Max : safetyFunction.OutputSubsystem.DCresult.Min;
-            short? com1Dc = (upperLimit == true) ? safetyFunction.Communication1Subsystem?.DCresult.Max : safetyFunction.Communication1Subsystem?.DCresult.Min;
-            short? com2Dc = (upperLimit == true) ? safetyFunction.Communication2Subsystem?.DCresult.Max : safetyFunction.Communication2Subsystem?.DCresult.Min;
+            double inputDc = (upperLimit == true) ? safetyFunction.InputSubsystem.ResultantDC.Max : safetyFunction.InputSubsystem.ResultantDC.Min;
+            double logicDc = (upperLimit == true) ? safetyFunction.LogicSubsystem.ResultantDC.Max : safetyFunction.LogicSubsystem.ResultantDC.Min;
+            double outputDc = (upperLimit == true) ? safetyFunction.OutputSubsystem.ResultantDC.Max : safetyFunction.OutputSubsystem.ResultantDC.Min;
+            short? com1Dc = (upperLimit == true) ? safetyFunction.Communication1Subsystem?.ResultantDC.Max : safetyFunction.Communication1Subsystem?.ResultantDC.Min;
+            short? com2Dc = (upperLimit == true) ? safetyFunction.Communication2Subsystem?.ResultantDC.Max : safetyFunction.Communication2Subsystem?.ResultantDC.Min;
 
             double denominator = 0;
             double numerator = 0;
@@ -242,12 +242,12 @@ namespace SSEA.BL.Services.Implementations
             if (com1Mttfd is not null)
             {
                 denominator += 1 / (double)com1Mttfd;
-                numerator += safetyFunction.Communication1Subsystem.DCresult.Max / (double)com1Mttfd;
+                numerator += safetyFunction.Communication1Subsystem.ResultantDC.Max / (double)com1Mttfd;
             }
             if (com2Mttfd is not null)
             {
                 denominator += 1 / (double)com2Mttfd;
-                numerator += safetyFunction.Communication2Subsystem.DCresult.Max / (double)com2Mttfd;
+                numerator += safetyFunction.Communication2Subsystem.ResultantDC.Max / (double)com2Mttfd;
             }
 
             double dcResult = numerator / denominator;
@@ -269,11 +269,11 @@ namespace SSEA.BL.Services.Implementations
                 throw new Exception("CCF is not valid!");
 
             // Validation of MTTFd
-            if (subsystem.Category.MinMTTFd.CompareValue > subsystem.MTTFdResult.CompareValue)
+            if (subsystem.Category.MinMTTFd.CompareValue > subsystem.ResultantMTTFd.CompareValue)
                 throw new Exception("Resultant value of MTTFd is not valid for given category");
 
             // Validation of DC
-            if (subsystem.Category.MinDC.CompareValue > subsystem.DCresult.CompareValue)
+            if (subsystem.Category.MinDC.CompareValue > subsystem.ResultantDC.CompareValue)
                 throw new Exception("Resultant value of DC is not valid for given category");
         }
 
@@ -302,10 +302,10 @@ namespace SSEA.BL.Services.Implementations
         {
             // There is just one element
             if (elements.Count == 1)
-                return elements.ElementAt(0).MTTFdResult;
+                return elements.ElementAt(0).ResultantMTTFd;
 
             // There are two elements
-            return (elements.ElementAt(0).MTTFdResult.CompareValue > elements.ElementAt(1).MTTFdResult.CompareValue) ? elements.ElementAt(0).MTTFdResult : elements.ElementAt(1).MTTFdResult;
+            return (elements.ElementAt(0).ResultantMTTFd.CompareValue > elements.ElementAt(1).ResultantMTTFd.CompareValue) ? elements.ElementAt(0).ResultantMTTFd : elements.ElementAt(1).ResultantMTTFd;
         }
 
         /// <summary>

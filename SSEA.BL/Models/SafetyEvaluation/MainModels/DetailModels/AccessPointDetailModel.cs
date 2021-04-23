@@ -9,6 +9,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class AccessPointDetailModel : ExtendedModelBase
     {
+        [Required]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         public string Name { get; set; }
 

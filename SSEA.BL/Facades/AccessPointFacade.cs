@@ -36,17 +36,8 @@ namespace SSEA.BL.Facades
 
         public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel, int userId)
         {
-            // Getting unchanged access point model from database to compare with updated model
-            AccessPointDetailModel oldModel = await GetByIdAsync(updatedModel.Id);
-
-            // Deletion and creation of safety functions is managed by separate functions
-            updatedModel.SafetyFunctions.Clear();
-
-            // Updating access point
             AccessPoint accessPoint = mapper.Map<AccessPoint>(updatedModel);
-            var id = await accessPointRepository.UpdateAsync(accessPoint, userId);
-
-            return id;
+            return await accessPointRepository.UpdateAsync(accessPoint, userId);
         }
 
         public async Task DeleteAsync(int accessPointId, int userId)

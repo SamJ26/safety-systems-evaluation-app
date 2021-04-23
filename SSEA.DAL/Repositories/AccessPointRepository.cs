@@ -53,7 +53,7 @@ namespace SSEA.DAL.Repositories
             accessPoint.Machine = null;
             accessPoint.CurrentState = null;
             dbContext.Update(accessPoint);
-            await dbContext.CommitChangesAsync();
+            await dbContext.CommitChangesAsync(userId);
             return accessPoint.Id;
         }
 

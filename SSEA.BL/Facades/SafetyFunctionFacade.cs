@@ -76,7 +76,7 @@ namespace SSEA.BL.Facades
         {
             // Evaluating required PL
             if (newModel.S is not null && newModel.F is not null && newModel.P is not null)
-                newModel.PLr = await performanceLevelService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
+                newModel.RequiredPL = await performanceLevelService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
 
             var entity = mapper.Map<SafetyFunction>(newModel);
             int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);

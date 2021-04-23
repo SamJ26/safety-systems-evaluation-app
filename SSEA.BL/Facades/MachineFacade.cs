@@ -137,7 +137,7 @@ namespace SSEA.BL.Facades
             await machineRepository.DeleteAsync(machineId, userId);
         }
 
-        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId, int userId)
+        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId)
         {
             int inputSubsystemId = 1;
             int outputSubsystemId = 2;

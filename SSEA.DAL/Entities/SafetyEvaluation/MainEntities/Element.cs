@@ -33,17 +33,18 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public double? Hop { get; set; }
         public double? Dop { get; set; }
         public double? Tcycles { get; set; }
-        public double? MTTFdCounted { get; set; }
+        public double? CalculatedMTTFd { get; set; }
 
-        [Column("MTTFdResult_Id")]
-        public int? MTTFdResultId { get; set; }
-        public MTTFd MTTFdResult { get; set; }
+        [Column("ResultantMTTFd_Id")]
+        public int? ResultantMTTFdId { get; set; }
+        public MTTFd ResultantMTTFd { get; set; }
 
         // Properties for SIL methodics:
 
         public double? C { get; set; }
-        public double? LambdaC { get; set; }
+        public double? LambdaD { get; set; }
         public double SummedSFF { get; set; }
+
 
         public ICollection<ElementSFF> ElementSFFs { get; set; }
     }

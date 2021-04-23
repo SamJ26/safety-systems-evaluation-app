@@ -47,8 +47,8 @@ namespace SSEA.DAL.Repositories
             return await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
                                                   .Include(sf => sf.TypeOfFunction)
                                                   .Include(sf => sf.EvaluationMethod)
-                                                  .Include(sf => sf.PLr)
-                                                  .Include(sf => sf.PLresult)
+                                                  .Include(sf => sf.RequiredPL)
+                                                  .Include(sf => sf.ResultantPL)
                                                   .Include(sf => sf.S)
                                                   .Include(sf => sf.F)
                                                   .Include(sf => sf.P)
@@ -63,7 +63,7 @@ namespace SSEA.DAL.Repositories
                                                   .Include(sf => sf.TypeOfFunction)
                                                   .Include(sf => sf.EvaluationMethod)
                                                   .Include(sf => sf.SILCL)
-                                                  .Include(sf => sf.SILresult)
+                                                  .Include(sf => sf.RequiredSIL)
                                                   .Include(sf => sf.Se)
                                                   .Include(sf => sf.Fr)
                                                   .Include(sf => sf.Pr)
@@ -81,9 +81,9 @@ namespace SSEA.DAL.Repositories
                                                        .Include(s => s.TypeOfSubsystem)
                                                        .Include(s => s.OperationPrinciple)
                                                        .Include(s => s.Category)
-                                                       .Include(s => s.DCresult)
-                                                       .Include(s => s.MTTFdResult)
-                                                       .Include(s => s.PLresult)
+                                                       .Include(s => s.ResultantDC)
+                                                       .Include(s => s.ResultantMTTFd)
+                                                       .Include(s => s.ResultantPL)
                                                        .Include(s => s.CurrentState)
                                                        .AsNoTracking()
                                                        .ToListAsync();
@@ -99,7 +99,7 @@ namespace SSEA.DAL.Repositories
                                                        .Include(s => s.TypeOfSubsystem)
                                                        .Include(s => s.OperationPrinciple)
                                                        .Include(s => s.Architecture)
-                                                       .Include(s => s.PFHdResult)
+                                                       .Include(s => s.ResultantPFHd)
                                                        .Include(s => s.CurrentState)
                                                        .AsNoTracking()
                                                        .ToListAsync();
@@ -126,14 +126,14 @@ namespace SSEA.DAL.Repositories
             dbContext.Attach(safetyFunction.EvaluationMethod).State = EntityState.Unchanged;
 
             safetyFunction.SILCL = null;
-            safetyFunction.SILresult = null;
+            safetyFunction.RequiredSIL = null;
             safetyFunction.Se = null;
             safetyFunction.Fr = null;
             safetyFunction.Pr = null;
             safetyFunction.Av = null;
 
-            safetyFunction.PLr = null;
-            safetyFunction.PLresult = null;
+            safetyFunction.RequiredPL = null;
+            safetyFunction.ResultantPL = null;
             safetyFunction.S = null;
             safetyFunction.F = null;
             safetyFunction.P = null;
@@ -157,8 +157,8 @@ namespace SSEA.DAL.Repositories
             }
 
             // Setting these properties to null to avoid change tracking excpetion with tracking two entities with the same id
-            safetyFunction.PLr = null;
-            safetyFunction.PLresult = null;
+            safetyFunction.RequiredPL = null;
+            safetyFunction.ResultantPL = null;
 
             dbContext.Update(safetyFunction);
             await dbContext.CommitChangesAsync(userId);
