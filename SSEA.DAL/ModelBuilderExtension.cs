@@ -1702,7 +1702,7 @@ namespace SSEA.DAL
                     StateNumber = 4,
                     IsValid = true,
                     InitialState = false,
-                    FinalState = true,
+                    FinalState = false,
                     EntityId = 3,
                 },
                 new State()
@@ -1715,7 +1715,20 @@ namespace SSEA.DAL
                     StateNumber = 5,
                     IsValid = true,
                     InitialState = false,
-                    FinalState = true,
+                    FinalState = false,
+                    EntityId = 3,
+                },
+                new State()
+                {
+                    Id = 6,
+                    NameCZ = "Upravená",
+                    NameEN = "Modified",
+                    DescriptionCZ = "Vyhodnocená bezpečnostní funkce byla upravená - požadované opětovné vyhodnocení bezpečnosti",
+                    DescriptionEN = "The evaluated safety function has been modified - required re-evaluation of safety",
+                    StateNumber = 6,
+                    IsValid = true,
+                    InitialState = false,
+                    FinalState = false,
                     EntityId = 3,
                 },
 
@@ -1725,7 +1738,7 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 6,
+                    Id = 7, // 6
                     NameCZ = "Nový",
                     NameEN = "New",
                     DescriptionCZ = "Počáteční stav - bez bezpečnostní funkce",
@@ -1738,7 +1751,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 7,
+                    Id = 8, // 7
                     NameCZ = "Rozpracovaný",
                     NameEN = "Work in progress",
                     DescriptionCZ = "Pracuje se na detailech",
@@ -1751,7 +1764,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 8,
+                    Id = 9, // 8
                     NameCZ = "Ošetřený bezpečnostní funkcí",
                     NameEN = "Protected with safety function",
                     DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
@@ -1759,20 +1772,20 @@ namespace SSEA.DAL
                     StateNumber = 3,
                     IsValid = true,
                     InitialState = false,
-                    FinalState = true,
+                    FinalState = false,
                     EntityId = 1,
                 },
                 new State()
                 {
-                    Id = 9,
+                    Id = 10, // 9
                     NameCZ = "Neošetřený bezpečnostní funkcí",
                     NameEN = "Not protected with safety function",
                     DescriptionCZ = "Přístupový bod nemá bezpečnostní funkce",
-                    DescriptionEN = "Access point has not any safety functions",
+                    DescriptionEN = "Access point has no safety functions",
                     StateNumber = 4,
                     IsValid = true,
                     InitialState = false,
-                    FinalState = true,
+                    FinalState = false,
                     EntityId = 1,
                 },
 
@@ -1782,7 +1795,7 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 10,
+                    Id = 11, // 10
                     NameCZ = "Nová",
                     NameEN = "New",
                     DescriptionCZ = "Počáteční stav - s nevyplnenými subsystémami",
@@ -1795,7 +1808,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 11,
+                    Id = 12, // 11
                     NameCZ = "Rozpracovaná",
                     NameEN = "Work in progress",
                     DescriptionCZ = "Příprava subsystému",
@@ -1808,7 +1821,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 12,
+                    Id = 13, // 12
                     NameCZ = "Připravená na vyhodnocení",
                     NameEN = "Ready for evaluation",
                     DescriptionCZ = "Vstupní i výstupní subsystém je vyplněn",
@@ -1821,25 +1834,12 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 13,
+                    Id = 14, // 13
                     NameCZ = "Vyhodnocená - validní",
                     NameEN = "Evaluated - valid",
-                    DescriptionCZ = "Výsledná úroveň bezpečnosti splňuje požadavky",
-                    DescriptionEN = "Determined final level of security meets the requirements",
+                    DescriptionCZ = "Výsledná úroveň bezpečnosti splňuje požadavky - další úpravy nejsou povoleny",
+                    DescriptionEN = "Determined final level of security meets the requirements - additional modifications are not allowed",
                     StateNumber = 4,
-                    IsValid = true,
-                    InitialState = false,
-                    FinalState = true,
-                    EntityId = 4,
-                },
-                new State()
-                {
-                    Id = 14,
-                    NameCZ = "Vyhodnocená - invalidní",
-                    NameEN = "Evaluated - invalid",
-                    DescriptionCZ = "Výsledná úroveň bezpečnosti nesplňuje požadavky",
-                    DescriptionEN = "Determined final level of security does not meet the requirements",
-                    StateNumber = 5,
                     IsValid = true,
                     InitialState = false,
                     FinalState = true,
@@ -1859,8 +1859,8 @@ namespace SSEA.DAL
                     DescriptionEN = null,
                     StateNumber = 1,
                     IsValid = true,
-                    InitialState = true,
-                    FinalState = true,
+                    InitialState = false,
+                    FinalState = false,
                     EntityId = 5,
                 },
                 new State()
@@ -1872,8 +1872,8 @@ namespace SSEA.DAL
                     DescriptionEN = null,
                     StateNumber = 2,
                     IsValid = true,
-                    InitialState = true,
-                    FinalState = true,
+                    InitialState = false,
+                    FinalState = false,
                     EntityId = 5,
                 },
 
@@ -1891,7 +1891,7 @@ namespace SSEA.DAL
                     StateNumber = 1,
                     IsValid = true,
                     InitialState = true,
-                    FinalState = false,
+                    FinalState = true,
                     EntityId = 2,
                 },
 
