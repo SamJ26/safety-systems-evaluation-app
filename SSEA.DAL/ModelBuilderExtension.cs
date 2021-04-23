@@ -21,18 +21,21 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     DescriptionCZ = "Nemožné",
+                    DescriptionEN = "Impossible",
                     Value = 5,
                 },
                 new Av()
                 {
                     Id = 2,
                     DescriptionCZ = "Možné za určitých podmínek",
+                    DescriptionEN = "Possible under certain conditions",
                     Value = 3,
                 },
                 new Av()
                 {
                     Id = 3,
-                    DescriptionCZ = "Pradvěpodobné",
+                    DescriptionCZ = "Pravděpodobné",
+                    DescriptionEN = "Probably",
                     Value = 1,
                 }
             );
@@ -75,24 +78,28 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     DescriptionCZ = "Trvalé: smrt, ztráta oka nebo paže",
+                    DescriptionEN = "Permanent: death, loss of eye or arm",
                     Value = 4,
                 },
                 new Se()
                 {
                     Id = 2,
                     DescriptionCZ = "Trvalé: zlomená končetina, ztráta prstu",
+                    DescriptionEN = "Permanent: broken limb, loss of finger",
                     Value = 3,
                 },
                 new Se()
                 {
                     Id = 3,
                     DescriptionCZ = "Přechodné: vyžadující ošetření praktickým lékařem",
+                    DescriptionEN = "Transient: requiring GP treatment",
                     Value = 2,
                 },
                 new Se()
                 {
                     Id = 4,
                     DescriptionCZ = "Přechodné: vyžadující ošetření na první pomoci",
+                    DescriptionEN = "Transient: requiring first aid treatment",
                     Value = 1,
                 }
             );
@@ -102,30 +109,35 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     DescriptionCZ = "Velmi vysoká",
+                    DescriptionEN = "Very high",
                     Value = 5,
                 },
                 new Pr()
                 {
                     Id = 2,
                     DescriptionCZ = "Pravděpodobná",
+                    DescriptionEN = "Probable",
                     Value = 4,
                 },
                 new Pr()
                 {
                     Id = 3,
                     DescriptionCZ = "Možná",
+                    DescriptionEN = "Possible",
                     Value = 3,
                 },
                 new Pr()
                 {
                     Id = 4,
                     DescriptionCZ = "Výjimečná",
+                    DescriptionEN = "Extraordinary",
                     Value = 2,
                 },
                 new Pr()
                 {
                     Id = 5,
                     DescriptionCZ = "Zanedbatelná",
+                    DescriptionEN = "Negligible",
                     Value = 1,
                 }
             );
@@ -154,6 +166,7 @@ namespace SSEA.DAL
                 }
             );
 
+            // TODO: translate to english
             modelBuilder.Entity<SFF>().HasData(
                 new SFF()
                 {

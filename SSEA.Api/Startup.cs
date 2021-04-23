@@ -36,7 +36,8 @@ namespace SSEA.Api
                                                                                  .WithOrigins("https://localhost:44338")));
 
             services.AddControllers()
-                    .AddNewtonsoftJson();
+                    .AddNewtonsoftJson()
+                    .AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null);
 
             services.AddSwaggerGen(c =>
             {
