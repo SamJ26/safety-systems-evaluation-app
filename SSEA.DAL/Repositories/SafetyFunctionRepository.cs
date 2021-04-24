@@ -12,9 +12,9 @@ namespace SSEA.DAL.Repositories
     {
         private readonly AppDbContext dbContext;
 
-        private readonly int safetyFunctionNewStateId = 10;
-        private readonly int safetyFunctionWorkInProgressStateId = 11;
-        private readonly int safetyFunctionReadyForEvaluationStateId = 12;
+        private readonly int safetyFunctionNewStateId = 11;
+        private readonly int safetyFunctionWorkInProgressStateId = 12;
+        private readonly int safetyFunctionReadyForEvaluationStateId = 13;
 
         public SafetyFunctionRepository(AppDbContext dbContext)
         {

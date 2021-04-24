@@ -78,6 +78,10 @@ namespace SSEA.BL.Facades
             if (newModel.S is not null && newModel.F is not null && newModel.P is not null)
                 newModel.RequiredPL = await performanceLevelService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
 
+            if (newModel.RequiredPL is null)
+                return 0;
+
+            newModel.UsedOnMachine = accessPointId != 0 ? true : false;
             var entity = mapper.Map<SafetyFunction>(newModel);
             int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
 
@@ -97,6 +101,7 @@ namespace SSEA.BL.Facades
             if (newModel.SILCL is null)
                 return 0;
 
+            newModel.UsedOnMachine = accessPointId != 0 ? true : false;
             var entity = mapper.Map<SafetyFunction>(newModel);
             int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
 

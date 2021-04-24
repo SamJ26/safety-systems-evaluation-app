@@ -1795,7 +1795,7 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 11, // 10
+                    Id = 11,
                     NameCZ = "Nová",
                     NameEN = "New",
                     DescriptionCZ = "Počáteční stav - s nevyplnenými subsystémami",
@@ -1808,7 +1808,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 12, // 11
+                    Id = 12,
                     NameCZ = "Rozpracovaná",
                     NameEN = "Work in progress",
                     DescriptionCZ = "Příprava subsystému",
@@ -1821,7 +1821,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 13, // 12
+                    Id = 13,
                     NameCZ = "Připravená na vyhodnocení",
                     NameEN = "Ready for evaluation",
                     DescriptionCZ = "Vstupní i výstupní subsystém je vyplněn",
@@ -1834,7 +1834,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 14, // 13
+                    Id = 14,
                     NameCZ = "Vyhodnocená - validní",
                     NameEN = "Evaluated - valid",
                     DescriptionCZ = "Výsledná úroveň bezpečnosti splňuje požadavky - další úpravy nejsou povoleny",
