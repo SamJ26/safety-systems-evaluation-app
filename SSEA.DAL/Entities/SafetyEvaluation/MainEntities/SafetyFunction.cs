@@ -33,13 +33,13 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         // Properties for PL methodics:
 
-        [Column("PLr_Id")]
-        public int? PLrId { get; set; }
-        public PerformanceLevel PLr { get; set; }
+        [Column("RequiredPL_Id")]
+        public int? RequiredPLId { get; set; }
+        public PerformanceLevel RequiredPL { get; set; }
 
-        [Column("PLresult_Id")]
-        public int? PLresultId { get; set; }
-        public PerformanceLevel PLresult { get; set; }
+        [Column("ResultantPL_Id")]
+        public int? ResultantPLId { get; set; }
+        public PerformanceLevel ResultantPL { get; set; }
 
         [Column("S_Id")]
         public int? SId { get; set; }
@@ -55,13 +55,15 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
 
         // Properties for SIL methodics:
 
+        public double CalculatedPFHd { get; set; }
+
+        [Column("RequiredSIL_Id")]
+        public int? RequiredSILId { get; set; }
+        public PFHd RequiredSIL { get; set; }
+
         [Column("SILCL_Id")]
         public int? SILCLId { get; set; }
         public PFHd SILCL { get; set; }
-
-        [Column("SILresult_Id")]
-        public int? SILresultId { get; set; }
-        public PFHd SILresult { get; set; }
 
         [Column("Se_Id")]
         public int? SeId { get; set; }

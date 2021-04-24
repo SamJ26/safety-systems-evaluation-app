@@ -47,7 +47,7 @@
                                 <hr />
                             </MudItem>
                             <MudItem xs="3">
-                                <MudSelect @bind-Value="safetyFunction.Silcl" T="PFHdModel" Label="Required SIL" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="safetyFunction.RequiredSIL" T="PFHdModel" Label="Required SIL" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in sils)
                                     {
                                         <MudSelectItem T="PFHdModel" Value="@(item)">@item.ValueSIL</MudSelectItem>
@@ -218,7 +218,7 @@
 
     private bool IsModelValid()
     {
-        if (safetyFunction.Silcl is null && (safetyFunction.Pr is null || safetyFunction.Av is null || safetyFunction.Fr is null || safetyFunction.Se is null))
+        if (safetyFunction.RequiredSIL is null && (safetyFunction.Pr is null || safetyFunction.Av is null || safetyFunction.Fr is null || safetyFunction.Se is null))
             return false;
         return true;
     }

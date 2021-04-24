@@ -94,7 +94,7 @@ namespace SSEA.BL.Services.Implementations
                 throw new Exception("You must select items from CCF table");
 
             // Evaluation of SFF:
-            subsystem.SFFresult = EvaluateSFF(subsystem.Elements);
+            subsystem.ResultantSFF = EvaluateSFF(subsystem.Elements);
 
             // Evalution of CFF from selected CCF
             subsystem.CFF = SelectCFF(subsystem.SelectedCCFs);
@@ -103,9 +103,10 @@ namespace SSEA.BL.Services.Implementations
             subsystem.HFT = subsystem.Architecture.HFT;
 
             // Evaluation of PFHd:
-            subsystem.PFHdResult = await CalculatePFHd(subsystem);
-            if (subsystem.PFHdResult is null)
-                throw new Exception("Calculation of PFHd failed");
+            subsystem.CalculatedPFHd = CalculatePFHdForSubsystem(subsystem);
+            subsystem.ResultantPFHd = mapper.Map<PFHdModel>(await dbContext.PFHds.FirstOrDefaultAsync(p => p.MinPFHd <= subsystem.CalculatedPFHd && subsystem.CalculatedPFHd <= p.MaxPFHd));
+            if (subsystem.ResultantPFHd is null)
+                throw new Exception($"Calculation of PFHd failed - calculated value: {subsystem.CalculatedPFHd}");
 
             // TODO: Check if SFF meets requirements of given architecture
         }
@@ -119,6 +120,13 @@ namespace SSEA.BL.Services.Implementations
             if (safetyFunction.OutputSubsystem is null)
                 throw new Exception("Output subsystem is missing");
 
+            safetyFunction.CalculatedPFHd = CalculatePFHdForSafetyFunction(safetyFunction);
+            safetyFunction.SILCL = mapper.Map<PFHdModel>(await dbContext.PFHds.FirstOrDefaultAsync(p => p.MinPFHd <= safetyFunction.CalculatedPFHd && safetyFunction.CalculatedPFHd <= p.MaxPFHd));
+            if (safetyFunction.SILCL is null)
+                throw new Exception($"Calculation of PFHd failed - calculated value: {safetyFunction.CalculatedPFHd}");
+
+            if (safetyFunction.RequiredSIL.ValueSIL > safetyFunction.SILCL.ValueSIL)
+                return false;
             return true;
         }
 
@@ -126,17 +134,22 @@ namespace SSEA.BL.Services.Implementations
 
         #region Private methods
 
-        // TODO:
-        private double CalculateSILCL(SafetyFunctionDetailModelSIL safetyFunction)
+        private double CalculatePFHdForSafetyFunction(SafetyFunctionDetailModelSIL safetyFunction)
         {
             double temp = 0;
-
+            temp += safetyFunction.InputSubsystem.CalculatedPFHd;
+            temp += safetyFunction.LogicSubsystem.CalculatedPFHd;
+            temp += safetyFunction.OutputSubsystem.CalculatedPFHd;
+            if (safetyFunction.Communication1Subsystem is not null)
+                temp += safetyFunction.Communication1Subsystem.CalculatedPFHd;
+            if (safetyFunction.Communication2Subsystem is not null)
+                temp += safetyFunction.Communication2Subsystem.CalculatedPFHd;
             return temp;
         }
 
-        private async Task<PFHdModel> CalculatePFHd(SubsystemDetailModelSIL subsystem)
+        private double CalculatePFHdForSubsystem(SubsystemDetailModelSIL subsystem)
         {
-            double pfhd = (subsystem.Architecture.Label) switch
+            return (subsystem.Architecture.Label) switch
             {
                 "A" => CalculatePFHdForArchitectureA(subsystem),
                 "B" => CalculatePFHdForArchitectureB(subsystem),
@@ -144,9 +157,6 @@ namespace SSEA.BL.Services.Implementations
                 "D" => CalculatePFHdForArchitectureD(subsystem),
                 _ => 0,
             };
-            if (pfhd == 0)
-                return null;
-            return mapper.Map<PFHdModel>(await dbContext.PFHds.FirstOrDefaultAsync(p => p.MinPFHd <= pfhd && pfhd <= p.MaxPFHd));
         }
 
         private double CalculatePFHdForArchitectureA(SubsystemDetailModelSIL subsystem) => (0.1 * subsystem.Elements.ElementAt(0).C) / subsystem.Elements.ElementAt(0).B10d;

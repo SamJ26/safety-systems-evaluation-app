@@ -12,8 +12,8 @@ namespace SSEA.DAL.Repositories
     {
         private readonly AppDbContext dbContext;
 
-        private readonly int accessPointNewStateId = 6;
-        private readonly int accessPointWorkInProgressStateId = 7;
+        private readonly int accessPointNewStateId = 7;
+        private readonly int accessPointWorkInProgressStateId = 8;
 
         public AccessPointRepository(AppDbContext dbContext)
         {
@@ -53,7 +53,7 @@ namespace SSEA.DAL.Repositories
             accessPoint.Machine = null;
             accessPoint.CurrentState = null;
             dbContext.Update(accessPoint);
-            await dbContext.CommitChangesAsync();
+            await dbContext.CommitChangesAsync(userId);
             return accessPoint.Id;
         }
 

@@ -15,13 +15,15 @@ namespace SSEA.BL.Facades
     public class MachineFacade
     {
         private readonly IMapper mapper;
+        private readonly UserRepository userRepository;
         private readonly MachineRepository machineRepository;
         private readonly AccessPointRepository accessPointRepository;
-        public readonly SafetyFunctionRepository safetyFunctionRepository;
+        private readonly SafetyFunctionRepository safetyFunctionRepository;
         private readonly CodeListFacade codeListFacade;
         private readonly SafetyFunctionFacade safetyFunctionFacade;
 
         public MachineFacade(IMapper mapper,
+                             UserRepository userRepository,
                              MachineRepository machineRepository,
                              AccessPointRepository accessPointRepository,
                              SafetyFunctionRepository safetyFunctionRepository,
@@ -29,6 +31,7 @@ namespace SSEA.BL.Facades
                              SafetyFunctionFacade safetyFunctionFacade)
         {
             this.mapper = mapper;
+            this.userRepository = userRepository;
             this.machineRepository = machineRepository;
             this.accessPointRepository = accessPointRepository;
             this.safetyFunctionRepository = safetyFunctionRepository;
@@ -62,6 +65,8 @@ namespace SSEA.BL.Facades
             if (machine is null)
                 return null;
             machine.Norms = mapper.Map<HashSet<NormModel>>(await machineRepository.GetNormsForMachineAsync(id));
+            machine.UserNameCreated = await userRepository.GetUserNameById(machine.IdCreated);
+            machine.UserNameUpdated = machine.IdCreated == machine.IdUpdated ? machine.UserNameCreated : await userRepository.GetUserNameById(machine.IdUpdated);
             return machine;
         }
 
@@ -137,7 +142,7 @@ namespace SSEA.BL.Facades
             await machineRepository.DeleteAsync(machineId, userId);
         }
 
-        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId, int userId)
+        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId)
         {
             int inputSubsystemId = 1;
             int outputSubsystemId = 2;
@@ -280,8 +285,8 @@ namespace SSEA.BL.Facades
         {
             int machineEvaluatedValidStateId = 4;
             int machineEvaluatedInvalidStateId = 5;
-            int accessPointProtectedStateId = 8;
-            int accessPointNotProtectedStateId = 9;
+            int accessPointProtectedStateId = 9;
+            int accessPointNotProtectedStateId = 10;
 
             // Getting machine with all its access points
             MachineDetailModel machine = await GetByIdAsync(machineId);

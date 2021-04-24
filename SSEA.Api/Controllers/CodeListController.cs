@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
 using SSEA.BL.Facades;
-using System.Net.Http;
 using System.Text.Json;
 using SSEA.BL.Models.SafetyEvaluation.CodeListModels;
 using Microsoft.AspNetCore.Authorization;

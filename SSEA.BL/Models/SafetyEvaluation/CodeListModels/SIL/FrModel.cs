@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
 {
@@ -18,8 +14,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
     {
         public FrModelMapperProfile()
         {
-            CreateMap<Fr, FrModel>().IgnoreSource(src => src.FrequencyOfThreatEN)
-                                    .MapMember(dest => dest.FrequencyOfThreat, src => src.FrequencyOfThreatCZ)
+            CreateMap<Fr, FrModel>().IgnoreSource(src => src.FrequencyOfThreatCZ)
+                                    .MapMember(dest => dest.FrequencyOfThreat, src => src.FrequencyOfThreatEN)
                                     .ReverseMap();
         }
     }

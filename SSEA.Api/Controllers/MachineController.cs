@@ -107,8 +107,7 @@ namespace SSEA.Api.Controllers
         {
             if (id == 0)
                 return BadRequest();
-            var userId = this.GetUserIdFromHttpContext();
-            var response = await machineFacade.SelectLogicAsync(id, userId);
+            var response = await machineFacade.SelectLogicAsync(id);
             if (response is null)
                 return NotFound();
             return Ok(response);

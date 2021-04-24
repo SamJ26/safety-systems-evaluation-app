@@ -26,15 +26,15 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.Common
     {
         public TypeOfLogicModelMapperProfile()
         {
-            CreateMap<TypeOfLogic, TypeOfLogicModel>().IgnoreSource(src => src.NameEN)
-                                                      .IgnoreSource(src => src.DescriptionEN)
+            CreateMap<TypeOfLogic, TypeOfLogicModel>().IgnoreSource(src => src.NameCZ)
+                                                      .IgnoreSource(src => src.DescriptionCZ)
                                                       .IgnoreSource(src => src.MaxPLId)
                                                       .IgnoreSource(src => src.MaxCategoryId)
                                                       .IgnoreSource(src => src.MaxSILId)
                                                       .IgnoreSource(src => src.MaxArchitectureId)
                                                       .IgnoreSource(src => src.Subsystem)
-                                                      .MapMember(dest => dest.Name, src => src.NameCZ)
-                                                      .MapMember(dest => dest.Description, src => src.DescriptionCZ)
+                                                      .MapMember(dest => dest.Name, src => src.NameEN)
+                                                      .MapMember(dest => dest.Description, src => src.DescriptionEN)
                                                       .ReverseMap();
         }
     }

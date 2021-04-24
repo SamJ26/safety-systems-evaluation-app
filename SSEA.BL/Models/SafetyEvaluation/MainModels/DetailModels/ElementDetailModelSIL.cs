@@ -9,7 +9,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
     public class ElementDetailModelSIL : ElementDetailModel
     {    
         public double C { get; set; }
-        public double LambdaC { get; set; }
+        public double LambdaD { get; set; }
         public double SummedSFF { get; set; }
         public HashSet<SFFModel> SelectedSFFs { get; set; }
     }
@@ -26,9 +26,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                        .IgnoreSource(src => src.Hop)
                                                        .IgnoreSource(src => src.Dop)
                                                        .IgnoreSource(src => src.Tcycles)
-                                                       .IgnoreSource(src => src.MTTFdCounted)
-                                                       .IgnoreSource(src => src.MTTFdResult)
-                                                       .IgnoreSource(src => src.MTTFdResultId)
+                                                       .IgnoreSource(src => src.CalculatedMTTFd)
+                                                       .IgnoreSource(src => src.ResultantMTTFd)
+                                                       .IgnoreSource(src => src.ResultantMTTFdId)
                                                        .IgnoreSource(src => src.ElementSFFs)
                                                        .IgnoreSource(src => src.CurrentStateId)
                                                        .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())

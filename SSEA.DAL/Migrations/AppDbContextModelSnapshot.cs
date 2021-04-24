@@ -55,7 +55,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "64076b79-d637-4a0a-9923-777627d07637",
+                            ConcurrencyStamp = "f04f4e29-1fbf-4f52-a05e-7fc20f708712",
                             IsValid = true,
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
@@ -63,7 +63,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "8e615fc8-036f-425d-a896-2039b71d15d7",
+                            ConcurrencyStamp = "59dcea2c-e3bc-4a84-be73-96fdf823b868",
                             IsValid = true,
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
@@ -71,7 +71,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "f06ca3a4-62a6-43c1-b218-31dce70c0f16",
+                            ConcurrencyStamp = "a4242c3f-5556-47eb-a42c-219464fa8070",
                             IsValid = true,
                             Name = "SafetyEvaluationAdmin",
                             NormalizedName = "SAFETYEVALUATIONADMIN"
@@ -79,7 +79,7 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "2889e719-1964-4394-a927-b7c313fc0a5a",
+                            ConcurrencyStamp = "9a7939fd-1acc-449a-8efd-858449b818cc",
                             IsValid = true,
                             Name = "UserAdmin",
                             NormalizedName = "USERADMIN"
@@ -439,7 +439,8 @@ namespace SSEA.DAL.Migrations
                             IsValid = true,
                             Max = (short)60,
                             Min = (short)0,
-                            ValueCZ = "Žádné"
+                            ValueCZ = "Žádné",
+                            ValueEN = "None"
                         },
                         new
                         {
@@ -449,7 +450,8 @@ namespace SSEA.DAL.Migrations
                             IsValid = true,
                             Max = (short)90,
                             Min = (short)60,
-                            ValueCZ = "Nízké"
+                            ValueCZ = "Nízké",
+                            ValueEN = "Low"
                         },
                         new
                         {
@@ -459,7 +461,8 @@ namespace SSEA.DAL.Migrations
                             IsValid = true,
                             Max = (short)99,
                             Min = (short)90,
-                            ValueCZ = "Střední"
+                            ValueCZ = "Střední",
+                            ValueEN = "Medium"
                         },
                         new
                         {
@@ -469,7 +472,8 @@ namespace SSEA.DAL.Migrations
                             IsValid = true,
                             Max = (short)100,
                             Min = (short)99,
-                            ValueCZ = "Vysoké"
+                            ValueCZ = "Vysoké",
+                            ValueEN = "High"
                         });
                 });
 
@@ -565,21 +569,24 @@ namespace SSEA.DAL.Migrations
                             Id = 1,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Jednoúčelový stroj"
+                            NameCZ = "Jednoúčelový stroj",
+                            NameEN = "Single-purpose machine"
                         },
                         new
                         {
                             Id = 2,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Víceúčelový stroj"
+                            NameCZ = "Víceúčelový stroj",
+                            NameEN = "Multi-purpose machine"
                         },
                         new
                         {
                             Id = 3,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Montážní linka"
+                            NameCZ = "Montážní linka",
+                            NameEN = "Assembly line"
                         });
                 });
 
@@ -1067,35 +1074,40 @@ namespace SSEA.DAL.Migrations
                             Id = 1,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "mechanický"
+                            NameCZ = "Mechanický",
+                            NameEN = "Mechanical"
                         },
                         new
                         {
                             Id = 2,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "elektrický"
+                            NameCZ = "Elektrický",
+                            NameEN = "Electrical"
                         },
                         new
                         {
                             Id = 3,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "pneumatický"
+                            NameCZ = "Pneumatický",
+                            NameEN = "Pneumatic"
                         },
                         new
                         {
                             Id = 4,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "elektromechanický"
+                            NameCZ = "Elektromechanický",
+                            NameEN = "Electromechanical"
                         },
                         new
                         {
                             Id = 5,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "hydraulický"
+                            NameCZ = "Hydraulický",
+                            NameEN = "Hydraulic"
                         });
                 });
 
@@ -1192,98 +1204,112 @@ namespace SSEA.DAL.Migrations
                             Id = 1,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce bezpečného zastavení iniciována bezpečnostním zařízením"
+                            NameCZ = "Funkce bezpečného zastavení iniciována bezpečnostním zařízením",
+                            NameEN = "Safe stop function initiated by the safety device"
                         },
                         new
                         {
                             Id = 2,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce ručního opětného nastavení"
+                            NameCZ = "Funkce ručního opětného nastavení",
+                            NameEN = "Manual reset function"
                         },
                         new
                         {
                             Id = 3,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce místního ovládaní"
+                            NameCZ = "Funkce místního ovládaní",
+                            NameEN = "Local control function"
                         },
                         new
                         {
                             Id = 4,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce spuštení/opětovného spuštení"
+                            NameCZ = "Funkce spuštení/opětovného spuštení",
+                            NameEN = "Start / restart function"
                         },
                         new
                         {
                             Id = 5,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce vyřazení"
+                            NameCZ = "Funkce vyřazení",
+                            NameEN = "Exclusion function"
                         },
                         new
                         {
                             Id = 6,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce tipování"
+                            NameCZ = "Funkce tipování",
+                            NameEN = "Tipping function"
                         },
                         new
                         {
                             Id = 7,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce povelového zařízení"
+                            NameCZ = "Funkce povelového zařízení",
+                            NameEN = "Command device functions"
                         },
                         new
                         {
                             Id = 8,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce zamezení neočekávaného spuštění"
+                            NameCZ = "Funkce zamezení neočekávaného spuštění",
+                            NameEN = "Unexpected startup prevention function"
                         },
                         new
                         {
                             Id = 9,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Únik a uvolnění zachycených osob"
+                            NameCZ = "Únik a uvolnění zachycených osob",
+                            NameEN = "Escape and release of captured persons"
                         },
                         new
                         {
                             Id = 10,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce odpojení a uvolnění energie"
+                            NameCZ = "Funkce odpojení a uvolnění energie",
+                            NameEN = "Power disconnection and release function"
                         },
                         new
                         {
                             Id = 11,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Režimy ovládání a volba režimu"
+                            NameCZ = "Režimy ovládání a volba režimu",
+                            NameEN = "Control modes and mode selection"
                         },
                         new
                         {
                             Id = 12,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Vzájemné púsobení rúzných bezpečnostních částí ovládacího systému"
+                            NameCZ = "Vzájemné púsobení rúzných bezpečnostních částí ovládacího systému",
+                            NameEN = "Interaction of different safety parts of the control system"
                         },
                         new
                         {
                             Id = 13,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Monitorování parametrizace hodnot bezpečnostního vstupu"
+                            NameCZ = "Monitorování parametrizace hodnot bezpečnostního vstupu",
+                            NameEN = "Monitoring the parameterization of safety input values"
                         },
                         new
                         {
                             Id = 14,
                             IsRemoved = false,
                             IsValid = true,
-                            NameCZ = "Funkce nouzového zastavení"
+                            NameCZ = "Funkce nouzového zastavení",
+                            NameEN = "Emergency stop function"
                         });
                 });
 
@@ -1676,12 +1702,12 @@ namespace SSEA.DAL.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("DescriptionCZ")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("DescriptionEN")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
@@ -1702,6 +1728,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Řídká až málo častá",
+                            DescriptionEN = "Sparse to infrequent",
                             IsRemoved = false,
                             IsValid = true,
                             Value = "F1"
@@ -1710,6 +1737,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Častá až nepřetržitá",
+                            DescriptionEN = "Frequent to continuous",
                             IsRemoved = false,
                             IsValid = true,
                             Value = "F2"
@@ -1760,7 +1788,8 @@ namespace SSEA.DAL.Migrations
                             IsValid = true,
                             Max = (short)10,
                             Min = (short)3,
-                            ValueCZ = "Krátká"
+                            ValueCZ = "Krátká",
+                            ValueEN = "Short"
                         },
                         new
                         {
@@ -1770,7 +1799,8 @@ namespace SSEA.DAL.Migrations
                             IsValid = true,
                             Max = (short)30,
                             Min = (short)10,
-                            ValueCZ = "Střední"
+                            ValueCZ = "Střední",
+                            ValueEN = "Medium"
                         },
                         new
                         {
@@ -1780,7 +1810,8 @@ namespace SSEA.DAL.Migrations
                             IsValid = true,
                             Max = (short)100,
                             Min = (short)30,
-                            ValueCZ = "Dlouhá"
+                            ValueCZ = "Dlouhá",
+                            ValueEN = "Long"
                         });
                 });
 
@@ -1792,12 +1823,12 @@ namespace SSEA.DAL.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("DescriptionCZ")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("DescriptionEN")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
@@ -1818,6 +1849,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Možné za určitých podmínek",
+                            DescriptionEN = "Possible under certain conditions",
                             IsRemoved = false,
                             IsValid = true,
                             Value = "P1"
@@ -1826,6 +1858,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Sotva možné",
+                            DescriptionEN = "Hardly possible",
                             IsRemoved = false,
                             IsValid = true,
                             Value = "P2"
@@ -1908,12 +1941,12 @@ namespace SSEA.DAL.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("DescriptionCZ")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("DescriptionEN")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
@@ -1934,6 +1967,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Lehké",
+                            DescriptionEN = "Small",
                             IsRemoved = false,
                             IsValid = true,
                             Value = "S1"
@@ -1942,6 +1976,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Závažné",
+                            DescriptionEN = "Serious",
                             IsRemoved = false,
                             IsValid = true,
                             Value = "S2"
@@ -2102,6 +2137,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Nemožné",
+                            DescriptionEN = "Impossible",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)5
@@ -2110,6 +2146,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Možné za určitých podmínek",
+                            DescriptionEN = "Possible under certain conditions",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)3
@@ -2117,7 +2154,8 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            DescriptionCZ = "Pradvěpodobné",
+                            DescriptionCZ = "Pravděpodobné",
+                            DescriptionEN = "Probably",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)1
@@ -2286,6 +2324,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Velmi vysoká",
+                            DescriptionEN = "Very high",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)5
@@ -2294,6 +2333,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Pravděpodobná",
+                            DescriptionEN = "Probable",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)4
@@ -2302,6 +2342,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             DescriptionCZ = "Možná",
+                            DescriptionEN = "Possible",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)3
@@ -2310,6 +2351,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             DescriptionCZ = "Výjimečná",
+                            DescriptionEN = "Extraordinary",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)2
@@ -2318,6 +2360,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 5,
                             DescriptionCZ = "Zanedbatelná",
+                            DescriptionEN = "Negligible",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)1
@@ -2885,6 +2928,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 1,
                             DescriptionCZ = "Trvalé: smrt, ztráta oka nebo paže",
+                            DescriptionEN = "Permanent: death, loss of eye or arm",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)4
@@ -2893,6 +2937,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 2,
                             DescriptionCZ = "Trvalé: zlomená končetina, ztráta prstu",
+                            DescriptionEN = "Permanent: broken limb, loss of finger",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)3
@@ -2901,6 +2946,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 3,
                             DescriptionCZ = "Přechodné: vyžadující ošetření praktickým lékařem",
+                            DescriptionEN = "Transient: requiring GP treatment",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)2
@@ -2909,6 +2955,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 4,
                             DescriptionCZ = "Přechodné: vyžadující ošetření na první pomoci",
+                            DescriptionEN = "Transient: requiring first aid treatment",
                             IsRemoved = false,
                             IsValid = true,
                             Value = (short)1
@@ -3048,8 +3095,8 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("IdCreated")
                         .HasColumnType("int");
@@ -3091,6 +3138,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<double?>("C")
                         .HasColumnType("float");
 
+                    b.Property<double?>("CalculatedMTTFd")
+                        .HasColumnType("float");
+
                     b.Property<string>("CatalogNumber")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -3124,15 +3174,8 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
 
-                    b.Property<double?>("LambdaC")
+                    b.Property<double?>("LambdaD")
                         .HasColumnType("float");
-
-                    b.Property<double?>("MTTFdCounted")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("MTTFdResultId")
-                        .HasColumnType("int")
-                        .HasColumnName("MTTFdResult_Id");
 
                     b.Property<double?>("Nop")
                         .HasColumnType("float");
@@ -3140,6 +3183,10 @@ namespace SSEA.DAL.Migrations
                     b.Property<int>("ProducerId")
                         .HasColumnType("int")
                         .HasColumnName("Producer_Id");
+
+                    b.Property<int?>("ResultantMTTFdId")
+                        .HasColumnType("int")
+                        .HasColumnName("ResultantMTTFd_Id");
 
                     b.Property<int>("SubsystemId")
                         .HasColumnType("int")
@@ -3157,9 +3204,9 @@ namespace SSEA.DAL.Migrations
 
                     b.HasIndex("DCId");
 
-                    b.HasIndex("MTTFdResultId");
-
                     b.HasIndex("ProducerId");
+
+                    b.HasIndex("ResultantMTTFdId");
 
                     b.HasIndex("SubsystemId");
 
@@ -3173,10 +3220,7 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<bool?>("CodeProtection")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Communication")
+                    b.Property<bool>("CodeProtection")
                         .HasColumnType("bit");
 
                     b.Property<int>("CurrentStateId")
@@ -3197,7 +3241,7 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("EvaluationMethod_Id");
 
-                    b.Property<bool?>("HMI")
+                    b.Property<bool>("HMI")
                         .HasColumnType("bit");
 
                     b.Property<int>("IdCreated")
@@ -3209,7 +3253,7 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("MachineHelp")
+                    b.Property<bool>("MachineHelp")
                         .HasColumnType("bit");
 
                     b.Property<int>("MachineTypeId")
@@ -3221,17 +3265,20 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool?>("PLC")
+                    b.Property<bool>("PLC")
                         .HasColumnType("bit");
 
                     b.Property<int>("ProducerId")
                         .HasColumnType("int")
                         .HasColumnName("Producer_Id");
 
-                    b.Property<bool?>("SafetyMasterInPlace")
+                    b.Property<bool>("SafetyCommunication")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("SecurityOfSafetyParts")
+                    b.Property<bool>("SafetyMasterInPlace")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SecurityOfSafetyParts")
                         .HasColumnType("bit");
 
                     b.Property<int?>("TypeOfLogicId")
@@ -3263,6 +3310,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<int?>("AvId")
                         .HasColumnType("int")
                         .HasColumnName("Av_Id");
+
+                    b.Property<double>("CalculatedPFHd")
+                        .HasColumnType("float");
 
                     b.Property<int>("CurrentStateId")
                         .HasColumnType("int")
@@ -3308,25 +3358,25 @@ namespace SSEA.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("P_Id");
 
-                    b.Property<int?>("PLrId")
-                        .HasColumnType("int")
-                        .HasColumnName("PLr_Id");
-
-                    b.Property<int?>("PLresultId")
-                        .HasColumnType("int")
-                        .HasColumnName("PLresult_Id");
-
                     b.Property<int?>("PrId")
                         .HasColumnType("int")
                         .HasColumnName("Pr_Id");
 
+                    b.Property<int?>("RequiredPLId")
+                        .HasColumnType("int")
+                        .HasColumnName("RequiredPL_Id");
+
+                    b.Property<int?>("RequiredSILId")
+                        .HasColumnType("int")
+                        .HasColumnName("RequiredSIL_Id");
+
+                    b.Property<int?>("ResultantPLId")
+                        .HasColumnType("int")
+                        .HasColumnName("ResultantPL_Id");
+
                     b.Property<int?>("SILCLId")
                         .HasColumnType("int")
                         .HasColumnName("SILCL_Id");
-
-                    b.Property<int?>("SILresultId")
-                        .HasColumnType("int")
-                        .HasColumnName("SILresult_Id");
 
                     b.Property<int?>("SId")
                         .HasColumnType("int")
@@ -3357,15 +3407,15 @@ namespace SSEA.DAL.Migrations
 
                     b.HasIndex("PId");
 
-                    b.HasIndex("PLrId");
-
-                    b.HasIndex("PLresultId");
-
                     b.HasIndex("PrId");
 
-                    b.HasIndex("SILCLId");
+                    b.HasIndex("RequiredPLId");
 
-                    b.HasIndex("SILresultId");
+                    b.HasIndex("RequiredSILId");
+
+                    b.HasIndex("ResultantPLId");
+
+                    b.HasIndex("SILCLId");
 
                     b.HasIndex("SId");
 
@@ -3390,6 +3440,9 @@ namespace SSEA.DAL.Migrations
                     b.Property<double>("CFF")
                         .HasColumnType("float");
 
+                    b.Property<double>("CalculatedPFHd")
+                        .HasColumnType("float");
+
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int")
                         .HasColumnName("Category_Id");
@@ -3397,10 +3450,6 @@ namespace SSEA.DAL.Migrations
                     b.Property<int>("CurrentStateId")
                         .HasColumnType("int")
                         .HasColumnName("CurrentState_Id");
-
-                    b.Property<int?>("DCresultId")
-                        .HasColumnType("int")
-                        .HasColumnName("DCresult_Id");
 
                     b.Property<DateTime>("DateTimeCreated")
                         .HasColumnType("datetime2");
@@ -3412,7 +3461,7 @@ namespace SSEA.DAL.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<double?>("HFT")
+                    b.Property<double>("HFT")
                         .HasColumnType("float");
 
                     b.Property<int>("IdCreated")
@@ -3424,29 +3473,33 @@ namespace SSEA.DAL.Migrations
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MTTFdResultId")
-                        .HasColumnType("int")
-                        .HasColumnName("MTTFdResult_Id");
-
                     b.Property<int>("OperationPrincipleId")
                         .HasColumnType("int")
                         .HasColumnName("OperationPrinciple_Id");
 
-                    b.Property<int?>("PFHdResultId")
+                    b.Property<int?>("ResultantDCId")
                         .HasColumnType("int")
-                        .HasColumnName("PFHdResult_Id");
+                        .HasColumnName("ResultantDC_Id");
 
-                    b.Property<int?>("PLresultId")
+                    b.Property<int?>("ResultantMTTFdId")
                         .HasColumnType("int")
-                        .HasColumnName("PLresult_Id");
+                        .HasColumnName("ResultantMTTFd_Id");
 
-                    b.Property<short>("SFFresult")
+                    b.Property<int?>("ResultantPFHdId")
+                        .HasColumnType("int")
+                        .HasColumnName("ResultantPFHd_Id");
+
+                    b.Property<int?>("ResultantPLId")
+                        .HasColumnType("int")
+                        .HasColumnName("ResulantPL_Id");
+
+                    b.Property<short>("ResultantSFF")
                         .HasColumnType("smallint");
 
-                    b.Property<double?>("T1")
+                    b.Property<double>("T1")
                         .HasColumnType("float");
 
-                    b.Property<double?>("T2")
+                    b.Property<double>("T2")
                         .HasColumnType("float");
 
                     b.Property<int>("TypeOfSubsystemId")
@@ -3464,15 +3517,15 @@ namespace SSEA.DAL.Migrations
 
                     b.HasIndex("CurrentStateId");
 
-                    b.HasIndex("DCresultId");
-
-                    b.HasIndex("MTTFdResultId");
-
                     b.HasIndex("OperationPrincipleId");
 
-                    b.HasIndex("PFHdResultId");
+                    b.HasIndex("ResultantDCId");
 
-                    b.HasIndex("PLresultId");
+                    b.HasIndex("ResultantMTTFdId");
+
+                    b.HasIndex("ResultantPFHdId");
+
+                    b.HasIndex("ResultantPLId");
 
                     b.HasIndex("TypeOfSubsystemId");
 
@@ -3484,18 +3537,22 @@ namespace SSEA.DAL.Migrations
                             Id = 1,
                             ArchitectureId = 4,
                             CFF = 0.0,
+                            CalculatedPFHd = 1E-08,
                             CategoryId = 5,
                             CurrentStateId = 16,
-                            DCresultId = 4,
-                            DateTimeCreated = new DateTime(2021, 4, 19, 11, 1, 15, 489, DateTimeKind.Local).AddTicks(3080),
+                            DateTimeCreated = new DateTime(2021, 4, 24, 15, 38, 40, 645, DateTimeKind.Local).AddTicks(1097),
                             Description = "Relay",
+                            HFT = 0.0,
                             IdCreated = 0,
                             IsRemoved = false,
-                            MTTFdResultId = 3,
                             OperationPrincipleId = 4,
-                            PFHdResultId = 1,
-                            PLresultId = 5,
-                            SFFresult = (short)0,
+                            ResultantDCId = 4,
+                            ResultantMTTFdId = 3,
+                            ResultantPFHdId = 1,
+                            ResultantPLId = 5,
+                            ResultantSFF = (short)0,
+                            T1 = 0.0,
+                            T2 = 0.0,
                             TypeOfSubsystemId = 3,
                             ValidCCF = true
                         },
@@ -3504,18 +3561,22 @@ namespace SSEA.DAL.Migrations
                             Id = 2,
                             ArchitectureId = 4,
                             CFF = 0.0,
+                            CalculatedPFHd = 1E-08,
                             CategoryId = 5,
                             CurrentStateId = 16,
-                            DCresultId = 4,
-                            DateTimeCreated = new DateTime(2021, 4, 19, 11, 1, 15, 492, DateTimeKind.Local).AddTicks(5786),
+                            DateTimeCreated = new DateTime(2021, 4, 24, 15, 38, 40, 647, DateTimeKind.Local).AddTicks(2388),
                             Description = "CR30",
+                            HFT = 0.0,
                             IdCreated = 0,
                             IsRemoved = false,
-                            MTTFdResultId = 3,
                             OperationPrincipleId = 2,
-                            PFHdResultId = 1,
-                            PLresultId = 5,
-                            SFFresult = (short)0,
+                            ResultantDCId = 4,
+                            ResultantMTTFdId = 3,
+                            ResultantPFHdId = 1,
+                            ResultantPLId = 5,
+                            ResultantSFF = (short)0,
+                            T1 = 0.0,
+                            T2 = 0.0,
                             TypeOfSubsystemId = 3,
                             ValidCCF = true
                         },
@@ -3524,18 +3585,22 @@ namespace SSEA.DAL.Migrations
                             Id = 3,
                             ArchitectureId = 4,
                             CFF = 0.0,
+                            CalculatedPFHd = 1E-08,
                             CategoryId = 5,
                             CurrentStateId = 16,
-                            DCresultId = 4,
-                            DateTimeCreated = new DateTime(2021, 4, 19, 11, 1, 15, 492, DateTimeKind.Local).AddTicks(5839),
+                            DateTimeCreated = new DateTime(2021, 4, 24, 15, 38, 40, 647, DateTimeKind.Local).AddTicks(2431),
                             Description = "GMX",
+                            HFT = 0.0,
                             IdCreated = 0,
                             IsRemoved = false,
-                            MTTFdResultId = 3,
                             OperationPrincipleId = 2,
-                            PFHdResultId = 1,
-                            PLresultId = 5,
-                            SFFresult = (short)0,
+                            ResultantDCId = 4,
+                            ResultantMTTFdId = 3,
+                            ResultantPFHdId = 1,
+                            ResultantPLId = 5,
+                            ResultantSFF = (short)0,
+                            T1 = 0.0,
+                            T2 = 0.0,
                             TypeOfSubsystemId = 3,
                             ValidCCF = true
                         },
@@ -3544,18 +3609,22 @@ namespace SSEA.DAL.Migrations
                             Id = 4,
                             ArchitectureId = 4,
                             CFF = 0.0,
+                            CalculatedPFHd = 1E-08,
                             CategoryId = 5,
                             CurrentStateId = 16,
-                            DCresultId = 4,
-                            DateTimeCreated = new DateTime(2021, 4, 19, 11, 1, 15, 492, DateTimeKind.Local).AddTicks(5846),
+                            DateTimeCreated = new DateTime(2021, 4, 24, 15, 38, 40, 647, DateTimeKind.Local).AddTicks(2438),
                             Description = "GLX",
+                            HFT = 0.0,
                             IdCreated = 0,
                             IsRemoved = false,
-                            MTTFdResultId = 3,
                             OperationPrincipleId = 2,
-                            PFHdResultId = 1,
-                            PLresultId = 5,
-                            SFFresult = (short)0,
+                            ResultantDCId = 4,
+                            ResultantMTTFdId = 3,
+                            ResultantPFHdId = 1,
+                            ResultantPLId = 5,
+                            ResultantSFF = (short)0,
+                            T1 = 0.0,
+                            T2 = 0.0,
                             TypeOfSubsystemId = 3,
                             ValidCCF = true
                         });
@@ -3717,7 +3786,7 @@ namespace SSEA.DAL.Migrations
                             DescriptionCZ = "Všechny bezpečnostní funkce splňují požadavky",
                             DescriptionEN = "All safety functions meet the requirements",
                             EntityId = 3,
-                            FinalState = true,
+                            FinalState = false,
                             InitialState = false,
                             IsRemoved = false,
                             IsValid = true,
@@ -3731,7 +3800,7 @@ namespace SSEA.DAL.Migrations
                             DescriptionCZ = "Některé bezpečnostní funkce nesplňují požadavky",
                             DescriptionEN = "Some safety functions do not meet the requirements",
                             EntityId = 3,
-                            FinalState = true,
+                            FinalState = false,
                             InitialState = false,
                             IsRemoved = false,
                             IsValid = true,
@@ -3742,6 +3811,20 @@ namespace SSEA.DAL.Migrations
                         new
                         {
                             Id = 6,
+                            DescriptionCZ = "Vyhodnocená bezpečnostní funkce byla upravená - požadované opětovné vyhodnocení bezpečnosti",
+                            DescriptionEN = "The evaluated safety function has been modified - required re-evaluation of safety",
+                            EntityId = 3,
+                            FinalState = false,
+                            InitialState = false,
+                            IsRemoved = false,
+                            IsValid = true,
+                            NameCZ = "Upravená",
+                            NameEN = "Modified",
+                            StateNumber = 6
+                        },
+                        new
+                        {
+                            Id = 7,
                             DescriptionCZ = "Počáteční stav - bez bezpečnostní funkce",
                             DescriptionEN = "Initial state - without safety function",
                             EntityId = 1,
@@ -3755,7 +3838,7 @@ namespace SSEA.DAL.Migrations
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 8,
                             DescriptionCZ = "Pracuje se na detailech",
                             DescriptionEN = "Working on details",
                             EntityId = 1,
@@ -3769,11 +3852,11 @@ namespace SSEA.DAL.Migrations
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 9,
                             DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
                             DescriptionEN = "Access point has one or more safety functions",
                             EntityId = 1,
-                            FinalState = true,
+                            FinalState = false,
                             InitialState = false,
                             IsRemoved = false,
                             IsValid = true,
@@ -3783,11 +3866,11 @@ namespace SSEA.DAL.Migrations
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 10,
                             DescriptionCZ = "Přístupový bod nemá bezpečnostní funkce",
-                            DescriptionEN = "Access point has not any safety functions",
+                            DescriptionEN = "Access point has no safety functions",
                             EntityId = 1,
-                            FinalState = true,
+                            FinalState = false,
                             InitialState = false,
                             IsRemoved = false,
                             IsValid = true,
@@ -3797,7 +3880,7 @@ namespace SSEA.DAL.Migrations
                         },
                         new
                         {
-                            Id = 10,
+                            Id = 11,
                             DescriptionCZ = "Počáteční stav - s nevyplnenými subsystémami",
                             DescriptionEN = "Initial state - subsystems are not filled",
                             EntityId = 4,
@@ -3811,7 +3894,7 @@ namespace SSEA.DAL.Migrations
                         },
                         new
                         {
-                            Id = 11,
+                            Id = 12,
                             DescriptionCZ = "Příprava subsystému",
                             DescriptionEN = "Preparing subsystems",
                             EntityId = 4,
@@ -3825,7 +3908,7 @@ namespace SSEA.DAL.Migrations
                         },
                         new
                         {
-                            Id = 12,
+                            Id = 13,
                             DescriptionCZ = "Vstupní i výstupní subsystém je vyplněn",
                             DescriptionEN = "Input and output subsystems are completed",
                             EntityId = 4,
@@ -3839,9 +3922,9 @@ namespace SSEA.DAL.Migrations
                         },
                         new
                         {
-                            Id = 13,
-                            DescriptionCZ = "Výsledná úroveň bezpečnosti splňuje požadavky",
-                            DescriptionEN = "Determined final level of security meets the requirements",
+                            Id = 14,
+                            DescriptionCZ = "Výsledná úroveň bezpečnosti splňuje požadavky - další úpravy nejsou povoleny",
+                            DescriptionEN = "Determined final level of security meets the requirements - additional modifications are not allowed",
                             EntityId = 4,
                             FinalState = true,
                             InitialState = false,
@@ -3853,24 +3936,10 @@ namespace SSEA.DAL.Migrations
                         },
                         new
                         {
-                            Id = 14,
-                            DescriptionCZ = "Výsledná úroveň bezpečnosti nesplňuje požadavky",
-                            DescriptionEN = "Determined final level of security does not meet the requirements",
-                            EntityId = 4,
-                            FinalState = true,
-                            InitialState = false,
-                            IsRemoved = false,
-                            IsValid = true,
-                            NameCZ = "Vyhodnocená - invalidní",
-                            NameEN = "Evaluated - invalid",
-                            StateNumber = 5
-                        },
-                        new
-                        {
                             Id = 15,
                             EntityId = 5,
-                            FinalState = true,
-                            InitialState = true,
+                            FinalState = false,
+                            InitialState = false,
                             IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Použitý",
@@ -3881,8 +3950,8 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 16,
                             EntityId = 5,
-                            FinalState = true,
-                            InitialState = true,
+                            FinalState = false,
+                            InitialState = false,
                             IsRemoved = false,
                             IsValid = true,
                             NameCZ = "Nepoužitý",
@@ -3893,7 +3962,7 @@ namespace SSEA.DAL.Migrations
                         {
                             Id = 17,
                             EntityId = 2,
-                            FinalState = false,
+                            FinalState = true,
                             InitialState = true,
                             IsRemoved = false,
                             IsValid = true,
@@ -4240,16 +4309,16 @@ namespace SSEA.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", "MTTFdResult")
-                        .WithMany()
-                        .HasForeignKey("MTTFdResultId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.Producer", "Producer")
                         .WithMany()
                         .HasForeignKey("ProducerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", "ResultantMTTFd")
+                        .WithMany()
+                        .HasForeignKey("ResultantMTTFdId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.MainEntities.Subsystem", "Subsystem")
                         .WithMany("Elements")
@@ -4261,9 +4330,9 @@ namespace SSEA.DAL.Migrations
 
                     b.Navigation("DC");
 
-                    b.Navigation("MTTFdResult");
-
                     b.Navigation("Producer");
+
+                    b.Navigation("ResultantMTTFd");
 
                     b.Navigation("Subsystem");
                 });
@@ -4344,29 +4413,29 @@ namespace SSEA.DAL.Migrations
                         .HasForeignKey("PId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "PLr")
-                        .WithMany()
-                        .HasForeignKey("PLrId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "PLresult")
-                        .WithMany()
-                        .HasForeignKey("PLresultId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.Pr", "Pr")
                         .WithMany()
                         .HasForeignKey("PrId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "RequiredPL")
+                        .WithMany()
+                        .HasForeignKey("RequiredPLId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "RequiredSIL")
+                        .WithMany()
+                        .HasForeignKey("RequiredSILId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "ResultantPL")
+                        .WithMany()
+                        .HasForeignKey("ResultantPLId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "SILCL")
                         .WithMany()
                         .HasForeignKey("SILCLId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "SILresult")
-                        .WithMany()
-                        .HasForeignKey("SILresultId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.S", "S")
@@ -4397,19 +4466,19 @@ namespace SSEA.DAL.Migrations
 
                     b.Navigation("P");
 
-                    b.Navigation("PLr");
-
-                    b.Navigation("PLresult");
-
                     b.Navigation("Pr");
+
+                    b.Navigation("RequiredPL");
+
+                    b.Navigation("RequiredSIL");
+
+                    b.Navigation("ResultantPL");
 
                     b.Navigation("S");
 
                     b.Navigation("Se");
 
                     b.Navigation("SILCL");
-
-                    b.Navigation("SILresult");
 
                     b.Navigation("TypeOfFunction");
                 });
@@ -4432,30 +4501,30 @@ namespace SSEA.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "DCresult")
-                        .WithMany()
-                        .HasForeignKey("DCresultId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", "MTTFdResult")
-                        .WithMany()
-                        .HasForeignKey("MTTFdResultId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.OperationPrinciple", "OperationPrinciple")
                         .WithMany()
                         .HasForeignKey("OperationPrincipleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "PFHdResult")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.DC", "ResultantDC")
                         .WithMany()
-                        .HasForeignKey("PFHdResultId")
+                        .HasForeignKey("ResultantDCId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "PLresult")
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.MTTFd", "ResultantMTTFd")
                         .WithMany()
-                        .HasForeignKey("PLresultId")
+                        .HasForeignKey("ResultantMTTFdId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL.PFHd", "ResultantPFHd")
+                        .WithMany()
+                        .HasForeignKey("ResultantPFHdId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL.PerformanceLevel", "ResultantPL")
+                        .WithMany()
+                        .HasForeignKey("ResultantPLId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common.TypeOfSubsystem", "TypeOfSubsystem")
@@ -4470,15 +4539,15 @@ namespace SSEA.DAL.Migrations
 
                     b.Navigation("CurrentState");
 
-                    b.Navigation("DCresult");
-
-                    b.Navigation("MTTFdResult");
-
                     b.Navigation("OperationPrinciple");
 
-                    b.Navigation("PFHdResult");
+                    b.Navigation("ResultantDC");
 
-                    b.Navigation("PLresult");
+                    b.Navigation("ResultantMTTFd");
+
+                    b.Navigation("ResultantPFHd");
+
+                    b.Navigation("ResultantPL");
 
                     b.Navigation("TypeOfSubsystem");
                 });

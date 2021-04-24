@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.PL;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
 {
@@ -20,8 +16,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.PL
     {
         public MTTFdModelMapperProfile()
         {
-            CreateMap<MTTFd, MTTFdModel>().IgnoreSource(src => src.ValueEN)
-                                          .MapMember(dest => dest.Value, src => src.ValueCZ)
+            CreateMap<MTTFd, MTTFdModel>().IgnoreSource(src => src.ValueCZ)
+                                          .MapMember(dest => dest.Value, src => src.ValueEN)
                                           .ReverseMap();
         }
     }

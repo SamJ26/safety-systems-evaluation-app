@@ -11,14 +11,15 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
     {
         public double T1 { get; set; }
         public double T2 { get; set; }
-        public double SFFresult { get; set; }
-        public double CFF { get; set; }
         public short HFT { get; set; }
+        public double CFF { get; set; }
+        public double ResultantSFF { get; set; }
+        public double CalculatedPFHd { get; set; }
 
         [Required]
         public ArchitectureModel Architecture { get; set; }
 
-        public PFHdModel PFHdResult { get; set; }
+        public PFHdModel ResultantPFHd { get; set; }
 
         public ICollection<ElementDetailModelSIL> Elements { get; set; }
     }
@@ -34,14 +35,14 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                            .IgnoreSource(src => src.ValidCCF)
                                                            .IgnoreSource(src => src.Category)
                                                            .IgnoreSource(src => src.CategoryId)
-                                                           .IgnoreSource(src => src.MTTFdResult)
-                                                           .IgnoreSource(src => src.MTTFdResultId)
-                                                           .IgnoreSource(src => src.DCresult)
-                                                           .IgnoreSource(src => src.DCresultId)
-                                                           .IgnoreSource(src => src.PLresult)
-                                                           .IgnoreSource(src => src.PLresultId)
+                                                           .IgnoreSource(src => src.ResultantMTTFd)
+                                                           .IgnoreSource(src => src.ResultantMTTFdId)
+                                                           .IgnoreSource(src => src.ResultantDC)
+                                                           .IgnoreSource(src => src.ResultantDCId)
+                                                           .IgnoreSource(src => src.ResultantPL)
+                                                           .IgnoreSource(src => src.ResultantPLId)
                                                            .IgnoreSource(src => src.ArchitectureId)
-                                                           .IgnoreSource(src => src.PFHdResultId)
+                                                           .IgnoreSource(src => src.ResultantPFHdId)
                                                            .IgnoreSource(src => src.CurrentStateId)
                                                            .Ignore(dest => dest.SelectedCCFs)
                                                            .MapMember(dest => dest.DateTimeCreated, src => src.DateTimeCreated.ToString())

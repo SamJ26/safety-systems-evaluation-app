@@ -221,14 +221,14 @@ namespace SSEA.DAL
                   .HasForeignKey(sf => sf.EvaluationMethodId)
                   .OnDelete(DeleteBehavior.Restrict);
 
-                sf.HasOne(sf => sf.PLr)
+                sf.HasOne(sf => sf.RequiredPL)
                   .WithMany()
-                  .HasForeignKey(sf => sf.PLrId)
+                  .HasForeignKey(sf => sf.RequiredPLId)
                   .OnDelete(DeleteBehavior.Restrict);
 
-                sf.HasOne(sf => sf.PLresult)
+                sf.HasOne(sf => sf.ResultantPL)
                   .WithMany()
-                  .HasForeignKey(sf => sf.PLresultId)
+                  .HasForeignKey(sf => sf.ResultantPLId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.S)
@@ -251,9 +251,9 @@ namespace SSEA.DAL
                   .HasForeignKey(sf => sf.SILCLId)
                   .OnDelete(DeleteBehavior.Restrict);
 
-                sf.HasOne(sf => sf.SILresult)
+                sf.HasOne(sf => sf.RequiredSIL)
                   .WithMany()
-                  .HasForeignKey(sf => sf.SILresultId)
+                  .HasForeignKey(sf => sf.RequiredSILId)
                   .OnDelete(DeleteBehavior.Restrict);
 
                 sf.HasOne(sf => sf.Se)
@@ -298,19 +298,19 @@ namespace SSEA.DAL
                  .HasForeignKey(s => s.OperationPrincipleId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.MTTFdResult)
+                s.HasOne(s => s.ResultantMTTFd)
                  .WithMany()
-                 .HasForeignKey(s => s.MTTFdResultId)
+                 .HasForeignKey(s => s.ResultantMTTFdId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.DCresult)
+                s.HasOne(s => s.ResultantDC)
                  .WithMany()
-                 .HasForeignKey(s => s.DCresultId)
+                 .HasForeignKey(s => s.ResultantDCId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.PLresult)
+                s.HasOne(s => s.ResultantPL)
                  .WithMany()
-                 .HasForeignKey(s => s.PLresultId)
+                 .HasForeignKey(s => s.ResultantPLId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.Architecture)
@@ -318,9 +318,9 @@ namespace SSEA.DAL
                  .HasForeignKey(s => s.ArchitectureId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                s.HasOne(s => s.PFHdResult)
+                s.HasOne(s => s.ResultantPFHd)
                  .WithMany()
-                 .HasForeignKey(s => s.PFHdResultId)
+                 .HasForeignKey(s => s.ResultantPFHdId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 s.HasOne(s => s.Category)
@@ -346,9 +346,9 @@ namespace SSEA.DAL
                  .HasForeignKey(e => e.DCId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                e.HasOne(e => e.MTTFdResult)
+                e.HasOne(e => e.ResultantMTTFd)
                  .WithMany()
-                 .HasForeignKey(e => e.MTTFdResultId)
+                 .HasForeignKey(e => e.ResultantMTTFdId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(e => e.CurrentState)

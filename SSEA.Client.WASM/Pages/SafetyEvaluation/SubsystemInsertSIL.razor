@@ -282,7 +282,7 @@
             {
                 if (string.IsNullOrEmpty(element.CatalogNumber) || string.IsNullOrWhiteSpace(element.CatalogNumber))
                     throw new Exception("Validation error in the elements section - missing catalog number");
-                if (element.Dc is null)
+                if (element.DC is null)
                     throw new Exception("Validation error in the elements section - missing DC");
                 if (element.Producer is null)
                     throw new Exception("Validation error in the elements section - missing producer");

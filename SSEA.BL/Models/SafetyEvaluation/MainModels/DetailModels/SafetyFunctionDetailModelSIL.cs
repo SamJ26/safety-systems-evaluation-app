@@ -7,8 +7,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
 {
     public class SafetyFunctionDetailModelSIL : SafetyFunctionDetailModel<SubsystemDetailModelSIL>
     {
+        public double CalculatedPFHd { get; set; }
         public PFHdModel SILCL { get; set; }
-        public PFHdModel SILresult { get; set; }
+        public PFHdModel RequiredSIL { get; set; }
         public SeModel Se { get; set; }
         public FrModel Fr { get; set; }
         public PrModel Pr { get; set; }
@@ -22,10 +23,10 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
             CreateMap<SafetyFunction, SafetyFunctionDetailModelSIL>().IgnoreSource(src => src.TypeOfFunctionId)
                                                                      .IgnoreSource(src => src.EvaluationMethodId)
                                                                      .IgnoreSource(src => src.AccessPointSafetyFunctions)
-                                                                     .IgnoreSource(src => src.PLr)
-                                                                     .IgnoreSource(src => src.PLrId)
-                                                                     .IgnoreSource(src => src.PLresult)
-                                                                     .IgnoreSource(src => src.PLresultId)
+                                                                     .IgnoreSource(src => src.RequiredPL)
+                                                                     .IgnoreSource(src => src.RequiredPLId)
+                                                                     .IgnoreSource(src => src.ResultantPL)
+                                                                     .IgnoreSource(src => src.ResultantPLId)
                                                                      .IgnoreSource(src => src.S)
                                                                      .IgnoreSource(src => src.SId)
                                                                      .IgnoreSource(src => src.F)
@@ -33,7 +34,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                                      .IgnoreSource(src => src.P)
                                                                      .IgnoreSource(src => src.PId)
                                                                      .IgnoreSource(src => src.SILCLId)
-                                                                     .IgnoreSource(src => src.SILresultId)
+                                                                     .IgnoreSource(src => src.RequiredSILId)
                                                                      .IgnoreSource(src => src.SeId)
                                                                      .IgnoreSource(src => src.FrId)
                                                                      .IgnoreSource(src => src.PrId)

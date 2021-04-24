@@ -290,11 +290,11 @@
             {
                 if (string.IsNullOrEmpty(element.CatalogNumber) || string.IsNullOrWhiteSpace(element.CatalogNumber))
                     throw new Exception("Validation error in the elements section - missing catalog number");
-                if (element.Dc is null)
+                if (element.DC is null)
                     throw new Exception("Validation error in the elements section - missing DC");
                 if (element.Producer is null)
                     throw new Exception("Validation error in the elements section - missing producer");
-                if (element.MttFdResult is null && (element.B10d == 0 || element.Hop == 0 || element.Dop == 0 || element.Tcycles == 0))
+                if (element.ResultantMTTFd is null && (element.B10d == 0 || element.Hop == 0 || element.Dop == 0 || element.Tcycles == 0))
                     throw new Exception("Validation error in the elements section - missing MTTFd or fields required for its evaluation");
             }
         }

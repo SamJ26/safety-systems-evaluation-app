@@ -11,8 +11,8 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         public double Hop { get; set; }
         public double Dop { get; set; }
         public double Tcycles { get; set; }
-        public double MTTFdCounted { get; set; }      
-        public MTTFdModel MTTFdResult { get; set; }
+        public double CalculatedMTTFd { get; set; }      
+        public MTTFdModel ResultantMTTFd { get; set; }
     }
 
     public class ElementDetailModelPLMapperProfile : Profile
@@ -23,9 +23,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
                                                       .IgnoreSource(src => src.SubsystemId)
                                                       .IgnoreSource(src => src.Subsystem)
                                                       .IgnoreSource(src => src.DCId)
-                                                      .IgnoreSource(src => src.MTTFdResultId)
+                                                      .IgnoreSource(src => src.ResultantMTTFdId)
                                                       .IgnoreSource(src => src.C)
-                                                      .IgnoreSource(src => src.LambdaC)
+                                                      .IgnoreSource(src => src.LambdaD)
                                                       .IgnoreSource(src => src.ElementSFFs)
                                                       .IgnoreSource(src => src.CurrentStateId)
                                                       .IgnoreSource(src => src.SummedSFF)

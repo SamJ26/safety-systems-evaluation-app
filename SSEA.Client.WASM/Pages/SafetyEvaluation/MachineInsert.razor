@@ -55,7 +55,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machine.Communication" T="bool" Label="Safety communication *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="machine.SafetyCommunication" T="bool" Label="Safety communication *" Strict="true" Variant="Variant.Outlined" Format="F2">
                                     <MudSelectItem T="bool" Value="@(true)">Yes</MudSelectItem>
                                     <MudSelectItem T="bool" Value="@(false)">No</MudSelectItem>
                                 </MudSelect>
@@ -66,12 +66,12 @@
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machine.Hmi">HMI</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.HMI">HMI</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machine.Plc">PLC</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.PLC">PLC</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="4">
@@ -292,10 +292,10 @@
         machine.MachineType = null;
         machine.EvaluationMethod = null;
         machine.Producer = null;
-        machine.Communication = false;
+        machine.SafetyCommunication = false;
         machine.Description = string.Empty;
-        machine.Hmi = false;
-        machine.Plc = false;
+        machine.HMI = false;
+        machine.PLC = false;
         machine.MachineHelp = false;
         machine.CodeProtection = false;
         machine.SecurityOfSafetyParts = false;
