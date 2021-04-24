@@ -143,7 +143,6 @@ namespace SSEA.DAL.Repositories
             return safetyFunction.Id;
         }
 
-        // TODO: edit to work also with SF SIL
         public async Task<int> UpdateAsync(SafetyFunction safetyFunction, int userId)
         {
             dbContext.Attach(safetyFunction.CurrentState).State = EntityState.Unchanged;
@@ -155,10 +154,19 @@ namespace SSEA.DAL.Repositories
                 dbContext.Attach(safetyFunction.F).State = EntityState.Unchanged;
                 dbContext.Attach(safetyFunction.P).State = EntityState.Unchanged;
             }
+            if (safetyFunction.Se is not null && safetyFunction.Fr is not null && safetyFunction.Pr is not null && safetyFunction.Av is not null)
+            {
+                dbContext.Attach(safetyFunction.Se).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.Fr).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.Pr).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.Av).State = EntityState.Unchanged;
+            }
 
             // Setting these properties to null to avoid change tracking excpetion with tracking two entities with the same id
             safetyFunction.RequiredPL = null;
             safetyFunction.ResultantPL = null;
+            safetyFunction.RequiredSIL = null;
+            safetyFunction.SILCL = null;
 
             dbContext.Update(safetyFunction);
             await dbContext.CommitChangesAsync(userId);
