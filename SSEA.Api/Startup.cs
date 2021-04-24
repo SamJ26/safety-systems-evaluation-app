@@ -81,6 +81,7 @@ namespace SSEA.Api
             services.AddScoped<AccessPointRepository>();
             services.AddScoped<SafetyFunctionRepository>();
             services.AddScoped<SubsystemRepository>();
+            services.AddScoped<UserRepository>();
 
             services.AddScoped<CodeListFacade>();
             services.AddScoped<MachineFacade>();

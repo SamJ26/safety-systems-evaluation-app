@@ -15,13 +15,15 @@ namespace SSEA.BL.Facades
     public class MachineFacade
     {
         private readonly IMapper mapper;
+        private readonly UserRepository userRepository;
         private readonly MachineRepository machineRepository;
         private readonly AccessPointRepository accessPointRepository;
-        public readonly SafetyFunctionRepository safetyFunctionRepository;
+        private readonly SafetyFunctionRepository safetyFunctionRepository;
         private readonly CodeListFacade codeListFacade;
         private readonly SafetyFunctionFacade safetyFunctionFacade;
 
         public MachineFacade(IMapper mapper,
+                             UserRepository userRepository,
                              MachineRepository machineRepository,
                              AccessPointRepository accessPointRepository,
                              SafetyFunctionRepository safetyFunctionRepository,
@@ -29,6 +31,7 @@ namespace SSEA.BL.Facades
                              SafetyFunctionFacade safetyFunctionFacade)
         {
             this.mapper = mapper;
+            this.userRepository = userRepository;
             this.machineRepository = machineRepository;
             this.accessPointRepository = accessPointRepository;
             this.safetyFunctionRepository = safetyFunctionRepository;
@@ -62,6 +65,8 @@ namespace SSEA.BL.Facades
             if (machine is null)
                 return null;
             machine.Norms = mapper.Map<HashSet<NormModel>>(await machineRepository.GetNormsForMachineAsync(id));
+            machine.UserNameCreated = await userRepository.GetUserNameById(machine.IdCreated);
+            machine.UserNameUpdated = machine.IdCreated == machine.IdUpdated ? machine.UserNameCreated : await userRepository.GetUserNameById(machine.IdUpdated);
             return machine;
         }
 

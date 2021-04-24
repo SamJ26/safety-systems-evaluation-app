@@ -16,20 +16,23 @@ namespace SSEA.BL.Facades
     {
         private readonly IMapper mapper;
         private readonly AccessPointFacade accessPointFacade;
+        private readonly UserRepository userRepository;
         private readonly SubsystemRepository subsystemRepository;
         private readonly SafetyFunctionRepository safetyFunctionRepository;
         private readonly IPerformanceLevelService performanceLevelService;
         private readonly ISafetyIntegrityLevelService safetyIntegrityLevelService;
 
         public SafetyFunctionFacade(IMapper mapper,
-                                    SafetyFunctionRepository safetyFunctionRepository,
-                                    SubsystemRepository subsystemRepository,
                                     AccessPointFacade accessPointFacade,
+                                    UserRepository userRepository,
+                                    SubsystemRepository subsystemRepository,
+                                    SafetyFunctionRepository safetyFunctionRepository,
                                     IPerformanceLevelService performanceLevelService,
                                     ISafetyIntegrityLevelService safetyIntegrityLevelService)
         {
             this.mapper = mapper;
             this.accessPointFacade = accessPointFacade;
+            this.userRepository = userRepository;
             this.subsystemRepository = subsystemRepository;
             this.safetyFunctionRepository = safetyFunctionRepository;
             this.performanceLevelService = performanceLevelService;
@@ -45,6 +48,9 @@ namespace SSEA.BL.Facades
         public async Task<SafetyFunctionDetailModelPL> GetByIdPLAsync(int id)
         {
             SafetyFunctionDetailModelPL safetyFunction = mapper.Map<SafetyFunctionDetailModelPL>(await safetyFunctionRepository.GetByIdPLAsync(id));
+            safetyFunction.UserNameCreated = await userRepository.GetUserNameById(safetyFunction.IdCreated);
+            safetyFunction.UserNameUpdated = safetyFunction.IdCreated == safetyFunction.IdUpdated ? safetyFunction.UserNameCreated : await userRepository.GetUserNameById(safetyFunction.IdUpdated);
+            
             var subsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionPLAsync(id));
 
             // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
@@ -60,6 +66,9 @@ namespace SSEA.BL.Facades
         public async Task<SafetyFunctionDetailModelSIL> GetByIdSILAsync(int id)
         {
             SafetyFunctionDetailModelSIL safetyFunction = mapper.Map<SafetyFunctionDetailModelSIL>(await safetyFunctionRepository.GetByIdSILAsync(id));
+            safetyFunction.UserNameCreated = await userRepository.GetUserNameById(safetyFunction.IdCreated);
+            safetyFunction.UserNameUpdated = safetyFunction.IdCreated == safetyFunction.IdUpdated ? safetyFunction.UserNameCreated : await userRepository.GetUserNameById(safetyFunction.IdUpdated);
+            
             var subsystems = mapper.Map<ICollection<SubsystemDetailModelSIL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionSILAsync(id));
 
             // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
@@ -81,7 +90,7 @@ namespace SSEA.BL.Facades
             if (newModel.RequiredPL is null)
                 return 0;
 
-            newModel.UsedOnMachine = accessPointId != 0 ? true : false;
+            newModel.UsedOnMachine = accessPointId != 0;
             var entity = mapper.Map<SafetyFunction>(newModel);
             int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
 
@@ -101,7 +110,7 @@ namespace SSEA.BL.Facades
             if (newModel.SILCL is null)
                 return 0;
 
-            newModel.UsedOnMachine = accessPointId != 0 ? true : false;
+            newModel.UsedOnMachine = accessPointId != 0;
             var entity = mapper.Map<SafetyFunction>(newModel);
             int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
 
@@ -123,6 +132,8 @@ namespace SSEA.BL.Facades
             await safetyFunctionRepository.DeleteAsync(safetyFunctionId, userId);
         }
 
+
+        // TODO: refactor
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
             await safetyFunctionRepository.AddSubsystemAsync(safetyFunctionId, subsystemId);
@@ -134,6 +145,7 @@ namespace SSEA.BL.Facades
             await subsystemRepository.UpdateSubsystemStateAsync(subsystemId, userId);
         }
 
+        // TODO: refactor
         public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
             await safetyFunctionRepository.RemoveSubsystemAsync(safetyFunctionId, subsystemId);

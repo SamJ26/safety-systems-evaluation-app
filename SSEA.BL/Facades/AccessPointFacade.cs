@@ -11,14 +11,16 @@ namespace SSEA.BL.Facades
     public class AccessPointFacade
     {
         private readonly IMapper mapper;
-        private readonly AccessPointRepository accessPointRepository;
+        private readonly UserRepository userRepository;
         private readonly MachineRepository machineRepository;
+        private readonly AccessPointRepository accessPointRepository;
 
-        public AccessPointFacade(IMapper mapper, AccessPointRepository accessPointRepository, MachineRepository machineRepository)
+        public AccessPointFacade(IMapper mapper, AccessPointRepository accessPointRepository, MachineRepository machineRepository, UserRepository userRepository)
         {
             this.mapper = mapper;
-            this.accessPointRepository = accessPointRepository;
+            this.userRepository = userRepository;
             this.machineRepository = machineRepository;
+            this.accessPointRepository = accessPointRepository;
         }
 
         public async Task<ICollection<AccessPointListModel>> GetAllAsync()
@@ -31,6 +33,8 @@ namespace SSEA.BL.Facades
         {
             AccessPointDetailModel accessPoint = mapper.Map<AccessPointDetailModel>(await accessPointRepository.GetByIdAsync(id));
             accessPoint.SafetyFunctions = mapper.Map<ICollection<SafetyFunctionListModel>>(await accessPointRepository.GetSafetyFunctionsForAccessPointAsync(accessPoint.Id));
+            accessPoint.UserNameCreated = await userRepository.GetUserNameById(accessPoint.IdCreated);
+            accessPoint.UserNameUpdated = accessPoint.IdCreated == accessPoint.IdUpdated ? accessPoint.UserNameCreated : await userRepository.GetUserNameById(accessPoint.IdUpdated);
             return accessPoint;
         }
 
