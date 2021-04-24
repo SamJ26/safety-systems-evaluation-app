@@ -280,8 +280,8 @@ namespace SSEA.BL.Facades
         {
             int machineEvaluatedValidStateId = 4;
             int machineEvaluatedInvalidStateId = 5;
-            int accessPointProtectedStateId = 8;
-            int accessPointNotProtectedStateId = 9;
+            int accessPointProtectedStateId = 9;
+            int accessPointNotProtectedStateId = 10;
 
             // Getting machine with all its access points
             MachineDetailModel machine = await GetByIdAsync(machineId);

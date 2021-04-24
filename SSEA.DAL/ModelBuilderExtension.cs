@@ -1738,7 +1738,7 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 7, // 6
+                    Id = 7,
                     NameCZ = "Nový",
                     NameEN = "New",
                     DescriptionCZ = "Počáteční stav - bez bezpečnostní funkce",
@@ -1751,7 +1751,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 8, // 7
+                    Id = 8,
                     NameCZ = "Rozpracovaný",
                     NameEN = "Work in progress",
                     DescriptionCZ = "Pracuje se na detailech",
@@ -1764,7 +1764,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 9, // 8
+                    Id = 9,
                     NameCZ = "Ošetřený bezpečnostní funkcí",
                     NameEN = "Protected with safety function",
                     DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
@@ -1777,7 +1777,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 10, // 9
+                    Id = 10,
                     NameCZ = "Neošetřený bezpečnostní funkcí",
                     NameEN = "Not protected with safety function",
                     DescriptionCZ = "Přístupový bod nemá bezpečnostní funkce",

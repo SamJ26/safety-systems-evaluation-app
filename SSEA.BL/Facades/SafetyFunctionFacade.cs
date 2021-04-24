@@ -167,7 +167,16 @@ namespace SSEA.BL.Facades
                 };
             }
 
-            // Updating record after its successful evaluation (method fot evaluation of safety function did not throw exception)
+            // Resultant level of safety is not valid
+            if (evaluationResult == false)
+                return new SafetyEvaluationResponseModel()
+                {
+                    IsSuccess = true,
+                    IsValidSafetyLevel = false,
+                    Message = $"Calculated value of safety is invalid - change subsystems of safety function and try it again :(",
+                };
+
+            // Resultant level of safety is valid
             int id = await safetyFunctionRepository.UpdateAsync(mapper.Map<SafetyFunction>(safetyFunction), userId);
             if (id == 0)
             {
@@ -178,28 +187,14 @@ namespace SSEA.BL.Facades
                 };
             }
 
-            // At this point safety function was successfully saved to database
-            // Now we will update state of record according to result of safety evaluation
-
-            int safetyFunctionValidStateId = 13;
-            int safetyFunctionInvalidStateId = 14;
-
-            // UPDATING STATE OF SAFETY FUNCTION
-            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(id, userId, (evaluationResult == false) ? safetyFunctionInvalidStateId : safetyFunctionValidStateId);
-
-            if (evaluationResult == true)
-                return new SafetyEvaluationResponseModel()
-                {
-                    IsSuccess = true,
-                    IsValidSafetyLevel = true,
-                    Message = $"Calculated value of safety is valid :)",
-                };
+            int safetyFunctionValidStateId = 14;
+            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(id, userId, safetyFunctionValidStateId);
 
             return new SafetyEvaluationResponseModel()
             {
                 IsSuccess = true,
-                IsValidSafetyLevel = false,
-                Message = $"Calculated value of safety is invalid :(",
+                IsValidSafetyLevel = true,
+                Message = $"Calculated value of safety is valid :)",
             };
         }
     }
