@@ -6,6 +6,7 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -280,7 +281,6 @@ namespace SSEA.BL.Facades
                 return typeOfLogics.FirstOrDefault(tol => tol.Id == 4);
         }
 
-        // TODO: make it work for both PL and SIL using func method for evaluation of safety function ?
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId, int userId)
         {
             int machineEvaluatedValidStateId = 4;
@@ -290,6 +290,13 @@ namespace SSEA.BL.Facades
 
             // Getting machine with all its access points
             MachineDetailModel machine = await GetByIdAsync(machineId);
+
+            // Choosing right function for evaluation according to methodics which is used for machine
+            Func<int, int, Task<SafetyEvaluationResponseModel>> evaluateSafety;
+            if (machine.EvaluationMethod.Shortcut.Equals("PL"))
+                evaluateSafety = safetyFunctionFacade.EvaluateSafetyFunctionPLAsync;
+            else
+                evaluateSafety = safetyFunctionFacade.EvaluateSafetyFunctionSILAsync;
 
             // Check if machine has selected logic
             if (machine.CurrentState.StateNumber < 3 || machine.TypeOfLogic is null)
@@ -327,16 +334,11 @@ namespace SSEA.BL.Facades
                     bool hasLogic = await safetyFunctionRepository.SafetyFunctionHasLogicAsync(safetyFunction.Id);
                     SafetyEvaluationResponseModel evaluationResult;
 
-                    // Safety function has logical subsystem but is not evaluated -> evaluate safety function
-                    if (hasLogic)
-                        evaluationResult = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(safetyFunction.Id, userId);
-
-                    // If safety function has not logical subsystem -> add logical subsystem and evaluate safety
-                    else
-                    {
+                    // If safety function has not logical subsystem than add selected logic as logical subsystem
+                    if (hasLogic == false)
                         await safetyFunctionFacade.AddSubsystemAsync(safetyFunction.Id, machine.TypeOfLogic.SubsystemId, userId);
-                        evaluationResult = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(safetyFunction.Id, userId);
-                    }
+
+                    evaluationResult = await evaluateSafety(safetyFunction.Id, userId);
 
                     if (evaluationResult.IsValidSafetyLevel)
                         accessPointProtected = true;
