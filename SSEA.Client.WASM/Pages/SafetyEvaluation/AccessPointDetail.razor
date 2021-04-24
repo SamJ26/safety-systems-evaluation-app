@@ -10,10 +10,10 @@
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Detail of access point</strong></MudText>
                 <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>[ @(accessPoint.CurrentState is not null ? accessPoint.CurrentState.Name : "Unknown") ]</small></MudText>
-                <MudText Typo="Typo.body2">Created - user ID: @accessPoint.IdCreated, time: @accessPoint.DateTimeCreated</MudText>
+                <MudText Typo="Typo.body2">Created - user: @accessPoint.UserNameCreated, time: @accessPoint.DateTimeCreated</MudText>
                 @if (accessPoint.IdUpdated != null)
                 {
-                    <MudText Typo="Typo.body2">Updated - user ID: @accessPoint.IdUpdated, time: @accessPoint.DateTimeUpdated</MudText>
+                    <MudText Typo="Typo.body2">Updated - user: @accessPoint.UserNameUpdated, time: @accessPoint.DateTimeUpdated</MudText>
                 }
             </CardHeaderContent>
             <CardHeaderActions>
