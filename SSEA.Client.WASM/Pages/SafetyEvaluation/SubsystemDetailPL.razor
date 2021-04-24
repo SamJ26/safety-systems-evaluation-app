@@ -9,7 +9,7 @@
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Detail of subsystem</strong></MudText>
-                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>[ @(subsystem.CurrentState is not null ? subsystem.CurrentState.Name : "Unknown") ]</small></MudText>
+                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>State number: @subsystem.CurrentState?.StateNumber [ @subsystem.CurrentState?.Name ]</small></MudText>
                 <MudText Typo="Typo.body2">Created - user: @subsystem.UserNameCreated, time: @subsystem.DateTimeCreated</MudText>
             </CardHeaderContent>
             <CardHeaderActions>

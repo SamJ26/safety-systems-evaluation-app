@@ -15,7 +15,7 @@ namespace SSEA.DAL.Repositories
 
         public async Task<string> GetUserNameById(int? userId)
         {
-            if (userId is null)
+            if (userId is null || userId == 0)
                 return null;
             User user = await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
             string userName = user.FirstName + " " + user.LastName;
