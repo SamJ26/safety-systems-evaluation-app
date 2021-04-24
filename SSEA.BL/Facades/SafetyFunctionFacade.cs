@@ -105,9 +105,9 @@ namespace SSEA.BL.Facades
         {
             // Evaluation of required SIL
             if (newModel.Se is not null && newModel.Fr is not null && newModel.Pr is not null && newModel.Av is not null)
-                newModel.SILCL = await safetyIntegrityLevelService.GetRequiredSILAsync(newModel.Se, newModel.Fr, newModel.Pr, newModel.Av);
+                newModel.RequiredSIL = await safetyIntegrityLevelService.GetRequiredSILAsync(newModel.Se, newModel.Fr, newModel.Pr, newModel.Av);
 
-            if (newModel.SILCL is null)
+            if (newModel.RequiredSIL is null)
                 return 0;
 
             newModel.UsedOnMachine = accessPointId != 0;

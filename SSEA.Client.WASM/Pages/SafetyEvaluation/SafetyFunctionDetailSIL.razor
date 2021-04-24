@@ -9,7 +9,7 @@
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Detail of safety function</strong></MudText>
-                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>[ @(safetyFunction.CurrentState is not null ? safetyFunction.CurrentState.Name : "Unknown") ]</small></MudText>
+                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>State number: @safetyFunction.CurrentState?.StateNumber [ @safetyFunction.CurrentState?.Name ]</small></MudText>
                 <MudText Typo="Typo.body2">Created - user: @safetyFunction.UserNameCreated, time: @safetyFunction.DateTimeCreated</MudText>
                 @if (safetyFunction.IdUpdated != null)
                 {
@@ -75,18 +75,15 @@
                             <MudItem Style="width: 5%; padding-left: 5px;">
                                 @if (safetyFunction.SILCL is not null)
                                 {
-                                    if (safetyFunction.RequiredSIL.ValueSIL > safetyFunction.SILCL.ValueSIL)
-                                    {
-                                        <MudIcon Icon="@Icons.Material.Filled.ErrorOutline" Color="Color.Error" Size="Size.Large" Style="margin-top: 15px;" />
-                                    }
-                                    else
-                                    {
+                                    <MudTooltip Text="Resultant SIL is bigger than required SIL">
                                         <MudIcon Icon="@Icons.Material.Outlined.DoneOutline" Color="Color.Success" Size="Size.Large" Style="margin-top: 15px;" />
-                                    }
+                                    </MudTooltip>
                                 }
                                 else
                                 {
-                                    <MudIcon Icon="@Icons.Material.Outlined.NotInterested" Color="Color.Default" Size="Size.Large" Style="margin-top: 15px;" />
+                                    <MudTooltip Text="Resultant SIL is not evaluated">
+                                        <MudIcon Icon="@Icons.Material.Outlined.NotInterested" Color="Color.Default" Size="Size.Large" Style="margin-top: 15px;" />
+                                    </MudTooltip>
                                 }
                             </MudItem>
                             @if (showValidationSummary)
