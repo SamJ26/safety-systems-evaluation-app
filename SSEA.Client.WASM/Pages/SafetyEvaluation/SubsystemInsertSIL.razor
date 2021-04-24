@@ -292,6 +292,10 @@
                     throw new Exception("Invalid value for C field");
                 if (element.SummedSFF > 100)
                     throw new Exception("SFF can't be bigger than 100");
+                if (subsystem.Architecture.Label.Equals("B") && (subsystem.T1 == 0 || subsystem.T1 < 0))
+                    throw new Exception("T1 field is required for architecture B");
+                if (subsystem.Architecture.Label.Equals("D") && (subsystem.T1 == 0 || subsystem.T1 < 0 || subsystem.T2 == 0 || subsystem.T2 < 0))
+                    throw new Exception("T1 and T2 fields are required for architecture D");
             }
         }
         catch (Exception e)
