@@ -11,13 +11,13 @@
             <MudItem xs="11">
                 <MudGrid>
                     <MudItem xs="4">
-                        <MudTextField @bind-Value="name" Label="norm name" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="name" Label="Norm name" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="4">
-                        <MudTextField @bind-Value="label" Label="norm label" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="label" Label="Norm label" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="4">
-                        <MudTextField @bind-Value="category" Label="norm category" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="category" Label="Norm category" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                 </MudGrid>
             </MudItem>
@@ -70,6 +70,13 @@
     protected override async Task OnInitializedAsync()
     {
         norms = await codeListFacade.GetAllNormsAsync();
+        Console.WriteLine(norms.Count);
+        foreach (var norm in norms.ToList())
+        {
+            if (SelectedNorms.Any(n => n.Id == norm.Id))
+                norms.Remove(norm);
+        }
+        Console.WriteLine(norms.Count);
     }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));

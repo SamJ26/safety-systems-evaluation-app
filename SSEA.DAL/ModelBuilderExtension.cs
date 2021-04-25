@@ -1177,7 +1177,7 @@ namespace SSEA.DAL
                 {
                     Id = 37,
                     Label = "ISO 13851",
-                    NameCZ = "Bezpečnostní zařízení -Dvouruční ovládací zařízení",
+                    NameCZ = "Bezpečnostní zařízení - Dvouruční ovládací zařízení",
                     CatalogNumber = "unknown",
                     NormCategory = "B",
                 },
