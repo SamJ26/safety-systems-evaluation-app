@@ -12,38 +12,49 @@
         </MudGrid>
     </TitleContent>
     <DialogContent>
-        @if (data is not null && data.AccessPoints is not null)
-        {
-            <MudList Clickable="true" Style="margin-bottom: 10px;">
-                <MudDivider />
-                @foreach (var accessPoint in data.AccessPoints)
+        <MudGrid Style="margin-bottom: 5px;">
+            <MudItem xs="12" Style="padding-bottom: 0px;">
+                <MudAlert Severity="Severity.Normal" NoIcon="true">
+                    <MudText Typo="Typo.body1">
+                        This list provides a quick overview of the access points of this machine and its safety functions<br/>
+                    </MudText>
+                </MudAlert>
+            </MudItem>
+            <MudItem xs="12">
+                @if (data is not null && data.AccessPoints is not null)
                 {
-                    string text = accessPoint.AccessPointName + " [ " + accessPoint.AccessPointState.Name + " ] ";
-                    <MudListItem Icon="@Icons.Material.Filled.DirectionsWalk" Text="@text" InitiallyExpanded="false">
-                        <NestedList>
-                            @foreach (var safetyFunction in accessPoint.SafetyFunctions)
-                            {
-                                Color stateColor = safetyFunction.SafetyFunctionState.StateNumber <= 3 ? Color.Default : safetyFunction.SafetyFunctionState.StateNumber == 4 ? Color.Success : Color.Error;
-                                string href = $"/safetyEvaluation/safetyFunctionDetail/{EvaluationMethod}/{MachineId}/{accessPoint.AccessPointId}/{safetyFunction.SafetyFunctionId}";
-                                <MudListItem Icon="@Icons.Material.Filled.Security" Href="@href">
-                                    <MudGrid>
-                                        <MudItem Style="width: 65%;">
-                                            @safetyFunction.SafetyFunctionName
-                                        </MudItem>
-                                        <MudItem Style="width: 35%;">
-                                            <MudText Color="@stateColor">
-                                                @safetyFunction.SafetyFunctionState.Name
-                                            </MudText>
-                                        </MudItem>
-                                    </MudGrid>
-                                </MudListItem>
-                            }
-                        </NestedList>
-                    </MudListItem>
-                    <MudDivider />
+                    <MudList Clickable="true">
+                        <MudDivider />
+                        @foreach (var accessPoint in data.AccessPoints)
+                        {
+                            string text = accessPoint.AccessPointName + " [ " + accessPoint.AccessPointState.Name + " ] ";
+                            <MudListItem Icon="@Icons.Material.Filled.DirectionsWalk" Text="@text" InitiallyExpanded="false">
+                                <NestedList>
+                                    @foreach (var safetyFunction in accessPoint.SafetyFunctions)
+                                    {
+                                        Color stateColor = safetyFunction.SafetyFunctionState.StateNumber <= 3 ? Color.Default : safetyFunction.SafetyFunctionState.StateNumber == 4 ? Color.Success : Color.Error;
+                                        string href = $"/safetyEvaluation/safetyFunctionDetail/{EvaluationMethod}/{MachineId}/{accessPoint.AccessPointId}/{safetyFunction.SafetyFunctionId}";
+                                        <MudListItem Icon="@Icons.Material.Filled.Security" Href="@href">
+                                            <MudGrid>
+                                                <MudItem Style="width: 65%;">
+                                                    @safetyFunction.SafetyFunctionName
+                                                </MudItem>
+                                                <MudItem Style="width: 35%;">
+                                                    <MudText Color="@stateColor">
+                                                        @safetyFunction.SafetyFunctionState.Name
+                                                    </MudText>
+                                                </MudItem>
+                                            </MudGrid>
+                                        </MudListItem>
+                                    }
+                                </NestedList>
+                            </MudListItem>
+                            <MudDivider />
+                        }
+                    </MudList>
                 }
-            </MudList>
-        }
+            </MudItem>
+        </MudGrid>
     </DialogContent>
 </MudDialog>
 
