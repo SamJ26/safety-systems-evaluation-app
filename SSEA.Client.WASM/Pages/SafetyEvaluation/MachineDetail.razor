@@ -9,11 +9,11 @@
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Detail of machine</strong></MudText>
-                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>[ @(machine.CurrentState is not null ? machine.CurrentState.Name : "Unknown") ]</small></MudText>
-                <MudText Typo="Typo.body2">Created - user ID: @machine.IdCreated, time: @machine.DateTimeCreated</MudText>
+                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>State number: @machine.CurrentState?.StateNumber [ @machine.CurrentState?.Name ]</small></MudText>
+                <MudText Typo="Typo.body2">Created - user: @machine.UserNameCreated, time: @machine.DateTimeCreated</MudText>
                 @if (machine.IdUpdated != null)
                 {
-                    <MudText Typo="Typo.body2">Updated - user ID: @machine.IdUpdated, time: @machine.DateTimeUpdated</MudText>
+                    <MudText Typo="Typo.body2">Updated - user: @machine.UserNameUpdated, time: @machine.DateTimeUpdated</MudText>
                 }
             </CardHeaderContent>
             <CardHeaderActions>
@@ -70,7 +70,7 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudField Label="Safety communication" ReadOnly="true" Variant="Variant.Outlined">@((machine.Communication == true) ? "Yes" : "No")</MudField>
+                                <MudField Label="Safety communication" ReadOnly="true" Variant="Variant.Outlined">@((machine.SafetyCommunication == true) ? "Yes" : "No")</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudTextField @bind-Value="machine.Description" ReadOnly="@onlyForReading" T="string" Label="Machine description" Variant="Variant.Outlined" Lines="3" Style="margin-bottom: 25px;" />
@@ -78,12 +78,12 @@
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machine.Hmi" ReadOnly="@onlyForReading">HMI</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.HMI" ReadOnly="@onlyForReading">HMI</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudPaper Outlined="true">
-                                    <MudCheckBox @bind-Checked="machine.Plc" ReadOnly="@onlyForReading">PLC</MudCheckBox>
+                                    <MudCheckBox @bind-Checked="machine.PLC" ReadOnly="@onlyForReading">PLC</MudCheckBox>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="4">

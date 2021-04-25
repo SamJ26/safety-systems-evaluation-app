@@ -47,7 +47,7 @@
                                 <hr />
                             </MudItem>
                             <MudItem xs="3">
-                                <MudSelect @bind-Value="safetyFunction.PLr" T="PLModel" Label="Required PL" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="safetyFunction.RequiredPL" T="PLModel" Label="Required PL" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in performanceLevels)
                                     {
                                         <MudSelectItem T="PLModel" Value="@(item)">@item.Label</MudSelectItem>
@@ -103,11 +103,11 @@
 @code {
 
     // accessPointId == 0
-    // -- creating independed ssafetyFunction
+    // -- creating independed safety function
     // -- after saving navigate to SafetyFunctionDetailPL
     // accessPointId != 0
     // -- creating safety function within access point
-    // -- after saving navigate to AccessPointDetailPL
+    // -- after saving navigate to AccessPointDetail
     // -- after saving create record in AccessPointSafetyFunction join table
 
     [Inject]
@@ -153,7 +153,6 @@
         severities = await codeListFacade.GetAllSsAsync();
         frequencies = await codeListFacade.GetAllFsAsync();
         probabilities = await codeListFacade.GetAllPsAsync();
-        safetyFunction.EvaluationMethod = evaluationMethods.FirstOrDefault(em => em.Shortcut == "PL");
 
         var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("machineId", out var _machineId))
@@ -161,6 +160,7 @@
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("accessPointId", out var _accessPointId))
             accessPointId = Convert.ToInt32(_accessPointId);
 
+        safetyFunction.EvaluationMethod = evaluationMethods.FirstOrDefault(em => em.Shortcut == "PL");
         safetyFunction.TypeOfFunction = null;
         StateHasChanged();
     }
@@ -207,7 +207,7 @@
 
     private bool IsModelValid()
     {
-        if (safetyFunction.PLr is null && (safetyFunction.P is null || safetyFunction.S is null || safetyFunction.F is null))
+        if (safetyFunction.RequiredPL is null && (safetyFunction.P is null || safetyFunction.S is null || safetyFunction.F is null))
             return false;
         return true;
     }

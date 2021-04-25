@@ -15,18 +15,28 @@ namespace SSEA.BL.Facades
     public class SafetyFunctionFacade
     {
         private readonly IMapper mapper;
+        private readonly AccessPointFacade accessPointFacade;
+        private readonly UserRepository userRepository;
         private readonly SubsystemRepository subsystemRepository;
         private readonly SafetyFunctionRepository safetyFunctionRepository;
-        private readonly AccessPointFacade accessPointFacade;
         private readonly IPerformanceLevelService performanceLevelService;
+        private readonly ISafetyIntegrityLevelService safetyIntegrityLevelService;
 
-        public SafetyFunctionFacade(IMapper mapper, SafetyFunctionRepository safetyFunctionRepository, SubsystemRepository subsystemRepository, AccessPointFacade accessPointFacade, IPerformanceLevelService performanceLevelService)
+        public SafetyFunctionFacade(IMapper mapper,
+                                    AccessPointFacade accessPointFacade,
+                                    UserRepository userRepository,
+                                    SubsystemRepository subsystemRepository,
+                                    SafetyFunctionRepository safetyFunctionRepository,
+                                    IPerformanceLevelService performanceLevelService,
+                                    ISafetyIntegrityLevelService safetyIntegrityLevelService)
         {
             this.mapper = mapper;
+            this.accessPointFacade = accessPointFacade;
+            this.userRepository = userRepository;
             this.subsystemRepository = subsystemRepository;
             this.safetyFunctionRepository = safetyFunctionRepository;
-            this.accessPointFacade = accessPointFacade;
             this.performanceLevelService = performanceLevelService;
+            this.safetyIntegrityLevelService = safetyIntegrityLevelService;
         }
 
         public async Task<ICollection<SafetyFunctionListModel>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
@@ -38,6 +48,9 @@ namespace SSEA.BL.Facades
         public async Task<SafetyFunctionDetailModelPL> GetByIdPLAsync(int id)
         {
             SafetyFunctionDetailModelPL safetyFunction = mapper.Map<SafetyFunctionDetailModelPL>(await safetyFunctionRepository.GetByIdPLAsync(id));
+            safetyFunction.UserNameCreated = await userRepository.GetUserNameById(safetyFunction.IdCreated);
+            safetyFunction.UserNameUpdated = safetyFunction.IdCreated == safetyFunction.IdUpdated ? safetyFunction.UserNameCreated : await userRepository.GetUserNameById(safetyFunction.IdUpdated);
+            
             var subsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionPLAsync(id));
 
             // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
@@ -53,6 +66,9 @@ namespace SSEA.BL.Facades
         public async Task<SafetyFunctionDetailModelSIL> GetByIdSILAsync(int id)
         {
             SafetyFunctionDetailModelSIL safetyFunction = mapper.Map<SafetyFunctionDetailModelSIL>(await safetyFunctionRepository.GetByIdSILAsync(id));
+            safetyFunction.UserNameCreated = await userRepository.GetUserNameById(safetyFunction.IdCreated);
+            safetyFunction.UserNameUpdated = safetyFunction.IdCreated == safetyFunction.IdUpdated ? safetyFunction.UserNameCreated : await userRepository.GetUserNameById(safetyFunction.IdUpdated);
+            
             var subsystems = mapper.Map<ICollection<SubsystemDetailModelSIL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionSILAsync(id));
 
             // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
@@ -69,8 +85,12 @@ namespace SSEA.BL.Facades
         {
             // Evaluating required PL
             if (newModel.S is not null && newModel.F is not null && newModel.P is not null)
-                newModel.PLr = await performanceLevelService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
+                newModel.RequiredPL = await performanceLevelService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
 
+            if (newModel.RequiredPL is null)
+                return 0;
+
+            newModel.UsedOnMachine = accessPointId != 0;
             var entity = mapper.Map<SafetyFunction>(newModel);
             int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
 
@@ -81,30 +101,39 @@ namespace SSEA.BL.Facades
             return safetyFunctionId;
         }
 
-        // TODO: Create SF SIL
-
-        public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updatedModel, int userId)
+        public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel, int userId, int accessPointId)
         {
-            // Evaluating required PL
-            if (updatedModel.S is not null && updatedModel.F is not null && updatedModel.P is not null)
-                updatedModel.PLr = await performanceLevelService.GetRequiredPLAsync(updatedModel.S, updatedModel.F, updatedModel.P);
+            // Evaluation of required SIL
+            if (newModel.Se is not null && newModel.Fr is not null && newModel.Pr is not null && newModel.Av is not null)
+                newModel.RequiredSIL = await safetyIntegrityLevelService.GetRequiredSILAsync(newModel.Se, newModel.Fr, newModel.Pr, newModel.Av);
 
-            SafetyFunction entity = mapper.Map<SafetyFunction>(updatedModel);
-            var id = await safetyFunctionRepository.UpdateAsync(entity, userId);
+            if (newModel.RequiredSIL is null)
+                return 0;
 
-            // UPDATING STATE OF SAFETY FUNCTION
-            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(id, userId);
+            newModel.UsedOnMachine = accessPointId != 0;
+            var entity = mapper.Map<SafetyFunction>(newModel);
+            int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
 
-            return id;
+            // If safety function was saved successfully and accessPointId is not zero than we have to create new record in AccessPointSafetyFunction join table
+            if (safetyFunctionId != 0 && accessPointId != 0)
+                await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+
+            return safetyFunctionId;
         }
 
-        // TODO: Update SF SIL
+        public async Task<int> UpdateAsync<T>(T updatedModel, int userId)
+        {
+            SafetyFunction entity = mapper.Map<SafetyFunction>(updatedModel);
+            return await safetyFunctionRepository.UpdateAsync(entity, userId);
+        }
 
         public async Task DeleteAsync(int safetyFunctionId, int userId)
         {
             await safetyFunctionRepository.DeleteAsync(safetyFunctionId, userId);
         }
 
+
+        // TODO: refactor
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
             await safetyFunctionRepository.AddSubsystemAsync(safetyFunctionId, subsystemId);
@@ -116,6 +145,7 @@ namespace SSEA.BL.Facades
             await subsystemRepository.UpdateSubsystemStateAsync(subsystemId, userId);
         }
 
+        // TODO: refactor
         public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
             await safetyFunctionRepository.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
@@ -129,11 +159,21 @@ namespace SSEA.BL.Facades
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionPLAsync(int safetyFunctionId, int userId)
         {
-            SafetyFunctionDetailModelPL safetyFunction = await GetByIdPLAsync(safetyFunctionId);
-            bool evaluationResult = false;
+            return await EvaluateSafetyFunctionAsync(GetByIdPLAsync, performanceLevelService.EvaluateSafetyFunctionAsync, safetyFunctionId, userId);
+        }
+
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionSILAsync(int safetyFunctionId, int userId)
+        {
+            return await EvaluateSafetyFunctionAsync(GetByIdSILAsync, safetyIntegrityLevelService.EvaluateSafetyFunctionAsync, safetyFunctionId, userId);
+        }
+
+        private async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionAsync<T>(Func<int, Task<T>> getByIdFunc, Func<T, Task<bool>> evaluateSafetyFunc, int safetyFunctionId, int userId)
+        {
+            T safetyFunction = await getByIdFunc(safetyFunctionId);
+            bool evaluationResult;
             try
             {
-                evaluationResult = await performanceLevelService.EvaluateSafetyFunctionAsync(safetyFunction);
+                evaluationResult = await evaluateSafetyFunc(safetyFunction);
             }
             catch (Exception exception)
             {
@@ -144,7 +184,16 @@ namespace SSEA.BL.Facades
                 };
             }
 
-            // Updating record after its successful evaluation (method did not throw exception)
+            // Resultant level of safety is not valid
+            if (evaluationResult == false)
+                return new SafetyEvaluationResponseModel()
+                {
+                    IsSuccess = false,
+                    IsValidSafetyLevel = false,
+                    Message = $"Calculated level of safety is lower than required level - change subsystems of safety function and try it again :(",
+                };
+
+            // Resultant level of safety is valid
             int id = await safetyFunctionRepository.UpdateAsync(mapper.Map<SafetyFunction>(safetyFunction), userId);
             if (id == 0)
             {
@@ -155,31 +204,15 @@ namespace SSEA.BL.Facades
                 };
             }
 
-            // At this point safety function was successfully saved to database
-            // Now we will update state of record according to result of PL evaluation
-
-            int safetyFunctionValidStateId = 13;
-            int safetyFunctionInvalidStateId = 14;
-
-            // UPDATING STATE OF SAFETY FUNCTION
-            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(id, userId, (evaluationResult == false) ? safetyFunctionInvalidStateId : safetyFunctionValidStateId);
-
-            if (evaluationResult == true)
-                return new SafetyEvaluationResponseModel()
-                {
-                    IsSuccess = true,
-                    IsValidSafetyLevel = true,
-                    Message = $"Resultant PL is valid ... [Required PL = {safetyFunction.PLr.Label}] <= [Resultant PL = {safetyFunction.PLresult.Label}]",
-                };
+            int safetyFunctionValidStateId = 14;
+            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(id, userId, safetyFunctionValidStateId);
 
             return new SafetyEvaluationResponseModel()
             {
                 IsSuccess = true,
-                IsValidSafetyLevel = false,
-                Message = $"Resultant PL is invalid ... [Required PL = {safetyFunction.PLr.Label}] > [Resultant PL = {safetyFunction.PLresult.Label}]",
+                IsValidSafetyLevel = true,
+                Message = $"Calculated value of safety is valid - safety function is locked for further modifications :)",
             };
         }
-
-        // TODO: EvaluateSafetyFunctionSILAsync
     }
 }

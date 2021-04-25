@@ -19,13 +19,13 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         [StringLength(250)]
         public string Description { get; set; }
 
-        public bool Communication { get; set; }
-        public bool? HMI { get; set; }
-        public bool? PLC { get; set; }
-        public bool? MachineHelp { get; set; }
-        public bool? CodeProtection { get; set; }
-        public bool? SecurityOfSafetyParts { get; set; }
-        public bool? SafetyMasterInPlace { get; set; }
+        public bool SafetyCommunication { get; set; }
+        public bool HMI { get; set; }
+        public bool PLC { get; set; }
+        public bool MachineHelp { get; set; }
+        public bool CodeProtection { get; set; }
+        public bool SecurityOfSafetyParts { get; set; }
+        public bool SafetyMasterInPlace { get; set; }
 
         [Column("Producer_Id")]
         public int ProducerId { get; set; }

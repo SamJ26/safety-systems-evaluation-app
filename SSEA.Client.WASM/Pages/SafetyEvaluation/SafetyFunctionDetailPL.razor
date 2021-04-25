@@ -9,11 +9,11 @@
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Detail of safety function</strong></MudText>
-                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>[ @(safetyFunction.CurrentState is not null ? safetyFunction.CurrentState.Name : "Unknown") ]</small></MudText>
-                <MudText Typo="Typo.body2">Created - user ID: @safetyFunction.IdCreated, time: @safetyFunction.DateTimeCreated</MudText>
+                <MudText Typo="Typo.h5" Style="margin-bottom: 5px;"><small>State number: @safetyFunction.CurrentState?.StateNumber [ @safetyFunction.CurrentState?.Name ]</small></MudText>
+                <MudText Typo="Typo.body2">Created - user: @safetyFunction.UserNameCreated, time: @safetyFunction.DateTimeCreated</MudText>
                 @if (safetyFunction.IdUpdated != null)
                 {
-                    <MudText Typo="Typo.body2">Updated - user ID: @safetyFunction.IdUpdated, time: @safetyFunction.DateTimeUpdated</MudText>
+                    <MudText Typo="Typo.body2">Updated - user: @safetyFunction.UserNameUpdated, time: @safetyFunction.DateTimeUpdated</MudText>
                 }
             </CardHeaderContent>
             <CardHeaderActions>
@@ -67,26 +67,23 @@
                                 <hr />
                             </MudItem>
                             <MudItem Style="width: 50%;">
-                                <MudField Label="Required PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.PLr is not null ? safetyFunction.PLr.Label : "Not evaluated")</MudField>
+                                <MudField Label="Required PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.RequiredPL is not null ? safetyFunction.RequiredPL.Label : "Not evaluated")</MudField>
                             </MudItem>
                             <MudItem Style="width: 45%;">
-                                <MudField Label="Resultant PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.PLresult is not null ? safetyFunction.PLresult.Label : "Not evaluated")</MudField>
+                                <MudField Label="Resultant PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.ResultantPL is not null ? safetyFunction.ResultantPL.Label : "Not evaluated")</MudField>
                             </MudItem>
                             <MudItem Style="width: 5%; padding-left: 5px;">
-                                @if (safetyFunction.PLresult is not null)
+                                @if (safetyFunction.RequiredPL is not null)
                                 {
-                                    if (safetyFunction.PLr.CompareValue > safetyFunction.PLresult.CompareValue)
-                                    {
-                                        <MudIcon Icon="@Icons.Material.Filled.ErrorOutline" Color="Color.Error" Size="Size.Large" Style="margin-top: 15px;" />
-                                    }
-                                    else
-                                    {
+                                    <MudTooltip Text="Resultant PL is valid">
                                         <MudIcon Icon="@Icons.Material.Outlined.DoneOutline" Color="Color.Success" Size="Size.Large" Style="margin-top: 15px;" />
-                                    }
+                                    </MudTooltip>
                                 }
                                 else
                                 {
-                                    <MudIcon Icon="@Icons.Material.Outlined.NotInterested" Color="Color.Default" Size="Size.Large" Style="margin-top: 15px;" />
+                                    <MudTooltip Text="Resultant PL is not evaluated">
+                                        <MudIcon Icon="@Icons.Material.Outlined.NotInterested" Color="Color.Default" Size="Size.Large" Style="margin-top: 15px;" />
+                                    </MudTooltip>
                                 }
                             </MudItem>
                             @if (showValidationSummary)
@@ -114,10 +111,10 @@
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
                                     <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.Category.Label : "")</MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.MttFdResult.Value : "")</MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.ResultantMTTFd.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.ResultantDC.Value : "")</MudField>
                                     <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.ValidCCF : "")</MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.PLresult.Label : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.InputSubsystem is not null ? safetyFunction.InputSubsystem.ResultantPL.Label : "")</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
@@ -148,10 +145,10 @@
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
                                     <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.Category.Label : "")</MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.MttFdResult.Value : "")</MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.ResultantMTTFd.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.ResultantDC.Value : "")</MudField>
                                     <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.ValidCCF : "")</MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.PLresult.Label : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication1Subsystem is not null ? safetyFunction.Communication1Subsystem.ResultantPL.Label : "")</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
@@ -182,10 +179,10 @@
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
                                     <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.Category.Label : "")</MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.MttFdResult.Value : "")</MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.ResultantMTTFd.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.ResultantDC.Value : "")</MudField>
                                     <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.ValidCCF : "")</MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.PLresult.Label : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.ResultantPL.Label : "")</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
@@ -213,10 +210,10 @@
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
                                     <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.Category.Label : "")</MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.MttFdResult.Value : "")</MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.ResultantMTTFd.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.ResultantDC.Value : "")</MudField>
                                     <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.ValidCCF : "")</MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.PLresult.Label : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.Communication2Subsystem is not null ? safetyFunction.Communication2Subsystem.ResultantPL.Label : "")</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
@@ -247,10 +244,10 @@
                                 </MudCardHeader>
                                 <MudCardContent Style="padding: 16px 10px;">
                                     <MudField Label="Category" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.Category.Label : "")</MudField>
-                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.MttFdResult.Value : "")</MudField>
-                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.DCresult.Value : "")</MudField>
+                                    <MudField Label="MTTFd" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.ResultantMTTFd.Value : "")</MudField>
+                                    <MudField Label="DC" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.ResultantDC.Value : "")</MudField>
                                     <MudField Label="CCF" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.ValidCCF : "")</MudField>
-                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.PLresult.Label : "")</MudField>
+                                    <MudField Label="PL" ReadOnly="true" Variant="Variant.Outlined">@(safetyFunction.OutputSubsystem is not null ? safetyFunction.OutputSubsystem.ResultantPL.Label : "")</MudField>
                                 </MudCardContent>
                                 <MudCardActions>
                                     <MudGrid>
@@ -490,7 +487,7 @@
 
     private async void OpenSelectLogicDialog()
     {
-        var dialog = dialogService.Show<SelectLogicDialog>("Select subsystem");
+        var dialog = dialogService.Show<SelectLogicDialog>("Select logic");
         var result = await dialog.Result;
         if (!result.Cancelled)
         {

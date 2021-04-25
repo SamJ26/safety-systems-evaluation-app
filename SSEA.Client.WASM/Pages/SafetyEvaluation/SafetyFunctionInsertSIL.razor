@@ -11,13 +11,18 @@
                 <MudText Typo="Typo.h6"><strong>Create new safety function (SIL)</strong></MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(disabled)" />
+                <MudTooltip Text="Back to access point">
+                    <MudIconButton @onclick="@BackToAccessPoint" Icon="@Icons.Material.Filled.ArrowBack" Color="Color.Primary" Disabled="@(accessPointId == 0 || disabled)" />
+                </MudTooltip>
+                <MudTooltip Text="Save">
+                    <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(disabled)" />
+                </MudTooltip>
             </CardHeaderActions>
         </MudCardHeader>
         <MudCardContent>
             <MudTabs Outlined="true" Rounded="true" Centered="true" ApplyEffectsToContainer="true" Color="@Color.Default">
                 <MudTabPanel Text="Safety function details">
-                    <EditForm Model="@safetyFunction" OnValidSubmit="OnValidSubmit" id="formId">
+                    <EditForm Model="@safetyFunction" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
                             <MudItem xs="12">
@@ -42,7 +47,7 @@
                                 <hr />
                             </MudItem>
                             <MudItem xs="3">
-                                <MudSelect @bind-Value="safetyFunction.Silcl" T="PFHdModel" Label="Required SIL" Variant="Variant.Outlined" Format="F2">
+                                <MudSelect @bind-Value="safetyFunction.RequiredSIL" T="PFHdModel" Label="Required SIL" Variant="Variant.Outlined" Format="F2">
                                     @foreach (var item in sils)
                                     {
                                         <MudSelectItem T="PFHdModel" Value="@(item)">@item.ValueSIL</MudSelectItem>
@@ -82,6 +87,14 @@
                                     }
                                 </MudSelect>
                             </MudItem>
+                            @if (showValidationSummary)
+                            {
+                                <MudItem xs="12">
+                                    <MudAlert Severity="Severity.Error" Style="margin-top: 5px;" NoIcon="true">
+                                        <ValidationSummary />
+                                    </MudAlert>
+                                </MudItem>
+                            }
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
@@ -96,6 +109,14 @@
 </MudContainer>
 
 @code {
+
+    // accessPointId == 0
+    // -- creating independed safety function
+    // -- after saving navigate to SafetyFunctionDetailSIL
+    // accessPointId != 0
+    // -- creating safety function within access point
+    // -- after saving navigate to AccessPointDetail
+    // -- after saving create record in AccessPointSafetyFunction join table
 
     [Inject]
     private NavigationManager navigationManager { get; set; }
@@ -120,6 +141,10 @@
     private ICollection<PrModel> prModels = new List<PrModel>();
     private ICollection<AvModel> avModels = new List<AvModel>();
 
+    private int machineId;
+    private int accessPointId;
+
+    private bool showValidationSummary = false;
     private bool disabled = false;
     private bool showMessage = false;
     private string message = string.Empty;
@@ -139,31 +164,65 @@
         frModels = await codeListFacade.GetAllFrsAsync();
         prModels = await codeListFacade.GetAllPrsAsync();
         avModels = await codeListFacade.GetAllAvsAsync();
+
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("machineId", out var _machineId))
+            machineId = Convert.ToInt32(_machineId);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("accessPointId", out var _accessPointId))
+            accessPointId = Convert.ToInt32(_accessPointId);
+
         safetyFunction.EvaluationMethod = evaluationMethods.FirstOrDefault(em => em.Shortcut == "SIL");
+        safetyFunction.TypeOfFunction = null;
         StateHasChanged();
     }
 
     private async void OnValidSubmit()
     {
-        disabled = true;
-        int id = await safetyFunctionFacade.CreateAsync(safetyFunction);
-        if (id != 0)
+        showValidationSummary = false;
+        if (IsModelValid())
         {
-            messageType = Severity.Success;
-            message = successMessage;
-            showMessage = true;
-            StateHasChanged();
-            await Task.Delay(2000);
-            navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{0}/{0}/{id}");
+            disabled = true;
+            int id = await safetyFunctionFacade.CreateAsync(safetyFunction, accessPointId);
+            if (id != 0)
+            {
+                messageType = Severity.Success;
+                message = successMessage;
+                showMessage = true;
+                StateHasChanged();
+                await Task.Delay(2000);
+
+                // Creating safety function from access point -> navigate to access point detail
+                if (accessPointId != 0)
+                    BackToAccessPoint();
+
+                // Creating independent safety function -> navigate to safety function detail SIL
+                else
+                    navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/SIL/{0}/{0}/{id}");
+            }
+            else
+            {
+                messageType = Severity.Error;
+                message = errorMessage;
+                showMessage = true;
+                disabled = false;
+            }
         }
         else
         {
+            showMessage = true;
+            message = "Missing required SIL or Se, Fr, Pr, Av";
             messageType = Severity.Error;
-            message = errorMessage;
         }
-        showMessage = true;
-        disabled = false;
         StateHasChanged();
     }
+
+    private bool IsModelValid()
+    {
+        if (safetyFunction.RequiredSIL is null && (safetyFunction.Pr is null || safetyFunction.Av is null || safetyFunction.Fr is null || safetyFunction.Se is null))
+            return false;
+        return true;
+    }
+
+    private void BackToAccessPoint() => navigationManager.NavigateTo($"/safetyEvaluation/accessPointDetail/{machineId}/{accessPointId}");
 
 }

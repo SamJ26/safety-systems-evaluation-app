@@ -6,6 +6,7 @@ using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.Common;
 using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,13 +16,15 @@ namespace SSEA.BL.Facades
     public class MachineFacade
     {
         private readonly IMapper mapper;
+        private readonly UserRepository userRepository;
         private readonly MachineRepository machineRepository;
         private readonly AccessPointRepository accessPointRepository;
-        public readonly SafetyFunctionRepository safetyFunctionRepository;
+        private readonly SafetyFunctionRepository safetyFunctionRepository;
         private readonly CodeListFacade codeListFacade;
         private readonly SafetyFunctionFacade safetyFunctionFacade;
 
         public MachineFacade(IMapper mapper,
+                             UserRepository userRepository,
                              MachineRepository machineRepository,
                              AccessPointRepository accessPointRepository,
                              SafetyFunctionRepository safetyFunctionRepository,
@@ -29,6 +32,7 @@ namespace SSEA.BL.Facades
                              SafetyFunctionFacade safetyFunctionFacade)
         {
             this.mapper = mapper;
+            this.userRepository = userRepository;
             this.machineRepository = machineRepository;
             this.accessPointRepository = accessPointRepository;
             this.safetyFunctionRepository = safetyFunctionRepository;
@@ -62,6 +66,8 @@ namespace SSEA.BL.Facades
             if (machine is null)
                 return null;
             machine.Norms = mapper.Map<HashSet<NormModel>>(await machineRepository.GetNormsForMachineAsync(id));
+            machine.UserNameCreated = await userRepository.GetUserNameById(machine.IdCreated);
+            machine.UserNameUpdated = machine.IdCreated == machine.IdUpdated ? machine.UserNameCreated : await userRepository.GetUserNameById(machine.IdUpdated);
             return machine;
         }
 
@@ -137,7 +143,7 @@ namespace SSEA.BL.Facades
             await machineRepository.DeleteAsync(machineId, userId);
         }
 
-        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId, int userId)
+        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId)
         {
             int inputSubsystemId = 1;
             int outputSubsystemId = 2;
@@ -275,16 +281,22 @@ namespace SSEA.BL.Facades
                 return typeOfLogics.FirstOrDefault(tol => tol.Id == 4);
         }
 
-        // TODO: make it work for both PL and SIL using func method for evaluation of safety function ?
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId, int userId)
         {
             int machineEvaluatedValidStateId = 4;
             int machineEvaluatedInvalidStateId = 5;
-            int accessPointProtectedStateId = 8;
-            int accessPointNotProtectedStateId = 9;
+            int accessPointProtectedStateId = 9;
+            int accessPointNotProtectedStateId = 10;
 
             // Getting machine with all its access points
             MachineDetailModel machine = await GetByIdAsync(machineId);
+
+            // Choosing right function for evaluation according to methodics which is used for machine
+            Func<int, int, Task<SafetyEvaluationResponseModel>> evaluateSafety;
+            if (machine.EvaluationMethod.Shortcut.Equals("PL"))
+                evaluateSafety = safetyFunctionFacade.EvaluateSafetyFunctionPLAsync;
+            else
+                evaluateSafety = safetyFunctionFacade.EvaluateSafetyFunctionSILAsync;
 
             // Check if machine has selected logic
             if (machine.CurrentState.StateNumber < 3 || machine.TypeOfLogic is null)
@@ -322,16 +334,11 @@ namespace SSEA.BL.Facades
                     bool hasLogic = await safetyFunctionRepository.SafetyFunctionHasLogicAsync(safetyFunction.Id);
                     SafetyEvaluationResponseModel evaluationResult;
 
-                    // Safety function has logical subsystem but is not evaluated -> evaluate safety function
-                    if (hasLogic)
-                        evaluationResult = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(safetyFunction.Id, userId);
-
-                    // If safety function has not logical subsystem -> add logical subsystem and evaluate safety
-                    else
-                    {
+                    // If safety function has not logical subsystem than add selected logic as logical subsystem
+                    if (hasLogic == false)
                         await safetyFunctionFacade.AddSubsystemAsync(safetyFunction.Id, machine.TypeOfLogic.SubsystemId, userId);
-                        evaluationResult = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(safetyFunction.Id, userId);
-                    }
+
+                    evaluationResult = await evaluateSafety(safetyFunction.Id, userId);
 
                     if (evaluationResult.IsValidSafetyLevel)
                         accessPointProtected = true;

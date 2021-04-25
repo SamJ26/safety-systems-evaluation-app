@@ -87,8 +87,8 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Value = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
-                    DescriptionCZ = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    DescriptionEN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -195,8 +195,8 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Value = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
-                    DescriptionCZ = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    DescriptionEN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -278,8 +278,8 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Value = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
-                    DescriptionCZ = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    DescriptionEN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DescriptionCZ = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DescriptionEN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IsValid = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -529,15 +529,17 @@ namespace SSEA.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    UsedOnMachine = table.Column<bool>(type: "bit", nullable: false),
                     TypeOfFunction_Id = table.Column<int>(type: "int", nullable: false),
                     EvaluationMethod_Id = table.Column<int>(type: "int", nullable: false),
-                    PLr_Id = table.Column<int>(type: "int", nullable: true),
-                    PLresult_Id = table.Column<int>(type: "int", nullable: true),
+                    RequiredPL_Id = table.Column<int>(type: "int", nullable: true),
+                    ResultantPL_Id = table.Column<int>(type: "int", nullable: true),
                     S_Id = table.Column<int>(type: "int", nullable: true),
                     F_Id = table.Column<int>(type: "int", nullable: true),
                     P_Id = table.Column<int>(type: "int", nullable: true),
+                    CalculatedPFHd = table.Column<double>(type: "float", nullable: false),
+                    RequiredSIL_Id = table.Column<int>(type: "int", nullable: true),
                     SILCL_Id = table.Column<int>(type: "int", nullable: true),
-                    SILresult_Id = table.Column<int>(type: "int", nullable: true),
                     Se_Id = table.Column<int>(type: "int", nullable: true),
                     Fr_Id = table.Column<int>(type: "int", nullable: true),
                     Pr_Id = table.Column<int>(type: "int", nullable: true),
@@ -583,26 +585,26 @@ namespace SSEA.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_SafetyFunction_PFHd_RequiredSIL_Id",
+                        column: x => x.RequiredSIL_Id,
+                        principalTable: "PFHd",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_SafetyFunction_PFHd_SILCL_Id",
                         column: x => x.SILCL_Id,
                         principalTable: "PFHd",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SafetyFunction_PFHd_SILresult_Id",
-                        column: x => x.SILresult_Id,
-                        principalTable: "PFHd",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SafetyFunction_PL_PLr_Id",
-                        column: x => x.PLr_Id,
+                        name: "FK_SafetyFunction_PL_RequiredPL_Id",
+                        column: x => x.RequiredPL_Id,
                         principalTable: "PL",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SafetyFunction_PL_PLresult_Id",
-                        column: x => x.PLresult_Id,
+                        name: "FK_SafetyFunction_PL_ResultantPL_Id",
+                        column: x => x.ResultantPL_Id,
                         principalTable: "PL",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -649,16 +651,17 @@ namespace SSEA.DAL.Migrations
                     OperationPrinciple_Id = table.Column<int>(type: "int", nullable: false),
                     ValidCCF = table.Column<bool>(type: "bit", nullable: false),
                     Category_Id = table.Column<int>(type: "int", nullable: true),
-                    MTTFdResult_Id = table.Column<int>(type: "int", nullable: true),
-                    DCresult_Id = table.Column<int>(type: "int", nullable: true),
-                    PLresult_Id = table.Column<int>(type: "int", nullable: true),
+                    ResultantMTTFd_Id = table.Column<int>(type: "int", nullable: true),
+                    ResultantDC_Id = table.Column<int>(type: "int", nullable: true),
+                    ResulantPL_Id = table.Column<int>(type: "int", nullable: true),
                     CFF = table.Column<double>(type: "float", nullable: false),
-                    T1 = table.Column<double>(type: "float", nullable: true),
-                    T2 = table.Column<double>(type: "float", nullable: true),
-                    HFT = table.Column<double>(type: "float", nullable: true),
-                    SFFresult = table.Column<short>(type: "smallint", nullable: false),
+                    T1 = table.Column<double>(type: "float", nullable: false),
+                    T2 = table.Column<double>(type: "float", nullable: false),
+                    HFT = table.Column<double>(type: "float", nullable: false),
+                    ResultantSFF = table.Column<short>(type: "smallint", nullable: false),
+                    CalculatedPFHd = table.Column<double>(type: "float", nullable: false),
                     Architecture_Id = table.Column<int>(type: "int", nullable: true),
-                    PFHdResult_Id = table.Column<int>(type: "int", nullable: true),
+                    ResultantPFHd_Id = table.Column<int>(type: "int", nullable: true),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -682,14 +685,14 @@ namespace SSEA.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Subsystem_DC_DCresult_Id",
-                        column: x => x.DCresult_Id,
+                        name: "FK_Subsystem_DC_ResultantDC_Id",
+                        column: x => x.ResultantDC_Id,
                         principalTable: "DC",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Subsystem_MTTFd_MTTFdResult_Id",
-                        column: x => x.MTTFdResult_Id,
+                        name: "FK_Subsystem_MTTFd_ResultantMTTFd_Id",
+                        column: x => x.ResultantMTTFd_Id,
                         principalTable: "MTTFd",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -700,14 +703,14 @@ namespace SSEA.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Subsystem_PFHd_PFHdResult_Id",
-                        column: x => x.PFHdResult_Id,
+                        name: "FK_Subsystem_PFHd_ResultantPFHd_Id",
+                        column: x => x.ResultantPFHd_Id,
                         principalTable: "PFHd",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Subsystem_PL_PLresult_Id",
-                        column: x => x.PLresult_Id,
+                        name: "FK_Subsystem_PL_ResulantPL_Id",
+                        column: x => x.ResulantPL_Id,
                         principalTable: "PL",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -804,10 +807,11 @@ namespace SSEA.DAL.Migrations
                     Hop = table.Column<double>(type: "float", nullable: true),
                     Dop = table.Column<double>(type: "float", nullable: true),
                     Tcycles = table.Column<double>(type: "float", nullable: true),
-                    MTTFdCounted = table.Column<double>(type: "float", nullable: true),
-                    MTTFdResult_Id = table.Column<int>(type: "int", nullable: true),
+                    CalculatedMTTFd = table.Column<double>(type: "float", nullable: true),
+                    ResultantMTTFd_Id = table.Column<int>(type: "int", nullable: true),
                     C = table.Column<double>(type: "float", nullable: true),
-                    LambdaC = table.Column<double>(type: "float", nullable: true),
+                    LambdaD = table.Column<double>(type: "float", nullable: true),
+                    SummedSFF = table.Column<double>(type: "float", nullable: false),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
                     DateTimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -825,8 +829,8 @@ namespace SSEA.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Element_MTTFd_MTTFdResult_Id",
-                        column: x => x.MTTFdResult_Id,
+                        name: "FK_Element_MTTFd_ResultantMTTFd_Id",
+                        column: x => x.ResultantMTTFd_Id,
                         principalTable: "MTTFd",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1079,13 +1083,13 @@ namespace SSEA.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    Communication = table.Column<bool>(type: "bit", nullable: false),
-                    HMI = table.Column<bool>(type: "bit", nullable: true),
-                    PLC = table.Column<bool>(type: "bit", nullable: true),
-                    MachineHelp = table.Column<bool>(type: "bit", nullable: true),
-                    CodeProtection = table.Column<bool>(type: "bit", nullable: true),
-                    SecurityOfSafetyParts = table.Column<bool>(type: "bit", nullable: true),
-                    SafetyMasterInPlace = table.Column<bool>(type: "bit", nullable: true),
+                    SafetyCommunication = table.Column<bool>(type: "bit", nullable: false),
+                    HMI = table.Column<bool>(type: "bit", nullable: false),
+                    PLC = table.Column<bool>(type: "bit", nullable: false),
+                    MachineHelp = table.Column<bool>(type: "bit", nullable: false),
+                    CodeProtection = table.Column<bool>(type: "bit", nullable: false),
+                    SecurityOfSafetyParts = table.Column<bool>(type: "bit", nullable: false),
+                    SafetyMasterInPlace = table.Column<bool>(type: "bit", nullable: false),
                     Producer_Id = table.Column<int>(type: "int", nullable: false),
                     EvaluationMethod_Id = table.Column<int>(type: "int", nullable: false),
                     MachineType_Id = table.Column<int>(type: "int", nullable: false),
@@ -1139,7 +1143,7 @@ namespace SSEA.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Machine_Id = table.Column<int>(type: "int", nullable: false),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false),
                     IdCreated = table.Column<int>(type: "int", nullable: false),
@@ -1222,9 +1226,9 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 3, "Pradvěpodobné", null, false, true, (short)1 },
-                    { 2, "Možné za určitých podmínek", null, false, true, (short)3 },
-                    { 1, "Nemožné", null, false, true, (short)5 }
+                    { 3, "Pravděpodobné", "Probably", false, true, (short)1 },
+                    { 2, "Možné za určitých podmínek", "Possible under certain conditions", false, true, (short)3 },
+                    { 1, "Nemožné", "Impossible", false, true, (short)5 }
                 });
 
             migrationBuilder.InsertData(
@@ -1247,10 +1251,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "CompareValue", "IsRemoved", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
                 values: new object[,]
                 {
-                    { 3, (short)3, false, true, (short)99, (short)90, "Střední", null },
-                    { 2, (short)2, false, true, (short)90, (short)60, "Nízké", null },
-                    { 1, (short)1, false, true, (short)60, (short)0, "Žádné", null },
-                    { 4, (short)4, false, true, (short)100, (short)99, "Vysoké", null }
+                    { 3, (short)3, false, true, (short)99, (short)90, "Střední", "Medium" },
+                    { 2, (short)2, false, true, (short)90, (short)60, "Nízké", "Low" },
+                    { 1, (short)1, false, true, (short)60, (short)0, "Žádné", "None" },
+                    { 4, (short)4, false, true, (short)100, (short)99, "Vysoké", "High" }
                 });
 
             migrationBuilder.InsertData(
@@ -1267,8 +1271,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 1, "Řídká až málo častá", null, false, true, "F1" },
-                    { 2, "Častá až nepřetržitá", null, false, true, "F2" }
+                    { 1, "Řídká až málo častá", "Sparse to infrequent", false, true, "F1" },
+                    { 2, "Častá až nepřetržitá", "Frequent to continuous", false, true, "F2" }
                 });
 
             migrationBuilder.InsertData(
@@ -1288,9 +1292,9 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "CompareValue", "IsRemoved", "IsValid", "Max", "Min", "ValueCZ", "ValueEN" },
                 values: new object[,]
                 {
-                    { 2, (short)2, false, true, (short)30, (short)10, "Střední", null },
-                    { 3, (short)3, false, true, (short)100, (short)30, "Dlouhá", null },
-                    { 1, (short)1, false, true, (short)10, (short)3, "Krátká", null }
+                    { 2, (short)2, false, true, (short)30, (short)10, "Střední", "Medium" },
+                    { 3, (short)3, false, true, (short)100, (short)30, "Dlouhá", "Long" },
+                    { 1, (short)1, false, true, (short)10, (short)3, "Krátká", "Short" }
                 });
 
             migrationBuilder.InsertData(
@@ -1298,9 +1302,9 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 1, null, null, false, true, "Jednoúčelový stroj", null },
-                    { 2, null, null, false, true, "Víceúčelový stroj", null },
-                    { 3, null, null, false, true, "Montážní linka", null }
+                    { 1, null, null, false, true, "Jednoúčelový stroj", "Single-purpose machine" },
+                    { 2, null, null, false, true, "Víceúčelový stroj", "Multi-purpose machine" },
+                    { 3, null, null, false, true, "Montážní linka", "Assembly line" }
                 });
 
             migrationBuilder.InsertData(
@@ -1362,11 +1366,11 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 1, null, null, false, true, "mechanický", null },
-                    { 4, null, null, false, true, "elektromechanický", null },
-                    { 3, null, null, false, true, "pneumatický", null },
-                    { 2, null, null, false, true, "elektrický", null },
-                    { 5, null, null, false, true, "hydraulický", null }
+                    { 1, null, null, false, true, "Mechanický", "Mechanical" },
+                    { 4, null, null, false, true, "Elektromechanický", "Electromechanical" },
+                    { 3, null, null, false, true, "Pneumatický", "Pneumatic" },
+                    { 2, null, null, false, true, "Elektrický", "Electrical" },
+                    { 5, null, null, false, true, "Hydraulický", "Hydraulic" }
                 });
 
             migrationBuilder.InsertData(
@@ -1374,8 +1378,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 1, "Možné za určitých podmínek", null, false, true, "P1" },
-                    { 2, "Sotva možné", null, false, true, "P2" }
+                    { 1, "Možné za určitých podmínek", "Possible under certain conditions", false, true, "P1" },
+                    { 2, "Sotva možné", "Hardly possible", false, true, "P2" }
                 });
 
             migrationBuilder.InsertData(
@@ -1409,11 +1413,11 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 1, "Velmi vysoká", null, false, true, (short)5 },
-                    { 2, "Pravděpodobná", null, false, true, (short)4 },
-                    { 3, "Možná", null, false, true, (short)3 },
-                    { 4, "Výjimečná", null, false, true, (short)2 },
-                    { 5, "Zanedbatelná", null, false, true, (short)1 }
+                    { 1, "Velmi vysoká", "Very high", false, true, (short)5 },
+                    { 2, "Pravděpodobná", "Probable", false, true, (short)4 },
+                    { 3, "Možná", "Possible", false, true, (short)3 },
+                    { 4, "Výjimečná", "Extraordinary", false, true, (short)2 },
+                    { 5, "Zanedbatelná", "Negligible", false, true, (short)1 }
                 });
 
             migrationBuilder.InsertData(
@@ -1431,8 +1435,8 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 2, "Závažné", null, false, true, "S2" },
-                    { 1, "Lehké", null, false, true, "S1" }
+                    { 2, "Závažné", "Serious", false, true, "S2" },
+                    { 1, "Lehké", "Small", false, true, "S1" }
                 });
 
             migrationBuilder.InsertData(
@@ -1521,10 +1525,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "IsValid", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "f9a9c068-2961-4e69-954f-be3e16ffa144", true, "Observer", "OBSERVER" },
-                    { 2, "213f4fef-bdb5-4c4c-8e4b-9f05915e9beb", true, "NormalUser", "NORMALUSER" },
-                    { 3, "cf697e61-319c-46b9-b2ae-a5820164bb23", true, "SafetyEvaluationAdmin", "SAFETYEVALUATIONADMIN" },
-                    { 4, "9a1290cf-bb0f-4002-8664-c2b58e9bfd5d", true, "UserAdmin", "USERADMIN" }
+                    { 1, "f04f4e29-1fbf-4f52-a05e-7fc20f708712", true, "Observer", "OBSERVER" },
+                    { 2, "59dcea2c-e3bc-4a84-be73-96fdf823b868", true, "NormalUser", "NORMALUSER" },
+                    { 3, "a4242c3f-5556-47eb-a42c-219464fa8070", true, "SafetyEvaluationAdmin", "SAFETYEVALUATIONADMIN" },
+                    { 4, "9a7939fd-1acc-449a-8efd-858449b818cc", true, "UserAdmin", "USERADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -1532,10 +1536,10 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "Value" },
                 values: new object[,]
                 {
-                    { 4, "Přechodné: vyžadující ošetření na první pomoci", null, false, true, (short)1 },
-                    { 3, "Přechodné: vyžadující ošetření praktickým lékařem", null, false, true, (short)2 },
-                    { 2, "Trvalé: zlomená končetina, ztráta prstu", null, false, true, (short)3 },
-                    { 1, "Trvalé: smrt, ztráta oka nebo paže", null, false, true, (short)4 }
+                    { 4, "Přechodné: vyžadující ošetření na první pomoci", "Transient: requiring first aid treatment", false, true, (short)1 },
+                    { 3, "Přechodné: vyžadující ošetření praktickým lékařem", "Transient: requiring GP treatment", false, true, (short)2 },
+                    { 2, "Trvalé: zlomená končetina, ztráta prstu", "Permanent: broken limb, loss of finger", false, true, (short)3 },
+                    { 1, "Trvalé: smrt, ztráta oka nebo paže", "Permanent: death, loss of eye or arm", false, true, (short)4 }
                 });
 
             migrationBuilder.InsertData(
@@ -1543,11 +1547,11 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 1, null, null, false, true, "Funkce bezpečného zastavení iniciována bezpečnostním zařízením", null },
-                    { 2, null, null, false, true, "Funkce ručního opětného nastavení", null },
-                    { 3, null, null, false, true, "Funkce místního ovládaní", null },
-                    { 4, null, null, false, true, "Funkce spuštení/opětovného spuštení", null },
-                    { 5, null, null, false, true, "Funkce vyřazení", null }
+                    { 1, null, null, false, true, "Funkce bezpečného zastavení iniciována bezpečnostním zařízením", "Safe stop function initiated by the safety device" },
+                    { 2, null, null, false, true, "Funkce ručního opětného nastavení", "Manual reset function" },
+                    { 3, null, null, false, true, "Funkce místního ovládaní", "Local control function" },
+                    { 4, null, null, false, true, "Funkce spuštení/opětovného spuštení", "Start / restart function" },
+                    { 5, null, null, false, true, "Funkce vyřazení", "Exclusion function" }
                 });
 
             migrationBuilder.InsertData(
@@ -1555,15 +1559,15 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "IsRemoved", "IsValid", "NameCZ", "NameEN" },
                 values: new object[,]
                 {
-                    { 6, null, null, false, true, "Funkce tipování", null },
-                    { 8, null, null, false, true, "Funkce zamezení neočekávaného spuštění", null },
-                    { 9, null, null, false, true, "Únik a uvolnění zachycených osob", null },
-                    { 10, null, null, false, true, "Funkce odpojení a uvolnění energie", null },
-                    { 11, null, null, false, true, "Režimy ovládání a volba režimu", null },
-                    { 12, null, null, false, true, "Vzájemné púsobení rúzných bezpečnostních částí ovládacího systému", null },
-                    { 13, null, null, false, true, "Monitorování parametrizace hodnot bezpečnostního vstupu", null },
-                    { 14, null, null, false, true, "Funkce nouzového zastavení", null },
-                    { 7, null, null, false, true, "Funkce povelového zařízení", null }
+                    { 6, null, null, false, true, "Funkce tipování", "Tipping function" },
+                    { 8, null, null, false, true, "Funkce zamezení neočekávaného spuštění", "Unexpected startup prevention function" },
+                    { 9, null, null, false, true, "Únik a uvolnění zachycených osob", "Escape and release of captured persons" },
+                    { 10, null, null, false, true, "Funkce odpojení a uvolnění energie", "Power disconnection and release function" },
+                    { 11, null, null, false, true, "Režimy ovládání a volba režimu", "Control modes and mode selection" },
+                    { 12, null, null, false, true, "Vzájemné púsobení rúzných bezpečnostních částí ovládacího systému", "Interaction of different safety parts of the control system" },
+                    { 13, null, null, false, true, "Monitorování parametrizace hodnot bezpečnostního vstupu", "Monitoring the parameterization of safety input values" },
+                    { 14, null, null, false, true, "Funkce nouzového zastavení", "Emergency stop function" },
+                    { 7, null, null, false, true, "Funkce povelového zařízení", "Command device functions" }
                 });
 
             migrationBuilder.InsertData(
@@ -1606,36 +1610,36 @@ namespace SSEA.DAL.Migrations
                 columns: new[] { "Id", "DescriptionCZ", "DescriptionEN", "Entity_Id", "FinalState", "InitialState", "IsRemoved", "IsValid", "NameCZ", "NameEN", "StateNumber" },
                 values: new object[,]
                 {
-                    { 10, "Počáteční stav - s nevyplnenými subsystémami", "Initial state - subsystems are not filled", 4, false, true, false, true, "Nová", "New", 1 },
-                    { 16, null, null, 5, true, true, false, true, "Nepoužitý", "Not used in safety function", 2 },
-                    { 15, null, null, 5, true, true, false, true, "Použitý", "Used in safety function", 1 },
-                    { 14, "Výsledná úroveň bezpečnosti nesplňuje požadavky", "Determined final level of security does not meet the requirements", 4, true, false, false, true, "Vyhodnocená - invalidní", "Evaluated - invalid", 5 },
-                    { 13, "Výsledná úroveň bezpečnosti splňuje požadavky", "Determined final level of security meets the requirements", 4, true, false, false, true, "Vyhodnocená - validní", "Evaluated - valid", 4 },
-                    { 12, "Vstupní i výstupní subsystém je vyplněn", "Input and output subsystems are completed", 4, false, false, false, true, "Připravená na vyhodnocení", "Ready for evaluation", 3 },
-                    { 11, "Příprava subsystému", "Preparing subsystems", 4, false, false, false, true, "Rozpracovaná", "Work in progress", 2 },
-                    { 5, "Některé bezpečnostní funkce nesplňují požadavky", "Some safety functions do not meet the requirements", 3, true, false, false, true, "Vyhodnocená - invalidní", "Evaluated - invalid", 5 },
-                    { 17, null, null, 2, false, true, false, true, "Validní", "Valid", 1 },
+                    { 6, "Vyhodnocená bezpečnostní funkce byla upravená - požadované opětovné vyhodnocení bezpečnosti", "The evaluated safety function has been modified - required re-evaluation of safety", 3, false, false, false, true, "Upravená", "Modified", 6 },
+                    { 16, null, null, 5, false, false, false, true, "Nepoužitý", "Not used in safety function", 2 },
+                    { 15, null, null, 5, false, false, false, true, "Použitý", "Used in safety function", 1 },
+                    { 14, "Výsledná úroveň bezpečnosti splňuje požadavky - další úpravy nejsou povoleny", "Determined final level of security meets the requirements - additional modifications are not allowed", 4, true, false, false, true, "Vyhodnocená - validní", "Evaluated - valid", 4 },
+                    { 13, "Vstupní i výstupní subsystém je vyplněn", "Input and output subsystems are completed", 4, false, false, false, true, "Připravená na vyhodnocení", "Ready for evaluation", 3 },
+                    { 12, "Příprava subsystému", "Preparing subsystems", 4, false, false, false, true, "Rozpracovaná", "Work in progress", 2 },
+                    { 11, "Počáteční stav - s nevyplnenými subsystémami", "Initial state - subsystems are not filled", 4, false, true, false, true, "Nová", "New", 1 },
+                    { 5, "Některé bezpečnostní funkce nesplňují požadavky", "Some safety functions do not meet the requirements", 3, false, false, false, true, "Vyhodnocená - invalidní", "Evaluated - invalid", 5 },
+                    { 17, null, null, 2, true, true, false, true, "Validní", "Valid", 1 },
                     { 3, "Řídící jednotka byla vybrána", "Control system was selected", 3, false, false, false, true, "S vybranou řídící jednotkou", "With selected control system", 3 },
                     { 2, "Pracuje se na detailech", "Working on details", 3, false, false, false, true, "Rozpracovaná", "Work in progres", 2 },
                     { 1, "Počáteční stav - řídící jednotka není vybrána", "Initial state - conrol system is not selected", 3, false, true, false, true, "Nová", "New", 1 },
                     { 18, null, null, 6, false, true, false, true, "Aktivní", "Active", 1 },
-                    { 9, "Přístupový bod nemá bezpečnostní funkce", "Access point has not any safety functions", 1, true, false, false, true, "Neošetřený bezpečnostní funkcí", "Not protected with safety function", 4 },
-                    { 8, "Přístupový bod má jednu nebo více bezpečnostních funkcí", "Access point has one or more safety functions", 1, true, false, false, true, "Ošetřený bezpečnostní funkcí", "Protected with safety function", 3 },
-                    { 7, "Pracuje se na detailech", "Working on details", 1, false, false, false, true, "Rozpracovaný", "Work in progress", 2 },
-                    { 6, "Počáteční stav - bez bezpečnostní funkce", "Initial state - without safety function", 1, false, true, false, true, "Nový", "New", 1 },
-                    { 4, "Všechny bezpečnostní funkce splňují požadavky", "All safety functions meet the requirements", 3, true, false, false, true, "Vyhodnocená - validní", "Evaluated - valid", 4 },
+                    { 10, "Přístupový bod nemá bezpečnostní funkce", "Access point has no safety functions", 1, false, false, false, true, "Neošetřený bezpečnostní funkcí", "Not protected with safety function", 4 },
+                    { 9, "Přístupový bod má jednu nebo více bezpečnostních funkcí", "Access point has one or more safety functions", 1, false, false, false, true, "Ošetřený bezpečnostní funkcí", "Protected with safety function", 3 },
+                    { 8, "Pracuje se na detailech", "Working on details", 1, false, false, false, true, "Rozpracovaný", "Work in progress", 2 },
+                    { 7, "Počáteční stav - bez bezpečnostní funkce", "Initial state - without safety function", 1, false, true, false, true, "Nový", "New", 1 },
+                    { 4, "Všechny bezpečnostní funkce splňují požadavky", "All safety functions meet the requirements", 3, false, false, false, true, "Vyhodnocená - validní", "Evaluated - valid", 4 },
                     { 19, null, null, 6, true, false, false, true, "Zablokovaný", "Blocked", 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Subsystem",
-                columns: new[] { "Id", "Architecture_Id", "CFF", "Category_Id", "CurrentState_Id", "DCresult_Id", "DateTimeCreated", "DateTimeUpdated", "Description", "HFT", "IdCreated", "IdUpdated", "IsRemoved", "MTTFdResult_Id", "OperationPrinciple_Id", "PFHdResult_Id", "PLresult_Id", "SFFresult", "T1", "T2", "TypeOfSubsystem_Id", "ValidCCF" },
+                columns: new[] { "Id", "Architecture_Id", "CFF", "CalculatedPFHd", "Category_Id", "CurrentState_Id", "DateTimeCreated", "DateTimeUpdated", "Description", "HFT", "IdCreated", "IdUpdated", "IsRemoved", "OperationPrinciple_Id", "ResultantDC_Id", "ResultantMTTFd_Id", "ResultantPFHd_Id", "ResulantPL_Id", "ResultantSFF", "T1", "T2", "TypeOfSubsystem_Id", "ValidCCF" },
                 values: new object[,]
                 {
-                    { 1, 4, 0.0, 5, 16, 4, new DateTime(2021, 4, 11, 13, 28, 46, 375, DateTimeKind.Local).AddTicks(8906), null, "Relay", null, 0, null, false, 3, 4, 1, 5, (short)0, null, null, 3, true },
-                    { 2, 4, 0.0, 5, 16, 4, new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1207), null, "CR30", null, 0, null, false, 3, 2, 1, 5, (short)0, null, null, 3, true },
-                    { 3, 4, 0.0, 5, 16, 4, new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1256), null, "GMX", null, 0, null, false, 3, 2, 1, 5, (short)0, null, null, 3, true },
-                    { 4, 4, 0.0, 5, 16, 4, new DateTime(2021, 4, 11, 13, 28, 46, 378, DateTimeKind.Local).AddTicks(1261), null, "GLX", null, 0, null, false, 3, 2, 1, 5, (short)0, null, null, 3, true }
+                    { 1, 4, 0.0, 1E-08, 5, 16, new DateTime(2021, 4, 24, 15, 38, 40, 645, DateTimeKind.Local).AddTicks(1097), null, "Relay", 0.0, 0, null, false, 4, 4, 3, 1, 5, (short)0, 0.0, 0.0, 3, true },
+                    { 2, 4, 0.0, 1E-08, 5, 16, new DateTime(2021, 4, 24, 15, 38, 40, 647, DateTimeKind.Local).AddTicks(2388), null, "CR30", 0.0, 0, null, false, 2, 4, 3, 1, 5, (short)0, 0.0, 0.0, 3, true },
+                    { 3, 4, 0.0, 1E-08, 5, 16, new DateTime(2021, 4, 24, 15, 38, 40, 647, DateTimeKind.Local).AddTicks(2431), null, "GMX", 0.0, 0, null, false, 2, 4, 3, 1, 5, (short)0, 0.0, 0.0, 3, true },
+                    { 4, 4, 0.0, 1E-08, 5, 16, new DateTime(2021, 4, 24, 15, 38, 40, 647, DateTimeKind.Local).AddTicks(2438), null, "GLX", 0.0, 0, null, false, 2, 4, 3, 1, 5, (short)0, 0.0, 0.0, 3, true }
                 });
 
             migrationBuilder.InsertData(
@@ -1700,14 +1704,14 @@ namespace SSEA.DAL.Migrations
                 column: "DC_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Element_MTTFdResult_Id",
-                table: "Element",
-                column: "MTTFdResult_Id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Element_Producer_Id",
                 table: "Element",
                 column: "Producer_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Element_ResultantMTTFd_Id",
+                table: "Element",
+                column: "ResultantMTTFd_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Element_Subsystem_Id",
@@ -1780,19 +1784,24 @@ namespace SSEA.DAL.Migrations
                 column: "P_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SafetyFunction_PLr_Id",
-                table: "SafetyFunction",
-                column: "PLr_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SafetyFunction_PLresult_Id",
-                table: "SafetyFunction",
-                column: "PLresult_Id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SafetyFunction_Pr_Id",
                 table: "SafetyFunction",
                 column: "Pr_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SafetyFunction_RequiredPL_Id",
+                table: "SafetyFunction",
+                column: "RequiredPL_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SafetyFunction_RequiredSIL_Id",
+                table: "SafetyFunction",
+                column: "RequiredSIL_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SafetyFunction_ResultantPL_Id",
+                table: "SafetyFunction",
+                column: "ResultantPL_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SafetyFunction_S_Id",
@@ -1808,11 +1817,6 @@ namespace SSEA.DAL.Migrations
                 name: "IX_SafetyFunction_SILCL_Id",
                 table: "SafetyFunction",
                 column: "SILCL_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SafetyFunction_SILresult_Id",
-                table: "SafetyFunction",
-                column: "SILresult_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SafetyFunction_TypeOfFunction_Id",
@@ -1840,29 +1844,29 @@ namespace SSEA.DAL.Migrations
                 column: "CurrentState_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subsystem_DCresult_Id",
-                table: "Subsystem",
-                column: "DCresult_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Subsystem_MTTFdResult_Id",
-                table: "Subsystem",
-                column: "MTTFdResult_Id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Subsystem_OperationPrinciple_Id",
                 table: "Subsystem",
                 column: "OperationPrinciple_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subsystem_PFHdResult_Id",
+                name: "IX_Subsystem_ResulantPL_Id",
                 table: "Subsystem",
-                column: "PFHdResult_Id");
+                column: "ResulantPL_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subsystem_PLresult_Id",
+                name: "IX_Subsystem_ResultantDC_Id",
                 table: "Subsystem",
-                column: "PLresult_Id");
+                column: "ResultantDC_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subsystem_ResultantMTTFd_Id",
+                table: "Subsystem",
+                column: "ResultantMTTFd_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subsystem_ResultantPFHd_Id",
+                table: "Subsystem",
+                column: "ResultantPFHd_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subsystem_TypeOfSubsystem_Id",

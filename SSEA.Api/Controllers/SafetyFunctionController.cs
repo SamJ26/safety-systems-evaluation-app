@@ -78,7 +78,20 @@ namespace SSEA.Api.Controllers
             return Ok(id);
         }
 
-        // TODO: Create SF SIL
+        // POST: api/safetyFunction/sil
+        [HttpPost("sil")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionCreateSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelSIL newModel, int accessPointId = 0)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await safetyFunctionFacade.CreateAsync(newModel, userId, accessPointId);
+            return Ok(id);
+        }
 
         // PUT: api/safetyFunction/pl
         [HttpPut("pl")]
@@ -95,7 +108,20 @@ namespace SSEA.Api.Controllers
             return Ok(id);
         }
 
-        // TODO: Update SF SIL
+        // PUT: api/safetyFunction/sil
+        [HttpPut("sil")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionUpdateSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> UpdateAsync(SafetyFunctionDetailModelSIL updatedModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var id = await safetyFunctionFacade.UpdateAsync(updatedModel, userId);
+            return Ok(id);
+        }
 
         // DELETE: api/safetyFunction/{id}
         [HttpDelete("{id}")]
@@ -157,6 +183,19 @@ namespace SSEA.Api.Controllers
             return Ok(response);
         }
 
-        // TODO: EvaluateSafetyFunctionSILAsync
+        // GET: api/safetyFunction/sil/evaluateSafetyFunction/{id}
+        [HttpGet("sil/evaluateSafetyFunction/{id}")]
+        [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
+        [SwaggerOperation(OperationId = "SafetyFunctionEvaluateSIL")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionSILAsync(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+            var userId = this.GetUserIdFromHttpContext();
+            var response = await safetyFunctionFacade.EvaluateSafetyFunctionSILAsync(id, userId);
+            return Ok(response);
+        }
     }
 }

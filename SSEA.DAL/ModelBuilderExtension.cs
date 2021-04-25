@@ -21,18 +21,21 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     DescriptionCZ = "Nemožné",
+                    DescriptionEN = "Impossible",
                     Value = 5,
                 },
                 new Av()
                 {
                     Id = 2,
                     DescriptionCZ = "Možné za určitých podmínek",
+                    DescriptionEN = "Possible under certain conditions",
                     Value = 3,
                 },
                 new Av()
                 {
                     Id = 3,
-                    DescriptionCZ = "Pradvěpodobné",
+                    DescriptionCZ = "Pravděpodobné",
+                    DescriptionEN = "Probably",
                     Value = 1,
                 }
             );
@@ -75,24 +78,28 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     DescriptionCZ = "Trvalé: smrt, ztráta oka nebo paže",
+                    DescriptionEN = "Permanent: death, loss of eye or arm",
                     Value = 4,
                 },
                 new Se()
                 {
                     Id = 2,
                     DescriptionCZ = "Trvalé: zlomená končetina, ztráta prstu",
+                    DescriptionEN = "Permanent: broken limb, loss of finger",
                     Value = 3,
                 },
                 new Se()
                 {
                     Id = 3,
                     DescriptionCZ = "Přechodné: vyžadující ošetření praktickým lékařem",
+                    DescriptionEN = "Transient: requiring GP treatment",
                     Value = 2,
                 },
                 new Se()
                 {
                     Id = 4,
                     DescriptionCZ = "Přechodné: vyžadující ošetření na první pomoci",
+                    DescriptionEN = "Transient: requiring first aid treatment",
                     Value = 1,
                 }
             );
@@ -102,30 +109,35 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     DescriptionCZ = "Velmi vysoká",
+                    DescriptionEN = "Very high",
                     Value = 5,
                 },
                 new Pr()
                 {
                     Id = 2,
                     DescriptionCZ = "Pravděpodobná",
+                    DescriptionEN = "Probable",
                     Value = 4,
                 },
                 new Pr()
                 {
                     Id = 3,
                     DescriptionCZ = "Možná",
+                    DescriptionEN = "Possible",
                     Value = 3,
                 },
                 new Pr()
                 {
                     Id = 4,
                     DescriptionCZ = "Výjimečná",
+                    DescriptionEN = "Extraordinary",
                     Value = 2,
                 },
                 new Pr()
                 {
                     Id = 5,
                     DescriptionCZ = "Zanedbatelná",
+                    DescriptionEN = "Negligible",
                     Value = 1,
                 }
             );
@@ -154,6 +166,7 @@ namespace SSEA.DAL
                 }
             );
 
+            // TODO: translate to english
             modelBuilder.Entity<SFF>().HasData(
                 new SFF()
                 {
@@ -602,12 +615,14 @@ namespace SSEA.DAL
                     Id = 1,
                     Value = "S1",
                     DescriptionCZ = "Lehké",
+                    DescriptionEN = "Small",
                 },
                 new S()
                 {
                     Id = 2,
                     Value = "S2",
                     DescriptionCZ = "Závažné",
+                    DescriptionEN = "Serious",
                 }
             );
 
@@ -617,12 +632,14 @@ namespace SSEA.DAL
                     Id = 1,
                     Value = "F1",
                     DescriptionCZ = "Řídká až málo častá",
+                    DescriptionEN = "Sparse to infrequent",
                 },
                 new F()
                 {
                     Id = 2,
                     Value = "F2",
                     DescriptionCZ = "Častá až nepřetržitá",
+                    DescriptionEN = "Frequent to continuous",
                 }
             );
 
@@ -632,12 +649,14 @@ namespace SSEA.DAL
                     Id = 1,
                     Value = "P1",
                     DescriptionCZ = "Možné za určitých podmínek",
+                    DescriptionEN = "Possible under certain conditions",
                 },
                 new P()
                 {
                     Id = 2,
                     Value = "P2",
                     DescriptionCZ = "Sotva možné",
+                    DescriptionEN = "Hardly possible",
                 }
             );
 
@@ -679,6 +698,7 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     ValueCZ = "Krátká",
+                    ValueEN = "Short",
                     Min = 3,
                     Max = 10,
                     CompareValue = 1,
@@ -687,6 +707,7 @@ namespace SSEA.DAL
                 {
                     Id = 2,
                     ValueCZ = "Střední",
+                    ValueEN = "Medium",
                     Min = 10,
                     Max = 30,
                     CompareValue = 2,
@@ -695,6 +716,7 @@ namespace SSEA.DAL
                 {
                     Id = 3,
                     ValueCZ = "Dlouhá",
+                    ValueEN = "Long",
                     Min = 30,
                     Max = 100,
                     CompareValue = 3,
@@ -796,13 +818,13 @@ namespace SSEA.DAL
                 {
                     Id = 4,
                     NameCZ = "Komunikace vstup-logika",
-                    NameEN = "Input-logic comminucation",
+                    NameEN = "Input-logic communication",
                 },
                 new TypeOfSubsystem()
                 {
                     Id = 5,
                     NameCZ = "Komunikace výstup-logika",
-                    NameEN = "Output-logic comminucation",
+                    NameEN = "Output-logic communication",
                 }
             );
 
@@ -810,27 +832,32 @@ namespace SSEA.DAL
                 new OperationPrinciple()
                 {
                     Id = 1,
-                    NameCZ = "mechanický",
+                    NameCZ = "Mechanický",
+                    NameEN = "Mechanical",
                 },
                 new OperationPrinciple()
                 {
                     Id = 2,
-                    NameCZ = "elektrický",
+                    NameCZ = "Elektrický",
+                    NameEN = "Electrical",
                 },
                 new OperationPrinciple()
                 {
                     Id = 3,
-                    NameCZ = "pneumatický",
+                    NameCZ = "Pneumatický",
+                    NameEN = "Pneumatic",
                 },
                 new OperationPrinciple()
                 {
                     Id = 4,
-                    NameCZ = "elektromechanický",
+                    NameCZ = "Elektromechanický",
+                    NameEN = "Electromechanical",
                 },
                 new OperationPrinciple()
                 {
                     Id = 5,
-                    NameCZ = "hydraulický",
+                    NameCZ = "Hydraulický",
+                    NameEN = "Hydraulic",
                 }
             );
 
@@ -839,22 +866,23 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     NameCZ = "Jednoúčelový stroj",
+                    NameEN = "Single-purpose machine",
                 },
                 new MachineType()
                 {
                     Id = 2,
                     NameCZ = "Víceúčelový stroj",
+                    NameEN = "Multi-purpose machine",
                 },
                 new MachineType()
                 {
                     Id = 3,
                     NameCZ = "Montážní linka",
+                    NameEN = "Assembly line",
                 }
-
-                // TODO: supply all data
-
             );
 
+            // TODO: translate to english
             modelBuilder.Entity<Norm>().HasData(
                 new Norm()
                 {
@@ -1201,6 +1229,7 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     ValueCZ = "Žádné",
+                    ValueEN = "None",
                     Min = 0,
                     Max = 60,
                     CompareValue = 1,
@@ -1209,6 +1238,7 @@ namespace SSEA.DAL
                 {
                     Id = 2,
                     ValueCZ = "Nízké",
+                    ValueEN = "Low",
                     Min = 60,
                     Max = 90,
                     CompareValue = 2,
@@ -1217,6 +1247,7 @@ namespace SSEA.DAL
                 {
                     Id = 3,
                     ValueCZ = "Střední",
+                    ValueEN = "Medium",
                     Min = 90,
                     Max = 99,
                     CompareValue = 3,
@@ -1225,12 +1256,14 @@ namespace SSEA.DAL
                 {
                     Id = 4,
                     ValueCZ = "Vysoké",
+                    ValueEN = "High",
                     Min = 99,
                     Max = 100,
                     CompareValue = 4,
                 }
             );
 
+            // TODO: translate to english
             modelBuilder.Entity<CCF>().HasData(
                 new CCF()
                 {
@@ -1303,71 +1336,85 @@ namespace SSEA.DAL
                 {
                     Id = 1,
                     NameCZ = "Funkce bezpečného zastavení iniciována bezpečnostním zařízením",
+                    NameEN = "Safe stop function initiated by the safety device",
                 },
                 new TypeOfFunction()
                 {
                     Id = 2,
                     NameCZ = "Funkce ručního opětného nastavení",
+                    NameEN = "Manual reset function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 3,
                     NameCZ = "Funkce místního ovládaní",
+                    NameEN = "Local control function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 4,
                     NameCZ = "Funkce spuštení/opětovného spuštení",
+                    NameEN = "Start / restart function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 5,
                     NameCZ = "Funkce vyřazení",
+                    NameEN = "Exclusion function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 6,
                     NameCZ = "Funkce tipování",
+                    NameEN = "Tipping function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 7,
                     NameCZ = "Funkce povelového zařízení",
+                    NameEN = "Command device functions",
                 },
                 new TypeOfFunction()
                 {
                     Id = 8,
                     NameCZ = "Funkce zamezení neočekávaného spuštění",
+                    NameEN = "Unexpected startup prevention function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 9,
                     NameCZ = "Únik a uvolnění zachycených osob",
+                    NameEN = "Escape and release of captured persons",
                 },
                 new TypeOfFunction()
                 {
                     Id = 10,
                     NameCZ = "Funkce odpojení a uvolnění energie",
+                    NameEN = "Power disconnection and release function",
                 },
                 new TypeOfFunction()
                 {
                     Id = 11,
                     NameCZ = "Režimy ovládání a volba režimu",
+                    NameEN = "Control modes and mode selection",
                 },
                 new TypeOfFunction()
                 {
                     Id = 12,
                     NameCZ = "Vzájemné púsobení rúzných bezpečnostních částí ovládacího systému",
+                    NameEN = "Interaction of different safety parts of the control system",
                 },
                 new TypeOfFunction()
                 {
                     Id = 13,
                     NameCZ = "Monitorování parametrizace hodnot bezpečnostního vstupu",
+                    NameEN = "Monitoring the parameterization of safety input values",
                 },
                 new TypeOfFunction()
                 {
                     Id = 14,
                     NameCZ = "Funkce nouzového zastavení",
+                    NameEN = "Emergency stop function",
                 }
             );
 
@@ -1472,11 +1519,12 @@ namespace SSEA.DAL
                     OperationPrincipleId = 4,
                     ValidCCF = true,
                     CategoryId = 5,
-                    MTTFdResultId = 3,
-                    DCresultId = 4,
-                    PLresultId = 5,
+                    ResultantMTTFdId = 3,
+                    ResultantDCId = 4,
+                    ResultantPLId = 5,
                     ArchitectureId = 4,
-                    PFHdResultId = 1,
+                    ResultantPFHdId = 1,
+                    CalculatedPFHd = 0.00000001,
                     DateTimeCreated = System.DateTime.Now,
                     CurrentStateId = 16,
                 },
@@ -1488,11 +1536,12 @@ namespace SSEA.DAL
                     OperationPrincipleId = 2,
                     ValidCCF = true,
                     CategoryId = 5,
-                    MTTFdResultId = 3,
-                    DCresultId = 4,
-                    PLresultId = 5,
+                    ResultantMTTFdId = 3,
+                    ResultantDCId = 4,
+                    ResultantPLId = 5,
                     ArchitectureId = 4,
-                    PFHdResultId = 1,
+                    ResultantPFHdId = 1,
+                    CalculatedPFHd = 0.00000001,
                     DateTimeCreated = System.DateTime.Now,
                     CurrentStateId = 16,
                 },
@@ -1504,11 +1553,12 @@ namespace SSEA.DAL
                     OperationPrincipleId = 2,
                     ValidCCF = true,
                     CategoryId = 5,
-                    MTTFdResultId = 3,
-                    DCresultId = 4,
-                    PLresultId = 5,
+                    ResultantMTTFdId = 3,
+                    ResultantDCId = 4,
+                    ResultantPLId = 5,
                     ArchitectureId = 4,
-                    PFHdResultId = 1,
+                    ResultantPFHdId = 1,
+                    CalculatedPFHd = 0.00000001,
                     DateTimeCreated = System.DateTime.Now,
                     CurrentStateId = 16,
                 },
@@ -1520,11 +1570,12 @@ namespace SSEA.DAL
                     OperationPrincipleId = 2,
                     ValidCCF = true,
                     CategoryId = 5,
-                    MTTFdResultId = 3,
-                    DCresultId = 4,
-                    PLresultId = 5,
+                    ResultantMTTFdId = 3,
+                    ResultantDCId = 4,
+                    ResultantPLId = 5,
                     ArchitectureId = 4,
-                    PFHdResultId = 1,
+                    ResultantPFHdId = 1,
+                    CalculatedPFHd = 0.00000001,
                     DateTimeCreated = System.DateTime.Now,
                     CurrentStateId = 16,
                 }
@@ -1651,7 +1702,7 @@ namespace SSEA.DAL
                     StateNumber = 4,
                     IsValid = true,
                     InitialState = false,
-                    FinalState = true,
+                    FinalState = false,
                     EntityId = 3,
                 },
                 new State()
@@ -1664,7 +1715,20 @@ namespace SSEA.DAL
                     StateNumber = 5,
                     IsValid = true,
                     InitialState = false,
-                    FinalState = true,
+                    FinalState = false,
+                    EntityId = 3,
+                },
+                new State()
+                {
+                    Id = 6,
+                    NameCZ = "Upravená",
+                    NameEN = "Modified",
+                    DescriptionCZ = "Vyhodnocená bezpečnostní funkce byla upravená - požadované opětovné vyhodnocení bezpečnosti",
+                    DescriptionEN = "The evaluated safety function has been modified - required re-evaluation of safety",
+                    StateNumber = 6,
+                    IsValid = true,
+                    InitialState = false,
+                    FinalState = false,
                     EntityId = 3,
                 },
 
@@ -1674,7 +1738,7 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 6,
+                    Id = 7,
                     NameCZ = "Nový",
                     NameEN = "New",
                     DescriptionCZ = "Počáteční stav - bez bezpečnostní funkce",
@@ -1687,7 +1751,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 7,
+                    Id = 8,
                     NameCZ = "Rozpracovaný",
                     NameEN = "Work in progress",
                     DescriptionCZ = "Pracuje se na detailech",
@@ -1700,7 +1764,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 8,
+                    Id = 9,
                     NameCZ = "Ošetřený bezpečnostní funkcí",
                     NameEN = "Protected with safety function",
                     DescriptionCZ = "Přístupový bod má jednu nebo více bezpečnostních funkcí",
@@ -1708,20 +1772,20 @@ namespace SSEA.DAL
                     StateNumber = 3,
                     IsValid = true,
                     InitialState = false,
-                    FinalState = true,
+                    FinalState = false,
                     EntityId = 1,
                 },
                 new State()
                 {
-                    Id = 9,
+                    Id = 10,
                     NameCZ = "Neošetřený bezpečnostní funkcí",
                     NameEN = "Not protected with safety function",
                     DescriptionCZ = "Přístupový bod nemá bezpečnostní funkce",
-                    DescriptionEN = "Access point has not any safety functions",
+                    DescriptionEN = "Access point has no safety functions",
                     StateNumber = 4,
                     IsValid = true,
                     InitialState = false,
-                    FinalState = true,
+                    FinalState = false,
                     EntityId = 1,
                 },
 
@@ -1731,7 +1795,7 @@ namespace SSEA.DAL
 
                 new State()
                 {
-                    Id = 10,
+                    Id = 11,
                     NameCZ = "Nová",
                     NameEN = "New",
                     DescriptionCZ = "Počáteční stav - s nevyplnenými subsystémami",
@@ -1744,7 +1808,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 11,
+                    Id = 12,
                     NameCZ = "Rozpracovaná",
                     NameEN = "Work in progress",
                     DescriptionCZ = "Příprava subsystému",
@@ -1757,7 +1821,7 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 12,
+                    Id = 13,
                     NameCZ = "Připravená na vyhodnocení",
                     NameEN = "Ready for evaluation",
                     DescriptionCZ = "Vstupní i výstupní subsystém je vyplněn",
@@ -1770,25 +1834,12 @@ namespace SSEA.DAL
                 },
                 new State()
                 {
-                    Id = 13,
+                    Id = 14,
                     NameCZ = "Vyhodnocená - validní",
                     NameEN = "Evaluated - valid",
-                    DescriptionCZ = "Výsledná úroveň bezpečnosti splňuje požadavky",
-                    DescriptionEN = "Determined final level of security meets the requirements",
+                    DescriptionCZ = "Výsledná úroveň bezpečnosti splňuje požadavky - další úpravy nejsou povoleny",
+                    DescriptionEN = "Determined final level of security meets the requirements - additional modifications are not allowed",
                     StateNumber = 4,
-                    IsValid = true,
-                    InitialState = false,
-                    FinalState = true,
-                    EntityId = 4,
-                },
-                new State()
-                {
-                    Id = 14,
-                    NameCZ = "Vyhodnocená - invalidní",
-                    NameEN = "Evaluated - invalid",
-                    DescriptionCZ = "Výsledná úroveň bezpečnosti nesplňuje požadavky",
-                    DescriptionEN = "Determined final level of security does not meet the requirements",
-                    StateNumber = 5,
                     IsValid = true,
                     InitialState = false,
                     FinalState = true,
@@ -1808,8 +1859,8 @@ namespace SSEA.DAL
                     DescriptionEN = null,
                     StateNumber = 1,
                     IsValid = true,
-                    InitialState = true,
-                    FinalState = true,
+                    InitialState = false,
+                    FinalState = false,
                     EntityId = 5,
                 },
                 new State()
@@ -1821,8 +1872,8 @@ namespace SSEA.DAL
                     DescriptionEN = null,
                     StateNumber = 2,
                     IsValid = true,
-                    InitialState = true,
-                    FinalState = true,
+                    InitialState = false,
+                    FinalState = false,
                     EntityId = 5,
                 },
 
@@ -1840,7 +1891,7 @@ namespace SSEA.DAL
                     StateNumber = 1,
                     IsValid = true,
                     InitialState = true,
-                    FinalState = false,
+                    FinalState = true,
                     EntityId = 2,
                 },
 

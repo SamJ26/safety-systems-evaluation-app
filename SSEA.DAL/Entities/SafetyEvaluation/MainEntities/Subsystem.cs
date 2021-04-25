@@ -34,33 +34,34 @@ namespace SSEA.DAL.Entities.SafetyEvaluation.MainEntities
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
-        [Column("MTTFdResult_Id")]
-        public int? MTTFdResultId { get; set; }
-        public MTTFd MTTFdResult { get; set; }
+        [Column("ResultantMTTFd_Id")]
+        public int? ResultantMTTFdId { get; set; }
+        public MTTFd ResultantMTTFd { get; set; }
 
-        [Column("DCresult_Id")]
-        public int? DCresultId { get; set; }
-        public DC DCresult { get; set; }
+        [Column("ResultantDC_Id")]
+        public int? ResultantDCId { get; set; }
+        public DC ResultantDC { get; set; }
 
-        [Column("PLresult_Id")]
-        public int? PLresultId { get; set; }
-        public PerformanceLevel PLresult { get; set; }
+        [Column("ResulantPL_Id")]
+        public int? ResultantPLId { get; set; }
+        public PerformanceLevel ResultantPL { get; set; }
 
 
         // Properties for SIL methodics:
 
         public double CFF { get; set; }
-        public double? T1 { get; set; }
-        public double? T2 { get; set; }
-        public double? HFT { get; set; }
-        public short SFFresult { get; set; }
+        public double T1 { get; set; }
+        public double T2 { get; set; }
+        public double HFT { get; set; }
+        public short ResultantSFF { get; set; }
+        public double CalculatedPFHd { get; set; }
 
         [Column("Architecture_Id")]
         public int? ArchitectureId { get; set; }
         public Architecture Architecture { get; set; }
 
-        [Column("PFHdResult_Id")]
-        public int? PFHdResultId { get; set; }
-        public PFHd PFHdResult { get; set; }
+        [Column("ResultantPFHd_Id")]
+        public int? ResultantPFHdId { get; set; }
+        public PFHd ResultantPFHd { get; set; }
     }
 }

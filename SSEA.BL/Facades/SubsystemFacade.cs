@@ -16,16 +16,25 @@ namespace SSEA.BL.Facades
     public class SubsystemFacade
     {
         private readonly IMapper mapper;
+        private readonly UserRepository userRepository;
         private readonly SubsystemRepository subsystemRepository;
         private readonly SafetyFunctionFacade safetyFunctionFacade;
         private readonly IPerformanceLevelService performanceLevelService;
+        private readonly ISafetyIntegrityLevelService safetyIntegrityLevelService;
 
-        public SubsystemFacade(IMapper mapper, SubsystemRepository subsystemRepository, SafetyFunctionFacade safetyFunctionFacade, IPerformanceLevelService performanceLevelService)
+        public SubsystemFacade(IMapper mapper,
+                               UserRepository userRepository,
+                               SubsystemRepository subsystemRepository,
+                               SafetyFunctionFacade safetyFunctionFacade,
+                               IPerformanceLevelService performanceLevelService,
+                               ISafetyIntegrityLevelService safetyIntegrityLevelService)
         {
             this.mapper = mapper;
+            this.userRepository = userRepository;
             this.subsystemRepository = subsystemRepository;
             this.safetyFunctionFacade = safetyFunctionFacade;
             this.performanceLevelService = performanceLevelService;
+            this.safetyIntegrityLevelService = safetyIntegrityLevelService;
         }
 
         public async Task<ICollection<SubsystemListModelPL>> GetAllPLAsync(int stateId, int typeOfSubsystemId, int operationPrincipleId, int categoryId, int performanceLevelId)
@@ -44,6 +53,8 @@ namespace SSEA.BL.Facades
         {
             SubsystemDetailModelPL subsystem = mapper.Map<SubsystemDetailModelPL>(await subsystemRepository.GetByIdPLAsync(id));
             subsystem.SelectedCCFs = mapper.Map<HashSet<CCFModel>>(await subsystemRepository.GetCCFsForSubsystemAsync(id));
+            subsystem.UserNameCreated = await userRepository.GetUserNameById(subsystem.IdCreated);
+            subsystem.UserNameUpdated = subsystem.IdCreated == subsystem.IdUpdated ? subsystem.UserNameCreated : await userRepository.GetUserNameById(subsystem.IdUpdated);
             return subsystem;
         }
 
@@ -51,14 +62,26 @@ namespace SSEA.BL.Facades
         {
             SubsystemDetailModelSIL subsystem = mapper.Map<SubsystemDetailModelSIL>(await subsystemRepository.GetByIdSILAsync(id));
             subsystem.SelectedCCFs = mapper.Map<HashSet<CCFModel>>(await subsystemRepository.GetCCFsForSubsystemAsync(id));
+            subsystem.UserNameCreated = await userRepository.GetUserNameById(subsystem.IdCreated);
+            subsystem.UserNameUpdated = subsystem.IdCreated == subsystem.IdUpdated ? subsystem.UserNameCreated : await userRepository.GetUserNameById(subsystem.IdUpdated);
             return subsystem;
         }
 
         public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelPL subsystem, int userId, int safetyFunctionId)
         {
+            return await CreateAsync(performanceLevelService.EvaluateSubsystemAsync, subsystem, userId, safetyFunctionId);
+        }
+
+        public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelSIL subsystem, int userId, int safetyFunctionId)
+        {
+            return await CreateAsync(safetyIntegrityLevelService.EvaluateSubsystemAsync, subsystem, userId, safetyFunctionId);
+        }
+
+        public async Task<SubsystemCreationResponseModel> CreateAsync<T>(Func<T, Task> evaluateSubsystem, T subsystem, int userId, int safetyFunctionId) where T : SubsystemDetailModel
+        {
             try
             {
-                await performanceLevelService.EvaluateSubsystemAsync(subsystem);
+                await evaluateSubsystem(subsystem);
             }
             catch (Exception exception)
             {
@@ -69,7 +92,7 @@ namespace SSEA.BL.Facades
                     SubsystemId = 0,
                 };
             }
-            Subsystem entity = mapper.Map<Subsystem>(subsystem);          
+            Subsystem entity = mapper.Map<Subsystem>(subsystem);
             int subsystemId = await subsystemRepository.CreateAsync(entity, userId, safetyFunctionId);
             if (subsystemId == 0)
             {
@@ -95,8 +118,6 @@ namespace SSEA.BL.Facades
                 SubsystemId = subsystemId,
             };
         }
-
-        // TODO: Create Subsystem SIL
 
         public async Task DeleteAsync(int subsystemId, int userId)
         {

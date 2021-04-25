@@ -38,12 +38,10 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionCreatePLAsync(accessPointId, newModel);
         }
 
-        // TODO
-        public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel)
+        public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel, int accessPointId = 0)
         {
             Console.WriteLine("SafetyFunctionFacade.CreateAsync(SafetyFunctionDetailModelSIL newModel)");
-            // return await clientService.SafetyFunctionCreateSILAsync(newModel);
-            return 0;
+            return await clientService.SafetyFunctionCreateSILAsync(accessPointId, newModel);
         }
 
         public async Task<int> UpdateAsync(SafetyFunctionDetailModelPL updateModel)
@@ -52,12 +50,10 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SafetyFunctionUpdatePLAsync(updateModel);
         }
 
-        // TODO
         public async Task<int> UpdateAsync(SafetyFunctionDetailModelSIL updateModel)
         {
             Console.WriteLine("SafetyFunctionFacade.UpdateAsync(SafetyFunctionDetailModelSIL updateModel)");
-            // return await clientService.SafetyFunctionUpdateSILAsync(updateModel);
-            return 0;
+            return await clientService.SafetyFunctionUpdateSILAsync(updateModel);
         }
 
         public async Task DeleteAsync(int id)
@@ -80,10 +76,14 @@ namespace SSEA.Client.BL.Facades
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionPLAsync(int id)
         {
-            Console.WriteLine("SafetyFunctionFacade.EvaluateSafetyFunction(int id)");
+            Console.WriteLine("SafetyFunctionFacade.EvaluateSafetyFunctionPLAsync(int id)");
             return await clientService.SafetyFunctionEvaluatePLAsync(id);
         }
 
-        // TODO: Evaluate safety functon SIL
+        public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionSILAsync(int id)
+        {
+            Console.WriteLine("SafetyFunctionFacade.EvaluateSafetyFunctionSILAsync(int id)");
+            return await clientService.SafetyFunctionEvaluateSILAsync(id);
+        }
     }
 }

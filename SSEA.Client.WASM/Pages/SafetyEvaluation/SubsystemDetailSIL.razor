@@ -1,4 +1,4 @@
-﻿@page "/safetyEvaluation/subsystemDetail/PL/{machineId:int}/{accessPointId:int}/{safetyFunctionId:int}/{subsystemId:int}"
+﻿@page "/safetyEvaluation/subsystemDetail/SIL/{machineId:int}/{accessPointId:int}/{safetyFunctionId:int}/{subsystemId:int}"
 
 @layout MainLayout
 
@@ -32,6 +32,12 @@
                     <EditForm Model="@subsystem">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
+                            <MudItem xs="6">
+                                <MudField Label="T1" Variant="Variant.Outlined" readonly="true">@subsystem.T1</MudField>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudField Label="T2" Variant="Variant.Outlined" readonly="true">@subsystem.T2</MudField>
+                            </MudItem>
                             <MudItem xs="12">
                                 <MudField Label="Type of subsystem" Variant="Variant.Outlined" readonly="true">@subsystem.TypeOfSubsystem.Name</MudField>
                             </MudItem>
@@ -39,10 +45,10 @@
                                 <MudField Label="Operation principle" Variant="Variant.Outlined" readonly="true">@subsystem.OperationPrinciple.Name</MudField>
                             </MudItem>
                             <MudItem xs="12">
-                                <MudField Label="Evaluation method" Variant="Variant.Outlined" readonly="true">Performance Level (PL)</MudField>
+                                <MudField Label="Evaluation method" Variant="Variant.Outlined" readonly="true">Safety Integrity Level (SIL)</MudField>
                             </MudItem>
                             <MudItem xs="12">
-                                <MudField Label="Category" Variant="Variant.Outlined" readonly="true">@subsystem.Category.Label</MudField>
+                                <MudField Label="Architecture" Variant="Variant.Outlined" readonly="true">@subsystem.Architecture.Label</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudTextField @bind-Value="subsystem.Description" ReadOnly="true" T="string" Label="Subsystem description" Variant="Variant.Outlined" Lines="3" />
@@ -53,7 +59,7 @@
 
                 <MudTabPanel Text="CCF">
                     <MudGrid Style="padding: 20px;">
-                        @if (subsystem.Category.RelevantCCF == true && subsystem.SelectedCCFs.Count == 0)
+                        @if (subsystem.SelectedCCFs.Count == 0)
                         {
                             <MudItem xs="12">
                                 <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
@@ -61,7 +67,7 @@
                                 </MudText>
                             </MudItem>
                         }
-                        else if (subsystem.Category.RelevantCCF == true)
+                        else
                         {
                             <MudItem xs="12">
                                 <MudTable T="CCFModel" Items="@subsystem.SelectedCCFs" Dense="true" Hover="true" Outlined="true" ReadOnly="@true">
@@ -83,14 +89,6 @@
                                 </MudTable>
                             </MudItem>
                         }
-                        else
-                        {
-                            <MudItem xs="12">
-                                <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
-                                    CCF is not relevant for this category of subsystem
-                                </MudText>
-                            </MudItem>
-                        }
                     </MudGrid>
                 </MudTabPanel>
 
@@ -98,12 +96,12 @@
                     <MudGrid Style="padding: 20px;">
                         @if (subsystem.Elements is not null && subsystem.Elements.Count != 0)
                         {
-                            @if (subsystem.Category.Channels == 1)
+                            @if (subsystem.Architecture.Channels == 1)
                             {
                                 <MudItem xs="3" />
                                 <MudItem xs="6">
                                     <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                    <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="true" />
+                                    <ElementSIL Model="@subsystem.Elements.ElementAt(0)" Producers="producers" DCs="DCs" ReadOnly="true" />
                                 </MudItem>
                                 <MudItem xs="3" />
                             }
@@ -111,11 +109,11 @@
                             {
                                 <MudItem xs="6">
                                     <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                    <ElementPL Model="@subsystem.Elements.ElementAt(0)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="true" />
+                                    <ElementSIL Model="@subsystem.Elements.ElementAt(0)" Producers="producers" DCs="DCs" ReadOnly="true" />
                                 </MudItem>
                                 <MudItem xs="6">
                                     <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                    <ElementPL Model="@subsystem.Elements.ElementAt(1)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="true" />
+                                    <ElementSIL Model="@subsystem.Elements.ElementAt(1)" Producers="producers" DCs="DCs" ReadOnly="true" />
                                 </MudItem>
                             }
                         }
@@ -161,29 +159,27 @@
     [Parameter]
     public int SubsystemId { get; set; }
 
-    private SubsystemDetailModelPL subsystem = new();
+    private SubsystemDetailModelSIL subsystem = new();
 
     private bool disabledDeletion = false;
 
     private ICollection<DCModel> DCs = new List<DCModel>();
     private ICollection<CCFModel> CCFs = new List<CCFModel>();
-    private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
     private ICollection<ProducerModel> producers = new List<ProducerModel>();
 
     protected override async Task OnInitializedAsync()
     {
         DCs = await codeListFacade.GetAllDCsAsync();
         CCFs = await codeListFacade.GetAllCCFsAsync();
-        MTTFds = await codeListFacade.GetAllMTTFdsAsync();
         producers = await codeListFacade.GetAllProducersAsync();
-        subsystem = await subsystemFacade.GetByIdPLAsync(SubsystemId);
+        subsystem = await subsystemFacade.GetByIdSILAsync(SubsystemId);
         disabledDeletion = subsystem.CurrentState.StateNumber == 1;
         StateHasChanged();
     }
 
     private void BackToSafetyFunction()
     {
-        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
+        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/SIL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
     }
 
     private async Task Delete()
@@ -195,7 +191,7 @@
         {
             await subsystemFacade.DeleteAsync(subsystem.Id);
             if (SafetyFunctionId != 0)
-                navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
+                navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/SIL/{MachineId}/{AccessPointId}/{SafetyFunctionId}");
             else
                 navigationManager.NavigateTo("/safetyEvaluation/subsystemList");
         }

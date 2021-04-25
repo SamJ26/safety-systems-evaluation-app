@@ -1,4 +1,4 @@
-﻿@page "/safetyEvaluation/subsystemInsert/PL"
+﻿@page "/safetyEvaluation/subsystemInsert/SIL"
 
 @layout MainLayout
 
@@ -8,7 +8,7 @@
     <MudCard Elevation="3">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6"><strong>Create new subsystem (PL)</strong></MudText>
+                <MudText Typo="Typo.h6"><strong>Create new subsystem (SIL)</strong></MudText>
             </CardHeaderContent>
             <CardHeaderActions>
                 <MudTooltip Text="Back to safety function">
@@ -26,6 +26,12 @@
                     <EditForm Model="@subsystem" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
+                            <MudItem xs="6">
+                                <MudTextField T="double" @bind-Value="subsystem.T1" Label="T1 *" Variant="Variant.Outlined" />
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudTextField T="double" @bind-Value="subsystem.T2" Label="T2 *" Variant="Variant.Outlined" />
+                            </MudItem>
                             <MudItem xs="12">
                                 <MudSelect @bind-Value="subsystem.TypeOfSubsystem" T="TypeOfSubsystemModel" ReadOnly="@typeSelected" Label="Type of subsystem *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@typeOfSubsystemToString">
                                     @foreach (var item in typeOfSubsystems)
@@ -43,10 +49,10 @@
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="12">
-                                <MudSelect @bind-Value="subsystem.Category" T="CategoryModel" Label="Category *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@categoryToString">
-                                    @foreach (var item in categories)
+                                <MudSelect @bind-Value="subsystem.Architecture" T="ArchitectureModel" Label="Architecture *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@architectureToString">
+                                    @foreach (var item in architectures)
                                     {
-                                        <MudSelectItem T="CategoryModel" Value="@(item)" />
+                                        <MudSelectItem T="ArchitectureModel" Value="@(item)" />
                                     }
                                 </MudSelect>
                             </MudItem>
@@ -65,50 +71,39 @@
                     </EditForm>
                 </MudTabPanel>
 
-                <MudTabPanel Text="CCF" Disabled="@(subsystem.Category?.Label == string.Empty || subsystem.Category?.Label is null)">
+                <MudTabPanel Text="CCF" Disabled="@(subsystem.Architecture?.Label == string.Empty || subsystem.Architecture?.Label is null)">
                     <MudGrid Style="padding: 20px;">
-                        @if (subsystem.Category?.RelevantCCF == true)
-                        {
-                            <MudItem xs="12">
-                                <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true">
-                                    <ColGroup>
-                                        <col style="width:5%;" /> Checkbox
-                                        <col style="width:15%;" /> Type
-                                        <col style="width:75%;" /> Description
-                                        <col style="width:5%;" /> Points
-                                    </ColGroup>
-                                    <HeaderContent>
-                                        <MudTh>Type</MudTh>
-                                        <MudTh>Description</MudTh>
-                                        <MudTh>Points</MudTh>
-                                    </HeaderContent>
-                                    <RowTemplate Context="tableContext">
-                                        <MudTd DataLabel="Name">@tableContext.Type</MudTd>
-                                        <MudTd DataLabel="Name">@tableContext.Description</MudTd>
-                                        <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
-                                    </RowTemplate>
-                                </MudTable>
-                            </MudItem>
-                        }
-                        else
-                        {
-                            <MudItem xs="12">
-                                <MudText Align="Align.Center" Style="margin: 50px;" Typo="Typo.h6">
-                                    CCF is not relevant for this category of subsystem
-                                </MudText>
-                            </MudItem>
-                        }
+                        <MudItem xs="12">
+                            <MudTable T="CCFModel" MultiSelection="true" @bind-SelectedItems="@subsystem.SelectedCCFs" Items="@CCFs" Dense="true" Hover="true" Outlined="true">
+                                <ColGroup>
+                                    <col style="width:5%;" /> Checkbox
+                                    <col style="width:15%;" /> Type
+                                    <col style="width:75%;" /> Description
+                                    <col style="width:5%;" /> Points
+                                </ColGroup>
+                                <HeaderContent>
+                                    <MudTh>Type</MudTh>
+                                    <MudTh>Description</MudTh>
+                                    <MudTh>Points</MudTh>
+                                </HeaderContent>
+                                <RowTemplate Context="tableContext">
+                                    <MudTd DataLabel="Name">@tableContext.Type</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.Description</MudTd>
+                                    <MudTd DataLabel="Name" Style="padding-left: 27px;">@tableContext.Points</MudTd>
+                                </RowTemplate>
+                            </MudTable>
+                        </MudItem>
                     </MudGrid>
                 </MudTabPanel>
 
-                <MudTabPanel Text="Elements" Disabled="@(subsystem.Category?.Label == string.Empty || subsystem.Category?.Label is null)">
+                <MudTabPanel Text="Elements" Disabled="@(subsystem.Architecture?.Label == string.Empty || subsystem.Architecture?.Label is null)">
                     <MudGrid Style="padding: 20px;">
-                        @if (subsystem.Category?.Channels == 1)
+                        @if (subsystem.Architecture?.Channels == 1)
                         {
                             <MudItem xs="3" />
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="false"/>
+                                    <ElementSIL Model="@element1" Producers="@producers" DCs="@DCs" ReadOnly="false" />
                             </MudItem>
                             <MudItem xs="3" />
                         }
@@ -121,11 +116,11 @@
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                <ElementPL Model="element1" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="false"/>
+                                    <ElementSIL Model="@element1" Producers="@producers" DCs="@DCs" ReadOnly="false" />
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                <ElementPL Model="@(equalElements == true ? element1 : element2)" MTTFds="MTTFds" Producers="producers" DCs="DCs" ReadOnly="false"/>
+                                    <ElementSIL Model="@(equalElements == true ? element1 : element2)" Producers="@producers" DCs="@DCs" ReadOnly="false" />
                             </MudItem>
                         }
                     </MudGrid>
@@ -144,10 +139,10 @@
 
     // safetyFunctionId == 0
     // -- creating independed subsystem
-    // -- after saving navigate to SubsystemDetailPL
+    // -- after saving navigate to SubsystemDetailSIL
     // safetyFunctionId != 0
     // -- creating subsystem within safety function
-    // -- after saving navigate to SafetyFunctionDetailPL
+    // -- after saving navigate to SafetyFunctionDetailSIL
     // -- after saving create record in SafetyFunctionSubsystem join table
 
     [Inject]
@@ -159,21 +154,20 @@
     [Inject]
     private NavigationManager navigationManager { get; set; }
 
-    private Func<CategoryModel, string> categoryToString = cat => cat.Label;
+    private Func<ArchitectureModel, string> architectureToString = a => a.Label;
     private Func<OperationPrincipleModel, string> operationPrincipleToString = op => op.Name;
     private Func<TypeOfSubsystemModel, string> typeOfSubsystemToString = tos => tos.Name;
 
-    private SubsystemDetailModelPL subsystem = new();
+    private SubsystemDetailModelSIL subsystem = new();
 
-    private ElementDetailModelPL element1 = new();
-    private ElementDetailModelPL element2 = new();
+    private ElementDetailModelSIL element1 = new();
+    private ElementDetailModelSIL element2 = new();
 
-    private ICollection<ProducerModel> producers = new List<ProducerModel>();
     private ICollection<DCModel> DCs = new List<DCModel>();
-    private ICollection<MTTFdModel> MTTFds = new List<MTTFdModel>();
-    private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
-    private ICollection<CategoryModel> categories = new List<CategoryModel>();
     private ICollection<CCFModel> CCFs = new List<CCFModel>();
+    private ICollection<ProducerModel> producers = new List<ProducerModel>();
+    private ICollection<ArchitectureModel> architectures = new List<ArchitectureModel>();
+    private ICollection<TypeOfSubsystemModel> typeOfSubsystems = new List<TypeOfSubsystemModel>();
     private ICollection<OperationPrincipleModel> operationPrinciples = new List<OperationPrincipleModel>();
 
     private int machineId;
@@ -191,12 +185,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        typeOfSubsystems = await codeListFacade.GetAllTypeOfSubsystemsAsync();
-        producers = await codeListFacade.GetAllProducersAsync();
-        MTTFds = await codeListFacade.GetAllMTTFdsAsync();
         DCs = await codeListFacade.GetAllDCsAsync();
-        categories = await codeListFacade.GetAllCategoriesAsync();
         CCFs = await codeListFacade.GetAllCCFsAsync();
+        producers = await codeListFacade.GetAllProducersAsync();
+        architectures = await codeListFacade.GetAllArchitecturesAsync();
+        typeOfSubsystems = await codeListFacade.GetAllTypeOfSubsystemsAsync();
         operationPrinciples = await codeListFacade.GetAllOperationPrinciplesAsync();
 
         var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
@@ -222,14 +215,20 @@
             safetyFunctionId = Convert.ToInt32(_safetyFunctionId);
 
         subsystem.OperationPrinciple = null;
-        subsystem.Category = null;
+        subsystem.Architecture = null;
 
         StateHasChanged();
     }
 
     private void BackToSafetyFunction()
     {
-        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/PL/{machineId}/{accessPointId}/{safetyFunctionId}");
+        navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionDetail/SIL/{machineId}/{accessPointId}/{safetyFunctionId}");
+    }
+
+    private void PanelIndexChanged()
+    {
+        showValidationSummary = false;
+        StateHasChanged();
     }
 
     private async Task OnValidSubmit()
@@ -237,18 +236,17 @@
         disabled = true;
         showValidationSummary = false;
 
-        subsystem.Elements = new List<ElementDetailModelPL>();
+        subsystem.Elements = new List<ElementDetailModelSIL>();
         subsystem.Elements.Add(element1);
-        if (subsystem.Category.Channels == 2 && equalElements)
+        if (subsystem.Architecture.Channels == 2 && equalElements)
             subsystem.Elements.Add(element1);
-        if (subsystem.Category.Channels == 2 && equalElements == false)
+        if (subsystem.Architecture.Channels == 2 && equalElements == false)
             subsystem.Elements.Add(element2);
 
         if (ValidateElements() == true)
         {
             SubsystemCreationResponseModel response;
             response = await subsystemFacade.CreateAsync(subsystem, safetyFunctionId);
-
             if (response.IsSuccess)
             {
                 messageType = Severity.Success;
@@ -263,7 +261,7 @@
 
                 // Creating independed subsystem -> navigate to subsystem detail
                 else
-                    navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{0}/{0}/{0}/{response.SubsystemId}");
+                    navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/SIL/{0}/{0}/{0}/{response.SubsystemId}");
             }
             else
                 message = response.Message;
@@ -273,12 +271,6 @@
         disabled = false;
         StateHasChanged();
 
-    }
-
-    private void PanelIndexChanged()
-    {
-        showValidationSummary = false;
-        StateHasChanged();
     }
 
     private bool ValidateElements()
@@ -295,8 +287,16 @@
                     throw new Exception("Validation error in the elements section - missing DC");
                 if (element.Producer is null)
                     throw new Exception("Validation error in the elements section - missing producer");
-                if (element.ResultantMTTFd is null && (element.B10d == 0 || element.Hop == 0 || element.Dop == 0 || element.Tcycles == 0))
-                    throw new Exception("Validation error in the elements section - missing MTTFd or fields required for its evaluation");
+                if (element.B10d == 0 || element.B10d < 0)
+                    throw new Exception("Invalid value for B10d field");
+                if (element.C == 0 || element.C < 0)
+                    throw new Exception("Invalid value for C field");
+                if (element.SummedSFF > 100)
+                    throw new Exception("SFF can't be bigger than 100");
+                if (subsystem.Architecture.Label.Equals("B") && (subsystem.T1 == 0 || subsystem.T1 < 0))
+                    throw new Exception("T1 field is required for architecture B");
+                if (subsystem.Architecture.Label.Equals("D") && (subsystem.T1 == 0 || subsystem.T1 < 0 || subsystem.T2 == 0 || subsystem.T2 < 0))
+                    throw new Exception("T1 and T2 fields are required for architecture D");
             }
         }
         catch (Exception e)

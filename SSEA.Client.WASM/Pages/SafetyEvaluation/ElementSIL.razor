@@ -1,0 +1,74 @@
+﻿@inherits ComponentBase
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudTextField @bind-Value="Model.CatalogNumber" Label="Catalog number" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" />
+    </MudItem>
+    <MudItem xs="12">
+        <MudSelect @bind-Value="Model.Producer" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@producerToString">
+            @foreach (var item in Producers)
+            {
+                <MudSelectItem T="ProducerModel" Value="@(item)" />
+            }
+        </MudSelect>
+    </MudItem>
+    <MudItem xs="12">
+        <MudSelect @bind-Value="Model.DC" T="DCModel" Label="DC *" Variant="Variant.Outlined" Immediate="true" ReadOnly="@ReadOnly" ToStringFunc="@dcToString">
+            @foreach (var item in DCs)
+            {
+                <MudSelectItem T="DCModel" Value="@(item)" />
+            }
+        </MudSelect>
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField @bind-Value="Model.B10d" Label="B10d" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField @bind-Value="Model.C" Label="C" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+    </MudItem>
+    <MudItem xs="12" Style="padding-bottom: 0px;">
+        <MudText Typo="Typo.subtitle1" Style="margin-bottom: 5px;">Below you can select SFF</MudText>
+        <hr />
+    </MudItem>
+    <MudItem xs="8">
+        <MudField Label="SFF result" Variant="Variant.Outlined">@Model.SummedSFF</MudField>
+    </MudItem>
+    <MudItem xs="4" Style="padding-top: 18px;">
+        <MudButton @onclick="SelectSFF" Variant="Variant.Filled" Color="Color.Default" Style="width: 100%; height: 100%;" DisableElevation="true" Disabled="@ReadOnly">Select </MudButton>
+    </MudItem>
+</MudGrid>
+
+@code {
+
+    [Inject]
+    private IDialogService dialogService { get; set; }
+
+    [Parameter]
+    public ElementDetailModelSIL Model { get; set; }
+
+    [Parameter]
+    public ICollection<ProducerModel> Producers { get; set; }
+
+    [Parameter]
+    public ICollection<DCModel> DCs { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    private Func<DCModel, string> dcToString = dc => dc.Value;
+    private Func<ProducerModel, string> producerToString = producer => producer.Name;
+
+    private async Task SelectSFF()
+    {
+        Model.SelectedSFFs = new HashSet<SFFModel>();
+        var parameters = new DialogParameters() { ["SelectedSFFs"] = Model.SelectedSFFs };
+        var dialog = dialogService.Show<SelectedSFFsDialog>("Select SFF", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            Model.SummedSFF = (double)Model.SelectedSFFs.Select(s => s.Value).Sum();
+        }
+        StateHasChanged();
+    }
+
+}

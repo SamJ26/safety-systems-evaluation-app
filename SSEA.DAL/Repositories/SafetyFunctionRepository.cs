@@ -12,9 +12,9 @@ namespace SSEA.DAL.Repositories
     {
         private readonly AppDbContext dbContext;
 
-        private readonly int safetyFunctionNewStateId = 10;
-        private readonly int safetyFunctionWorkInProgressStateId = 11;
-        private readonly int safetyFunctionReadyForEvaluationStateId = 12;
+        private readonly int safetyFunctionNewStateId = 11;
+        private readonly int safetyFunctionWorkInProgressStateId = 12;
+        private readonly int safetyFunctionReadyForEvaluationStateId = 13;
 
         public SafetyFunctionRepository(AppDbContext dbContext)
         {
@@ -47,8 +47,8 @@ namespace SSEA.DAL.Repositories
             return await dbContext.SafetyFunctions.Include(sf => sf.CurrentState)
                                                   .Include(sf => sf.TypeOfFunction)
                                                   .Include(sf => sf.EvaluationMethod)
-                                                  .Include(sf => sf.PLr)
-                                                  .Include(sf => sf.PLresult)
+                                                  .Include(sf => sf.RequiredPL)
+                                                  .Include(sf => sf.ResultantPL)
                                                   .Include(sf => sf.S)
                                                   .Include(sf => sf.F)
                                                   .Include(sf => sf.P)
@@ -63,7 +63,7 @@ namespace SSEA.DAL.Repositories
                                                   .Include(sf => sf.TypeOfFunction)
                                                   .Include(sf => sf.EvaluationMethod)
                                                   .Include(sf => sf.SILCL)
-                                                  .Include(sf => sf.SILresult)
+                                                  .Include(sf => sf.RequiredSIL)
                                                   .Include(sf => sf.Se)
                                                   .Include(sf => sf.Fr)
                                                   .Include(sf => sf.Pr)
@@ -81,9 +81,9 @@ namespace SSEA.DAL.Repositories
                                                        .Include(s => s.TypeOfSubsystem)
                                                        .Include(s => s.OperationPrinciple)
                                                        .Include(s => s.Category)
-                                                       .Include(s => s.DCresult)
-                                                       .Include(s => s.MTTFdResult)
-                                                       .Include(s => s.PLresult)
+                                                       .Include(s => s.ResultantDC)
+                                                       .Include(s => s.ResultantMTTFd)
+                                                       .Include(s => s.ResultantPL)
                                                        .Include(s => s.CurrentState)
                                                        .AsNoTracking()
                                                        .ToListAsync();
@@ -99,7 +99,7 @@ namespace SSEA.DAL.Repositories
                                                        .Include(s => s.TypeOfSubsystem)
                                                        .Include(s => s.OperationPrinciple)
                                                        .Include(s => s.Architecture)
-                                                       .Include(s => s.PFHdResult)
+                                                       .Include(s => s.ResultantPFHd)
                                                        .Include(s => s.CurrentState)
                                                        .AsNoTracking()
                                                        .ToListAsync();
@@ -119,27 +119,30 @@ namespace SSEA.DAL.Repositories
                                              .ToListAsync();
         }
 
-        // TODO: edit to work also with SF SIL
         public async Task<int> CreateAsync(SafetyFunction safetyFunction, int userId)
         {
             safetyFunction.CurrentStateId = safetyFunctionNewStateId;
             dbContext.Attach(safetyFunction.TypeOfFunction).State = EntityState.Unchanged;
             dbContext.Attach(safetyFunction.EvaluationMethod).State = EntityState.Unchanged;
-            if (safetyFunction.S != null && safetyFunction.F != null && safetyFunction.P != null)
-            {
-                dbContext.Attach(safetyFunction.S).State = EntityState.Unchanged;
-                dbContext.Attach(safetyFunction.F).State = EntityState.Unchanged;
-                dbContext.Attach(safetyFunction.P).State = EntityState.Unchanged;
-            }
-            if (safetyFunction.PLr is not null)
-                dbContext.Attach(safetyFunction.PLr).State = EntityState.Unchanged;
+
+            safetyFunction.SILCL = null;
+            safetyFunction.RequiredSIL = null;
+            safetyFunction.Se = null;
+            safetyFunction.Fr = null;
+            safetyFunction.Pr = null;
+            safetyFunction.Av = null;
+
+            safetyFunction.RequiredPL = null;
+            safetyFunction.ResultantPL = null;
+            safetyFunction.S = null;
+            safetyFunction.F = null;
+            safetyFunction.P = null;
 
             await dbContext.AddAsync(safetyFunction);
             await dbContext.CommitChangesAsync(userId);
             return safetyFunction.Id;
         }
 
-        // TODO: edit to work also with SF SIL
         public async Task<int> UpdateAsync(SafetyFunction safetyFunction, int userId)
         {
             dbContext.Attach(safetyFunction.CurrentState).State = EntityState.Unchanged;
@@ -151,10 +154,19 @@ namespace SSEA.DAL.Repositories
                 dbContext.Attach(safetyFunction.F).State = EntityState.Unchanged;
                 dbContext.Attach(safetyFunction.P).State = EntityState.Unchanged;
             }
+            if (safetyFunction.Se is not null && safetyFunction.Fr is not null && safetyFunction.Pr is not null && safetyFunction.Av is not null)
+            {
+                dbContext.Attach(safetyFunction.Se).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.Fr).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.Pr).State = EntityState.Unchanged;
+                dbContext.Attach(safetyFunction.Av).State = EntityState.Unchanged;
+            }
 
             // Setting these properties to null to avoid change tracking excpetion with tracking two entities with the same id
-            safetyFunction.PLr = null;
-            safetyFunction.PLresult = null;
+            safetyFunction.RequiredPL = null;
+            safetyFunction.ResultantPL = null;
+            safetyFunction.RequiredSIL = null;
+            safetyFunction.SILCL = null;
 
             dbContext.Update(safetyFunction);
             await dbContext.CommitChangesAsync(userId);

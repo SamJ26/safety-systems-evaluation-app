@@ -28,9 +28,9 @@ namespace SSEA.DAL.Repositories
                                                               .Include(s => s.TypeOfSubsystem)
                                                               .Include(s => s.OperationPrinciple)
                                                               .Include(s => s.Category)
-                                                              .Include(s => s.DCresult)
-                                                              .Include(s => s.MTTFdResult)
-                                                              .Include(s => s.PLresult)
+                                                              .Include(s => s.ResultantDC)
+                                                              .Include(s => s.ResultantMTTFd)
+                                                              .Include(s => s.ResultantPL)
                                                               .Include(s => s.CurrentState);
             if (stateId != 0)
                 query = query.Where(s => s.CurrentStateId == stateId);
@@ -41,7 +41,7 @@ namespace SSEA.DAL.Repositories
             if (categoryId != 0)
                 query = query.Where(s => s.CategoryId == categoryId);
             if (performanceLevelId != 0)
-                query = query.Where(s => s.PLresultId == performanceLevelId);
+                query = query.Where(s => s.ResultantPLId == performanceLevelId);
             return await query.ToListAsync();
         }
 
@@ -52,7 +52,7 @@ namespace SSEA.DAL.Repositories
                                                               .Include(s => s.OperationPrinciple)
                                                               .Include(s => s.TypeOfSubsystem)
                                                               .Include(s => s.Architecture)
-                                                              .Include(s => s.PFHdResult)
+                                                              .Include(s => s.ResultantPFHd)
                                                               .Include(s => s.CurrentState);
             if (stateId != 0)
                 query = query.Where(s => s.CurrentStateId == stateId);
@@ -63,7 +63,7 @@ namespace SSEA.DAL.Repositories
             if (architectureId != 0)
                 query = query.Where(s => s.ArchitectureId == architectureId);
             if (silId != 0)
-                query = query.Where(s => s.PFHdResultId == silId);
+                query = query.Where(s => s.ResultantPFHdId == silId);
             return await query.ToListAsync();
         }
 
@@ -72,14 +72,14 @@ namespace SSEA.DAL.Repositories
             return await dbContext.Subsystems.Include(s => s.TypeOfSubsystem)
                                              .Include(s => s.OperationPrinciple)
                                              .Include(s => s.Category)
-                                             .Include(s => s.DCresult)
-                                             .Include(s => s.MTTFdResult)
-                                             .Include(s => s.PLresult)
+                                             .Include(s => s.ResultantDC)
+                                             .Include(s => s.ResultantMTTFd)
+                                             .Include(s => s.ResultantPL)
                                              .Include(s => s.CurrentState)
                                              .Include(s => s.Elements)
                                                 .ThenInclude(e => e.DC)
                                              .Include(s => s.Elements)
-                                                .ThenInclude(e => e.MTTFdResult)
+                                                .ThenInclude(e => e.ResultantMTTFd)
                                              .Include(s => s.Elements)
                                                 .ThenInclude(e => e.Producer)
                                              .AsNoTracking()
@@ -91,9 +91,12 @@ namespace SSEA.DAL.Repositories
             return await dbContext.Subsystems.Include(s => s.OperationPrinciple)
                                              .Include(s => s.TypeOfSubsystem)
                                              .Include(s => s.Architecture)
-                                             .Include(s => s.PFHdResult)
+                                             .Include(s => s.ResultantPFHd)
                                              .Include(s => s.CurrentState)
                                              .Include(s => s.Elements)
+                                                .ThenInclude(e => e.DC)
+                                             .Include(s => s.Elements)
+                                                .ThenInclude(e => e.Producer)
                                              .AsNoTracking()
                                              .SingleOrDefaultAsync(s => s.Id == id);
         }
@@ -110,7 +113,6 @@ namespace SSEA.DAL.Repositories
             return foundCCFs;
         }
 
-        // TODO: test for SIL methodics
         public async Task<int> CreateAsync(Subsystem subsystem, int userId, int safetyFunctionId)
         {
             // Assigning initial state to new record according to safetyFunctionId
@@ -123,16 +125,16 @@ namespace SSEA.DAL.Repositories
             subsystem.SubsystemCCFs = null;
 
             // Setting navigation properties to null to avoid change tracking excpetion with trackig multiple entities with same id
-            subsystem.DCresult = null;
+            subsystem.ResultantDC = null;
             subsystem.Category = null;
-            subsystem.MTTFdResult = null;
-            subsystem.PLresult = null;
+            subsystem.ResultantMTTFd = null;
+            subsystem.ResultantPL = null;
             subsystem.Architecture = null;
-            subsystem.PFHdResult = null;
+            subsystem.ResultantPFHd = null;
             foreach (var element in subsystem.Elements)
             {
                 element.CurrentStateId = elementNewStateId;
-                element.MTTFdResult = null;
+                element.ResultantMTTFd = null;
                 element.DC = null;
                 element.Producer = null;
                 element.Subsystem = null;

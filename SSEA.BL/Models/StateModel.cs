@@ -20,10 +20,10 @@ namespace SSEA.BL.Models
                                           .IgnoreSource(src => src.FinalState)
                                           .IgnoreSource(src => src.Entity)
                                           .IgnoreSource(src => src.EntityId)
-                                          .IgnoreSource(src => src.NameEN)
-                                          .IgnoreSource(src => src.DescriptionEN)
-                                          .MapMember(dest => dest.Description, src => src.DescriptionCZ)
-                                          .MapMember(dest => dest.Name, src => src.NameCZ)
+                                          .IgnoreSource(src => src.NameCZ)
+                                          .IgnoreSource(src => src.DescriptionCZ)
+                                          .MapMember(dest => dest.Description, src => src.DescriptionEN)
+                                          .MapMember(dest => dest.Name, src => src.NameEN)
                                           .ReverseMap();
         }
     }

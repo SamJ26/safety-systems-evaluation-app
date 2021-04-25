@@ -18,7 +18,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels
         [StringLength(250)]
         public string Description { get; set; }
 
-        public bool Communication { get; set; }
+        public bool SafetyCommunication { get; set; }
         public bool HMI { get; set; }
         public bool PLC { get; set; }
         public bool MachineHelp { get; set; }

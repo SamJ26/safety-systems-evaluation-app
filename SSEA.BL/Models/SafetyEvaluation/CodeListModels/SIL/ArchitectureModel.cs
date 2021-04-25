@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using SSEA.BL.Extensions;
 using SSEA.DAL.Entities.SafetyEvaluation.CodeListEntities.SIL;
 
@@ -26,9 +22,9 @@ namespace SSEA.BL.Models.SafetyEvaluation.CodeListModels.SIL
     {
         public ArchitectureModelMapperProfile()
         {
-            CreateMap<Architecture, ArchitectureModel>().IgnoreSource(src => src.DescriptionEN)
+            CreateMap<Architecture, ArchitectureModel>().IgnoreSource(src => src.DescriptionCZ)
                                                         .IgnoreSource(src => src.MaxPFHdId)
-                                                        .MapMember(dest => dest.Description, src => src.DescriptionCZ)
+                                                        .MapMember(dest => dest.Description, src => src.DescriptionEN)
                                                         .ReverseMap();
         }
     }

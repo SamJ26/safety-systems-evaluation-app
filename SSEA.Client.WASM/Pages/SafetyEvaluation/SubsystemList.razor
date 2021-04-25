@@ -52,7 +52,6 @@
                         <MudItem xs="3">
                             <MudSelect @bind-Value="operationPrincipleId" T="int" Label="Operation principle" Strict="true" Variant="Variant.Outlined" Format="F2">
                                 <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
                                 @foreach (var item in operationPrinciples)
                                 {
                                     <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
@@ -139,9 +138,9 @@
                             <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
                             <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
                             <MudTd DataLabel="Category">@context.Category</MudTd>
-                            <MudTd DataLabel="MTTFd">@context.MttFd</MudTd>
-                            <MudTd DataLabel="DC">@context.Dc</MudTd>
-                            <MudTd DataLabel="PL">@context.Pl</MudTd>
+                            <MudTd DataLabel="MTTFd">@context.MTTFd</MudTd>
+                            <MudTd DataLabel="DC">@context.DC</MudTd>
+                            <MudTd DataLabel="PL">@context.PL</MudTd>
                         </RowTemplate>
                         <PagerContent>
                             <MudTablePager PageSizeOptions="new int[]{10, 15}" />
@@ -174,9 +173,9 @@
                             <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
                             <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
                             <MudTd DataLabel="Architecture">@context.Architecture</MudTd>
-                            <MudTd DataLabel="HFT">@context.Hft</MudTd>
-                            <MudTd DataLabel="SFF">@context.Sff</MudTd>
-                            <MudTd DataLabel="SIL">@context.Sil</MudTd>
+                            <MudTd DataLabel="HFT">@context.HFT</MudTd>
+                            <MudTd DataLabel="SFF">@context.SFF</MudTd>
+                            <MudTd DataLabel="SIL">@context.SIL</MudTd>
                         </RowTemplate>
                         <PagerContent>
                             <MudTablePager PageSizeOptions="new int[]{10, 15}" />
@@ -270,7 +269,7 @@
 
     private void GoToSubsystemDetail(TableRowClickEventArgs<SubsystemListModelSIL> args)
     {
-        navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/PL/{0}/{0}/{0}/{args.Item.Id}");
+        navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/SIL/{0}/{0}/{0}/{args.Item.Id}");
     }
 
 }

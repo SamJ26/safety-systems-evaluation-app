@@ -12,7 +12,6 @@ namespace SSEA.DAL.Entities
             IsValid = true;
         }
 
-        [DefaultValue(true)]
         public bool IsValid { get; set; }
     }
 }

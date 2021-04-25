@@ -44,7 +44,11 @@ namespace SSEA.Client.BL.Facades
             return await clientService.SubsystemCreatePLAsync(safetyFunctionId, newModel);
         }
 
-        // TODO: Create subsystem SIL
+        public async Task<SubsystemCreationResponseModel> CreateAsync(SubsystemDetailModelSIL newModel, int safetyFunctionId = 0)
+        {
+            Console.WriteLine("SubsystemFacade.CreateAsync(SubsystemDetailModelSIL newModel, int safetyFunctionId = 0)");
+            return await clientService.SubsystemCreateSILAsync(safetyFunctionId, newModel);
+        }
 
         public async Task DeleteAsync(int id)
         {

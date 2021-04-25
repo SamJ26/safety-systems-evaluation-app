@@ -11,14 +11,16 @@ namespace SSEA.BL.Facades
     public class AccessPointFacade
     {
         private readonly IMapper mapper;
-        private readonly AccessPointRepository accessPointRepository;
+        private readonly UserRepository userRepository;
         private readonly MachineRepository machineRepository;
+        private readonly AccessPointRepository accessPointRepository;
 
-        public AccessPointFacade(IMapper mapper, AccessPointRepository accessPointRepository, MachineRepository machineRepository)
+        public AccessPointFacade(IMapper mapper, AccessPointRepository accessPointRepository, MachineRepository machineRepository, UserRepository userRepository)
         {
             this.mapper = mapper;
-            this.accessPointRepository = accessPointRepository;
+            this.userRepository = userRepository;
             this.machineRepository = machineRepository;
+            this.accessPointRepository = accessPointRepository;
         }
 
         public async Task<ICollection<AccessPointListModel>> GetAllAsync()
@@ -31,22 +33,15 @@ namespace SSEA.BL.Facades
         {
             AccessPointDetailModel accessPoint = mapper.Map<AccessPointDetailModel>(await accessPointRepository.GetByIdAsync(id));
             accessPoint.SafetyFunctions = mapper.Map<ICollection<SafetyFunctionListModel>>(await accessPointRepository.GetSafetyFunctionsForAccessPointAsync(accessPoint.Id));
+            accessPoint.UserNameCreated = await userRepository.GetUserNameById(accessPoint.IdCreated);
+            accessPoint.UserNameUpdated = accessPoint.IdCreated == accessPoint.IdUpdated ? accessPoint.UserNameCreated : await userRepository.GetUserNameById(accessPoint.IdUpdated);
             return accessPoint;
         }
 
         public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel, int userId)
         {
-            // Getting unchanged access point model from database to compare with updated model
-            AccessPointDetailModel oldModel = await GetByIdAsync(updatedModel.Id);
-
-            // Deletion and creation of safety functions is managed by separate functions
-            updatedModel.SafetyFunctions.Clear();
-
-            // Updating access point
             AccessPoint accessPoint = mapper.Map<AccessPoint>(updatedModel);
-            var id = await accessPointRepository.UpdateAsync(accessPoint, userId);
-
-            return id;
+            return await accessPointRepository.UpdateAsync(accessPoint, userId);
         }
 
         public async Task DeleteAsync(int accessPointId, int userId)

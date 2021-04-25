@@ -6,6 +6,6 @@ namespace SSEA.BL.Models
 {
     public class CodeListModelBase : ModelBase
     {
-        public bool IsValid { get; set; }
+        public bool IsValid { get; set; } = true;
     }
 }

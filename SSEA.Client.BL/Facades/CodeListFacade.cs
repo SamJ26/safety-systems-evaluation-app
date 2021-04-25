@@ -162,12 +162,12 @@ namespace SSEA.Client.BL.Facades
             return JsonConvert.DeserializeObject<ICollection<SeModel>>(response.Data);
         }
 
-        //public async Task<ICollection<SFFModel>> GetAllSFFsAsync()
-        //{
-        //    var response = await clientService.CodeListGetAllAsync("SFF");
-        //    Console.WriteLine($"Fetching data - SFF - Count: {response.Count}");
-        //    return JsonConvert.DeserializeObject<ICollection<NormModel>>(response.Data);
-        //}
+        public async Task<ICollection<SFFModel>> GetAllSFFsAsync()
+        {
+            var response = await clientService.CodeListGetAllAsync("SFF");
+            Console.WriteLine($"Fetching data - SFF - Count: {response.Count}");
+            return JsonConvert.DeserializeObject<ICollection<SFFModel>>(response.Data);
+        }
 
         public async Task<ICollection<ProducerModel>> GetAllProducersAsync()
         {
