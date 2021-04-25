@@ -32,8 +32,11 @@
                     <EditForm Model="@subsystem">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="12">
+                            <MudItem xs="10">
                                 <MudField Label="Type of subsystem" Variant="Variant.Outlined" readonly="true">@subsystem.TypeOfSubsystem.Name</MudField>
+                            </MudItem>
+                            <MudItem xs="2">
+                                <MudField Label="Identifier (ID)" Variant="Variant.Outlined" readonly="true">@subsystem.Id</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudField Label="Operation principle" Variant="Variant.Outlined" readonly="true">@subsystem.OperationPrinciple.Name</MudField>

@@ -47,20 +47,20 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="2">
-                    <MudSelect @bind-Value="evaluationMethodId" T="int" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
-                        <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                        @foreach (var item in evaluationMethods)
-                        {
-                            <MudSelectItem T="int" Value="@(item.Id)">@item.Shortcut</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-                <MudItem xs="2">
                     <MudSelect @bind-Value="producerId" T="int" Label="Producer" Strict="true" Variant="Variant.Outlined" Format="F2">
                         <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
                         @foreach (var item in producers)
                         {
                             <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="2">
+                    <MudSelect @bind-Value="evaluationMethodId" T="int" Label="Evaluation method" Strict="true" Variant="Variant.Outlined" Format="F2">
+                        <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
+                        @foreach (var item in evaluationMethods)
+                        {
+                            <MudSelectItem T="int" Value="@(item.Id)">@item.Shortcut</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>

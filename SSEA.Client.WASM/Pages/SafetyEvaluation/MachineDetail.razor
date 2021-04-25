@@ -44,10 +44,16 @@
                     <EditForm Model="@machine" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="4">
+                            <MudItem xs="10">
                                 <MudTextField @bind-Value="machine.Name" Label="Machine name *" ReadOnly="@onlyForReading" Variant="Variant.Outlined" />
                             </MudItem>
-                            <MudItem xs="4">
+                            <MudItem xs="2">
+                                <MudTextField @bind-Value="machine.Id" Label="Identifier (ID)" Variant="Variant.Outlined" ReadOnly="true" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@(machine.EvaluationMethod.Name)</MudField>
+                            </MudItem>
+                            <MudItem xs="12">
                                 <MudSelect @bind-Value="machine.MachineType" ReadOnly="@onlyForReading" Text="@machine.MachineType.Name" T="MachineTypeModel" Label="Machine type *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@machineTypeToString">
                                     @foreach (var item in machineTypes)
                                     {
@@ -57,9 +63,6 @@
                             </MudItem>
                             <MudItem xs="4 ">
                                 <MudField Label="Type of logic" ReadOnly="true" Variant="Variant.Outlined">@(machine.TypeOfLogic != null ? machine.TypeOfLogic.Name : "Not selected")</MudField>
-                            </MudItem>
-                            <MudItem xs="4">
-                                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@(machine.EvaluationMethod.Name)</MudField>
                             </MudItem>
                             <MudItem xs="4">
                                 <MudSelect @bind-Value="machine.Producer" ReadOnly="@onlyForReading" T="ProducerModel" Label="Producer *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@producerToString">

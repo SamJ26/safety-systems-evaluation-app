@@ -27,22 +27,22 @@
                     <EditForm Model="@machine" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="6">
+                            <MudItem xs="12">
                                 <MudTextField @bind-Value="machine.Name" Label="Machine name *" Variant="Variant.Outlined"></MudTextField>
                             </MudItem>
-                            <MudItem xs="6">
-                                <MudSelect @bind-Value="machine.MachineType" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                    @foreach (var item in machineTypes)
+                            <MudItem xs="12">
+                                <MudSelect @bind-Value="machine.EvaluationMethod" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in evaluationMethods)
                                     {
-                                        <MudSelectItem T="MachineTypeModel" Value="@(item)">@item.Name</MudSelectItem>
+                                        <MudSelectItem T="EvaluationMethodModel" Value="@(item)">@item.Name</MudSelectItem>
                                     }
                                 </MudSelect>
                             </MudItem>
                             <MudItem xs="4">
-                                <MudSelect @bind-Value="machine.EvaluationMethod" T="EvaluationMethodModel" Label="Evaluation method *" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                    @foreach (var item in evaluationMethods)
+                                <MudSelect @bind-Value="machine.MachineType" T="MachineTypeModel" Label="Machine type *" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                    @foreach (var item in machineTypes)
                                     {
-                                        <MudSelectItem T="EvaluationMethodModel" Value="@(item)">@item.Shortcut</MudSelectItem>
+                                        <MudSelectItem T="MachineTypeModel" Value="@(item)">@item.Name</MudSelectItem>
                                     }
                                 </MudSelect>
                             </MudItem>

@@ -43,8 +43,11 @@
                     <EditForm Model="@safetyFunction" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="12">
+                            <MudItem xs="10">
                                 <MudTextField @bind-Value="safetyFunction.Name" Label="Safety function name *" Variant="Variant.Outlined" ReadOnly="@onlyForReading" />
+                            </MudItem>
+                            <MudItem xs="2">
+                                <MudTextField @bind-Value="safetyFunction.Id" Label="Identifier (ID)" Variant="Variant.Outlined" ReadOnly="true" />
                             </MudItem>
                             <MudItem xs="12">
                                 <MudField Readonly="true" Label="Type of logic" Variant="Variant.Outlined">@(safetyFunction.LogicSubsystem is not null ? safetyFunction.LogicSubsystem.Description : "Not selected")</MudField>

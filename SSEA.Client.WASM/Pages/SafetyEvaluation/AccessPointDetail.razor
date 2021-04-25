@@ -42,13 +42,16 @@
                     <EditForm Model="@accessPoint" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="4">
+                            <MudItem xs="10">
                                 <MudTextField @bind-Value="accessPoint.Name" ReadOnly="@onlyForReading" Label="Access point name *" Variant="Variant.Outlined" />
                             </MudItem>
-                            <MudItem xs="4">
+                            <MudItem xs="2">
+                                <MudTextField @bind-Value="accessPoint.Id" Label="Identifier (ID)" Variant="Variant.Outlined" ReadOnly="true" />
+                            </MudItem>
+                            <MudItem xs="6">
                                 <MudTextField @bind-Value="accessPoint.MachineName" Label="Machine name" Variant="Variant.Outlined" ReadOnly="true" />
                             </MudItem>
-                            <MudItem xs="4">
+                            <MudItem xs="6">
                                 <MudTextField @bind-Value="accessPoint.EvaluationMethod" Label="Evaluation method" Variant="Variant.Outlined" ReadOnly="true" />
                             </MudItem>
                             <MudItem xs="12">

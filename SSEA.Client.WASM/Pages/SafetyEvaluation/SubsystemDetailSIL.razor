@@ -32,20 +32,23 @@
                     <EditForm Model="@subsystem">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="6">
-                                <MudField Label="T1" Variant="Variant.Outlined" readonly="true">@subsystem.T1</MudField>
-                            </MudItem>
-                            <MudItem xs="6">
-                                <MudField Label="T2" Variant="Variant.Outlined" readonly="true">@subsystem.T2</MudField>
-                            </MudItem>
-                            <MudItem xs="12">
+                            <MudItem xs="10">
                                 <MudField Label="Type of subsystem" Variant="Variant.Outlined" readonly="true">@subsystem.TypeOfSubsystem.Name</MudField>
+                            </MudItem>
+                            <MudItem xs="2">
+                                <MudField Label="Identifier (ID)" Variant="Variant.Outlined" readonly="true">@subsystem.Id</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudField Label="Operation principle" Variant="Variant.Outlined" readonly="true">@subsystem.OperationPrinciple.Name</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudField Label="Evaluation method" Variant="Variant.Outlined" readonly="true">Safety Integrity Level (SIL)</MudField>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudField Label="T1" Variant="Variant.Outlined" readonly="true">@subsystem.T1</MudField>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudField Label="T2" Variant="Variant.Outlined" readonly="true">@subsystem.T2</MudField>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudField Label="Architecture" Variant="Variant.Outlined" readonly="true">@subsystem.Architecture.Label</MudField>
