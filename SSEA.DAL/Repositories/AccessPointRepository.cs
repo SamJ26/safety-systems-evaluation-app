@@ -48,6 +48,11 @@ namespace SSEA.DAL.Repositories
                                                   .ToListAsync();
         }
 
+        public async Task<uint> GetSafetyFunctionsCountAsync(int accessPointId)
+        {
+            return (uint)await dbContext.AccessPointSafetyFunctions.CountAsync(apsf => apsf.AccessPointId == accessPointId);
+        }
+
         public async Task<int> UpdateAsync(AccessPoint accessPoint, int userId)
         {
             accessPoint.Machine = null;

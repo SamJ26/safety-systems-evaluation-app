@@ -8,7 +8,7 @@ namespace SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public short SafetyFunctionsCount { get; set; }
+        public uint SafetyFunctionsCount { get; set; }
     }
 
     public class AccessPointListModelMapperProfile : Profile

@@ -65,6 +65,10 @@ namespace SSEA.BL.Facades
             var machine = mapper.Map<MachineDetailModel>(await machineRepository.GetByIdAsync(id));
             if (machine is null)
                 return null;
+
+            foreach (var accessPoint in machine.AccessPoints)
+                accessPoint.SafetyFunctionsCount = await accessPointRepository.GetSafetyFunctionsCountAsync(accessPoint.Id);
+
             machine.Norms = mapper.Map<HashSet<NormModel>>(await machineRepository.GetNormsForMachineAsync(id));
             machine.UserNameCreated = await userRepository.GetUserNameById(machine.IdCreated);
             machine.UserNameUpdated = machine.IdCreated == machine.IdUpdated ? machine.UserNameCreated : await userRepository.GetUserNameById(machine.IdUpdated);

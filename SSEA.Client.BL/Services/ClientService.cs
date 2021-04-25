@@ -3751,7 +3751,7 @@ namespace SSEA.Client.BL.Services
         public string Description { get; set; }
 
         [Newtonsoft.Json.JsonProperty("SafetyFunctionsCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int SafetyFunctionsCount { get; set; }
+        public uint SafetyFunctionsCount { get; set; }
 
 
     }
