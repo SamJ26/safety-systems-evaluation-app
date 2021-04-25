@@ -5,42 +5,28 @@
     </TitleContent>
     <DialogContent>
         <MudGrid>
+            <MudItem xs="12" Style="padding: 0px 12px;"><hr /></MudItem>
             <MudItem xs="1" Style="padding-bottom: 14px; padding-top: 18px;">
                 <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;"></MudButton>
             </MudItem>
-            <MudItem xs="11">
-                <MudGrid>
-                    <MudItem xs="3">
-                        <MudTextField @bind-Value="name" Label="Safety function name" Variant="Variant.Outlined"></MudTextField>
-                    </MudItem>
-                    <MudItem xs="3">
-                        <MudSelect @bind-Value="stateId" T="int" Label="State of record" Strict="true" Variant="Variant.Outlined" Format="F2">
-                            <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                            <MudSelectItem T="int" Value="@(10)">Nová</MudSelectItem>
-                            <MudSelectItem T="int" Value="@(11)">Rozpracovaná</MudSelectItem>
-                            <MudSelectItem T="int" Value="@(12)">Připravená na vyhodnocení</MudSelectItem>
-                            <MudSelectItem T="int" Value="@(13)">Vyhodnocená - validní</MudSelectItem>
-                            <MudSelectItem T="int" Value="@(14)">Vyhodnocená - invalidní</MudSelectItem>
-                        </MudSelect>
-                    </MudItem>
-                    <MudItem xs="4">
-                        <MudSelect @bind-Value="typeOfFunctionId" T="int" Label="Type of function" Strict="true" Variant="Variant.Outlined" Format="F2">
-                            @foreach (var item in typeOfFunctions)
-                            {
-                                <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
-                            }
-                        </MudSelect>
-                    </MudItem>
-                    <MudItem xs="2">
-                        <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@EvaluationMethod</MudField>
-                    </MudItem>
-                </MudGrid>
+            <MudItem xs="4">
+                <MudTextField @bind-Value="name" Label="Safety function name" Variant="Variant.Outlined"></MudTextField>
             </MudItem>
-            <MudItem xs="12">
-                <hr />
+            <MudItem xs="4">
+                <MudSelect @bind-Value="typeOfFunctionId" T="int" Label="Type of function" Strict="true" Variant="Variant.Outlined" Format="F2">
+                    <MudSelectItem T="int" Value="0">All</MudSelectItem>
+                    @foreach (var item in typeOfFunctions)
+                    {
+                        <MudSelectItem T="int" Value="@(item.Id)">@item.Name</MudSelectItem>
+                    }
+                </MudSelect>
             </MudItem>
+            <MudItem xs="3">
+                <MudField Label="Evaluation method" ReadOnly="true" Variant="Variant.Outlined">@EvaluationMethod</MudField>
+            </MudItem>
+            <MudItem xs="12" Style="padding-top: 7px;"><hr /></MudItem>
             <MudItem xs="12">
-                <MudTable Items="@safetyFunctions" MultiSelection="true" @bind-SelectedItems="selectedSafetyFunctions" Height="400px" Hover="true" FixedHeader="true">
+                <MudTable Items="@safetyFunctions" MultiSelection="true" @bind-SelectedItems="selectedSafetyFunctions" Height="400px" Hover="true" Elevation="0" Outlined="true" FixedHeader="true">
                     <ColGroup>
                         <col style="width:5%;" />
                         <col style="width:20%;" /> Name
@@ -57,8 +43,8 @@
                     <RowTemplate>
                         <MudTd DataLabel="Name">@context.Name</MudTd>
                         <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
-                        <MudTd DataLabel="Type of function">@context.EvaluationMethod.Name</MudTd>
                         <MudTd DataLabel="Evaluation method">@context.TypeOfFunction.Name</MudTd>
+                        <MudTd DataLabel="Type of function">@context.EvaluationMethod.Name</MudTd>
                     </RowTemplate>
                 </MudTable>
             </MudItem>
@@ -91,14 +77,14 @@
 
     private HashSet<SafetyFunctionListModel> selectedSafetyFunctions { get; set; }
 
-    private string name = string.Empty;
-    private int stateId;
+    private string name;
     private int typeOfFunctionId;
     private int evaluationMethodId;
 
     protected override async Task OnInitializedAsync()
     {
         typeOfFunctions = await codeListFacade.GetAllTypeOfFunctionsAsync();
+        Search();
     }
 
     private void Submit() => MudDialog.Close(DialogResult.Ok(selectedSafetyFunctions));
@@ -107,7 +93,7 @@
     private async void Search()
     {
         evaluationMethodId = EvaluationMethod.Equals("PL") ? 1 : 2;
-        safetyFunctions = await safetyFunctionFacade.GetAllAsync(name, stateId, typeOfFunctionId, evaluationMethodId);
+        safetyFunctions = await safetyFunctionFacade.GetAllAsync(name, 14, typeOfFunctionId, evaluationMethodId);
         StateHasChanged();
     }
 
