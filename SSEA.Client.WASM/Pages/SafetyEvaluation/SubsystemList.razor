@@ -116,15 +116,17 @@
                 {
                     <MudTable T="SubsystemListModelPL" OnRowClick="@(args => GoToSubsystemDetail(args))" Items="@subsystemsPL" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
                         <ColGroup>
+                            <col style="width:5%;" /> Id
                             <col style="width:20%;" /> Type of subsystem
                             <col style="width:15%;" /> State
                             <col style="width:20%;" /> Operation principle
-                            <col style="width:20%;" /> Category
+                            <col style="width:15%;" /> Category
                             <col style="width:10%;" /> MTTFd
                             <col style="width:10%;" /> DC
                             <col style="width:5%;" /> PL
                         </ColGroup>
                         <HeaderContent>
+                            <MudTh>Id</MudTh>
                             <MudTh>Type of subsystem</MudTh>
                             <MudTh>State</MudTh>
                             <MudTh>Operation principle</MudTh>
@@ -134,8 +136,9 @@
                             <MudTh>PL</MudTh>
                         </HeaderContent>
                         <RowTemplate>
+                            <MudTd DataLabel="Id">@context.Id</MudTd>
                             <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
-                            <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
+                            <MudTd DataLabel="State">@context.CurrentState.Name (@context.CurrentState.StateNumber)</MudTd>
                             <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
                             <MudTd DataLabel="Category">@context.Category</MudTd>
                             <MudTd DataLabel="MTTFd">@context.MTTFd</MudTd>
@@ -151,15 +154,17 @@
                 {
                     <MudTable T="SubsystemListModelSIL" OnRowClick="@(args => GoToSubsystemDetail(args))" Items="@subsystemsSIL" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
                         <ColGroup>
+                            <col style="width:5%;" /> Id
                             <col style="width:20%;" /> Type of subsystem
                             <col style="width:15%;" /> State
                             <col style="width:20%;" /> Operation principle
-                            <col style="width:20%;" /> Architecture
+                            <col style="width:15%;" /> Architecture
                             <col style="width:10%;" /> HFT
                             <col style="width:10%;" /> SFF
                             <col style="width:5%;" /> SIL
                         </ColGroup>
                         <HeaderContent>
+                            <MudTh>Id</MudTh>
                             <MudTh>Type of subsystem</MudTh>
                             <MudTh>State</MudTh>
                             <MudTh>Operation principle</MudTh>
@@ -169,8 +174,9 @@
                             <MudTh>SIL</MudTh>
                         </HeaderContent>
                         <RowTemplate>
+                            <MudTd DataLabel="Id">@context.Id</MudTd>
                             <MudTd DataLabel="Type of subsystem">@context.TypeOfSubsystem</MudTd>
-                            <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
+                            <MudTd DataLabel="State">@context.CurrentState.Name (@context.CurrentState.StateNumber)</MudTd>
                             <MudTd DataLabel="Operation principle">@context.OperationPrinciple</MudTd>
                             <MudTd DataLabel="Architecture">@context.Architecture</MudTd>
                             <MudTd DataLabel="HFT">@context.HFT</MudTd>

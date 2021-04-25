@@ -33,11 +33,10 @@
                         <MudItem xs="3">
                             <MudSelect @bind-Value="stateId" T="int" Label="State of record" Strict="true" Variant="Variant.Outlined" Format="F2">
                                 <MudSelectItem T="int" Value="@(0)">All</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(10)">Nová</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(11)">Rozpracovaná</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(12)">Připravená na vyhodnocení</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(13)">Vyhodnocená - validní</MudSelectItem>
-                                <MudSelectItem T="int" Value="@(14)">Vyhodnocená - invalidní</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(10)">New (1)</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(11)">Work in progress (2)</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(12)">Ready for evaluation (3)</MudSelectItem>
+                                <MudSelectItem T="int" Value="@(13)">Evaluated - valid (4)</MudSelectItem>
                             </MudSelect>
                         </MudItem>
                         <MudItem xs="4">
@@ -72,20 +71,23 @@
             {
                 <MudTable T="SafetyFunctionListModel" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Items="@safetyFunctions" Hover="true" Outlined="true" Style="margin-top: 20px;" Dense="false">
                     <HeaderContent>
+                        <MudTh>Id</MudTh>
                         <MudTh>Name</MudTh>
                         <MudTh>State</MudTh>
                         <MudTh>Type of function</MudTh>
                         <MudTh>Evaluation method</MudTh>
                     </HeaderContent>
                     <ColGroup>
+                        <col style="width:5%;" />Id
                         <col style="width:30%;" />Name
                         <col style="width:15%;" />State
-                        <col style="width:35%;" />Type of function
+                        <col style="width:30%;" />Type of function
                         <col style="width:10%;" />Evaluation method
                     </ColGroup>
                     <RowTemplate>
+                        <MudTd DataLabel="Id">@context.Id</MudTd>
                         <MudTd DataLabel="Name">@context.Name</MudTd>
-                        <MudTd DataLabel="State">@context.CurrentState.Name</MudTd>
+                        <MudTd DataLabel="State">@context.CurrentState.Name (@context.CurrentState.StateNumber)</MudTd>
                         <MudTd DataLabel="Type of function">@context.TypeOfFunction.Name</MudTd>
                         <MudTd DataLabel="Evaluation method">@context.EvaluationMethod.Shortcut</MudTd>
                     </RowTemplate>
