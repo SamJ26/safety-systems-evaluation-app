@@ -5,6 +5,7 @@
     </TitleContent>
     <DialogContent>
         <MudGrid>
+            <MudItem xs="12" Style="padding: 0px 12px;"><hr /></MudItem>
             <MudItem xs="1" Style="padding-bottom: 14px; padding-top: 18px;">
                 <MudButton @onclick="Search" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" Size="Size.Large" Style="width: 100%; height: 100%;"></MudButton>
             </MudItem>
@@ -21,22 +22,20 @@
                     </MudItem>
                 </MudGrid>
             </MudItem>
+            <MudItem xs="12" Style="padding-top: 7px;"><hr /></MudItem>
             <MudItem xs="12">
-                <hr />
-            </MudItem>
-            <MudItem xs="12">
-                <MudTable Items="@norms" MultiSelection="true" @bind-SelectedItems="SelectedNorms" Height="300px" Hover="true" FixedHeader="true">
+                <MudTable Items="@filteredNorms" MultiSelection="true" @bind-SelectedItems="SelectedNorms" Height="300px" Hover="true" Elevation="0" Outlined="true" FixedHeader="true">
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>Label</MudTh>
-                        <MudTh>Category</MudTh>
-                        <MudTh>Up to date</MudTh>
+                        <MudTh Style="@centerStyle">Category</MudTh>
+                        <MudTh Style="@centerStyle">Up to date</MudTh>
                     </HeaderContent>
                     <RowTemplate>
                         <MudTd DataLabel="Name">@context.Name</MudTd>
                         <MudTd DataLabel="Label">@context.Label</MudTd>
-                        <MudTd DataLabel="Category">@context.NormCategory</MudTd>
-                        <MudTd DataLabel="Up to date">@context.IsValid</MudTd>
+                        <MudTd Style="@centerStyle" DataLabel="Category">@context.NormCategory</MudTd>
+                        <MudTd Style="@centerStyle" DataLabel="Up to date">@context.IsValid</MudTd>
                     </RowTemplate>
                 </MudTable>
             </MudItem>
@@ -61,7 +60,10 @@
     [Parameter]
     public HashSet<NormModel> SelectedNorms { get; set; } = new HashSet<NormModel>();
 
-    private ICollection<NormModel> norms { get; set; } = new List<NormModel>();
+    private ICollection<NormModel> norms = new List<NormModel>();
+    private ICollection<NormModel> filteredNorms = new List<NormModel>();
+
+    private string centerStyle = "text-align: center; vertical-align: middle;";
 
     private string name = string.Empty;
     private string label = string.Empty;
@@ -70,22 +72,27 @@
     protected override async Task OnInitializedAsync()
     {
         norms = await codeListFacade.GetAllNormsAsync();
-        Console.WriteLine(norms.Count);
         foreach (var norm in norms.ToList())
         {
             if (SelectedNorms.Any(n => n.Id == norm.Id))
                 norms.Remove(norm);
         }
-        Console.WriteLine(norms.Count);
+        filteredNorms = norms;
     }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
 
-    // TODO: add logic
     private void Search()
     {
-
+        IQueryable<NormModel> query = norms.AsQueryable();
+        if (!string.IsNullOrEmpty(name) && !string.IsNullOrWhiteSpace(name))
+            query = query.Where(n => n.Name.ToLower().Contains(name.ToLower()));
+        if (!string.IsNullOrEmpty(label) && !string.IsNullOrWhiteSpace(label))
+            query = query.Where(n => n.Label.ToLower().Contains(label.ToLower()));
+        if (!string.IsNullOrEmpty(category) && !string.IsNullOrWhiteSpace(category))
+            query = query.Where(n => n.NormCategory.ToLower().Contains(category.ToLower()));
+        filteredNorms = query.ToList();
     }
 
 }
