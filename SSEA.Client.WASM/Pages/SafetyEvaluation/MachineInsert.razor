@@ -131,8 +131,8 @@
                                 </HeaderContent>
                                 <RowTemplate Context="tableContext">
                                     <MudTd DataLabel="Name">@tableContext.Name</MudTd>
-                                    <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New")</MudTd>
-                                    <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
+                                    <MudTd DataLabel="Name">Unsaved</MudTd>
+                                    <MudTd DataLabel="Name">0</MudTd>
                                     <MudTd DataLabel="Name">
                                         <MudIconButton @onclick="() => RemoveAccessPoint(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@disabled"></MudIconButton>
                                     </MudTd>
@@ -172,7 +172,7 @@
                                     <MudTd DataLabel="Label">@tableContext.Label</MudTd>
                                     <MudTd DataLabel="Category">@tableContext.NormCategory</MudTd>
                                     <MudTd DataLabel="Up to date">@tableContext.IsValid</MudTd>
-                                    <MudTd DataLabel="Name">
+                                    <MudTd DataLabel="Actions">
                                         <MudIconButton @onclick="() => RemoveNorm(tableContext)" Icon="@Icons.Material.Filled.Delete" Disabled="@disabled"></MudIconButton>
                                     </MudTd>
                                 </RowTemplate>
