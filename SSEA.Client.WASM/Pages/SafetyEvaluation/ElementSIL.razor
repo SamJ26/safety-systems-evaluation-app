@@ -21,17 +21,23 @@
         </MudSelect>
     </MudItem>
     <MudItem xs="6">
-        <MudTextField @bind-Value="Model.B10d" Label="B10d" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        <MudTooltip Text="The average number of cycles until 10% of the components dangerously fail">
+            <MudTextField @bind-Value="Model.B10d" Label="B10d" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        </MudTooltip>
     </MudItem>
     <MudItem xs="6">
-        <MudTextField @bind-Value="Model.C" Label="C" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        <MudTooltip Text="Number of switches per hour">
+            <MudTextField @bind-Value="Model.C" Label="C" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        </MudTooltip>
     </MudItem>
     <MudItem xs="12" Style="padding-bottom: 0px;">
         <MudText Typo="Typo.subtitle1" Style="margin-bottom: 5px;">Below you can select SFF</MudText>
         <hr />
     </MudItem>
     <MudItem xs="8">
-        <MudField Label="SFF result" Variant="Variant.Outlined">@Model.SummedSFF</MudField>
+        <MudTooltip Text="Sum of Safe Failure Fraction">
+            <MudField Label="SFF result" Variant="Variant.Outlined">@Model.SummedSFF</MudField>
+        </MudTooltip>
     </MudItem>
     <MudItem xs="4" Style="padding-top: 18px;">
         <MudButton @onclick="SelectSFF" Variant="Variant.Filled" Color="Color.Default" Style="width: 100%; height: 100%;" DisableElevation="true" Disabled="@ReadOnly">Select </MudButton>

@@ -33,16 +33,24 @@
         <hr />
     </MudItem>
     <MudItem xs="3">
-        <MudTextField @bind-Value="Model.B10d" Label="B10d" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        <MudTooltip Text="The average number of cycles until 10% of the components dangerously fail">
+            <MudTextField @bind-Value="Model.B10d" Label="B10d" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        </MudTooltip>
     </MudItem>
     <MudItem xs="3">
-        <MudTextField @bind-Value="Model.Hop" Label="Hop" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        <MudTooltip Text="Average operating time in hours per day">
+            <MudTextField @bind-Value="Model.Hop" Label="Hop" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        </MudTooltip>
     </MudItem>
     <MudItem xs="3">
-        <MudTextField @bind-Value="Model.Dop" Label="Dop" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        <MudTooltip Text="Average operating time in days per year">
+            <MudTextField @bind-Value="Model.Dop" Label="Dop" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        </MudTooltip>
     </MudItem>
     <MudItem xs="3">
-        <MudTextField @bind-Value="Model.Tcycles" Label="Tcycles" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        <MudTooltip Text="Mean time between the beginning of two consecutive cycles in sec/cycle">
+            <MudTextField @bind-Value="Model.Tcycles" Label="Tcycles" Variant="Variant.Outlined" ReadOnly="@ReadOnly" />
+        </MudTooltip>
     </MudItem>
 </MudGrid>
 

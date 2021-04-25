@@ -27,12 +27,6 @@
                     <EditForm Model="@subsystem" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="@(() => showValidationSummary = true)" id="formId">
                         <DataAnnotationsValidator />
                         <MudGrid Style="padding: 20px;">
-                            <MudItem xs="6">
-                                <MudTextField T="double" @bind-Value="subsystem.T1" Label="T1 *" Variant="Variant.Outlined" />
-                            </MudItem>
-                            <MudItem xs="6">
-                                <MudTextField T="double" @bind-Value="subsystem.T2" Label="T2 *" Variant="Variant.Outlined" />
-                            </MudItem>
                             <MudItem xs="12">
                                 <MudSelect @bind-Value="subsystem.TypeOfSubsystem" T="TypeOfSubsystemModel" ReadOnly="@typeSelected" Label="Type of subsystem *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@typeOfSubsystemToString">
                                     @foreach (var item in typeOfSubsystems)
@@ -48,6 +42,16 @@
                                         <MudSelectItem T="OperationPrincipleModel" Value="@(item)" />
                                     }
                                 </MudSelect>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudTooltip Text="Control test interval">
+                                    <MudTextField T="double" @bind-Value="subsystem.T1" Label="T1 *" Variant="Variant.Outlined" />
+                                </MudTooltip>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudTooltip Text="Diagnostic test interval" >
+                                    <MudTextField T="double" @bind-Value="subsystem.T2" Label="T2 *" Variant="Variant.Outlined" />
+                                </MudTooltip>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudSelect @bind-Value="subsystem.Architecture" T="ArchitectureModel" Label="Architecture *" Variant="Variant.Outlined" Format="F2" ToStringFunc="@architectureToString">
