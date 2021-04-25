@@ -1,5 +1,11 @@
 ﻿
 <MudDialog Style="width: 400px;">
+    <TitleContent>
+        <MudText Typo="Typo.h5" Color="Color.Warning">
+            <MudIcon Icon="@Icons.Material.Filled.Warning" Class="mr-3 mb-n1" />
+            Warning
+        </MudText>
+    </TitleContent>
     <DialogContent>
         <MudText Typo="Typo.h6">
             @MainText
@@ -9,8 +15,8 @@
         </MudText>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Continue</MudButton>
+        <MudButton DisableElevation="true" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation="true" Color="Color.Primary" OnClick="Submit">Continue</MudButton>
     </DialogActions>
 </MudDialog>
 
