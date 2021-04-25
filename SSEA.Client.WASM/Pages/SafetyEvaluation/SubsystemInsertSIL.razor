@@ -4,8 +4,8 @@
 
 @attribute [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
 
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
-    <MudCard Elevation="3">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px; margin-bottom: 40px;">
+    <MudCard Elevation="0" Outlined="true">
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Create new subsystem (SIL)</strong></MudText>
@@ -104,7 +104,7 @@
                             <MudItem xs="3" />
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                    <ElementSIL Model="@element1" Producers="@producers" DCs="@DCs" ReadOnly="false" />
+                                <ElementSIL Model="@element1" Producers="@producers" DCs="@DCs" ReadOnly="false" />
                             </MudItem>
                             <MudItem xs="3" />
                         }
@@ -117,11 +117,11 @@
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">1. Element</MudText>
-                                    <ElementSIL Model="@element1" Producers="@producers" DCs="@DCs" ReadOnly="false" />
+                                <ElementSIL Model="@element1" Producers="@producers" DCs="@DCs" ReadOnly="false" />
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.h6" Align="Align.Center">2. Element</MudText>
-                                    <ElementSIL Model="@(equalElements == true ? element1 : element2)" Producers="@producers" DCs="@DCs" ReadOnly="false" />
+                                <ElementSIL Model="@(equalElements == true ? element1 : element2)" Producers="@producers" DCs="@DCs" ReadOnly="false" />
                             </MudItem>
                         }
                     </MudGrid>
@@ -134,6 +134,9 @@
             }
         </MudCardContent>
     </MudCard>
+    <div style="margin: 5px; text-align: right; font-size: 11px;">
+        Form ID: SUBSYSTEM SIL INSERT
+    </div>
 </MudContainer>
 
 @code {

@@ -4,8 +4,8 @@
 
 @attribute [Authorize]
 
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
-    <MudCard Elevation="3">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px; margin-bottom: 40px;">
+    <MudCard Elevation="0" Outlined="true">
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Detail of subsystem</strong></MudText>
@@ -133,6 +133,9 @@
             </MudTabs>
         </MudCardContent>
     </MudCard>
+    <div style="margin: 5px; text-align: right; font-size: 11px;">
+        Form ID: SUBSYSTEM PL DETAIL
+    </div>
 </MudContainer>
 
 @code {

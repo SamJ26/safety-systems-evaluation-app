@@ -4,8 +4,8 @@
 
 @attribute [Authorize]
 
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
-    <MudCard Elevation="3">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px; margin-bottom: 40px;">
+    <MudCard Elevation="0" Outlined="true">
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Detail of safety function</strong></MudText>
@@ -119,10 +119,10 @@
                                 <MudCardActions>
                                     <MudGrid>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.InputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Detail</MudButton>      
+                                            <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.InputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Detail</MudButton>
                                         </MudItem>
                                         <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.InputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Remove</MudButton>      
+                                            <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.InputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Remove</MudButton>
                                         </MudItem>
                                         <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
                                             <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Input"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is not null)">Select</MudButton>
@@ -277,6 +277,9 @@
             }
         </MudCardContent>
     </MudCard>
+    <div style="margin: 5px; text-align: right; font-size: 11px;">
+        Form ID: SAFETY FUNCTION PL DETAIL
+    </div>
 </MudContainer>
 
 <MudDialog @bind-IsVisible="showDialog">

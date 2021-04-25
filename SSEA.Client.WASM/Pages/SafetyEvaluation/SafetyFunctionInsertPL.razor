@@ -4,8 +4,8 @@
 
 @attribute [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
 
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px;">
-    <MudCard Elevation="3">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 10px; margin-bottom: 40px;">
+    <MudCard Elevation="0" Outlined="true">
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Create new safety function (PL)</strong></MudText>
@@ -91,7 +91,7 @@
                         </MudGrid>
                     </EditForm>
                 </MudTabPanel>
-                <MudTabPanel Text="Subsystems" Disabled="true"/>
+                <MudTabPanel Text="Subsystems" Disabled="true" />
             </MudTabs>
             @if (showMessage)
             {
@@ -99,6 +99,9 @@
             }
         </MudCardContent>
     </MudCard>
+    <div style="margin: 5px; text-align: right; font-size: 11px;">
+        Form ID: SAFETY FUNCTION PL INSERT
+    </div>
 </MudContainer>
 
 @code {

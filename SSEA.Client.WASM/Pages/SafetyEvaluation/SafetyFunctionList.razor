@@ -4,8 +4,8 @@
 
 @attribute [Authorize]
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px;">
-    <MudCard Elevation="0">
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="padding-top: 10px; margin-bottom: 40px;">
+    <MudCard Elevation="0" Outlined="true">
         <MudCardHeader Style="padding-bottom: 0px;">
             <CardHeaderContent>
                 <MudText Typo="Typo.h5"><strong>Safety function list</strong></MudText>
@@ -102,6 +102,9 @@
             }
         </MudCardContent>
     </MudCard>
+    <div style="margin: 5px; text-align: right; font-size: 11px;">
+        Form ID: SAFETY FUNCTION LIST
+    </div>
 </MudContainer>
 
 @code {
