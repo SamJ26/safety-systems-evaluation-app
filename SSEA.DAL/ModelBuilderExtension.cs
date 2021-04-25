@@ -818,13 +818,13 @@ namespace SSEA.DAL
                 {
                     Id = 4,
                     NameCZ = "Komunikace vstup-logika",
-                    NameEN = "Input-logic comminucation",
+                    NameEN = "Input-logic communication",
                 },
                 new TypeOfSubsystem()
                 {
                     Id = 5,
                     NameCZ = "Komunikace výstup-logika",
-                    NameEN = "Output-logic comminucation",
+                    NameEN = "Output-logic communication",
                 }
             );
 

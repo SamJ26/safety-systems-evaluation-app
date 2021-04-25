@@ -215,7 +215,7 @@
 
     private async void OpenSelectSafetyFunctionsDialog()
     {
-        var parameters = new DialogParameters() { ["EvaluationMethod"] = "PL" };
+        var parameters = new DialogParameters() { ["EvaluationMethod"] = accessPoint.EvaluationMethod };
         var dialog = dialogService.Show<SelectSafetyFunctionsDialog>("Select safety functions", parameters, new DialogOptions() { MaxWidth = MaxWidth.Large, FullWidth = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
@@ -230,7 +230,7 @@
         StateHasChanged();
     }
 
-    private void CreateSafetyFunction() => navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionInsert/PL?machineId={MachineId}&accessPointId={AccessPointId}");
+    private void CreateSafetyFunction() => navigationManager.NavigateTo($"/safetyEvaluation/safetyFunctionInsert/{accessPoint.EvaluationMethod}?machineId={MachineId}&accessPointId={AccessPointId}");
 
     private async void OnValidSubmit()
     {

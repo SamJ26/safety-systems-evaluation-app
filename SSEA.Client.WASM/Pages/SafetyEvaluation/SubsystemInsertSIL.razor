@@ -199,7 +199,8 @@
             {
                 "input" => typeOfSubsystems.FirstOrDefault(t => t.Id == 1),
                 "output" => typeOfSubsystems.FirstOrDefault(t => t.Id == 2),
-                "communication" => typeOfSubsystems.FirstOrDefault(t => t.Id == 4),
+                "input-logic" => typeOfSubsystems.FirstOrDefault(t => t.Id == 4),
+                "output-logic" => typeOfSubsystems.FirstOrDefault(t => t.Id == 5),
                 _ => typeOfSubsystems.FirstOrDefault(t => t.Id == 3),
             };
             typeSelected = true;

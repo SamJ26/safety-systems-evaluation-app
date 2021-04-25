@@ -17,7 +17,7 @@ namespace SSEA.DAL.Repositories
         private readonly int machineWorkInProgressStateId = 2;
         private readonly int machineLogicSelectedStateId = 3;
 
-        private readonly int accessPointNewStateId = 6;
+        private readonly int accessPointNewStateId = 7;
 
         public MachineRepository(AppDbContext dbContext)
         {

@@ -188,9 +188,9 @@ namespace SSEA.BL.Facades
             if (evaluationResult == false)
                 return new SafetyEvaluationResponseModel()
                 {
-                    IsSuccess = true,
+                    IsSuccess = false,
                     IsValidSafetyLevel = false,
-                    Message = $"Calculated value of safety is invalid - change subsystems of safety function and try it again :(",
+                    Message = $"Calculated level of safety is lower than required level - change subsystems of safety function and try it again :(",
                 };
 
             // Resultant level of safety is valid
@@ -211,7 +211,7 @@ namespace SSEA.BL.Facades
             {
                 IsSuccess = true,
                 IsValidSafetyLevel = true,
-                Message = $"Calculated value of safety is valid :)",
+                Message = $"Calculated value of safety is valid - safety function is locked for further modifications :)",
             };
         }
     }
