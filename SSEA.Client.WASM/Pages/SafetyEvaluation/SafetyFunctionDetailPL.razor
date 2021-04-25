@@ -73,7 +73,7 @@
                                 <MudField Label="Resultant PL" Variant="Variant.Outlined" Readonly="true">@(safetyFunction.ResultantPL is not null ? safetyFunction.ResultantPL.Label : "Not evaluated")</MudField>
                             </MudItem>
                             <MudItem Style="width: 5%; padding-left: 5px;">
-                                @if (safetyFunction.RequiredPL is not null)
+                                @if (safetyFunction.ResultantPL is not null)
                                 {
                                     <MudTooltip Text="Resultant PL is valid">
                                         <MudIcon Icon="@Icons.Material.Outlined.DoneOutline" Color="Color.Success" Size="Size.Large" Style="margin-top: 15px;" />
