@@ -27,9 +27,12 @@ namespace SSEA.Api.Controllers
         [HttpGet]
         [SwaggerOperation(OperationId = "AccessPointGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ICollection<AccessPointListModel>>> GetAllAsync()
         {
             var data = await accessPointFacade.GetAllAsync();
+            if (data is null)
+                return NotFound();
             return Ok(data);
         }
 
@@ -38,8 +41,11 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "AccessPointGetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AccessPointDetailModel>> GetByIdAsync(int id)
         {
+            if (id == 0)
+                return BadRequest();
             var data = await accessPointFacade.GetByIdAsync(id);
             if (data == null)
                 return NotFound();
@@ -52,12 +58,15 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "AccessPointUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> UpdateAsync(AccessPointDetailModel updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var id = await accessPointFacade.UpdateAsync(updatedModel, userId);
+            if (id == 0)
+                return StatusCode(500);
             return Ok(id);
         }
 

@@ -5,6 +5,7 @@ using SSEA.DAL.Entities.SafetyEvaluation.MainEntities;
 using SSEA.DAL.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace SSEA.BL.Facades
 {
@@ -57,21 +58,17 @@ namespace SSEA.BL.Facades
 
         public async Task AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId, int userId)
         {
-            await accessPointRepository.AddSafetyFunctionAsync(accessPointId, safetyFunctionId);
-
-            // UPDATING STATE OF ACCESS POINT
-            int machineId = await accessPointRepository.UpdateAccessPointStateAsync(accessPointId, userId);
-
-            // UPDATING STATE OF MACHINE
-            await machineRepository.UpdateMachineStateAsync(machineId, userId, accessPointsCountChanged: true);
-
-            // UPDATING STATE OF SAFETY FUNCTION
-            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
+            await ManageSafetyFunctionsAsync(accessPointRepository.AddSafetyFunctionAsync, accessPointId, safetyFunctionId, userId);
         }
 
         public async Task RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId, int userId)
         {
-            await accessPointRepository.RemoveSafetyFunctionAsync(accessPointId, safetyFunctionId);
+            await ManageSafetyFunctionsAsync(accessPointRepository.RemoveSafetyFunctionAsync, accessPointId, safetyFunctionId, userId);
+        }
+
+        private async Task ManageSafetyFunctionsAsync(Func<int, int, Task> operation, int accessPointId, int safetyFunctionId, int userId)
+        {
+            await operation(accessPointId, safetyFunctionId);
 
             // UPDATING STATE OF ACCESS POINT
             int machineId = await accessPointRepository.UpdateAccessPointStateAsync(accessPointId, userId);

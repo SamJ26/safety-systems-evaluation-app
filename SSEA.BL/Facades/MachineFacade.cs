@@ -77,7 +77,6 @@ namespace SSEA.BL.Facades
 
         public async Task<int> UpdateAsync(MachineDetailModel updatedModel, int userId)
         {
-
             // Getting unchanged machine from database to compare with updated model
             MachineDetailModel oldModel = await GetByIdAsync(updatedModel.Id);
 
