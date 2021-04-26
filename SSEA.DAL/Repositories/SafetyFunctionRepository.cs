@@ -146,6 +146,10 @@ namespace SSEA.DAL.Repositories
 
         public async Task<int> UpdateAsync(SafetyFunction safetyFunction, int userId)
         {
+            // Evaluated safety function can not be modified
+            if (safetyFunction.CurrentStateId == safetyFunctionEvaluatedValidStateId)
+                return 0;
+
             dbContext.Attach(safetyFunction.CurrentState).State = EntityState.Unchanged;
             dbContext.Attach(safetyFunction.TypeOfFunction).State = EntityState.Unchanged;
             dbContext.Attach(safetyFunction.EvaluationMethod).State = EntityState.Unchanged;
