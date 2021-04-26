@@ -266,29 +266,6 @@ namespace SSEA.BL.Facades
             };
         }
 
-        private async Task<TypeOfLogicModel> SelectLogicAsync(uint standardInputs, uint standardOutputs)
-        {
-            ICollection<TypeOfLogicModel> typeOfLogics = await codeListFacade.GetAllAsync("TypeOfLogic");
-            if (typeOfLogics is null)
-                return null;
-
-            // Relay
-            if (standardInputs <= 4 && standardOutputs <= 4)
-                return typeOfLogics.FirstOrDefault(tol => tol.Id == 1);
-
-            // CR30
-            else if (standardInputs <= 12 && standardOutputs <= 10)
-                return typeOfLogics.FirstOrDefault(tol => tol.Id == 2);
-
-            // GMX
-            else if (standardInputs + standardOutputs <= 6144)
-                return typeOfLogics.FirstOrDefault(tol => tol.Id == 3);
-
-            // GLX
-            else
-                return typeOfLogics.FirstOrDefault(tol => tol.Id == 4);
-        }
-
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId, int userId)
         {
             int accessPointProtectedStateId = 9;
@@ -410,6 +387,29 @@ namespace SSEA.BL.Facades
                 model.AccessPoints.Add(accessPointInfo);
             }
             return model;
+        }
+
+        private async Task<TypeOfLogicModel> SelectLogicAsync(uint standardInputs, uint standardOutputs)
+        {
+            ICollection<TypeOfLogicModel> typeOfLogics = await codeListFacade.GetAllAsync("TypeOfLogic");
+            if (typeOfLogics is null)
+                return null;
+
+            // Relay
+            if (standardInputs <= 4 && standardOutputs <= 4)
+                return typeOfLogics.FirstOrDefault(tol => tol.Id == 1);
+
+            // CR30
+            else if (standardInputs <= 12 && standardOutputs <= 10)
+                return typeOfLogics.FirstOrDefault(tol => tol.Id == 2);
+
+            // GMX
+            else if (standardInputs + standardOutputs <= 6144)
+                return typeOfLogics.FirstOrDefault(tol => tol.Id == 3);
+
+            // GLX
+            else
+                return typeOfLogics.FirstOrDefault(tol => tol.Id == 4);
         }
     }
 }

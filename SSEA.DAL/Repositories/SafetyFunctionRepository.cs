@@ -273,6 +273,13 @@ namespace SSEA.DAL.Repositories
             await dbContext.CommitChangesAsync(userId);
         }
 
+        public async Task<bool> SafetyFunctionHasLogicAsync(int safetyFunctionId)
+        {
+            int logicalSubsystemId = 3;
+            var subsystems = await GetSubsystemsForSafetyFunctionAsync(safetyFunctionId);
+            return subsystems.Any(s => s.TypeOfSubsystemId == logicalSubsystemId);
+        }
+
         private async Task<bool> IsReadyForEvaluation(int safetyFunctionId)
         {
             // Getting ids of all subsystems which are related to selected safety function specified by safetyFunctionId
@@ -301,13 +308,6 @@ namespace SSEA.DAL.Repositories
                     outputSubsystem = true;
             }
             return inputSubsystem && outputSubsystem;
-        }
-
-        public async Task<bool> SafetyFunctionHasLogicAsync(int safetyFunctionId)
-        {
-            int logicalSubsystemId = 3;
-            var subsystems = await GetSubsystemsForSafetyFunctionAsync(safetyFunctionId);
-            return subsystems.Any(s => s.TypeOfSubsystemId == logicalSubsystemId);
         }
 
         /// <summary>

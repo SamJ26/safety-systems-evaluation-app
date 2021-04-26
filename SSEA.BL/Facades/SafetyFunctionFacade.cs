@@ -49,17 +49,9 @@ namespace SSEA.BL.Facades
         {
             SafetyFunctionDetailModelPL safetyFunction = mapper.Map<SafetyFunctionDetailModelPL>(await safetyFunctionRepository.GetByIdPLAsync(id));
             safetyFunction.UserNameCreated = await userRepository.GetUserNameById(safetyFunction.IdCreated);
-            safetyFunction.UserNameUpdated = safetyFunction.IdCreated == safetyFunction.IdUpdated ? safetyFunction.UserNameCreated : await userRepository.GetUserNameById(safetyFunction.IdUpdated);
-            
+            safetyFunction.UserNameUpdated = safetyFunction.IdCreated == safetyFunction.IdUpdated ? safetyFunction.UserNameCreated : await userRepository.GetUserNameById(safetyFunction.IdUpdated);            
             var subsystems = mapper.Map<ICollection<SubsystemDetailModelPL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionPLAsync(id));
-
-            // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
-            safetyFunction.InputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 1);
-            safetyFunction.Communication1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
-            safetyFunction.LogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 3);
-            safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 5);
-            safetyFunction.OutputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 2);
-
+            MapSubsystems(safetyFunction, subsystems);
             return safetyFunction;
         }
 
@@ -67,17 +59,9 @@ namespace SSEA.BL.Facades
         {
             SafetyFunctionDetailModelSIL safetyFunction = mapper.Map<SafetyFunctionDetailModelSIL>(await safetyFunctionRepository.GetByIdSILAsync(id));
             safetyFunction.UserNameCreated = await userRepository.GetUserNameById(safetyFunction.IdCreated);
-            safetyFunction.UserNameUpdated = safetyFunction.IdCreated == safetyFunction.IdUpdated ? safetyFunction.UserNameCreated : await userRepository.GetUserNameById(safetyFunction.IdUpdated);
-            
+            safetyFunction.UserNameUpdated = safetyFunction.IdCreated == safetyFunction.IdUpdated ? safetyFunction.UserNameCreated : await userRepository.GetUserNameById(safetyFunction.IdUpdated);         
             var subsystems = mapper.Map<ICollection<SubsystemDetailModelSIL>>(await safetyFunctionRepository.GetSubsystemsForSafetyFunctionSILAsync(id));
-
-            // Selecting proper subsystems for navigation properties on SafetyFunctionDetailModelPL
-            safetyFunction.InputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 1);
-            safetyFunction.Communication1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
-            safetyFunction.LogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 3);
-            safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 5);
-            safetyFunction.OutputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 2);
-
+            MapSubsystems(safetyFunction, subsystems);
             return safetyFunction;
         }
 
@@ -86,10 +70,9 @@ namespace SSEA.BL.Facades
             // Evaluating required PL
             if (newModel.S is not null && newModel.F is not null && newModel.P is not null)
                 newModel.RequiredPL = await performanceLevelService.GetRequiredPLAsync(newModel.S, newModel.F, newModel.P);
-
+            
             if (newModel.RequiredPL is null)
                 return 0;
-
             return await CreateAsync<SubsystemDetailModelPL>(newModel, userId, accessPointId);
         }
 
@@ -101,7 +84,6 @@ namespace SSEA.BL.Facades
 
             if (newModel.RequiredSIL is null)
                 return 0;
-
             return await CreateAsync<SubsystemDetailModelSIL>(newModel, userId, accessPointId);
         }
 
@@ -210,6 +192,17 @@ namespace SSEA.BL.Facades
                 await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
 
             return safetyFunctionId;
+        }
+
+        private void MapSubsystems<T>(SafetyFunctionDetailModel<T> safetyFunction, ICollection<T> subsystems) where T : SubsystemDetailModel
+        {
+            if (subsystems is null)
+                return;
+            safetyFunction.InputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 1);
+            safetyFunction.Communication1Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 4);
+            safetyFunction.LogicSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 3);
+            safetyFunction.Communication2Subsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 5);
+            safetyFunction.OutputSubsystem = subsystems.FirstOrDefault(s => s.TypeOfSubsystem.Id == 2);
         }
     }
 }

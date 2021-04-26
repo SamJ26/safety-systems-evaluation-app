@@ -34,6 +34,8 @@ namespace SSEA.BL.Services.Implementations
         /// <returns> Determined performance level </returns>
         public async Task<PLModel> GetRequiredPLAsync(SModel s, FModel f, PModel p)
         {
+            if (s is null || f is null || p is null)
+                return null;
             string pl = (s.Value, f.Value, p.Value) switch
             {
                 ("S1", "F1", "P1") => "a",
