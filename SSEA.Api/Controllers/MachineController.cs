@@ -28,6 +28,7 @@ namespace SSEA.Api.Controllers
         [HttpGet]
         [SwaggerOperation(OperationId = "MachineGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ICollection<MachineListModel>>> GetAllAsync([FromQuery] string machineName,
                                                                                    [FromQuery] int stateId = 0,
                                                                                    [FromQuery] int machineTypeId = 0,
@@ -35,6 +36,8 @@ namespace SSEA.Api.Controllers
                                                                                    [FromQuery] int producerId = 0)
         {
             var data = await machineFacade.GetAllAsync(machineName, stateId, machineTypeId, evaluationMethodId, producerId);
+            if (data is null)
+                return NotFound();
             return Ok(data);
         }
 
@@ -43,8 +46,11 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "MachineGetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<MachineDetailModel>> GetByIdAsync(int id)
         {
+            if (id == 0)
+                return BadRequest();
             var data = await machineFacade.GetByIdAsync(id);
             if (data == null)
                 return NotFound();
@@ -57,12 +63,15 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "MachineCreate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> CreateAsync(MachineDetailModel newModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var id = await machineFacade.CreateAsync(newModel, userId);
+            if (id == 0)
+                return StatusCode(500);
             return Ok(id);
         }
 
@@ -72,12 +81,15 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "MachineUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> UpdateAsync(MachineDetailModel updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var id = await machineFacade.UpdateAsync(updatedModel, userId);
+            if (id == 0)
+                return StatusCode(500);
             return Ok(id);
         }
 
@@ -118,6 +130,7 @@ namespace SSEA.Api.Controllers
         [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "MachineEvaluateSafety")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyAsync(int id)
         {
@@ -125,6 +138,8 @@ namespace SSEA.Api.Controllers
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var response = await machineFacade.EvaluateSafetyAsync(id, userId);
+            if (response is null)
+                return NotFound();
             return Ok(response);
         }
 
@@ -133,12 +148,15 @@ namespace SSEA.Api.Controllers
         [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "MachinGetSafetySummary")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<MachineSafetySummaryModel>> GetSafetySummaryAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var response = await machineFacade.GetSafetyEvaluationSummary(id);
+            if (response is null)
+                return NotFound();
             return Ok(response);
         }
     }

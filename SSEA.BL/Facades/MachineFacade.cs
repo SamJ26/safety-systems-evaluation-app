@@ -299,6 +299,8 @@ namespace SSEA.BL.Facades
 
             // Getting machine with all its access points
             MachineDetailModel machine = await GetByIdAsync(machineId);
+            if (machine is null)
+                return null;
 
             // Choosing right function for evaluation according to methodics which is used for machine
             Func<int, int, Task<SafetyEvaluationResponseModel>> evaluateSafety;
@@ -369,6 +371,8 @@ namespace SSEA.BL.Facades
         {
             // Getting machine with all its access points
             MachineDetailModel machine = await GetByIdAsync(machineId);
+            if (machine is null)
+                return null;
 
             MachineSafetySummaryModel model = new()
             {
