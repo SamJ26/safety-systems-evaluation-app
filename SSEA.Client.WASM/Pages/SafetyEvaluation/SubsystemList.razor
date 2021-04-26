@@ -257,6 +257,7 @@
     private async Task Search()
     {
         disabled = true;
+        searching = true;
         if (evaluationMethodId == 1)
         {
             subsystemsPL = await subsystemFacade.GetAllPLAsync(stateId, typeOfSubsystemId, operationPrincipleId, categoryId, performanceLevelId);
@@ -268,6 +269,7 @@
             notFound = subsystemsSIL is null || subsystemsSIL.Count == 0;
         }
         disabled = false;
+        searching = false;
         StateHasChanged();
     }
 

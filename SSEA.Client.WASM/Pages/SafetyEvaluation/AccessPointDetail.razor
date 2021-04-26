@@ -96,7 +96,7 @@
                                 </HeaderContent>
                                 <RowTemplate Context="tableContext">
                                     <MudTd DataLabel="Name">@tableContext.Name</MudTd>
-                                    <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New - not saved")</MudTd>
+                                    <MudTd DataLabel="Name">@tableContext.CurrentState.Name</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.TypeOfFunction.Name</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.EvaluationMethod.Shortcut</MudTd>
                                     <MudTd DataLabel="Name">

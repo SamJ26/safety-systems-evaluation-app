@@ -143,7 +143,7 @@
                                 </HeaderContent>
                                 <RowTemplate Context="tableContext">
                                     <MudTd DataLabel="Name">@tableContext.Name</MudTd>
-                                    <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "New - not saved")</MudTd>
+                                    <MudTd DataLabel="Name">@(tableContext.CurrentState != null ? tableContext.CurrentState.Name : "Unsaved")</MudTd>
                                     <MudTd DataLabel="Name">@tableContext.SafetyFunctionsCount</MudTd>
                                     <MudTd DataLabel="Name">
                                         <MudIconButton @onclick="@(() => machine.AccessPoints.Remove(tableContext))" Icon="@Icons.Material.Filled.Delete" Disabled="@onlyForReading"></MudIconButton>
@@ -319,9 +319,22 @@
 
     private async Task Edit()
     {
-        machineTypes = await codeListFacade.GetAllMachineTypesAsync();
-        producers = await codeListFacade.GetAllProducersAsync();
-        onlyForReading = false;
+        // If machine state is "With selected logic" or "Evaluated - in/valid" than show warning before enable editing
+        bool canBeModified = true;
+        if (machine.CurrentState.StateNumber == 3 || machine.CurrentState.StateNumber == 4 || machine.CurrentState.StateNumber == 5)
+        {
+            canBeModified = false;
+            var parameters = new DialogParameters() { ["MainText"] = "This action will move this machine to Modified state", ["AdditionalText"] = "You will have to select logic and evaluated safety again" };
+            var dialog = dialogService.Show<WarningDialog>("Warning", parameters);
+            var result = await dialog.Result;
+            canBeModified = !result.Cancelled;
+        }
+        if (canBeModified)
+        {
+            machineTypes = await codeListFacade.GetAllMachineTypesAsync();
+            producers = await codeListFacade.GetAllProducersAsync();
+            onlyForReading = false;
+        }
         StateHasChanged();
     }
 
