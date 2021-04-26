@@ -28,6 +28,7 @@ namespace SSEA.Api.Controllers
         [HttpGet("pl")]
         [SwaggerOperation(OperationId = "SubsystemGetAllPL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ICollection<SubsystemListModelPL>>> GetAllPLAsync([FromQuery] int stateId,
                                                                                          [FromQuery] int typeOfSubsystemId,
                                                                                          [FromQuery] int operationPrincipleId,
@@ -35,6 +36,8 @@ namespace SSEA.Api.Controllers
                                                                                          [FromQuery] int performanceLevelId)
         {
             var data = await subsystemFacade.GetAllPLAsync(stateId, typeOfSubsystemId, operationPrincipleId, categoryId, performanceLevelId);
+            if (data is null)
+                return NotFound();
             return Ok(data);
         }
 
@@ -42,6 +45,7 @@ namespace SSEA.Api.Controllers
         [HttpGet("sil")]
         [SwaggerOperation(OperationId = "SubsystemGetAllSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ICollection<SubsystemListModelSIL>>> GetAllSILAsync([FromQuery] int stateId,
                                                                                            [FromQuery] int typeOfSubsystemId,
                                                                                            [FromQuery] int operationPrincipleId,
@@ -49,6 +53,8 @@ namespace SSEA.Api.Controllers
                                                                                            [FromQuery] int silId)
         {
             var data = await subsystemFacade.GetAllSILAsync(stateId, typeOfSubsystemId, operationPrincipleId, architectureId, silId);
+            if (data is null)
+                return NotFound();
             return Ok(data);
         }
 
@@ -57,8 +63,11 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SubsystemGetByIdPL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<SubsystemDetailModelPL>> GetByIdPLAsync(int id)
         {
+            if (id == 0)
+                return BadRequest();
             var data = await subsystemFacade.GetByIdPLAsync(id);
             if (data is null)
                 return NotFound();
@@ -70,8 +79,11 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SubsystemGetByIdSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<SubsystemDetailModelSIL>> GetByIdSILAsync(int id)
         {
+            if (id == 0)
+                return BadRequest();
             var data = await subsystemFacade.GetByIdSILAsync(id);
             if (data is null)
                 return NotFound();
