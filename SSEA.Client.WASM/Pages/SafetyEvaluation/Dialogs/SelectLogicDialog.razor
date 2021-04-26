@@ -24,22 +24,22 @@
                     <col style="width:10%;" /> Architecture
                 </ColGroup>
                 <HeaderContent>
-                    <MudTh Style="@centerStyle">Name</MudTh>
-                    <MudTh Style="@centerStyle">Inputs</MudTh>
-                    <MudTh Style="@centerStyle">Outputs</MudTh>
-                    <MudTh Style="@centerStyle">PL</MudTh>
-                    <MudTh Style="@centerStyle">Category</MudTh>
-                    <MudTh Style="@centerStyle">SIL</MudTh>
-                    <MudTh Style="@centerStyle">Architecture</MudTh>
+                    <MudTh Class="table-item-centered">Name</MudTh>
+                    <MudTh Class="table-item-centered">Inputs</MudTh>
+                    <MudTh Class="table-item-centered">Outputs</MudTh>
+                    <MudTh Class="table-item-centered">PL</MudTh>
+                    <MudTh Class="table-item-centered">Category</MudTh>
+                    <MudTh Class="table-item-centered">SIL</MudTh>
+                    <MudTh Class="table-item-centered">Architecture</MudTh>
                 </HeaderContent>
                 <RowTemplate>
-                    <MudTd Style="@centerStyle" DataLabel="Name">@context.Name</MudTd>
-                    <MudTd Style="@centerStyle" DataLabel="Inputs">@context.SI</MudTd>
-                    <MudTd Style="@centerStyle" DataLabel="Outputs">@context.SO</MudTd>
-                    <MudTd Style="@centerStyle" DataLabel="PL">@context.MaxPL.Label</MudTd>
-                    <MudTd Style="@centerStyle" DataLabel="Category">@context.MaxCategory.Label</MudTd>
-                    <MudTd Style="@centerStyle" DataLabel="SIL">@context.MaxSIL.ValueSIL</MudTd>
-                    <MudTd Style="@centerStyle" DataLabel="Architecture">@context.MaxArchitecture.Label</MudTd>
+                    <MudTd Class="table-item-centered" DataLabel="Name">@context.Name</MudTd>
+                    <MudTd Class="table-item-centered" DataLabel="Inputs">@context.SI</MudTd>
+                    <MudTd Class="table-item-centered" DataLabel="Outputs">@context.SO</MudTd>
+                    <MudTd Class="table-item-centered" DataLabel="PL">@context.MaxPL.Label</MudTd>
+                    <MudTd Class="table-item-centered" DataLabel="Category">@context.MaxCategory.Label</MudTd>
+                    <MudTd Class="table-item-centered" DataLabel="SIL">@context.MaxSIL.ValueSIL</MudTd>
+                    <MudTd Class="table-item-centered" DataLabel="Architecture">@context.MaxArchitecture.Label</MudTd>
                 </RowTemplate>
             </MudTable>
         </MudGrid>
@@ -57,8 +57,6 @@
     private ICollection<TypeOfLogicModel> typeOfLogics = new List<TypeOfLogicModel>();
 
     private bool disabled = false;
-
-    private string centerStyle = "text-align: center; vertical-align: middle;";
 
     protected override async Task OnInitializedAsync()
     {

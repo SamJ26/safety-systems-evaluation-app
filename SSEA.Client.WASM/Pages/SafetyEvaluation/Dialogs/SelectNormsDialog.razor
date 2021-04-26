@@ -28,14 +28,14 @@
                     <HeaderContent>
                         <MudTh>Name</MudTh>
                         <MudTh>Label</MudTh>
-                        <MudTh Style="@centerStyle">Category</MudTh>
-                        <MudTh Style="@centerStyle">Up to date</MudTh>
+                        <MudTh Class="table-item-centered">Category</MudTh>
+                        <MudTh Class="table-item-centered">Up to date</MudTh>
                     </HeaderContent>
                     <RowTemplate>
                         <MudTd DataLabel="Name">@context.Name</MudTd>
                         <MudTd DataLabel="Label">@context.Label</MudTd>
-                        <MudTd Style="@centerStyle" DataLabel="Category">@context.NormCategory</MudTd>
-                        <MudTd Style="@centerStyle" DataLabel="Up to date">@context.IsValid</MudTd>
+                        <MudTd Class="table-item-centered" DataLabel="Category">@context.NormCategory</MudTd>
+                        <MudTd Class="table-item-centered" DataLabel="Up to date">@context.IsValid</MudTd>
                     </RowTemplate>
                 </MudTable>
             </MudItem>
@@ -62,8 +62,6 @@
 
     private ICollection<NormModel> norms = new List<NormModel>();
     private ICollection<NormModel> filteredNorms = new List<NormModel>();
-
-    private string centerStyle = "text-align: center; vertical-align: middle;";
 
     private string name = string.Empty;
     private string label = string.Empty;
