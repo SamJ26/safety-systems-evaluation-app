@@ -90,15 +90,7 @@ namespace SSEA.BL.Facades
             if (newModel.RequiredPL is null)
                 return 0;
 
-            newModel.UsedOnMachine = accessPointId != 0;
-            var entity = mapper.Map<SafetyFunction>(newModel);
-            int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
-
-            // If safety function was saved successfully and accessPointId is not zero than we have to create new record in AccessPointSafetyFunction join table
-            if (safetyFunctionId != 0 && accessPointId != 0)
-                await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
-
-            return safetyFunctionId;
+            return await CreateAsync<SubsystemDetailModelPL>(newModel, userId, accessPointId);
         }
 
         public async Task<int> CreateAsync(SafetyFunctionDetailModelSIL newModel, int userId, int accessPointId)
@@ -110,15 +102,7 @@ namespace SSEA.BL.Facades
             if (newModel.RequiredSIL is null)
                 return 0;
 
-            newModel.UsedOnMachine = accessPointId != 0;
-            var entity = mapper.Map<SafetyFunction>(newModel);
-            int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
-
-            // If safety function was saved successfully and accessPointId is not zero than we have to create new record in AccessPointSafetyFunction join table
-            if (safetyFunctionId != 0 && accessPointId != 0)
-                await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
-
-            return safetyFunctionId;
+            return await CreateAsync<SubsystemDetailModelSIL>(newModel, userId, accessPointId);
         }
 
         public async Task<int> UpdateAsync<T>(T updatedModel, int userId)
@@ -132,29 +116,14 @@ namespace SSEA.BL.Facades
             await safetyFunctionRepository.DeleteAsync(safetyFunctionId, userId);
         }
 
-
-        // TODO: refactor
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
-            await safetyFunctionRepository.AddSubsystemAsync(safetyFunctionId, subsystemId);
-
-            // UPDATING STATE OF SAFETY FUNCTION
-            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
-
-            // UPDATING STATE OF SUBSYSTEM
-            await subsystemRepository.UpdateSubsystemStateAsync(subsystemId, userId);
+            await ManageSubsystemsAsync(safetyFunctionRepository.AddSubsystemAsync, safetyFunctionId, subsystemId, userId);            
         }
 
-        // TODO: refactor
         public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
-            await safetyFunctionRepository.RemoveSubsystemAsync(safetyFunctionId, subsystemId);
-
-            // UPDATING STATE OF SAFETY FUNCTION
-            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
-
-            // UPDATING STATE OF SUBSYSTEM
-            await subsystemRepository.UpdateSubsystemStateAsync(subsystemId, userId);
+            await ManageSubsystemsAsync(safetyFunctionRepository.RemoveSubsystemAsync, safetyFunctionId, subsystemId, userId);
         }
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionPLAsync(int safetyFunctionId, int userId)
@@ -215,6 +184,32 @@ namespace SSEA.BL.Facades
                 IsValidSafetyLevel = true,
                 Message = $"Calculated value of safety is valid - safety function is locked for further modifications :)",
             };
+        }
+
+        private async Task ManageSubsystemsAsync(Func<int, int, Task> operation, int safetyFunctionId, int subsystemId, int userId)
+        {
+            await operation(safetyFunctionId, subsystemId);
+
+            // UPDATING STATE OF SAFETY FUNCTION
+            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
+
+            // UPDATING STATE OF SUBSYSTEM
+            await subsystemRepository.UpdateSubsystemStateAsync(subsystemId, userId);
+        }
+
+        private async Task<int> CreateAsync<T>(SafetyFunctionDetailModel<T> safetyFunctionModel, int userId, int accessPointId) where T : SubsystemDetailModel
+        {
+            safetyFunctionModel.UsedOnMachine = accessPointId != 0;
+            var entity = mapper.Map<SafetyFunction>(safetyFunctionModel);
+            int safetyFunctionId = await safetyFunctionRepository.CreateAsync(entity, userId);
+            if (safetyFunctionId == 0)
+                return 0;
+
+            // If safety function was saved successfully and accessPointId is not zero than we have to create new record in AccessPointSafetyFunction join table
+            if (safetyFunctionId != 0 && accessPointId != 0)
+                await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+
+            return safetyFunctionId;
         }
     }
 }
