@@ -178,6 +178,10 @@ namespace SSEA.DAL.Repositories
         {
             SafetyFunction safetyFunction = await dbContext.SafetyFunctions.AsNoTracking().FirstOrDefaultAsync(sf => sf.Id == safetyFunctionId);
 
+            // Safety function which is used on machine can not be removed
+            if (safetyFunction.UsedOnMachine)
+                return;
+
             // Removing safety function
             safetyFunction.IsRemoved = true;
             dbContext.Update(safetyFunction);
@@ -224,7 +228,7 @@ namespace SSEA.DAL.Repositories
             var safetyFunction = await dbContext.SafetyFunctions.AsNoTracking().FirstOrDefaultAsync(sf => sf.Id == safetyFunctionId);
             int nextStateId = safetyFunction.CurrentStateId;
             bool used = safetyFunction.UsedOnMachine;
-            safetyFunction.UsedOnMachine = await dbContext.AccessPointSafetyFunctions.AnyAsync(apsf => apsf.SafetyFunctionId == safetyFunctionId);
+            safetyFunction.UsedOnMachine = await dbContext.AccessPointSafetyFunctions.AnyAsync(apsf => apsf.SafetyFunctionId == safetyFunctionId && apsf.IsRemoved == false);
 
             if (stateId != 0)
             {

@@ -29,7 +29,7 @@
                             <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
                         </MudTooltip>
                         <MudTooltip Text="Delete">
-                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@safetyFunction.UsedOnMachine" />
                         </MudTooltip>
                         <MudButton @onclick="@EvaluateSafetyFunction" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;">Evaluate</MudButton>
                     </Authorized>
@@ -525,7 +525,7 @@
             {
                 messageType = Severity.Error;
                 message = response.Message;
-            }         
+            }
         }
         showMessage = true;
         disabled = false;
