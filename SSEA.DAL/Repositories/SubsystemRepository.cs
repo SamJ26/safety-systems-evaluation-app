@@ -150,6 +150,10 @@ namespace SSEA.DAL.Repositories
         {
             Subsystem subsystem = await dbContext.Subsystems.Include(s => s.Elements).AsNoTracking().FirstOrDefaultAsync(s => s.Id == subsystemId);
 
+            // Subsystem used in some safety function can not be removed
+            if (subsystem.CurrentStateId == subsystemUsedStateId)
+                return;
+
             // Removing subsystem and related elements
             subsystem.IsRemoved = true;
             foreach (var element in subsystem.Elements)

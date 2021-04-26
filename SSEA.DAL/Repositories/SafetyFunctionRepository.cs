@@ -15,6 +15,7 @@ namespace SSEA.DAL.Repositories
         private readonly int safetyFunctionNewStateId = 11;
         private readonly int safetyFunctionWorkInProgressStateId = 12;
         private readonly int safetyFunctionReadyForEvaluationStateId = 13;
+        private readonly int safetyFunctionEvaluatedValidStateId = 14;
 
         public SafetyFunctionRepository(AppDbContext dbContext)
         {
@@ -175,8 +176,9 @@ namespace SSEA.DAL.Repositories
 
         public async Task DeleteAsync(int safetyFunctionId, int userId)
         {
-            // Removing safety function
             SafetyFunction safetyFunction = await dbContext.SafetyFunctions.AsNoTracking().FirstOrDefaultAsync(sf => sf.Id == safetyFunctionId);
+
+            // Removing safety function
             safetyFunction.IsRemoved = true;
             dbContext.Update(safetyFunction);
             await dbContext.CommitChangesAsync(userId);
@@ -221,6 +223,8 @@ namespace SSEA.DAL.Repositories
 
             var safetyFunction = await dbContext.SafetyFunctions.AsNoTracking().FirstOrDefaultAsync(sf => sf.Id == safetyFunctionId);
             int nextStateId = safetyFunction.CurrentStateId;
+            bool used = safetyFunction.UsedOnMachine;
+            safetyFunction.UsedOnMachine = await dbContext.AccessPointSafetyFunctions.AnyAsync(apsf => apsf.SafetyFunctionId == safetyFunctionId);
 
             if (stateId != 0)
             {
@@ -254,7 +258,7 @@ namespace SSEA.DAL.Repositories
                     nextStateId = safetyFunctionWorkInProgressStateId;
                 }
             }
-            if (safetyFunction.CurrentStateId == nextStateId)
+            if (safetyFunction.CurrentStateId == nextStateId && used == safetyFunction.UsedOnMachine)
                 return;
             safetyFunction.CurrentStateId = nextStateId;
             dbContext.Update(safetyFunction);

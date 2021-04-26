@@ -14,13 +14,19 @@ namespace SSEA.BL.Facades
         private readonly UserRepository userRepository;
         private readonly MachineRepository machineRepository;
         private readonly AccessPointRepository accessPointRepository;
+        private readonly SafetyFunctionRepository safetyFunctionRepository;
 
-        public AccessPointFacade(IMapper mapper, AccessPointRepository accessPointRepository, MachineRepository machineRepository, UserRepository userRepository)
+        public AccessPointFacade(IMapper mapper,
+                                 UserRepository userRepository,
+                                 MachineRepository machineRepository,
+                                 AccessPointRepository accessPointRepository,
+                                 SafetyFunctionRepository safetyFunctionRepository)
         {
             this.mapper = mapper;
             this.userRepository = userRepository;
             this.machineRepository = machineRepository;
             this.accessPointRepository = accessPointRepository;
+            this.safetyFunctionRepository = safetyFunctionRepository;
         }
 
         public async Task<ICollection<AccessPointListModel>> GetAllAsync()
@@ -58,6 +64,9 @@ namespace SSEA.BL.Facades
 
             // UPDATING STATE OF MACHINE
             await machineRepository.UpdateMachineStateAsync(machineId, userId, accessPointsCountChanged: true);
+
+            // UPDATING STATE OF SAFETY FUNCTION
+            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
         }
 
         public async Task RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId, int userId)
@@ -69,6 +78,9 @@ namespace SSEA.BL.Facades
 
             // UPDATING STATE OF MACHINE
             await machineRepository.UpdateMachineStateAsync(machineId, userId, accessPointsCountChanged: true);
+
+            // UPDATING STATE OF SAFETY FUNCTION
+            await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(safetyFunctionId, userId);
         }
     }
 }

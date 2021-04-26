@@ -179,7 +179,7 @@
         CCFs = await codeListFacade.GetAllCCFsAsync();
         producers = await codeListFacade.GetAllProducersAsync();
         subsystem = await subsystemFacade.GetByIdSILAsync(SubsystemId);
-        disabledDeletion = subsystem.CurrentState.StateNumber == 1;
+        disabledDeletion = subsystem.CurrentState.StateNumber == 1 || subsystem.IdCreated == 0;
         StateHasChanged();
     }
 
