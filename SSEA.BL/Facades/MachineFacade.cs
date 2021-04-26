@@ -23,6 +23,10 @@ namespace SSEA.BL.Facades
         private readonly CodeListFacade codeListFacade;
         private readonly SafetyFunctionFacade safetyFunctionFacade;
 
+        private int machineEvaluatedValidStateId = 4;
+        private int machineEvaluatedInvalidStateId = 5;
+        private int machineModifiedStateId = 6;
+
         public MachineFacade(IMapper mapper,
                              UserRepository userRepository,
                              MachineRepository machineRepository,
@@ -77,6 +81,7 @@ namespace SSEA.BL.Facades
 
         public async Task<int> UpdateAsync(MachineDetailModel updatedModel, int userId)
         {
+
             // Getting unchanged machine from database to compare with updated model
             MachineDetailModel oldModel = await GetByIdAsync(updatedModel.Id);
 
@@ -114,13 +119,17 @@ namespace SSEA.BL.Facades
             #region Processing access points
 
             // After this foreach, oldModel.AccessPoints will contain access points which should be removed
+            bool accessPointsCountChanged = false;
             foreach (var accessPoint in updatedModel.AccessPoints.ToList())
             {
                 AccessPointListModel foundAccessPoint = oldModel.AccessPoints.FirstOrDefault(ap => ap.Id == accessPoint.Id);
 
-                // Item was not removed / added
+                // Item is in both collections -> was not removed / added
                 if (foundAccessPoint is not null)
                     oldModel.AccessPoints.Remove(foundAccessPoint);
+                // Item was added or removed
+                else
+                    accessPointsCountChanged = true;
             }
 
             // Removing access points
@@ -136,8 +145,13 @@ namespace SSEA.BL.Facades
 
             var id = await machineRepository.UpdateAsync(machineEntity, userId);
 
+            // If machine was in evaluated states (states 5 and 6) and user removed or added new access points -> moving to state 6 (Modified)
+            int nextStateId = 0;
+            if ((updatedModel.CurrentState.StateNumber == 4 || updatedModel.CurrentState.StateNumber == 5) && accessPointsCountChanged == true)
+                nextStateId = machineModifiedStateId;
+
             // UPDATING STATE OF MACHINE
-            await machineRepository.UpdateMachineStateAsync(id, userId);
+            await machineRepository.UpdateMachineStateAsync(id, userId, nextStateId);
 
             return id;
         }
@@ -287,8 +301,6 @@ namespace SSEA.BL.Facades
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId, int userId)
         {
-            int machineEvaluatedValidStateId = 4;
-            int machineEvaluatedInvalidStateId = 5;
             int accessPointProtectedStateId = 9;
             int accessPointNotProtectedStateId = 10;
 
