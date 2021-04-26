@@ -170,6 +170,8 @@ namespace SSEA.BL.Facades
         private async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionAsync<T>(Func<int, Task<T>> getByIdFunc, Func<T, Task<bool>> evaluateSafetyFunc, int safetyFunctionId, int userId)
         {
             T safetyFunction = await getByIdFunc(safetyFunctionId);
+            if (safetyFunction is null)
+                return null;
             bool evaluationResult;
             try
             {

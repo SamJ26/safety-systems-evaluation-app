@@ -28,12 +28,15 @@ namespace SSEA.Api.Controllers
         [HttpGet]
         [SwaggerOperation(OperationId = "SafetyFunctionGetAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ICollection<SafetyFunctionListModel>>> GetAllAsync([FromQuery] string name,
                                                                                           [FromQuery] int stateId = 0,
                                                                                           [FromQuery] int typeOfFunctionId = 0,
                                                                                           [FromQuery] int evaluationMethodId = 0)
         {
             var data = await safetyFunctionFacade.GetAllAsync(name, stateId, typeOfFunctionId, evaluationMethodId);
+            if (data is null)
+                return NotFound();
             return Ok(data);
         }
 
@@ -42,8 +45,11 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionGetByIdPL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<SafetyFunctionDetailModelPL>> GetByIdPLAsync(int id)
         {
+            if (id == 0)
+                return BadRequest();
             var data = await safetyFunctionFacade.GetByIdPLAsync(id);
             if (data == null)
                 return NotFound();
@@ -55,8 +61,11 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionGetByIdSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<SafetyFunctionDetailModelSIL>> GetByIdSILAsync(int id)
         {
+            if (id == 0)
+                return BadRequest();
             var data = await safetyFunctionFacade.GetByIdSILAsync(id);
             if (data == null)
                 return NotFound();
@@ -69,12 +78,15 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionCreatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelPL newModel, int accessPointId = 0)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var id = await safetyFunctionFacade.CreateAsync(newModel, userId, accessPointId);
+            if (id == 0)
+                return StatusCode(500);
             return Ok(id);
         }
 
@@ -84,12 +96,15 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionCreateSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> CreateAsync(SafetyFunctionDetailModelSIL newModel, int accessPointId = 0)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var id = await safetyFunctionFacade.CreateAsync(newModel, userId, accessPointId);
+            if (id == 0)
+                return StatusCode(500);
             return Ok(id);
         }
 
@@ -99,12 +114,15 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionUpdatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> UpdateAsync(SafetyFunctionDetailModelPL updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var id = await safetyFunctionFacade.UpdateAsync(updatedModel, userId);
+            if (id == 0)
+                return StatusCode(500);
             return Ok(id);
         }
 
@@ -114,12 +132,15 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionUpdateSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> UpdateAsync(SafetyFunctionDetailModelSIL updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var id = await safetyFunctionFacade.UpdateAsync(updatedModel, userId);
+            if (id == 0)
+                return StatusCode(500);
             return Ok(id);
         }
 
@@ -173,6 +194,7 @@ namespace SSEA.Api.Controllers
         [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionEvaluatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionPLAsync(int id)
         {
@@ -180,6 +202,8 @@ namespace SSEA.Api.Controllers
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var response = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(id, userId);
+            if (response is null)
+                return NotFound();
             return Ok(response);
         }
 
@@ -188,6 +212,7 @@ namespace SSEA.Api.Controllers
         [Authorize(Roles = "SafetyEvaluationAdmin, NormalUser")]
         [SwaggerOperation(OperationId = "SafetyFunctionEvaluateSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionSILAsync(int id)
         {
@@ -195,6 +220,8 @@ namespace SSEA.Api.Controllers
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
             var response = await safetyFunctionFacade.EvaluateSafetyFunctionSILAsync(id, userId);
+            if (response is null)
+                return NotFound();
             return Ok(response);
         }
     }
