@@ -16,12 +16,12 @@
                     <HeaderContent>
                         <MudTh>Component name</MudTh>
                         <MudTh>Failure mode</MudTh>
-                        <MudTh Style="@centerStyle">Value</MudTh>
+                        <MudTh Class="table-item-centered">Value</MudTh>
                     </HeaderContent>
                     <RowTemplate>
                         <MudTd DataLabel="Component name">@context.ComponentName</MudTd>
                         <MudTd DataLabel="Failure mode">@context.FailureMode</MudTd>
-                        <MudTd Style="@centerStyle" DataLabel="Value">@context.Value</MudTd>
+                        <MudTd Class="table-item-centered" DataLabel="Value">@context.Value</MudTd>
                     </RowTemplate>
                 </MudTable>
             </MudItem>
@@ -47,8 +47,6 @@
     public HashSet<SFFModel> SelectedSFFs { get; set; }
 
     private ICollection<SFFModel> SFFs { get; set; } = new List<SFFModel>();
-
-    private string centerStyle = "text-align: center; vertical-align: middle;";
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,0 +1,8 @@
+﻿.table-item-centered {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.mud-grid-item > .mud-tooltip-root {
+    display: block;
+}
