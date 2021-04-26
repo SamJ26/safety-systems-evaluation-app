@@ -31,8 +31,7 @@
                         <MudTooltip Text="Delete">
                             <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
                         </MudTooltip>
-                        <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Search" Color="Color.Primary" Style="margin: 0px 5px 0px 5px;" Disabled="@disabled">Select logic</MudButton>
-                        <MudButton @onclick="@EvaluateSafety" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px 0px 5px;" Disabled="@disabled">Evaluate safety</MudButton>
+                        <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Search" Color="Color.Primary" Style="margin: 0px 10px;" Disabled="@disabled">Select logic</MudButton>
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
@@ -324,7 +323,9 @@
         if (machine.CurrentState.StateNumber == 3 || machine.CurrentState.StateNumber == 4 || machine.CurrentState.StateNumber == 5)
         {
             canBeModified = false;
-            var parameters = new DialogParameters() { ["MainText"] = "This action will move this machine to Modified state", ["AdditionalText"] = "You will have to select logic and evaluated safety again" };
+            string mainText = $"This action will move this machine to Modified state.<br />{machine.TypeOfLogic.Name} logic will be removed";        
+            string additionalText = $"You will have to select logic and evaluated safety again.<br />Note: <strong>this happens only if you add or remove access points</strong>";
+            var parameters = new DialogParameters() { ["MainText"] = mainText, ["AdditionalText"] = additionalText };
             var dialog = dialogService.Show<WarningDialog>("Warning", parameters);
             var result = await dialog.Result;
             canBeModified = !result.Cancelled;

@@ -57,7 +57,7 @@ namespace SSEA.BL.Facades
             int machineId = await accessPointRepository.UpdateAccessPointStateAsync(accessPointId, userId);
 
             // UPDATING STATE OF MACHINE
-            await machineRepository.UpdateMachineStateAsync(machineId, userId);
+            await machineRepository.UpdateMachineStateAsync(machineId, userId, accessPointsCountChanged: true);
         }
 
         public async Task RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId, int userId)
@@ -68,7 +68,7 @@ namespace SSEA.BL.Facades
             int machineId = await accessPointRepository.UpdateAccessPointStateAsync(accessPointId, userId);
 
             // UPDATING STATE OF MACHINE
-            await machineRepository.UpdateMachineStateAsync(machineId, userId);
+            await machineRepository.UpdateMachineStateAsync(machineId, userId, accessPointsCountChanged: true);
         }
     }
 }

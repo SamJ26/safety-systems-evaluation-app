@@ -16,6 +16,9 @@ namespace SSEA.DAL.Repositories
         private readonly int machineNewStateId = 1;
         private readonly int machineWorkInProgressStateId = 2;
         private readonly int machineLogicSelectedStateId = 3;
+        private readonly int machineEvaluatedValidStateId = 4;
+        private readonly int machineEvaluatedInvalidStateId = 5;
+        private readonly int machineModifiedStateId = 6;
 
         private readonly int accessPointNewStateId = 7;
 
@@ -168,7 +171,7 @@ namespace SSEA.DAL.Repositories
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateMachineStateAsync(int machineId, int userId, int stateId = 0)
+        public async Task UpdateMachineStateAsync(int machineId, int userId, int stateId = 0, bool accessPointsCountChanged = false)
         {
             // Untracking all tracked entites.
             dbContext.ChangeTracker.Clear();
@@ -193,6 +196,23 @@ namespace SSEA.DAL.Repositories
                 }
                 // Work in proress state
                 else if (machine.CurrentStateId == machineWorkInProgressStateId)
+                {
+                    if (machine.TypeOfLogicId != 0 && machine.TypeOfLogicId is not null)
+                        nextStateId = machineLogicSelectedStateId;
+                }
+                // Evaluted - valid + Evaluated - invalid states
+                else if (machine.CurrentStateId == machineEvaluatedValidStateId || machine.CurrentStateId == machineEvaluatedInvalidStateId)
+                {
+                    // If number of access points changed than remove current type of logic a move machine to modified state
+                    if (accessPointsCountChanged == true)
+                    {
+                        machine.TypeOfLogicId = null;
+                        machine.TypeOfLogic = null;
+                        nextStateId = machineModifiedStateId;
+                    }
+                }
+                // Modified after evaluation state
+                else if (machine.CurrentStateId == machineModifiedStateId)
                 {
                     if (machine.TypeOfLogicId != 0 && machine.TypeOfLogicId is not null)
                         nextStateId = machineLogicSelectedStateId;
