@@ -58,13 +58,22 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "AccessPointUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> UpdateAsync(AccessPointDetailModel updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var id = await accessPointFacade.UpdateAsync(updatedModel, userId);
+            int id;
+            try
+            {
+                id = await accessPointFacade.UpdateAsync(updatedModel, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             if (id == 0)
                 return StatusCode(500);
             return Ok(id);
@@ -76,12 +85,20 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "AccessPointDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            await accessPointFacade.DeleteAsync(id, userId);
+            try
+            {
+                await accessPointFacade.DeleteAsync(id, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }            
             return Ok();
         }
 
@@ -91,12 +108,20 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "AccessPointAddSafetyFunction")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
         {
             if (safetyFunctionId == 0 || accessPointId == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+            try
+            {
+                await accessPointFacade.AddSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             return Ok();
         }
 
@@ -106,12 +131,20 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "AccessPointRemoveSafetyFunction")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId)
         {
             if (safetyFunctionId == 0 || accessPointId == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            await accessPointFacade.RemoveSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+            try
+            {
+                await accessPointFacade.RemoveSafetyFunctionAsync(accessPointId, safetyFunctionId, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             return Ok();
         }
     }

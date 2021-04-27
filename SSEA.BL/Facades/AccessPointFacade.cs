@@ -47,22 +47,30 @@ namespace SSEA.BL.Facades
 
         public async Task<int> UpdateAsync(AccessPointDetailModel updatedModel, int userId)
         {
+            if (await userRepository.IsAuthorized<AccessPoint>(userId, updatedModel.Id) == false)
+                throw new UnauthorizedAccessException();
             AccessPoint accessPoint = mapper.Map<AccessPoint>(updatedModel);
             return await accessPointRepository.UpdateAsync(accessPoint, userId);
         }
 
         public async Task DeleteAsync(int accessPointId, int userId)
         {
+            if (await userRepository.IsAuthorized<AccessPoint>(userId, accessPointId) == false)
+                throw new UnauthorizedAccessException();
             await accessPointRepository.DeleteAsync(accessPointId, userId);
         }
 
         public async Task AddSafetyFunctionAsync(int accessPointId, int safetyFunctionId, int userId)
         {
+            if (await userRepository.IsAuthorized<AccessPoint>(userId, accessPointId) == false)
+                throw new UnauthorizedAccessException();
             await ManageSafetyFunctionsAsync(accessPointRepository.AddSafetyFunctionAsync, accessPointId, safetyFunctionId, userId);
         }
 
         public async Task RemoveSafetyFunctionAsync(int accessPointId, int safetyFunctionId, int userId)
         {
+            if (await userRepository.IsAuthorized<AccessPoint>(userId, accessPointId) == false)
+                throw new UnauthorizedAccessException();
             await ManageSafetyFunctionsAsync(accessPointRepository.RemoveSafetyFunctionAsync, accessPointId, safetyFunctionId, userId);
         }
 

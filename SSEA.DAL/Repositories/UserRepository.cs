@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SSEA.DAL.Entities;
 using SSEA.DAL.Entities.Auth;
 using System.Threading.Tasks;
 
@@ -17,9 +18,17 @@ namespace SSEA.DAL.Repositories
         {
             if (userId is null || userId == 0)
                 return null;
-            User user = await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            User user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
             string userName = user.FirstName + " " + user.LastName;
             return userName;
+        }
+
+        public async Task<bool> IsAuthorized<TEntity>(int userId, int itemId) where TEntity : ExtendedEntityBase
+        {
+            TEntity item = await dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(i => i.Id == itemId);
+            if (item is null)
+                return false;
+            return item.IdCreated == userId;
         }
     }
 }
