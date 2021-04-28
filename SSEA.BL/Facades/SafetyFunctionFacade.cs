@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SSEA.BL.Models;
 using SSEA.BL.Models.SafetyEvaluation.MainModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.DetailModels;
 using SSEA.BL.Models.SafetyEvaluation.MainModels.ListModels;
@@ -87,34 +88,46 @@ namespace SSEA.BL.Facades
             return await CreateAsync<SubsystemDetailModelSIL>(newModel, userId, accessPointId);
         }
 
-        public async Task<int> UpdateAsync<T>(T updatedModel, int userId)
+        public async Task<int> UpdateAsync<T>(T updatedModel, int userId) where T : ExtendedModelBase
         {
+            if (await userRepository.IsAuthorized<SafetyFunction>(userId, updatedModel.Id) == false)
+                throw new UnauthorizedAccessException();
             SafetyFunction entity = mapper.Map<SafetyFunction>(updatedModel);
             return await safetyFunctionRepository.UpdateAsync(entity, userId);
         }
 
         public async Task DeleteAsync(int safetyFunctionId, int userId)
         {
+            if (await userRepository.IsAuthorized<SafetyFunction>(userId, safetyFunctionId) == false)
+                throw new UnauthorizedAccessException();
             await safetyFunctionRepository.DeleteAsync(safetyFunctionId, userId);
         }
 
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
+            if (await userRepository.IsAuthorized<SafetyFunction>(userId, safetyFunctionId) == false)
+                throw new UnauthorizedAccessException();
             await ManageSubsystemsAsync(safetyFunctionRepository.AddSubsystemAsync, safetyFunctionId, subsystemId, userId);            
         }
 
         public async Task RemoveSubsystemAsync(int safetyFunctionId, int subsystemId, int userId)
         {
+            if (await userRepository.IsAuthorized<SafetyFunction>(userId, safetyFunctionId) == false)
+                throw new UnauthorizedAccessException();
             await ManageSubsystemsAsync(safetyFunctionRepository.RemoveSubsystemAsync, safetyFunctionId, subsystemId, userId);
         }
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionPLAsync(int safetyFunctionId, int userId)
         {
+            if (await userRepository.IsAuthorized<SafetyFunction>(userId, safetyFunctionId) == false)
+                throw new UnauthorizedAccessException();
             return await EvaluateSafetyFunctionAsync(GetByIdPLAsync, performanceLevelService.EvaluateSafetyFunctionAsync, safetyFunctionId, userId);
         }
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyFunctionSILAsync(int safetyFunctionId, int userId)
         {
+            if (await userRepository.IsAuthorized<SafetyFunction>(userId, safetyFunctionId) == false)
+                throw new UnauthorizedAccessException();
             return await EvaluateSafetyFunctionAsync(GetByIdSILAsync, safetyIntegrityLevelService.EvaluateSafetyFunctionAsync, safetyFunctionId, userId);
         }
 
