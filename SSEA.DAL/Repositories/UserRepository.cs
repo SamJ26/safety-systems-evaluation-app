@@ -25,10 +25,14 @@ namespace SSEA.DAL.Repositories
 
         public async Task<bool> IsAuthorized<TEntity>(int userId, int itemId) where TEntity : ExtendedEntityBase
         {
+            int safetyEvaluationAdminRoleId = 3;
             TEntity item = await dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(i => i.Id == itemId);
             if (item is null)
                 return false;
-            return item.IdCreated == userId;
+            UserRole userRole = await dbContext.UserRoles.FirstOrDefaultAsync(ur => ur.UserId == userId && ur.RoleId == safetyEvaluationAdminRoleId);
+            
+            // Returns true if id of item is same as id of user (user owns item) or if user is SafetyEvaluationAdmin
+            return (item.IdCreated == userId) || userRole is not null;
         }
     }
 }
