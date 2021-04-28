@@ -114,13 +114,22 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionUpdatePL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> UpdateAsync(SafetyFunctionDetailModelPL updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var id = await safetyFunctionFacade.UpdateAsync(updatedModel, userId);
+            int id;
+            try
+            {
+                id = await safetyFunctionFacade.UpdateAsync(updatedModel, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             if (id == 0)
                 return StatusCode(500);
             return Ok(id);
@@ -132,13 +141,22 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionUpdateSIL")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> UpdateAsync(SafetyFunctionDetailModelSIL updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var id = await safetyFunctionFacade.UpdateAsync(updatedModel, userId);
+            int id;
+            try
+            {
+                id = await safetyFunctionFacade.UpdateAsync(updatedModel, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             if (id == 0)
                 return StatusCode(500);
             return Ok(id);
@@ -150,12 +168,20 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            await safetyFunctionFacade.DeleteAsync(id, userId);
+            try
+            {
+                await safetyFunctionFacade.DeleteAsync(id, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             return Ok();
         }
 
@@ -165,12 +191,20 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionAddSubsystem")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> AddSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
             if (safetyFunctionId == 0 || subsystemId == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId, userId);
+            try
+            {
+                await safetyFunctionFacade.AddSubsystemAsync(safetyFunctionId, subsystemId, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             return Ok();
         }
 
@@ -180,12 +214,20 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SafetyFunctionRemoveSubsystem")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> RemoveSubsystemAsync(int safetyFunctionId, int subsystemId)
         {
             if (safetyFunctionId == 0 || subsystemId == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunctionId, subsystemId, userId);
+            try
+            {
+                await safetyFunctionFacade.RemoveSubsystemAsync(safetyFunctionId, subsystemId, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             return Ok();
         }
 
@@ -196,12 +238,21 @@ namespace SSEA.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionPLAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var response = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(id, userId);
+            SafetyEvaluationResponseModel response;
+            try
+            {
+                response = await safetyFunctionFacade.EvaluateSafetyFunctionPLAsync(id, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             if (response is null)
                 return NotFound();
             return Ok(response);
@@ -214,12 +265,21 @@ namespace SSEA.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyFunctionSILAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var response = await safetyFunctionFacade.EvaluateSafetyFunctionSILAsync(id, userId);
+            SafetyEvaluationResponseModel response;
+            try
+            {
+                response = await safetyFunctionFacade.EvaluateSafetyFunctionSILAsync(id, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             if (response is null)
                 return NotFound();
             return Ok(response);
