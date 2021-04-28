@@ -77,6 +77,9 @@ namespace SSEA.BL.Facades
 
         public async Task<int> UpdateAsync(MachineDetailModel updatedModel, int userId)
         {
+            if (await userRepository.IsAuthorized<Machine>(userId, updatedModel.Id) == false)
+                throw new UnauthorizedAccessException();
+
             // Getting unchanged machine from database to compare with updated model
             MachineDetailModel oldModel = await GetByIdAsync(updatedModel.Id);
 
@@ -148,11 +151,16 @@ namespace SSEA.BL.Facades
 
         public async Task DeleteAsync(int machineId, int userId)
         {
+            if (await userRepository.IsAuthorized<Machine>(userId, machineId) == false)
+                throw new UnauthorizedAccessException();
             await machineRepository.DeleteAsync(machineId, userId);
         }
 
-        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId)
+        public async Task<MachineLogicSelectionResponseModel> SelectLogicAsync(int machineId, int userId)
         {
+            if (await userRepository.IsAuthorized<Machine>(userId, machineId) == false)
+                throw new UnauthorizedAccessException();
+
             int inputSubsystemId = 1;
             int outputSubsystemId = 2;
             int inputLogicSubsystemId = 4;
@@ -268,6 +276,9 @@ namespace SSEA.BL.Facades
 
         public async Task<SafetyEvaluationResponseModel> EvaluateSafetyAsync(int machineId, int userId)
         {
+            if (await userRepository.IsAuthorized<Machine>(userId, machineId) == false)
+                throw new UnauthorizedAccessException();
+
             int accessPointProtectedStateId = 9;
             int accessPointNotProtectedStateId = 10;
             int machineEvaluatedValidStateId = 4;

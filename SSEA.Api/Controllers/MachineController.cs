@@ -138,9 +138,10 @@ namespace SSEA.Api.Controllers
             if (id == 0)
                 return BadRequest();
             MachineLogicSelectionResponseModel response;
+            var userId = this.GetUserIdFromHttpContext();
             try
             {
-                response = await machineFacade.SelectLogicAsync(id);
+                response = await machineFacade.SelectLogicAsync(id, userId);
             }
             catch (System.UnauthorizedAccessException)
             {
