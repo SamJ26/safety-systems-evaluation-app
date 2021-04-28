@@ -126,12 +126,20 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "SubsystemDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            await subsystemFacade.DeleteAsync(id, userId);
+            try
+            {
+                await subsystemFacade.DeleteAsync(id, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             return Ok();
         }
     }

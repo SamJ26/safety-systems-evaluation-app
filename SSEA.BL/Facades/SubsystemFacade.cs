@@ -77,7 +77,14 @@ namespace SSEA.BL.Facades
             return await CreateAsync(safetyIntegrityLevelService.EvaluateSubsystemAsync, subsystem, userId, safetyFunctionId);
         }
 
-        public async Task<SubsystemCreationResponseModel> CreateAsync<T>(Func<T, Task> evaluateSubsystem, T subsystem, int userId, int safetyFunctionId) where T : SubsystemDetailModel
+        public async Task DeleteAsync(int subsystemId, int userId)
+        {
+            if (await userRepository.IsAuthorized<Subsystem>(userId, subsystemId) == false)
+                throw new UnauthorizedAccessException();
+            await subsystemRepository.DeleteAsync(subsystemId, userId);
+        }
+
+        private async Task<SubsystemCreationResponseModel> CreateAsync<T>(Func<T, Task> evaluateSubsystem, T subsystem, int userId, int safetyFunctionId) where T : SubsystemDetailModel
         {
             try
             {
@@ -117,11 +124,6 @@ namespace SSEA.BL.Facades
                 Message = "Subsystem created successfully :)",
                 SubsystemId = subsystemId,
             };
-        }
-
-        public async Task DeleteAsync(int subsystemId, int userId)
-        {
-            await subsystemRepository.DeleteAsync(subsystemId, userId);
         }
     }
 }
