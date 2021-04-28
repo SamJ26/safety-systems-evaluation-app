@@ -81,13 +81,22 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "MachineUpdate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<int>> UpdateAsync(MachineDetailModel updatedModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var id = await machineFacade.UpdateAsync(updatedModel, userId);
+            int id;
+            try
+            {
+                id = await machineFacade.UpdateAsync(updatedModel, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             if (id == 0)
                 return StatusCode(500);
             return Ok(id);
@@ -99,12 +108,20 @@ namespace SSEA.Api.Controllers
         [SwaggerOperation(OperationId = "MachineDelete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            await machineFacade.DeleteAsync(id, userId);
+            try
+            {
+                await machineFacade.DeleteAsync(id, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             return Ok();
         }
 
@@ -115,11 +132,20 @@ namespace SSEA.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<MachineLogicSelectionResponseModel>> SelectLogicAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
-            var response = await machineFacade.SelectLogicAsync(id);
+            MachineLogicSelectionResponseModel response;
+            try
+            {
+                response = await machineFacade.SelectLogicAsync(id);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             if (response is null)
                 return NotFound();
             return Ok(response);
@@ -132,12 +158,21 @@ namespace SSEA.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<SafetyEvaluationResponseModel>> EvaluateSafetyAsync(int id)
         {
             if (id == 0)
                 return BadRequest();
             var userId = this.GetUserIdFromHttpContext();
-            var response = await machineFacade.EvaluateSafetyAsync(id, userId);
+            SafetyEvaluationResponseModel response;
+            try
+            {
+                response = await machineFacade.EvaluateSafetyAsync(id, userId);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
             if (response is null)
                 return NotFound();
             return Ok(response);
