@@ -11,13 +11,17 @@ namespace SSEA.DAL.Repositories
     public class AccessPointRepository
     {
         private readonly AppDbContext dbContext;
+        private readonly MachineRepository machineRepository;
+        private readonly SafetyFunctionRepository safetyFunctionRepository;
 
         private readonly int accessPointNewStateId = 7;
         private readonly int accessPointWorkInProgressStateId = 8;
 
-        public AccessPointRepository(AppDbContext dbContext)
+        public AccessPointRepository(AppDbContext dbContext, MachineRepository machineRepository, SafetyFunctionRepository safetyFunctionRepository)
         {
             this.dbContext = dbContext;
+            this.machineRepository = machineRepository;
+            this.safetyFunctionRepository = safetyFunctionRepository;
         }
 
         public async Task<ICollection<AccessPoint>> GetAllAsync()
@@ -96,6 +100,13 @@ namespace SSEA.DAL.Repositories
             }
             dbContext.UpdateRange(accessPointSafetyFunctions);
             await dbContext.SaveChangesAsync();
+
+            // Updating state of safety functions related to removed access point
+            foreach (var item in accessPointSafetyFunctions)
+                await safetyFunctionRepository.UpdateSafetyFunctionStateAsync(item.SafetyFunctionId, userId);
+
+            // This action changes number of access points on given machine -> we need to update machine state
+            await machineRepository.UpdateMachineStateAsync(acessPoint.MachineId, userId, accessPointsCountChanged: true);
         }
 
         public async Task<int> UpdateAccessPointStateAsync(int accessPointId, int userId, int stateId = 0)

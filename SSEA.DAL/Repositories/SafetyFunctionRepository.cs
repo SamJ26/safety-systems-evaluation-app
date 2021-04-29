@@ -11,15 +11,18 @@ namespace SSEA.DAL.Repositories
     public class SafetyFunctionRepository
     {
         private readonly AppDbContext dbContext;
+        private readonly SubsystemRepository subsystemRepository;
 
         private readonly int safetyFunctionNewStateId = 11;
         private readonly int safetyFunctionWorkInProgressStateId = 12;
         private readonly int safetyFunctionReadyForEvaluationStateId = 13;
         private readonly int safetyFunctionEvaluatedValidStateId = 14;
 
-        public SafetyFunctionRepository(AppDbContext dbContext)
+        public SafetyFunctionRepository(AppDbContext dbContext,
+                                        SubsystemRepository subsystemRepository)
         {
             this.dbContext = dbContext;
+            this.subsystemRepository = subsystemRepository;
         }
 
         public async Task<ICollection<SafetyFunction>> GetAllAsync(string name, int stateId, int typeOfFunctionId, int evaluationMethodId)
@@ -202,8 +205,12 @@ namespace SSEA.DAL.Repositories
             foreach (var item in safetyFunctionSubsystems)
                 item.IsRemoved = true;
             dbContext.UpdateRange(safetyFunctionSubsystems);
-
             await dbContext.SaveChangesAsync();
+
+            // Updating state of subsystems which were used in removed safety function
+            foreach (var item in safetyFunctionSubsystems)
+                await subsystemRepository.UpdateSubsystemStateAsync(item.SubsystemId, userId);
+
         }
 
         public async Task AddSubsystemAsync(int safetyFunctionId, int subsystemId)
