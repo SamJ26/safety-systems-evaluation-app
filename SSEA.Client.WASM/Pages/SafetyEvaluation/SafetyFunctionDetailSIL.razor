@@ -22,16 +22,19 @@
                 </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
-                        <MudTooltip Text="Edit data">
-                            <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled || safetyFunction.CurrentState?.StateNumber == 4)" />
-                        </MudTooltip>
-                        <MudTooltip Text="Save">
-                            <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
-                        </MudTooltip>
-                        <MudTooltip Text="Delete">
-                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@(safetyFunction.UsedOnMachine || disabled)" />
-                        </MudTooltip>
-                        <MudButton @onclick="@EvaluateSafetyFunction" Disabled="@(disabled || safetyFunction.CurrentState?.StateNumber == 4)" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;">Evaluate</MudButton>            
+                        @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == safetyFunction.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                        {
+                            <MudTooltip Text="Edit data">
+                                <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled || safetyFunction.CurrentState?.StateNumber == 4)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Save">
+                                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Delete">
+                                <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@(safetyFunction.UsedOnMachine || disabled)" />
+                            </MudTooltip>
+                            <MudButton @onclick="@EvaluateSafetyFunction" Disabled="@(!onlyForReading || disabled || safetyFunction.CurrentState?.StateNumber == 4)" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;">Evaluate</MudButton>
+                        }
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
@@ -530,8 +533,8 @@
                 messageType = Severity.Error;
                 message = response.Message;
             }
+            showMessage = true;
         }
-        showMessage = true;
         disabled = false;
         StateHasChanged();
     }
