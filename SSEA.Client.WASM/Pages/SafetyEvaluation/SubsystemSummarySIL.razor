@@ -1,0 +1,58 @@
+﻿<MudCard>
+    <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6" Align="Align.Center">@Name</MudText>
+            <MudAlert Severity="@InfoSeverity" Style="margin-top: 10px;">@InfoMessage</MudAlert>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent Style="padding: 16px 10px;">
+        <MudField Label="Architecture" ReadOnly="true" Variant="Variant.Outlined">@Subsystem?.Architecture.Label</MudField>
+        <MudField Label="HFT" ReadOnly="true" Variant="Variant.Outlined">@Subsystem?.HFT</MudField>
+        <MudField Label="SFF" ReadOnly="true" Variant="Variant.Outlined">@Subsystem?.ResultantSFF</MudField>
+        <MudField Label="SILCL" ReadOnly="true" Variant="Variant.Outlined">@Subsystem?.ResultantPFHd.ValueSIL</MudField>
+    </MudCardContent>
+    <MudCardActions>
+        <MudGrid>
+            <MudItem xs="12" Style="padding: 5px 14px;">
+                <MudButton @onclick="@(() => GoToSubsystemDetail(Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(Subsystem is null)">Detail</MudButton>
+            </MudItem>
+            <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
+                <Authorized>
+                    <MudItem xs="12" Style="padding: 5px 14px;">
+                        <MudButton @onclick="@(() => ShowDialog(Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(Subsystem is null || finalState)">Remove</MudButton>
+                    </MudItem>
+                    <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
+                        <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Input"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(Subsystem is not null || finalState)">Select</MudButton>
+                    </MudItem>
+                    <MudItem xs="6" Style="padding: 5px 14px 5px 5px; margin-bottom: 15px;">
+                        <MudButton @onclick="@(() => CreateSubsystem("Input"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(Subsystem is not null || finalState)">Create</MudButton>
+                    </MudItem>
+                </Authorized>
+            </AuthorizeView>
+        </MudGrid>
+    </MudCardActions>
+</MudCard>
+
+@code {
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public Severity InfoSeverity { get; set; }
+
+    [Parameter]
+    public string InfoMessage { get; set; }
+
+    [Parameter]
+    public SubsystemDetailModelSIL Subsystem { get; set; }
+
+    private void GoToSubsystemDetail(SubsystemDetailModelSIL subsystem)
+    {
+        navigationManager.NavigateTo($"/safetyEvaluation/subsystemDetail/SIL/{MachineId}/{AccessPointId}/{SafetyFunctionId}/{subsystem.Id}");
+    }
+
+}
