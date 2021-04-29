@@ -22,15 +22,18 @@
                 </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
-                        <MudTooltip Text="Edit data">
-                            <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
-                        </MudTooltip>
-                        <MudTooltip Text="Save">
-                            <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
-                        </MudTooltip>
-                        <MudTooltip Text="Delete">
-                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
-                        </MudTooltip>
+                        @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == accessPoint.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                        {
+                            <MudTooltip Text="Edit data">
+                                <MudIconButton @onclick="Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Save">
+                                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Delete">
+                                <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                            </MudTooltip>
+                        }
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
@@ -71,13 +74,20 @@
 
                 <MudTabPanel Text="Safety functions">
                     <MudGrid Style="padding: 20px;">
-                        <MudItem xs="8" />
-                        <MudItem xs="2">
-                            <MudButton @onclick="OpenSelectSafetyFunctionsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;">Add existing</MudButton>
-                        </MudItem>
-                        <MudItem xs="2">
-                            <MudButton @onclick="CreateSafetyFunction" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Create" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;">Create new</MudButton>
-                        </MudItem>
+                        <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
+                            <Authorized>
+                                @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == accessPoint.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                                {
+                                    <MudItem xs="8" />
+                                    <MudItem xs="2">
+                                        <MudButton @onclick="OpenSelectSafetyFunctionsDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;">Add existing</MudButton>
+                                    </MudItem>
+                                    <MudItem xs="2">
+                                        <MudButton @onclick="CreateSafetyFunction" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Create" Size="Size.Medium" DisableElevation="true" Color="Color.Primary" Style="width: 100%;">Create new</MudButton>
+                                    </MudItem>
+                                }
+                            </Authorized>
+                        </AuthorizeView>
                         <MudItem xs="12" Style="padding-top: 0px;">
                             <MudTable T="SafetyFunctionListModel" Items="@accessPoint.SafetyFunctions" OnRowClick="@(args => GoToSafetyFunctionDetail(args))" Dense="true" Hover="true" Height="300px" FixedHeader="true" Outlined="true">
                                 <ColGroup>

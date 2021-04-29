@@ -22,16 +22,19 @@
                 </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
-                        <MudTooltip Text="Edit data">
-                            <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled || safetyFunction.CurrentState?.StateNumber == 4)" />
-                        </MudTooltip>
-                        <MudTooltip Text="Save">
-                            <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
-                        </MudTooltip>
-                        <MudTooltip Text="Delete">
-                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@(safetyFunction.UsedOnMachine || disabled)" />
-                        </MudTooltip>
-                        <MudButton @onclick="@EvaluateSafetyFunction" Disabled="@(disabled || safetyFunction.CurrentState?.StateNumber == 4)" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;">Evaluate</MudButton>
+                        @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == safetyFunction.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                        {
+                            <MudTooltip Text="Edit data">
+                                <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled || safetyFunction.CurrentState?.StateNumber == 4)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Save">
+                                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Delete">
+                                <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@(safetyFunction.UsedOnMachine || disabled)" />
+                            </MudTooltip>
+                            <MudButton @onclick="@EvaluateSafetyFunction" Disabled="@(!onlyForReading || disabled || safetyFunction.CurrentState?.StateNumber == 4)" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Security" Color="Color.Primary" Style="margin: 0px 10px;">Evaluate</MudButton>
+                        }
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
@@ -105,7 +108,7 @@
                     <MudGrid Style="padding: 20px;">
                         <!-- Input subsystem -->
                         <MudItem Style="width: 20%">
-                            <MudCard>
+                            <MudCard Style="padding-bottom: 12px;">
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Input</MudText>
@@ -124,22 +127,29 @@
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.InputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null)">Detail</MudButton>
                                         </MudItem>
-                                        <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.InputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null || finalState)">Remove</MudButton>
-                                        </MudItem>
-                                        <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Input"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is not null || finalState)">Select</MudButton>
-                                        </MudItem>
-                                        <MudItem xs="6" Style="padding: 5px 14px 5px 5px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => CreateSubsystem("Input"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is not null || finalState)">Create</MudButton>
-                                        </MudItem>
+                                        <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
+                                            <Authorized>
+                                                @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == safetyFunction.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                                                {
+                                                    <MudItem xs="12" Style="padding: 5px 14px;">
+                                                        <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.InputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is null || finalState)">Remove</MudButton>
+                                                    </MudItem>
+                                                    <MudItem xs="6" Style="padding: 5px 5px 5px 14px;">
+                                                        <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Input"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is not null || finalState)">Select</MudButton>
+                                                    </MudItem>
+                                                    <MudItem xs="6" Style="padding: 5px 14px 5px 5px;">
+                                                        <MudButton @onclick="@(() => CreateSubsystem("Input"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.InputSubsystem is not null || finalState)">Create</MudButton>
+                                                    </MudItem>
+                                                }
+                                            </Authorized>
+                                        </AuthorizeView>
                                     </MudGrid>
                                 </MudCardActions>
                             </MudCard>
                         </MudItem>
                         <!-- Communication 1 subsystem -->
                         <MudItem Style="width: 20%">
-                            <MudCard>
+                            <MudCard Style="padding-bottom: 12px;">
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Communication 1</MudText>
@@ -158,22 +168,29 @@
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.Communication1Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is null)">Detail</MudButton>
                                         </MudItem>
-                                        <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.Communication1Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is null || finalState)">Remove</MudButton>
-                                        </MudItem>
-                                        <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Input-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null || finalState)">Select</MudButton>
-                                        </MudItem>
-                                        <MudItem xs="6" Style="padding: 5px 14px 5px 5px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => CreateSubsystem("Input-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null || finalState)">Create</MudButton>
-                                        </MudItem>
+                                        <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
+                                            <Authorized>
+                                                @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == safetyFunction.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                                                {
+                                                    <MudItem xs="12" Style="padding: 5px 14px;">
+                                                        <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.Communication1Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is null || finalState)">Remove</MudButton>
+                                                    </MudItem>
+                                                    <MudItem xs="6" Style="padding: 5px 5px 5px 14px;">
+                                                        <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Input-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null || finalState)">Select</MudButton>
+                                                    </MudItem>
+                                                    <MudItem xs="6" Style="padding: 5px 14px 5px 5px;">
+                                                        <MudButton @onclick="@(() => CreateSubsystem("Input-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication1Subsystem is not null || finalState)">Create</MudButton>
+                                                    </MudItem>
+                                                }
+                                            </Authorized>
+                                        </AuthorizeView>
                                     </MudGrid>
                                 </MudCardActions>
                             </MudCard>
                         </MudItem>
                         <!-- Logical subsystem -->
                         <MudItem Style="width: 20%">
-                            <MudCard>
+                            <MudCard Style="padding-bottom: 12px;">
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Logic</MudText>
@@ -192,19 +209,26 @@
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.LogicSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null)">Detail</MudButton>
                                         </MudItem>
-                                        <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.LogicSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null || finalState)">Remove</MudButton>
-                                        </MudItem>
-                                        <MudItem xs="12" Style="padding: 5px 14px;  margin-bottom: 15px;">
-                                            <MudButton @onclick="@OpenSelectLogicDialog" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is not null || finalState)">Select</MudButton>
-                                        </MudItem>
+                                        <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
+                                            <Authorized>
+                                                @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == safetyFunction.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                                                {
+                                                    <MudItem xs="12" Style="padding: 5px 14px;">
+                                                        <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.LogicSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is null || finalState)">Remove</MudButton>
+                                                    </MudItem>
+                                                    <MudItem xs="12" Style="padding: 5px 14px; ">
+                                                        <MudButton @onclick="@OpenSelectLogicDialog" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.LogicSubsystem is not null || finalState)">Select</MudButton>
+                                                    </MudItem>
+                                                }
+                                            </Authorized>
+                                        </AuthorizeView>
                                     </MudGrid>
                                 </MudCardActions>
                             </MudCard>
                         </MudItem>
                         <!-- Communication 2 subsystem -->
                         <MudItem Style="width: 20%">
-                            <MudCard>
+                            <MudCard Style="padding-bottom: 12px;">
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Communication 2</MudText>
@@ -223,22 +247,29 @@
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.Communication2Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is null)">Detail</MudButton>
                                         </MudItem>
-                                        <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.Communication2Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is null || finalState)">Remove</MudButton>
-                                        </MudItem>
-                                        <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Output-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null || finalState)">Select</MudButton>
-                                        </MudItem>
-                                        <MudItem xs="6" Style="padding: 5px 14px 5px 5px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => CreateSubsystem("Output-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null || finalState)">Create</MudButton>
-                                        </MudItem>
+                                        <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
+                                            <Authorized>
+                                                @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == safetyFunction.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                                                {
+                                                    <MudItem xs="12" Style="padding: 5px 14px;">
+                                                        <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.Communication2Subsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is null || finalState)">Remove</MudButton>
+                                                    </MudItem>
+                                                    <MudItem xs="6" Style="padding: 5px 5px 5px 14px;">
+                                                        <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Output-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null || finalState)">Select</MudButton>
+                                                    </MudItem>
+                                                    <MudItem xs="6" Style="padding: 5px 14px 5px 5px;">
+                                                        <MudButton @onclick="@(() => CreateSubsystem("Output-logic"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.Communication2Subsystem is not null || finalState)">Create</MudButton>
+                                                    </MudItem>
+                                                }
+                                            </Authorized>
+                                        </AuthorizeView>
                                     </MudGrid>
                                 </MudCardActions>
                             </MudCard>
                         </MudItem>
                         <!-- Output subsystem -->
                         <MudItem Style="width: 20%">
-                            <MudCard>
+                            <MudCard Style="padding-bottom: 12px;">
                                 <MudCardHeader Style="padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.h6" Align="Align.Center">Output</MudText>
@@ -257,15 +288,22 @@
                                         <MudItem xs="12" Style="padding: 5px 14px;">
                                             <MudButton @onclick="@(() => GoToSubsystemDetail(safetyFunction.OutputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is null)">Detail</MudButton>
                                         </MudItem>
-                                        <MudItem xs="12" Style="padding: 5px 14px;">
-                                            <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.OutputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is null || finalState)">Remove</MudButton>
-                                        </MudItem>
-                                        <MudItem xs="6" Style="padding: 5px 5px 5px 14px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Output"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is not null || finalState)">Select</MudButton>
-                                        </MudItem>
-                                        <MudItem xs="6" Style="padding: 5px 14px 5px 5px; margin-bottom: 15px;">
-                                            <MudButton @onclick="@(() => CreateSubsystem("Output"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is not null || finalState)">Create</MudButton>
-                                        </MudItem>
+                                        <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
+                                            <Authorized>
+                                                @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == safetyFunction.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                                                {
+                                                    <MudItem xs="12" Style="padding: 5px 14px;">
+                                                        <MudButton @onclick="@(() => ShowRemoveSubsystemDialog(safetyFunction.OutputSubsystem))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Default" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is null || finalState)">Remove</MudButton>
+                                                    </MudItem>
+                                                    <MudItem xs="6" Style="padding: 5px 5px 5px 14px;">
+                                                        <MudButton @onclick="@(() => OpenSelectSubsystemDialog("Output"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is not null || finalState)">Select</MudButton>
+                                                    </MudItem>
+                                                    <MudItem xs="6" Style="padding: 5px 14px 5px 5px;">
+                                                        <MudButton @onclick="@(() => CreateSubsystem("Output"))" DisableElevation="true" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Disabled="@(safetyFunction.OutputSubsystem is not null || finalState)">Create</MudButton>
+                                                    </MudItem>
+                                                }
+                                            </Authorized>
+                                        </AuthorizeView>
                                     </MudGrid>
                                 </MudCardActions>
                             </MudCard>
