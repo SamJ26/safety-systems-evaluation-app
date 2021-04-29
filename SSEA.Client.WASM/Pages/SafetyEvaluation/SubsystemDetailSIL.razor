@@ -18,9 +18,12 @@
                 </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
-                        <MudTooltip Text="Delete">
-                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabledDeletion" />
-                        </MudTooltip>
+                        @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == subsystem.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                        {
+                            <MudTooltip Text="Delete">
+                                <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabledDeletion" />
+                            </MudTooltip>
+                        }
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>

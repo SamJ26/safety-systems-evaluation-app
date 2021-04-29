@@ -22,16 +22,19 @@
                 </MudTooltip>
                 <AuthorizeView Roles="SafetyEvaluationAdmin, NormalUser">
                     <Authorized>
-                        <MudTooltip Text="Edit data">
-                            <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
-                        </MudTooltip>
-                        <MudTooltip Text="Save">
-                            <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
-                        </MudTooltip>
-                        <MudTooltip Text="Delete">
-                            <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
-                        </MudTooltip>
-                        <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Search" Color="Color.Primary" Style="margin: 0px 10px;" Disabled="@disabled">Select logic</MudButton>
+                        @if (Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value) == machine.IdCreated || context.User.IsInRole("SafetyEvaluationAdmin"))
+                        {
+                            <MudTooltip Text="Edit data">
+                                <MudIconButton @onclick="@Edit" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Disabled="@(!onlyForReading || disabled)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Save">
+                                <MudIconButton ButtonType="ButtonType.Submit" Icon="@Icons.Material.Filled.Save" Color="Color.Primary" form="formId" Disabled="@(onlyForReading || tabs.ActivePanelIndex != 0)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Delete">
+                                <MudIconButton @onclick="@Delete" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Disabled="@disabled" />
+                            </MudTooltip>
+                            <MudButton @onclick="@SelectLogic" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Search" Color="Color.Primary" Style="margin: 0px 10px;" Disabled="@disabled">Select logic</MudButton>
+                        }
                     </Authorized>
                 </AuthorizeView>
             </CardHeaderActions>
