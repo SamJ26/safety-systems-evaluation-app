@@ -2,14 +2,54 @@
 
 @attribute [Authorize]
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
-    <AuthorizeView Roles="SafetyEvaluationAdmin">
-        <MudText Typo="Typo.h3" GutterBottom="true">You are admin</MudText>
-    </AuthorizeView>
-    <AuthorizeView Roles="Observer">
-        <MudText Typo="Typo.h3" GutterBottom="true">You are observer</MudText>
-    </AuthorizeView>
-    <MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-    <MudText Class="mb-8">Welcome to your new app, powerd by MudBlazor!</MudText>
-    <MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudCard Style="margin-top: 20px; margin-bottom: 20px;" Outlined="true" Elevation="0">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h5">Quick overview</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudText>This application helps you with evaluation of safety functions and selection of appropriate control logic for your machine</MudText>
+            <MudText>It supports two basic methodologies: <i>Performance Level (PL)</i> and <i>Safety Integrity Level (SIL)</i></MudText>
+            <MudText>Application consists of three basic sections:</MudText>
+            <MudText Style="margin-top: 10px;"><strong>Section with machines:</strong></MudText>
+            <MudText>In this section you can create new machines, add access points and edit existing machines.</MudText>
+            <MudText>You can also select appropriate control logic by click on <strong>Select logic</strong> button on machine detail</MudText>
+            <MudText>Selection of logic via machine detail page will cause evaluation of safety for whole safety functions used on machine</MudText>
+            <MudText Style="margin-top: 10px;"><strong>Section with safety function:</strong></MudText>
+            <MudText>In this section you can create new safety functions, add subsystems and edit existing safety functions.</MudText>
+            <MudText>You can evaluate the safety of selected safety function via detail page using <strong>Evalute</strong> button</MudText>
+            <MudText><strong>Note:</strong> evaluated safety function can not be modified!</MudText>
+            <MudText Style="margin-top: 10px;"><strong>Section with subsystems:</strong></MudText>
+            <MudText>In this section you can create new subsystems and fill data for its elements</MudText>
+            <MudText><strong>Note:</strong> created subsystems can not be modified!</MudText>
+        </MudCardContent>
+    </MudCard>
+    <MudAlert Severity="Severity.Normal" NoIcon="true" Style="margin-bottom: 20px;">
+        This app is powered by MudBlazor. You can find more on thier website:
+        <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink>
+    </MudAlert>
+    <MudAlert Severity="Severity.Normal" NoIcon="true" Style="margin-bottom: 20px;">
+        Your roles: @rolesAsText
+    </MudAlert>
+    <MudAlert Severity="Severity.Info">
+        Please, if you find a bug, do not hesitate to report issue to admin.
+    </MudAlert>
 </MudContainer>
+
+@code {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private string rolesAsText;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await authenticationStateTask).User;
+        IEnumerable<string> roles = user.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Select(c => c.Value).ToList();
+        rolesAsText = string.Join(", ", roles);
+    }
+
+}
